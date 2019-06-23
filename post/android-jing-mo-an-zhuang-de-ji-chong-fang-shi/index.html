@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 静默安装的几种方式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 静默安装的几种方式</h2>
+            <div class="post-date">2017-04-03</div>
+            
+            <div class="post-content">
+              <p>乍听起来，静默安装是非常流氓的一件事，它让用户不知觉的情况下被「收割」。但是技术本身是中立的，我们只谈谈实现静默安装这件事儿。</p>
+<!-- more -->
+<p>下面我将介绍三种静默安装的方案，每种方案各有利弊，但是目的是一致的。</p>
+<ol>
+<li>手机被 Root 后直接静默安装</li>
+<li>声明安装权限并进行系统签名来静默安装</li>
+<li>使用辅助功能进行安装（称作「智能安装」更贴切吧）</li>
+</ol>
+<h3 id="1-手机被-root-后直接静默安装">1. 手机被 Root 后直接静默安装</h3>
+<p>众所周知，手机被 Root 后可以做好多奇妙的事情，比如静默安装，直接调用 pm install 命令就可以实现，来看代码：</p>
+<pre><code class="language-java">    public static boolean silentInstall(String apkPath) {
+        boolean result = false;
+        DataOutputStream dataOutputStream = null;
+        BufferedReader errorStream = null;
+        BufferedReader successStream = null;
+        Process process = null;
+        try {
+            // 申请 su 权限
+            process = Runtime.getRuntime().exec(&quot;su&quot;);
+            dataOutputStream = new DataOutputStream(process.getOutputStream());
+            // 执行 pm install 命令
+            String command = &quot;pm install -r &quot; + apkPath + &quot;\n&quot;;
+            dataOutputStream.write(command.getBytes(Charset.forName(&quot;UTF-8&quot;)));
+            dataOutputStream.writeBytes(&quot;exit\n&quot;);
+            dataOutputStream.flush();
+            process.waitFor();
+            errorStream = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+            StringBuilder errorMsg = new StringBuilder();
+            String line;
+            while ((line = errorStream.readLine()) != null) {
+                errorMsg.append(line);
+            }
+            log.debug(&quot;silent install error message:{}&quot;, errorMsg);
+            StringBuilder successMsg = new StringBuilder();
+            successStream = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            // 读取命令执行结果
+            while ((line = successStream.readLine()) != null) {
+                successMsg.append(line);
+            }
+            log.debug(&quot;silent install success message:{}&quot;, successMsg);
+            // 如果执行结果中包含 Failure 字样就认为是操作失败，否则就认为安装成功
+            if (!(errorMsg.toString().contains(&quot;Failure&quot;) || successMsg.toString().contains(&quot;Failure&quot;))) {
+                result = true;
+            }
+        } catch (Exception e) {
+            log.error(e);
+        } finally {
+            try {
+                if (process != null) {
+                    process.destroy();
+                }
+                if (dataOutputStream != null) {
+                    dataOutputStream.close();
+                }
+                if (errorStream != null) {
+                    errorStream.close();
+                }
+                if (successStream != null) {
+                    successStream.close();
+                }
+            } catch (Exception e) {
+                // ignored
+            }
+        }
+        return result;
+    }
+
+    public static boolean isRoot() {
+        return new File(&quot;/system/bin/su&quot;).exists() || new File(&quot;/system/xbin/su&quot;).exists();
+    }
+</code></pre>
+<p>首先申请 Root 权限，然后执行 <code>pm install- r &lt;apk 路径&gt;</code>命令，-r 参数表示允许覆盖安装。 process.waitFor() 说明安装过程是同步的，等待命令执行完成，然后读取执行结果。注意：不要在主线程调用静默安装的代码，安装过程会比较耗时，导致线程一直等待结果。</p>
+<p>结论：只要手机被 Root，该方法十分奏效。但是绝大部分用户不懂 Root，即使手机被 Root了，还需要用户授权，所以该方案局限性非常大。</p>
+<h3 id="2-声明安装权限并进行系统签名来静默安装">2. 声明安装权限并进行系统签名来静默安装</h3>
+<p>当我们选择手动安装应用时，会跳转到应用安装界面，这个界面就是系统的 PackageInstaller 提供，专门用来让用户有感知地安装应用。</p>
+<pre><code class="language-java">    Intent intent = new Intent(Intent.ACTION_VIEW);
+    Uri uri = Uri.fromFile(new File(&quot;/sdcard/news.apk&quot;)));
+    intent.setDataAndType(uri, &quot;application/vnd.android.package-archive&quot;);
+    startActivity(intent);
+</code></pre>
+<p>分析 PackageInstaller 的源码，我们发现它会通过 PackageManager 调用 installPackage 方法，这是个隐藏的抽象方法，实现类是 ApplicationPackageManager。主要看一下四个参数：packageURI 就是 apk 的路径；observer 是安装的监听器，应用安装完成时会被回调，不能为 null；flags 是标志位，指定安装的参数；installersPackageName 表示可选的安装来源，比如应用宝之类的。</p>
+<pre><code class="language-java">    public abstract void installPackage(
+            Uri packageURI, PackageInstallObserver observer,
+            int flags, String installerPackageName);
+</code></pre>
+<p>ApplicationPackageManager 里面 mPM 是一个 IPackageManager 类型的对象，它会执行具体的安装任务。</p>
+<pre><code class="language-java">        try {
+            mPM.installPackage(originPath, observer.getBinder(), flags, installerPackageName,
+                    verificationParams, null);
+        } catch (RemoteException ignored) {
+        }
+</code></pre>
+<p>ContextImpl 的 getPackageManager 方法，通过 ActivityThread 获取 IPackageManager 对象用来构造 ApplicationPackageManager，然后返回 ApplicationPackageManager。</p>
+<pre><code class="language-java">    public PackageManager getPackageManager() {
+        if (mPackageManager != null) {
+            return mPackageManager;
+        }
+
+        IPackageManager pm = ActivityThread.getPackageManager();
+        if (pm != null) {
+            // Doesn't matter if we make more than one instance.
+            return (mPackageManager = new ApplicationPackageManager(this, pm));
+        }
+        return null;
+    }
+</code></pre>
+<p>ActivityThread 的 getPackageManager 方法，其实就是获取系统服务的过程。</p>
+<pre><code class="language-java">    public static IPackageManager getPackageManager() {
+        if (sPackageManager != null) {
+            //Slog.v(&quot;PackageManager&quot;, &quot;returning cur default = &quot; + sPackageManager);
+            return sPackageManager;
+        }
+        IBinder b = ServiceManager.getService(&quot;package&quot;);
+        //Slog.v(&quot;PackageManager&quot;, &quot;default service binder = &quot; + b);
+        sPackageManager = IPackageManager.Stub.asInterface(b);
+        //Slog.v(&quot;PackageManager&quot;, &quot;default service = &quot; + sPackageManager);
+        return sPackageManager;
+    }
+</code></pre>
+<p>通过以上分析，我们通过 PackageManager 调用 installPackage 方法就行了，下面看代码：</p>
+<pre><code class="language-java">   public static boolean silentInstall(PackageManager packageManager, String apkPath) {
+        Class&lt;?&gt; pmClz = packageManager.getClass();
+        try {
+            if (Build.VERSION.SDK_INT &gt;= 21) {
+                Class&lt;?&gt; aClass = Class.forName(&quot;android.app.PackageInstallObserver&quot;);
+                Constructor&lt;?&gt; constructor = aClass.getDeclaredConstructor();
+                constructor.setAccessible(true);
+                Object installObserver = constructor.newInstance();
+                Method method = pmClz.getDeclaredMethod(&quot;installPackage&quot;, Uri.class, aClass, int.class, String.class);
+                method.setAccessible(true);
+                method.invoke(packageManager, Uri.fromFile(new File(apkPath)), installObserver, 2, null);
+            } else {
+                Method method = pmClz.getDeclaredMethod(&quot;installPackage&quot;, Uri.class, Class.forName(&quot;android.content.pm.IPackageInstallObserver&quot;), int.class, String.class);
+                method.setAccessible(true);
+                method.invoke(packageManager, Uri.fromFile(new File(apkPath)), null, 2, null);
+            }
+            return true;
+        } catch (Exception e) {
+            log.error(e);
+        }
+        return false;
+    }
+</code></pre>
+<p>由于 PackageManager 在不同版本上的 installPackage 方法参数不一致，所以我们根据编译版本做了处理。在 API 21 及以上，需要传递一个非 null 的 PackageInstallObserver，这个类是不可见 的，我们就用反射创建一个 observer 对象，flags 指定 <code>INSTALL_REPLACE_EXISTING</code>，用常量表示就是 2。在 API 21 以下，observer 类型是IPackageInstallObserver，同样使用反射处理即可。</p>
+<p>最后声明权限 <code>&lt;uses-permission android:name=&quot;android.permission.INSTALL_PACKAGES&quot;/&gt;</code>，还要使用系统签名，这个非常关键，要不然就会出现异常： <code>java.lang.SecurityException: Neither user 10052 nor current process has android.permission.INSTALL_PACKAGES.</code>。</p>
+<p>结论：通过调用系统 API 静默安装，终于可以堂堂正正地搞事情了！虽然这是官方提供的接口，但是为了不让你为所欲为，强制使用系统签名，所以对于第三方应用采用的可能性是零。</p>
+<h3 id="3-使用辅助功能进行安装">3. 使用辅助功能进行安装</h3>
+<p>现在大多数应用采取的是这种办法，让用户主动打开辅助功能，然后模拟点击用户操作，进行自动安装。核心就是 AccessibilityService，我们来实现这一功能。</p>
+<ol>
+<li>创建 AccessibilityService 配置文件
+在 res 目录下创建 xml 目录，然后在 xml 目录下创建 accessibility_service_config.xml 文件，内容如下</li>
+</ol>
+<pre><code>&lt;accessibility-service xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+                       android:accessibilityEventTypes=&quot;typeAllMask&quot;
+                       android:accessibilityFeedbackType=&quot;feedbackGeneric&quot;
+                       android:accessibilityFlags=&quot;flagDefault&quot;
+                       android:canRetrieveWindowContent=&quot;true&quot;
+                       android:description=&quot;@string/accessibility_service_description&quot;
+                       android:packageNames=&quot;com.android.packageinstaller&quot;
+    /&gt;
+</code></pre>
+<p>accessibilityEventTypes: 指定我们在监听窗口中可以模拟哪些事件，typeAllMask 表示所有的事件都能模拟。
+accessibilityFeedbackType: 指定无障碍服务的反馈方式。
+canRetrieveWindowContent: 指定是否允许我们的程序读取窗口中的节点和内容，当然是 true。
+description: 当用户手动配置服务时，显示给用户看的说明信息。
+packageNames: 指定要监听哪个应用程序下的窗口活动，这里写 com.android.packageinstaller 表示监听 Android 系统的安装界面。
+配置里面描述的内容</p>
+<pre><code>&lt;resources&gt;  
+    &lt;string name=&quot;app_name&quot;&gt;InstallTest&lt;/string&gt;  
+    &lt;string name=&quot;accessibility_service_description&quot;&gt;智能安装服务，无需用户的任何操作就可以自动安装程序。&lt;/string&gt;  
+&lt;/resources&gt;  
+</code></pre>
+<ol start="2">
+<li>创建 AccessibilityService 服务
+创建一个类继承自 AccessibilityService ，然后重写 onAccessibilityEvent 方法。</li>
+</ol>
+<pre><code class="language-java">public class MyAccessibilityService extends AccessibilityService {
+    private static final String TAG = &quot;[TAG]&quot;;
+    private Map&lt;Integer, Boolean&gt; handleMap = new HashMap&lt;&gt;();
+
+    @Override
+    public void onAccessibilityEvent(AccessibilityEvent event) {
+        AccessibilityNodeInfo nodeInfo = event.getSource();
+        if (nodeInfo != null) {
+            int eventType = event.getEventType();
+            if (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+                if (handleMap.get(event.getWindowId()) == null) {
+                    boolean handled = iterateNodesAndHandle(nodeInfo);
+                    if (handled) {
+                        handleMap.put(event.getWindowId(), true);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onInterrupt() {
+    }
+    // 遍历节点，模拟点击安装按钮
+    private boolean iterateNodesAndHandle(AccessibilityNodeInfo nodeInfo) {
+        if (nodeInfo != null) {
+            int childCount = nodeInfo.getChildCount();
+            if (&quot;android.widget.Button&quot;.equals(nodeInfo.getClassName())) {
+                String nodeCotent = nodeInfo.getText().toString();
+                Log.d(TAG, &quot;content is: &quot; + nodeCotent);
+                if (&quot;安装&quot;.equals(nodeCotent) || &quot;完成&quot;.equals(nodeCotent) || &quot;确定&quot;.equals(nodeCotent)) {
+                    nodeInfo.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+                    return true;
+                }
+            }
+            // 遇到 ScrollView 的时候模拟滑动一下
+            else if (&quot;android.widget.ScrollView&quot;.equals(nodeInfo.getClassName())) {
+                nodeInfo.performAction(AccessibilityNodeInfo.ACTION_SCROLL_FORWARD);
+            }
+            for (int i = 0; i &lt; childCount; i++) {
+                AccessibilityNodeInfo childNodeInfo = nodeInfo.getChild(i);
+                if (iterateNodesAndHandle(childNodeInfo)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+</code></pre>
+<p>当进入安装界面就会回调 onAccessibilityEvent() 这个方法，我们只处理 TYPE_WINDOW_CONTENT_CHANGED 和 TYPE_WINDOW_STATE_CHANGED 两个事件。为了防止重复处理事件，用 map 来过滤事件，然后递归遍历节点，找到「安装」、「完成」、「缺点」的按钮就模拟点击。由于安装界面需要用户看完权限才出现按钮，所以遇到 ScrollView 的时候就模拟滚动，直到出现安装按钮。
+3. 在 AndroidManifest 中配置服务</p>
+<pre><code>        &lt;service
+            android:name=&quot;.MyAccessibilityService&quot;
+            android:label=&quot;智能安装应用&quot;
+            android:permission=&quot;android.permission.BIND_ACCESSIBILITY_SERVICE&quot;
+            &gt;
+            &lt;intent-filter&gt;
+                &lt;action android:name=&quot;android.accessibilityservice.AccessibilityService&quot;/&gt;
+            &lt;/intent-filter&gt;
+            &lt;meta-data
+                android:name=&quot;android.accessibilityservice&quot;
+                android:resource=&quot;@xml/accessibility_service_config&quot;
+                /&gt;
+        &lt;/service&gt;
+</code></pre>
+<p>android:label：这个就是用户看到的无障碍服务的名称。
+android:permission: 需要用到 BIND_ACCESSIBILITY_SERVICE 这个权限。
+action: android.accessibilityservice.AccessibilityService 有了这个 action，用户才能在设置里面看到我们的服务，否则用户无法开启我们的 AccessibilityService，也就不能进到 MyAccessibilityService 里面了。
+4. 调用智能安装代码</p>
+<pre><code class="language-java">    private void smartInstall() {
+        Uri uri = Uri.fromFile(new File(&quot;/sdcard/test.apk&quot;));
+        Intent localIntent = new Intent(Intent.ACTION_VIEW);
+        localIntent.setDataAndType(uri, &quot;application/vnd.android.package-archive&quot;);
+        startActivity(localIntent);
+    }
+</code></pre>
+<ol start="5">
+<li>手动配置智能安装服务
+跳转辅助功能的配置界面，引导用户开启智能安装服务。</li>
+</ol>
+<pre><code>Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+startActivity(intent);
+</code></pre>
+<p>结论：智能安装是一种妥协的方案，在没有 Root 和安装权限的情况下，确实解放了用户的拇指。看看市面上的应用，大部分都采用了这种方法。应用市场使用智能安装可以理解，视频浏览器工具一类不相干的应用也要开启？我真是呵呵了。
+<img src="http://upload-images.jianshu.io/upload_images/1820210-2bbeca30caf8da6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="带有智能安装的应用"></p>
+<p>目前静默安装的方法就这么多，欢迎大家留言交流~</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="http://blog.csdn.net/guolin_blog/article/details/47803149">Android静默安装实现方案，仿360手机助手秒装和智能安装功能</a></li>
+<li><a href="http://www.codexiu.cn/android/blog/25784/">Android 静默安装和智能安装的实现方法</a></li>
+<li><a href="http://www.codedata.cn/hacknews/1469932402265587">Android系统Root与静默安装</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang">
+                  <h3 class="post-title">
+                    Android WebView 运行在系统进程引发的异常
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

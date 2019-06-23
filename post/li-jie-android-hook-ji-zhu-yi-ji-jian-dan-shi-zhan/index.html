@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -114,11 +114,11 @@
             <div class="post-date">2017-06-11</div>
             
             <div class="post-content">
-              <h4 id="1-什么是-hook">1. 什么是 Hook</h4>
+              <h3 id="1-什么是-hook">1. 什么是 Hook</h3>
 <p>Hook 英文翻译过来就是「钩子」的意思，那我们在什么时候使用这个「钩子」呢？在 Android 操作系统中系统维护着自己的一套事件分发机制。应用程序，包括应用触发事件和后台逻辑处理，也是根据事件流程一步步地向下执行。而「钩子」的意思，就是在事件传送到终点前截获并监控事件的传输，像个钩子钩上事件一样，并且能够在钩上事件时，处理一些自己特定的事件。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1820210-151e50cb305a17fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Hook 原理图"></p>
 <p>Hook 的这个本领，使它能够将自身的代码「融入」被勾住（Hook）的程序的进程中，成为目标进程的一个部分。API Hook 技术是一种用于改变 API 执行结果的技术，能够将系统的 API 函数执行重定向。在 Android 系统中使用了沙箱机制，普通用户程序的进程空间都是独立的，程序的运行互不干扰。这就使我们希望通过一个程序改变其他程序的某些行为的想法不能直接实现，但是 Hook 的出现给我们开拓了解决此类问题的道路。当然，根据 Hook 对象与 Hook 后处理的事件方式不同，Hook 还分为不同的种类，比如消息 Hook、API Hook 等。</p>
-<h4 id="2-常用的-hook-框架">2. 常用的 Hook 框架</h4>
+<h3 id="2-常用的-hook-框架">2. 常用的 Hook 框架</h3>
 <ol>
 <li>关于 Android 中的 Hook 机制，大致有两个方式：</li>
 </ol>
@@ -145,7 +145,7 @@ Xposed 在开机的时候完成对所有的 Hook Function 的劫持，在原 Fun
 原理是这样的，直接构造出新旧方法对应的虚拟机数据结构，然后替换信息写到内存中即可。</p>
 </li>
 </ul>
-<h4 id="3-使用-java-反射实现-api-hook">3. 使用 Java 反射实现 API Hook</h4>
+<h3 id="3-使用-java-反射实现-api-hook">3. 使用 Java 反射实现 API Hook</h3>
 <p>通过对 Android 平台的虚拟机注入与 Java 反射的方式，来改变 Android 虚拟机调用函数的方式（ClassLoader），从而达到 Java 函数重定向的目的，这里我们将此类操作称为 Java API Hook。</p>
 <p>下面通过 Hook View 的 OnClickListener 来说明 Hook 的使用方法。</p>
 <p>首先进入 View 的 setOnClickListener 方法，我们看到 OnClickListener 对象被保存在了一个叫做 ListenerInfo 的内部类里，其中 mListenerInfo 是 View 的成员变量。ListeneInfo 里面保存了 View 的各种监听事件，比如 OnClickListener、OnLongClickListener、OnKeyListener 等等。</p>
@@ -212,7 +212,7 @@ Xposed 在开机的时候完成对所有的 Hook Function 的劫持，在原 Fun
         });
         hookOnClickListener(btnSend);
 </code></pre>
-<h4 id="4-使用-hook-拦截应用内的通知">4. 使用 Hook 拦截应用内的通知</h4>
+<h3 id="4-使用-hook-拦截应用内的通知">4. 使用 Hook 拦截应用内的通知</h3>
 <p>当应用内接入了众多的 SDK，SDK 内部会使用系统服务 NotificationManager 发送通知，这就导致通知难以管理和控制。现在我们就用 Hook 技术拦截部分通知，限制应用内的通知发送操作。</p>
 <p>发送通知使用的是 NotificationManager 的 notify 方法，我们跟随 API 进去看看。它会使用  INotificationManager 类型的对象，并调用其 enqueueNotificationWithTag 方法完成通知的发送。</p>
 <pre><code>    public void notify(String tag, int id, Notification notification)

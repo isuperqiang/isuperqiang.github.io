@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>在南方的冬夜里，奉上几点编程建议 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">在南方的冬夜里，奉上几点编程建议</h2>
+            <div class="post-date">2018-12-16</div>
+            
+            <div class="post-content">
+              <p>今年的冬天格外冷，经济寒潮导致许多互联网企业裁员，尽管公关一再掩饰，但是大家心知肚明，所有人都瑟瑟发抖。就算有幸留下来，年终奖也大幅缩水。上午还在写 Bug，下午就被告知走人。这不是段子，而是一些程序员的真实遭遇。</p>
+<p>身处凛冽寒冬，该怎么度过呢？当然不能轻易跳槽，离职就意味着失业。如果碰上被辞退，那就多争取点补偿吧。努力提升自己，来年春天继续绽放。不畏严寒，稳中求进，提升技能，就这几条比较中肯的建议。</p>
+<p>周末回顾了一下编程上遇到的问题，发现有很多需要改进的地方，这里简单列举几条。</p>
+<h3 id="1-建立通用的代码仓库">1. 建立通用的代码仓库</h3>
+<p>应用层的开发，不管是前端、后端还是移动端，功能的实现都是围绕需求来的。不管需求怎么变，有些基础的、公用的部分是不变的，比如网络请求、读写缓存等。</p>
+<p>对于这些不变的部分，有必要做个抽取和整合，封装成独立的公共模块，加入自己的代码仓库（repository）。这样以后就可以快速地开发，遇到问题也不用重新搜索，节省了开发交付的时间。</p>
+<h3 id="2-引入版本控制系统">2. 引入版本控制系统</h3>
+<p>版本控制（Version Control）在编程中的一个概念，扩展到能够编辑的文件也一样。比如用 Word 写论文，改来改去发现还是之前的版本好，如何找回之前的版本呢？这时候轮到版本控制系统（VCS）大展身手了。</p>
+<p>程序员主要利用 Git 和 SVN 来实现版本控制。Git 是分布式的，任何克隆到本地的工程都保留完整的提交历史，就算有人把代码从中央仓库删除，依然可以从其他人那里找回历史记录。</p>
+<p>SVN 是中心化的，所有的修改历史都由中央仓库记录，一旦服务器宕机就查不到了。所以现在大多数公司都使用 Git，内网服务器搭建 GitLab 是最常用的方式。</p>
+<p>除了程序员，比如文案编辑这类群体，也要懂点版本控制的概念。近几年非常流行在线笔记，比如腾讯文档、有道云笔记等，它们都附带历史版本的功能，方便随时查看过往记录的内容。</p>
+<p>另外，如果想为本地文件引入版本控制，可以考虑坚果云、亿方云这样的网盘，客户端时刻监控文件夹，一旦发生改动，网盘立马同步，并且记录历史，从不担心数据丢失的问题。</p>
+<h3 id="3-不要重复造轮子">3. 不要重复造轮子</h3>
+<p>这是程序员老生常谈的话题了，奉行「拿来主义」并没有错。这几天在做一块儿功能，之前没有接触过，界面交互非常复杂。我低估了它的实现难度，一边思考一边计算，大半天也没有结果。</p>
+<p>后来老大提醒我，可以到网上找找有没有开源的库，拿过来改一改。突然我就有种拨开云雾见青天的感觉，必须承认大脑在持续工作的时候会发生短路，导致把简单的问题复杂化。</p>
+<p>如果完全由自己实现，工作量大不说，里面的坑也多。使用开源库就简单多了，读读 Wiki 文档，修修补补就能实现想要的效果。两种方案，立判高下。</p>
+<p>站在巨人的肩膀上，让我们看得更远，同样地，借用别人的轮子会让我们走得更顺畅。开源让开发更美好，也是编程发展的主流。</p>
+<p>一点小感悟，就说这么多，愿温暖与感动常在。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/tech-quality" class="tag">
+                    技术素养
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/xie-gei-25-sui-de-zi-ji">
+                  <h3 class="post-title">
+                    写给 25 岁的自己
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,12 +123,12 @@
 <p>我们来看一下 dump 的输出：最顶层的 Task 的信息，包名：com.tencent.reading，我看了一下应用列表，它是「天天快报」，果然是腾讯家的。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1820210-dab0014b082b2b7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dump 输出"></p>
 <p>我们看到 OffActicity 就是顶层的 Activity，怀着好奇心找到了源码所在的目录，参考相关代码，自己写了一个 demo。</p>
-<h4 id="具体实现分两步">具体实现分两步：</h4>
+<p>具体实现分两步：</p>
 <ol>
 <li>创建一个透明的 Activity</li>
 <li>监听用户解锁屏操作</li>
 </ol>
-<h6 id="第一步创建一个透明的-activity">第一步：创建一个透明的 Activity</h6>
+<h3 id="第一步创建一个透明的-activity">第一步：创建一个透明的 Activity</h3>
 <p><strong>1.</strong> 在 onCreate 方法中设置 window 的属性</p>
 <pre><code>Window window = getWindow();
 window.setGravity(Gravity.TOP | Gravity.LEFT);
@@ -183,7 +183,7 @@ private boolean isScreenOn() {
      }    
  }
 </code></pre>
-<h6 id="第二步监听用户解锁屏操作">第二步：监听用户解锁屏操作</h6>
+<h3 id="第二步监听用户解锁屏操作">第二步：监听用户解锁屏操作</h3>
 <p>实现该功能要注册三个广播：</p>
 <pre><code>&lt;action android:name=&quot;android.intent.action.USER_PRESENT&quot;/&gt;
 &lt;action android:name=&quot;android.intent.action.SCREEN_ON&quot;/&gt;

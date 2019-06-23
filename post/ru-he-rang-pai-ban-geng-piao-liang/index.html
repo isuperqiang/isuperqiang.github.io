@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>如何让排版更漂亮 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">如何让排版更漂亮</h2>
+            <div class="post-date">2018-05-08</div>
+            
+            <div class="post-content">
+              <p>新媒体时代，人人都是创作者和传播者。内容主要靠手掌大的屏幕呈现，展示方式自然不同于传统媒体。快时代的阅读者注意力和耐心有限，如何让人觉得阅读不那么累呢？除了内容本身，还要考虑排版。不管是写文章、做设计，还是写文档，都需要注重排版的细节。不求太花哨，看着舒服就好。</p>
+<h3 id="1-空格">1. 空格</h3>
+<p>有研究显示，打字的时候不喜欢在中文和英文之间加空格的人，感情路都走得很辛苦，有七成的比例会在 34 岁的时候跟自己不爱的人结婚，而其余三成的人最后只能把遗产留给自己的猫。毕竟爱情跟书写都需要适时地留白，与大家共勉之。</p>
+<h4 id="1-1-中英文之间需要加空格">1. 1 中英文之间需要加空格</h4>
+<p>示例：</p>
+<blockquote>
+<p>我刚买了部 iPhone 手机。</p>
+</blockquote>
+<h4 id="12-中文与数字之间需要加空格">1.2 中文与数字之间需要加空格</h4>
+<p>示例：</p>
+<blockquote>
+<p>今天出去买菜花了 5000 元。</p>
+</blockquote>
+<h4 id="13-数字与单位之间不用加空格">1.3 数字与单位之间不用加空格</h4>
+<p>示例：</p>
+<blockquote>
+<p>我家的光纤宽带有 10Gbps，SSD 一共有 10TB。</p>
+</blockquote>
+<h4 id="14-全角标点与其他字符之间不加空格">1.4 全角标点与其他字符之间不加空格</h4>
+<p>示例：</p>
+<blockquote>
+<p>刚买了一部 iPhone，好开心！</p>
+</blockquote>
+<h4 id="15-英文点号后加一个空格如逗号-句号等">1.5 英文点号后加一个空格（如逗号、句号等）</h4>
+<p>示例：</p>
+<blockquote>
+<p>Hello everyone! Welcome to my blog.</p>
+</blockquote>
+<h3 id="2-标点符号">2. 标点符号</h3>
+<p>在文字处理时，必须要说两个重要的概念——全角和半角。它主要是针对标点符号来说的，全角标点占两个字节，半角占一个字节。,.?! 这些是半角的，。？“、！这些是全角的。可以简单理解为，中文标点占两个字节，英文标点占一个字节。</p>
+<h4 id="21-中文使用全角标点">2.1 中文使用全角标点</h4>
+<p>示例：</p>
+<blockquote>
+<p>嗨！你知道嘛？今天前台的小妹跟我说「喵」了哎！</p>
+</blockquote>
+<h4 id="22-英文和数字使用半角字符">2.2 英文和数字使用半角字符</h4>
+<p>示例：</p>
+<blockquote>
+<p>Stay hungry, stay foolish.</p>
+</blockquote>
+<h4 id="23-简体中文使用直角引号引号中再用引号使用双直角引号">2.3 简体中文使用直角引号；引号中再用引号，使用双直角引号</h4>
+<p>示例：</p>
+<blockquote>
+<p>她竟然对你说「喵」？
+我问：「老师，『有条不紊』是什么意思？」</p>
+</blockquote>
+<h4 id="24-点号逗号-句号等-结束引号-结束括号等不能出现在一行的开头">2.4 点号（逗号、句号等）、结束引号、结束括号等，不能出现在一行的开头</h4>
+<p>错误示例：</p>
+<blockquote>
+<p>某些符号不能在行首
+，千万别弄错了。</p>
+</blockquote>
+<h4 id="25-开始引号-开始括号-开始双书名号等不能出现在一行的结尾">2.5 开始引号、开始括号、开始双书名号等，不能出现在一行的结尾</h4>
+<p>错误示例：</p>
+<blockquote>
+<p>她对我们说：「
+这书太赞了。」</p>
+</blockquote>
+<h3 id="3-其他">3. 其他</h3>
+<h4 id="31-英文句首字母大写单词之间留空格">3.1 英文句首字母大写，单词之间留空格</h4>
+<p>示例：</p>
+<blockquote>
+<p>Have a question?</p>
+</blockquote>
+<h4 id="32-专有名词使用正确的大小写">3.2 专有名词使用正确的大小写</h4>
+<p>示例：</p>
+<blockquote>
+<p>我喜欢 Macbook。</p>
+</blockquote>
+<h4 id="33-标题可单用大写字母">3.3 标题可单用大写字母</h4>
+<p>示例：</p>
+<blockquote>
+<p>JUST DO IT.</p>
+</blockquote>
+<h4 id="34-段落首行不用缩进">3.4 段落首行不用缩进</h4>
+<p>错误示例：</p>
+<blockquote>
+<pre><code> 在阳光明媚的日子里，
+</code></pre>
+<p>我们一起去爬山。</p>
+</blockquote>
+<h4 id="35-中文与链接之间增加空格">3.5 中文与链接之间增加空格</h4>
+<p>示例：</p>
+<blockquote>
+<p>我觉得 <u>知乎</u> 这个网站不错。</p>
+</blockquote>
+<p>有谁在用这套排版规范呢？Apple 中国官网、Microsoft 中国官网等。</p>
+<p>排版体现了一个人的审美观，优雅的排版让人觉得如沐春风，沉浸阅读就是享受的过程。美是可以被创造的，希望这篇排版指南对你有帮助。</p>
+<p><strong>参考：</strong></p>
+<ul>
+<li><a href="https://github.com/mzlogin/chinese-copywriting-guidelines">中文文案排版指北（简体中文版）</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/20506092">写给大家看的中文排版指南</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/special-skill" class="tag">
+                    奇技淫巧
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/jian-chi-pao-bu-dai-gei-wo-de-gan-shou">
+                  <h3 class="post-title">
+                    坚持跑步带给我的感受
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

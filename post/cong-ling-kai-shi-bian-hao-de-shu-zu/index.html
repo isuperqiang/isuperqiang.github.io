@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>从零开始编号的数组 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">从零开始编号的数组</h2>
+            <div class="post-date">2019-04-17</div>
+            
+            <div class="post-content">
+              <h3 id="1-如何实现随机访问">1. 如何实现随机访问</h3>
+<p>数组（Array）是一种<strong>线性表</strong>数据结构。它用一组<strong>连续的内存空间</strong>，来存储一组<strong>具有相同类型的数据</strong>。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190417-220939@2x.jpg" alt="数组"></p>
+<p>两个关键点：线性表、连续的内存空间和相同类型的数据</p>
+<p>线性表就是数据排成像一条线一样的结构。每个线性表上的数据最多只有前和后两个方向。除了数组，链表、队列、栈等也是线性表结构。而与它相对立的是非线性表，比如二叉树、堆、图等。在非线性表中，数据之间并不是简单的前后关系。</p>
+<p>连续的内存空间和相同类型的数据。正是因为这两个限制，数组才有了一个堪称「杀手锏」的特性：「随机访问」。但是，这两个限制也让数组的很多操作变得非常低效，比如要想在数组中删除、插入一个数据，为了保证连续性，就需要做大量的数据搬移工作。</p>
+<p>根据下标随机访问数组元素的时间复杂度为 O(1)。随机访问和查找不一样，即便是排好序的数组，用二分查找，时间复杂度也是 O(logn)。随机访问有个寻址公式：</p>
+<pre><code>a[i]_address = base_address + i * data_type_size
+</code></pre>
+<p>其中 data_type_size 表示数组中每个元素的大小，base_address 是内存块的首地址。</p>
+<p>从数组存储的内存模型上来看，「下标」最确切的定义应该是「偏移量」，a[0] 就是偏移为 0 的位置，也就是首地址。</p>
+<h3 id="2-低效的插入和删除">2. 低效的插入和删除</h3>
+<p>插入和删除需要移动数据，时间复杂度都是 O(n)。</p>
+<p>例外情况：</p>
+<ol>
+<li>当数组中存储的元素不要求有序时，如果要插入到第 k 个位置，那么把该位置的数据放到数组末尾，新元素放到第 k 位。比如原数组：[a, b, c, d]，把 x 插入到第 2 位，数组变为 [a, x, c, d, b]。</li>
+<li>删除元素时，标记被删除的数据，并不会真正地搬移数据，当数组没有更多的空间时，触发一次真正删除操作，这样就大大减少了数据移动。这其实就是 JVM 标记清除垃圾回收算法的核心思想。</li>
+</ol>
+<h3 id="3-警惕数组访问越界">3. 警惕数组访问越界</h3>
+<p>Java 语言会做数据越界检查，而 C 语言不会。数组越界时一般都会出现莫名其妙的逻辑错误，debug 的难度非常的大。所以写代码的时候一定要警惕数组越界。</p>
+<h3 id="4-容器能否完全代替数组">4. 容器能否完全代替数组</h3>
+<p>ArrayList 最大的优势就是可以<strong>将很多数组操作的细节封装起来</strong>，<strong>支持动态扩容</strong>。</p>
+<p>每次存储空间不够的时候，ArrayList 会将空间自动扩容为原来的 1.5 倍大小。扩容操作比较耗时，涉及内存申请和数据搬移。所以，如果事先能确定需要存储的数据大小，最好在<strong>创建 ArrayList 的时候事先指定数据大小</strong>。</p>
+<pre><code class="language-java">        ArrayList&lt;String&gt; a = new ArrayList&lt;&gt;(666); // 推荐
+        ArrayList&lt;String&gt; b = new ArrayList&lt;&gt;(); // 不推荐
+</code></pre>
+<p>更适合用数组的场景：</p>
+<ol>
+<li>ArrayList 无法存储基本类型，比如 int，需要封装为 Integer 类，而装箱、拆箱则有一定的性能消耗，所以如果特别关注性能，或者想使用基本类型，就可以选用数组。</li>
+<li>如果数据大小事先已知，并且对数据的操作非常简单，用不到 ArrayList 提供的大部分方法，也可以直接使用数组。</li>
+<li>当表示多维数组时，用数组往往会更加直观。比如 Object[][] array；而用容器的话则需要这样定义：ArrayList<ArrayList> array。</li>
+</ol>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-2-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 2 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

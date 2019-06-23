@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>链表（下）写出正确的链表代码的6个技巧 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">链表（下）写出正确的链表代码的6个技巧</h2>
+            <div class="post-date">2019-04-22</div>
+            
+            <div class="post-content">
+              <h3 id="技巧一理解指针或引用的含义">技巧一：理解指针或引用的含义</h3>
+<p>指针或引用存储的是对象的内存地址。将某个变量赋值给指针，实际上就是将这个变量的地址赋值给指针。</p>
+<p>p-&gt;next=q 表示 p 结点中的 next 指针存储了 q 结点的内存地址。从左到右读就可以，p 的下一个结点就是 q。</p>
+<h3 id="技巧二警惕指针丢失和内存泄漏">技巧二：警惕指针丢失和内存泄漏</h3>
+<p>拿单链表的插入举例。在结点 a 和相邻的结点 b 之间插入 x，假设当前指针 p 指向结点 a。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190422-072559@2x.jpg" alt="插入结点"></p>
+<pre><code>p-&gt;next = x;  // 将 p 的 next 指针指向 x 结点；
+x-next = p -&gt; next;  // 将 x 的结点的 next 指针指向 b 结点；
+</code></pre>
+<p>很显然，上面的代码执行结果有问题。结点 x 最终指向自己，这样链表就断开了，造成内存泄漏。所以应该颠倒一下顺序。</p>
+<p>在插入结点时，一定要注意操作的顺序，这样才不会丢失指针。删除结点时，一定记得手动释放内存，以免产生内存泄漏。</p>
+<h3 id="技巧三利用哨兵简化实现难度">技巧三：利用哨兵简化实现难度</h3>
+<p>针对链表的插入、删除操作，需要对插入第一个结点和删除最后一个结点的情况进行特殊处理。比如判断是否为 null。</p>
+<p>引入哨兵结点，不管链表是不是空，head 指针都会一直指向这个哨兵结点。把这种有哨兵结点的链表叫带头链表。相反。没有哨兵结点的链表就叫作不带头链表。</p>
+<p>哨兵结点是不存储数据的。因为哨兵结点一直存在，所以插入第一个结点和插入其他结点，删除最后一个结点和删除其他结点，都可以使用相同的代码实现逻辑了。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190422-072525@2x.jpg" alt="带头链表"></p>
+<h3 id="技巧四重点留意边界条件处理">技巧四：重点留意边界条件处理</h3>
+<p>常用来检查链表代码是否正确的边界条件：</p>
+<ul>
+<li>如果链表为空时，代码是否能正常工作？</li>
+<li>如果链表只包含一个结点时，代码是否能正常工作？</li>
+<li>如果链表只包含两个结点时，代码是否能正常工作？</li>
+<li>代码逻辑在处理头结点和尾结点的时候，是否能正常工作？</li>
+</ul>
+<p>实际上，不光是写链表代码，在写任何代码时，也千万不要只实现业务正常情况下的功能，一定要多想想，代码在运行的时候，可能会遇到哪些边界情况或者异常情况。遇到了应该如何应对，这样写出来的代码才够健壮！</p>
+<h3 id="技巧五举例画图辅助思考">技巧五：举例画图，辅助思考</h3>
+<p>你可以找一个具体的例子，把它画在纸上，释放一些脑容量，留更多的给逻辑思考，这样就会感觉到思路清晰很多。</p>
+<h3 id="技巧六多写多练没有捷径">技巧六：多写多练，没有捷径</h3>
+<p>精选了 5 个常见的链表操作，作为练习的题目。</p>
+<ul>
+<li>单链表反转</li>
+<li>链表中环的检测</li>
+<li>两个有序的链表合并</li>
+<li>删除链表倒数第 n 个结点</li>
+<li>求链表的中间结点</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/datastruct-algorithm" class="tag">
+                    数据结构算法
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-3-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 3 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

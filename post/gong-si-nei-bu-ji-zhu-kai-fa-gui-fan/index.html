@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>公司内部技术开发规范 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">公司内部技术开发规范</h2>
+            <div class="post-date">2017-06-18</div>
+            
+            <div class="post-content">
+              <p>前段时间，阿里巴巴技术团队公开了内部的编程规范 ----《阿里巴巴 Java 开发手册》，旨在规范开发标准，提高协作效率。每家公司都会有自己的编程规范，比如我现在的东家，内部也有自己的标准，特地拿出来与大家分享。</p>
+<hr>
+<h3 id="第一原则-命名规范">第一原则  命名规范</h3>
+<h4 id="11-包名命名">1.1  包名命名</h4>
+<p>命名规则：包命名必须以 com.xxx （公司的顶级域名）开始，后面跟着项目名称，之后为模块名或层级名称。</p>
+<blockquote>
+<p>com.xxx.&lt;&gt;.&lt;&gt;: 此处尖括号表示跟随模块的包名</p>
+</blockquote>
+<ul>
+<li>abs:  抽象类</li>
+<li>core: 当前模块的核心逻辑代码</li>
+<li>database: 数据库相关代码</li>
+<li>file: 文件操作相关代码</li>
+<li>intf: 接口所在的包名</li>
+<li>persist: 持久化相关代码</li>
+<li>util: 工具类相关类</li>
+<li>view: 界面相关的类</li>
+<li>other: 一些未知的类</li>
+</ul>
+<h4 id="12-类和接口命名">1.2  类和接口命名</h4>
+<p>类命名规则：类名必须使用驼峰规则，即<strong>首字母必须大写</strong>。如果为词组，则每个单词的首字母也必须要大写，类名必须使用名词或名词词组，要求类名简单，不允许出现无意义的单词。对于 Android 框架内的类名，需要加上<strong>具体组件</strong>的名称。</p>
+<p>例如：</p>
+<blockquote>
+<p>class BookMarkAdd extends Activity                   错误
+class BookMarkAddActivity extends Activity	正确</p>
+</blockquote>
+<p>其他与 Android 框架组件无关的类，遵循 Java 类命名规范。</p>
+<h4 id="13-方法的命名">1.3  方法的命名</h4>
+<p>命名规则：方法名是一个<strong>动词</strong>，采用<strong>大小写混合</strong>的方式，第一个单词的首字母小写，其后单词的首字母大写。</p>
+<p>例如：</p>
+<blockquote>
+<p>public String getBookName()</p>
+</blockquote>
+<h4 id="14-方法参数命名">1.4  方法参数命名</h4>
+<p>参数名字不允许使用 arg、arg0、arg1 等等没有任何意义的命名，最好选择<strong>见名知意</strong>的参数名。
+例如：</p>
+<blockquote>
+<p>public static Bitmap scaleBitmap(Bitmap bitmap, int width, int height, boolean isRecycle)</p>
+</blockquote>
+<h4 id="15-变量命名">1.5  变量命名</h4>
+<p>命名规则：变量命名也必须使用<strong>驼峰规则</strong>，但是首字母必须小写，变量名尽可能的使用名词或名词词组。同样要求简单易懂，不允许出现无意义的单词。</p>
+<p>例如：</p>
+<blockquote>
+<p>String bookName;	       正确
+String bookNameString;    错误</p>
+</blockquote>
+<h4 id="16-成员变量命名">1.6  成员变量命名</h4>
+<p>命名规则：同变量命名，但不要在私有变量前添加 m 字样！这一点，定义比较混乱，从现在开始统一<strong>不加  “m”</strong>。</p>
+<h4 id="17-常量命名">1.7  常量命名</h4>
+<p>命名规则：类常量的声明，应该<strong>全部大写</strong>，单词间用<strong>下划线</strong>隔开。</p>
+<p>例如：</p>
+<blockquote>
+<p>public static final int MAX_WIDTH = 999;</p>
+</blockquote>
+<h4 id="18-抽象类命名">1.8  抽象类命名</h4>
+<p>规则：以 <strong>Abstract</strong> 命名开头，例如：AbstractList。</p>
+<h4 id="19-接口命名">1.9  接口命名</h4>
+<p>规则：所有接口命名以 <strong>I</strong> 开头，例如：IActivityManager。</p>
+<h4 id="110-异常命名">1.10  异常命名</h4>
+<p>命名规则：自定义异常的命名必须以 <strong>Exception</strong> 为结尾，明确标示为一个异常。内部逻辑异常采用 HandpetException，利于团队开发和维护。</p>
+<h4 id="111-所有-manifest-配置最大限度地保密我们的业务逻辑">1.11  所有 Manifest 配置最大限度地保密我们的业务逻辑</h4>
+<p>首先使用 A - ZActivity，用完以后 AA - ZZActivity。优先用缩写，遇到重复的再用其他的。</p>
+<h4 id="112-layout-命名">1.12  Layout 命名</h4>
+<p>命名规则：layout xml 的命名必须以<strong>全部单词小写</strong>，单词间以<strong>下划线分割</strong>，并且使用<strong>名词或名词词组</strong>来命名。</p>
+<p>规则：大 -&gt; 小  layout <em>&lt;&gt;</em> 功能描述（尖括号里可以根据具体情况命名）</p>
+<p>例如：</p>
+<blockquote>
+<p>layout_fragment_about_vlife.xml	正确
+list_book.xml		错误</p>
+</blockquote>
+<p>另外：如果是作为一个封装通用部分的 layout 文件需要加入前缀 “inc”，除了自身可以作为独立页面的情况。</p>
+<blockquote>
+<p>inc_title_bar.xml</p>
+</blockquote>
+<h4 id="113-layout-中-id-的命名">1.13  Layout 中 id 的命名</h4>
+<p>命名规则：layout 中所使用的 id 必须以<strong>全部单词小写</strong>，单词间以<strong>下划线</strong>分割，并且使用<strong>名词或名词词组</strong>，并且要求能够通过 id 直接理解当前组件要实现的功能。</p>
+<p>例如：某 TextView,</p>
+<blockquote>
+<p>@+id/textbookname          错误
+@+id/book_name_show    正确</p>
+</blockquote>
+<h4 id="114-资源命名">1.14 资源命名</h4>
+<p>命名规则：layout  中所使用的所有资源（如 drawable, style 等）命名必须以<strong>全部单词小写</strong>，单词间以<strong>下划线</strong>分割，并且尽可能的使用<strong>名词或名词组</strong>直接用用途来命名</p>
+<p>例如：icon_menu_navigate.png</p>
+<p>drawable 下的文件命名：</p>
+<ul>
+<li>icon_xxx_xxx.png 表示 icon</li>
+<li>bg_xxx_xxx.png 表示背景</li>
+<li>img_xxx_xxx.png 其他情况</li>
+<li>icon_xxx_xxx_pressed.png 按下时的反馈状态</li>
+<li>icon_xxx_xxx_selector.xml ? selector 配置文件</li>
+</ul>
+<h3 id="第二原则-注释要详细明白">第二原则  注释要详细明白</h3>
+<h4 id="21-注释模版">2.1  注释模版</h4>
+<p>不管文件、类还是方法，注释的时候必须有作者、时间、简单描述。（Override 方法除外）
+例如：</p>
+<pre><code class="language-java">/**
+ * @author 作者 &lt;br/&gt;
+ *   实现的主要功能 &lt;br/&gt;
+ *   创建日期
+*/
+</code></pre>
+<h4 id="22-必须注释的条件">2.2  必须注释的条件</h4>
+<ul>
+<li>非 Override 的 <strong>public 方法</strong>必须有注释。</li>
+<li>TODO 表示待实现的，用来标记需要完成的处理。写明作者，和要实现的内容。不可以乱用。</li>
+<li>所有的<strong>接口方法</strong>必须写注释</li>
+<li>核心复杂逻辑加<strong>注释</strong>（这个可以用参考常量的注释或者用 “//” 来做详细描述）</li>
+</ul>
+<h3 id="第三原则-混淆原则">第三原则  混淆原则</h3>
+<h4 id="31-概述">3.1  概述</h4>
+<p>在 Android Studio 中，发布正式版本都会经过混淆流程，全靠混淆配置文件控制，所以混淆配置文件的规则与格式是重中之重，所有混淆尽量优先使用混淆的继承接口。</p>
+<h4 id="32-混淆配置文件外部规则">3.2  混淆配置文件外部规则</h4>
+<h5 id="321-混淆文件的配置">3.2.1  混淆文件的配置</h5>
+<p>在每一个子 Module 中的 “build.gradle” 文件中，配置当前模块使用的混淆配置。请单独为顶级工程（类型为application 的 Module ）配置，不要为 library 类型的 Module 配置。配置项为 android.[buildTypes].proguardFiles，可以配置多个混淆文件，中间用逗号隔开。</p>
+<h5 id="322-混淆文件的位置">3.2.2  混淆文件的位置</h5>
+<p>混淆文件配置可以配置多份，其中在 project 的根目录保存一份，文件名为 “proguard-rules.pro”，用于配置针对当前 project 所有顶级 module 的配置。在为顶级的子 module 目录的根目录也保存一份，文件名同为 “proguard-rules.pro”，用于配置针对当前 module 的混淆配置。</p>
+<h5 id="323-混淆文件的引用">3.2.3  混淆文件的引用</h5>
+<p>在引用混淆配置文件时，需要将 Android SDK 默认的配置文件一同引入，同时引入当前 project 根目录下的配文件，以及当前 module 根目录的配置文件，配置示例如下：</p>
+<pre><code>proguardFiles getDefaultProguardFile('proguard-android.txt'), '../../proguard-rules.pro', ‘proguard-rules.pro'
+</code></pre>
+<h4 id="33-混淆配置文件内部规范">3.3  混淆配置文件内部规范</h4>
+<h5 id="331-结构规范">3.3.1  结构规范</h5>
+<p>将当前 project 的通用配置写入 project 根目录的混淆配置文件。属于某一个 module 的混淆配置，写入 module 根目录的混淆配置文件。</p>
+<h5 id="332-格式规范">3.3.2  格式规范</h5>
+<ol>
+<li>每一条配置的上一行，都必须配有一条注释，写明当前配置的目的以及想要的作用。可以参考 SDK 内 Android 官方提供的配置文件。这么做的目的是在其他人整理混淆配置时，能明确的指导该条配置的作用范围。</li>
+<li>每一条配置都要做到精确配置作用范围，既不可以多混淆代码，也不可少混淆代码。</li>
+</ol>
+<h3 id="第四原则-代码友好">第四原则  代码友好</h3>
+<ul>
+<li>调用成员变量加 this，为了防止和方法里面参数冲突。</li>
+<li>调用静态变量加上类名。例如在 A 类中去调用自己的静态变量则需要加上类名，这样主要避免混淆，跟上面加 “this” 的目的一样。</li>
+<li>IO 加一条 Warn。因为上层调用的人不知道方法里面有没有 IO 操作，为了优化效率方便，IO 的位置要加 Warn。</li>
+<li>IO 操作：各种 I/O 源端和想要与之通信的接收端（文件、控制台、网络链接等），以各种方式与之通信（随机存取、缓冲、二进制等）。</li>
+<li>在代码中，Android Studio 给出的「警告」必须处理掉，处理不掉的要写好注释。鼠标放到淡黄色背景的位置，Android Studio 会显示出原因，做好规范有助于我们养成良好的编码习惯。</li>
+</ul>
+<h3 id="第五原则-效率优先">第五原则  效率优先</h3>
+<ul>
+<li>循环存取 preference，或者连续写入同一个 preference 多个字段，自己开 Editor，然后一次 commit。</li>
+<li>尽量不要加锁。原因是降低效率和死锁。如果必须加锁请遵循下面原则
+<ol>
+<li>尽量使用 ReentrantLock 替换 synchronize</li>
+<li>如果必须使用 synchronize 的时候，也尽量锁部分代码，而非锁整个方法</li>
+<li>synchronize 的锁对象尽量使用自定义对象</li>
+</ol>
+</li>
+<li>减少循环的使用。
+Java 这个语言平时效率还凑合，但是循环的效率特别低。所以尽量减少自己在循环里面干事情。尤其是系统已经提供了 addAll 类似接口，底层用的本地 C 执行的，比自己实现效率要高，优先使用系统的接口。</li>
+<li>在 if 判断中，如果需要判断多个条件。按照最容易判断的、概率最大的优先进行判断的规则，减少系统的判断次数。</li>
+</ul>
+<h3 id="第六原则-健壮原则">第六原则  健壮原则</h3>
+<ul>
+<li>调用系统方法必须加 try {} catch {}</li>
+<li>当我们想通过某对象去调用它的方法时，需要对这个对象做判空处理，避免空指针异常。</li>
+<li>所有 public 方法必须处理异常参数的情况，对参数的合法性进行判断，如果内部逻辑可以处理就要处理，处理不了就抛出异常。</li>
+<li>非必要 public 的方法不要 public</li>
+<li>如果某部分代码是严格固定线程、固定进程调用或有调用顺序的，内部应该增加检查逻辑，防止调用错误。</li>
+<li>在代码中不要轻易出现判断类名的代码，因为混淆之后类名会发生变化导致你的这块逻辑不会被执行。</li>
+</ul>
+<h3 id="第七原则-日志规范">第七原则  日志规范</h3>
+<h4 id="71-日志打印输出">7.1  日志打印输出</h4>
+<p>在代码中禁止使用 System.out 和 e.printStackTrace()，全部统一用 log 输出，log 对象命名统一为 <strong>log</strong>。</p>
+<h4 id="72-日志的位置">7.2  日志的位置</h4>
+<ol>
+<li>在方法中：例如，某个方法中在该方法具体业务逻辑之前应该打一行日志。如果方法有参数列表，则将这些值打印出来。如果没有任何参数最好也打一行日志，至少让别人知道这个方法是否执行了。</li>
+<li>类的成员变量：当类里边有成员变量，并且里边有对应的 set 和 get 方法的时候，应该在 set 方法中打一行日志，这样可以清楚的看出这个变量的变化。</li>
+<li>在日志输出时，如果需要调用方法获取值的时候最好要对调用的对象做非空判断。</li>
+</ol>
+<h4 id="73-日志的长度">7.3  日志的长度</h4>
+<p>日志的长度不要太短，当然也别太长了。最好有一个简洁的描述，能够一目了然，同时也方便过滤、定位问题。</p>
+<h4 id="74-日志的优先级">7.4  日志的优先级</h4>
+<ol>
+<li>verbose -&gt; 原子操作级别的日志，或者是会刷屏的日志，在 logcat 中使用黑色字体打印。</li>
+<li>debug -&gt; debug 排错的时候的日志，在 logcat 中使用蓝色字体打印。</li>
+<li>info -&gt; 模块级别的逻辑处理调用的日志，测试人员可以过滤该级别的日志，检查流程是否运行正常，在 logcat 中使用绿色字体打印。</li>
+<li>warn -&gt; 可能会引起显示不正常的报错或逻辑错误。比如某个对象为 null 可能会引起某些内容显示不出来。在 logcat 中使用橙色字体打印。</li>
+<li>error -&gt; 100% 引起程序不正常的错误，客户端会收集这些错误日志，需要研发人员定位并解决问题。在 logcat 中使用红色字体打印。</li>
+</ol>
+<h4 id="75-针对服务器数据的日志">7.5  针对服务器数据的日志</h4>
+<p>当客户端在使用服务器端传递过来的数据时，要小心。在代码中做判断的时候要注意，如果不满足条件就不往下执行了，但是需要打一个 log.warn()，这样是为了方便追踪。例如，我们去判空的时候，就需要在数据为空的条件下输出日志，方便定位问题。</p>
+<h3 id="第八原则-封装工具类">第八原则  封装工具类</h3>
+<h4 id="81-文件操作封装">8.1  文件操作封装</h4>
+<p>调用 FileUtils. 文件操作包括以下内容：拷贝、复制、删除、解压缩、写文件等以及一些获取文件信息的操作。都需要调用 FileUtils 类来获取，禁止在其他地方，自行实现方法实现获取！</p>
+<h4 id="82-路径操作封装">8.2  路径操作封装</h4>
+<p>调用 PathUtils. 路径操作包括以下内容：获取常用文件的路径，拼接路径等与路径信息有关的操作。都需要调用PathUtils 类来获取，禁止在其他地方，自行实现方法实现获取！</p>
+<h4 id="83-bitmap-操作封装">8.3  Bitmap 操作封装</h4>
+<p>调用 BitmapUtils. 所有需要创建 bitmap 对象或者生成 bitmap 对象的操作都封装在此类进行。禁止在其他地方，自行实现方法！</p>
+<h4 id="84-其他工具类与上面的类似">8.4 其他工具类与上面的类似</h4>
+<hr>
+<p>无规矩不成方圆，无规范不能协作。作为一名技术人员，遵循良好的开发规范是基本的素养，这样才能更加高效地协作。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/tech-quality" class="tag">
+                    技术素养
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-san">
+                  <h3 class="post-title">
+                    推荐一些 Windows 平台上的优质高效软件（三）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

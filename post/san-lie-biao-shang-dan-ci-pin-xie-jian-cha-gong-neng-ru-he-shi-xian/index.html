@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>散列表（上）：单词拼写检查功能如何实现 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">散列表（上）：单词拼写检查功能如何实现</h2>
+            <div class="post-date">2019-05-12</div>
+            
+            <div class="post-content">
+              <h3 id="1-散列思想">1. 散列思想</h3>
+<p>散列表利用的就是数组支持按照下标随机访问的时候，时间复杂度是 O(1) 的特性。通过散列函数把元素的键值映射为下标，然后将数据存储在数组中对应下标的位置。当我们按照键值查询元素时，用同样的散列函数，将键值转化数组下标，从对应的数组下标的位置取数据。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512204112.png" alt="散列"></p>
+<h3 id="2-散列函数">2. 散列函数</h3>
+<p>散列函数定义为 hash(key)，其中 key 表示元素的键值，hash(key) 的值表示经过散列函数计算得到的散列值。</p>
+<p>该如何构造散列函数？有三点基本要求：</p>
+<ul>
+<li>散列函数计算得到的散列值是一个非负整数；</li>
+<li>如果 key1 = key2，那 hash(key1) == hash(key2)；</li>
+<li>如果 key1 ≠ key2，那 hash(key1) ≠ hash(key2)。</li>
+</ul>
+<p>第一、二点很好理解，第三点实际上几乎不可能，因为它无法避免散列冲突。</p>
+<h3 id="3-散列冲突">3. 散列冲突</h3>
+<p>解决方法：开放寻址法和链表法。</p>
+<h4 id="开放寻址法">开放寻址法</h4>
+<p>核心思想是，如果出现了散列冲突，就重新探测一个空闲位置，将其插入。探测方法有线形探测、二次探测和双重散列。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512203435.png" alt="开放寻址法"></p>
+<p><strong>线性探测</strong></p>
+<ul>
+<li>插入数据：当我们往散列表中插入数据时，如果某个数据经过散列函数之后，存储的位置已经被占用了，就从当前位置开始，依次往后查找，看是否有空闲位置，直到找到为止。</li>
+<li>查找数据：通过散列函数求出要查找元素的键值对应的散列值，然后比较数组中下标为散列值的元素和要查找的元素是否相等。如果相等，则说明就是要找的元素；否则，就顺序往后依次查找。如果遍历到数组的空闲位置还未找到，就说明要查找的元素并没有在散列表中。</li>
+<li>删除数据：为了不让查找算法失效，可以将删除的元素特殊标记为 deleted，当线性探测查找的时候，遇到标记为 deleted 的空间，并不是停下来，而是继续往下探测。</li>
+</ul>
+<p>结论：最坏的时间复杂度为O(n)</p>
+<p><strong>二次探测</strong></p>
+<p>线性探测每次探测的步长为1，即在数组中一个个探测，而二次探测的步长变为原来的平方。</p>
+<p><strong>双重散列</strong></p>
+<p>使用一组散列函数，直到找到空闲位置为止。</p>
+<p>散列表用装载因子（load factor）来表示空位的多少，计算公式是：</p>
+<blockquote>
+<p>散列表的装载因子 = 填入表中的元素个数 / 散列表的长度</p>
+</blockquote>
+<p>装载因子越大，说明空闲位置越少，冲突越多，散列表的性能会下降。</p>
+<h4 id="链表法">链表法</h4>
+<p>更加常用，比开放寻址法简单。</p>
+<p>在散列表中，每个“桶（bucket）”或者“槽（slot）”会对应一条链表，所有散列值相同的元素我们都放到相同槽位对应的链表中。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512201452.png" alt="链表法"></p>
+<ul>
+<li>插入数据：当插入的时候，通过散列函数计算出对应的散列槽位，将其插入到对应的链表中即可，所以时间复杂度为 O(1)。</li>
+<li>查找或删除数据：当查找、删除一个元素时，通过散列函数计算对应的槽，然后遍历链表查找或删除。对于散列比较均匀的散列函数，链表的节点个数 k=n/m，其中 n 表示散列表中数据的个数，m 表示散列表中槽的个数，所以时间复杂度为 O(k)。</li>
+</ul>
+<h3 id="课后思考">课后思考</h3>
+<ol>
+<li>Word 文档中单词拼写检查功能是如何实现的？</li>
+<li>假设我们有 10 万条 URL 访问日志，如何按照访问次数给 URL 排序？</li>
+<li>有两个字符串数组，每个数组大约有 10 万条字符串，如何快速找出两个数组中相同的字符串？</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/datastruct-algorithm" class="tag">
+                    数据结构算法
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-6-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 6 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

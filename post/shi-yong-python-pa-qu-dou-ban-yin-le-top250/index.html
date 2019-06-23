@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561285358941">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561285358941" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,7 +123,7 @@
 <li>存储数据</li>
 </ol>
 <p>下面我们就分三个步骤进行操作。</p>
-<h4 id="1-抓取网页">1. 抓取网页</h4>
+<h3 id="1-抓取网页">1. 抓取网页</h3>
 <p>我使用 requests 库进行网络请求，代码非常简洁，拿到原始的 html 文本就可以。</p>
 <pre><code class="language-python">import requests
 import logging
@@ -151,7 +151,7 @@ def __request_html(url):
         log.debug('status:'.format(response.status_code))
         return None
 </code></pre>
-<h4 id="2-解析网页">2. 解析网页</h4>
+<h3 id="2-解析网页">2. 解析网页</h3>
 <p>使用 lxml 解析网页，xpath 定位元素。在 Chrome 浏览器中打开开发者模式，在 Elements 模块找到要抓去的数据，然后右键拷贝元素的 xpath，放到代码里使用就可以了。</p>
 <p><strong>xpath 基础语法：</strong></p>
 <ul>
@@ -204,7 +204,7 @@ def __format_text(text):
     a = text[1: len(text) - 1].strip()
     return a
 </code></pre>
-<h4 id="3-存储数据">3. 存储数据</h4>
+<h3 id="3-存储数据">3. 存储数据</h3>
 <p>通过解析网页拿到数据后，就可以保存了，比如保存到数据库，excel 文件。这里，我使用 MySQL 数据库作为示例。</p>
 <p>创建对应的数据表后，我们引入 pymysql 库，进行数据库操作。执行插入就可以了，注意事务的提交和恢复，以及连接的关闭。</p>
 <pre><code class="language-python">import pymysql
