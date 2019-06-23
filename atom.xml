@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://isuperqiang.github.io</id>
+    <title>落英坠露</title>
+    <updated>2019-06-23T03:02:36.213Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://isuperqiang.github.io"/>
+    <link rel="self" href="https://isuperqiang.github.io/atom.xml"/>
+    <subtitle>技术让生活更美好</subtitle>
+    <logo>https://isuperqiang.github.io/images/avatar.png</logo>
+    <icon>https://isuperqiang.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 2 期]]></title>
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-2-qi</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-2-qi">
+        </link>
+        <updated>2019-04-14T02:57:56.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="35-搜索插入位置简单">35. 搜索插入位置（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。你可以假设数组中无重复元素。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code class="language-properties">输入: [1,3,5,6], 5
+输出: 2
+输入: [1,3,5,6], 7
+输出: 4
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<ul>
+<li>解法一：因为是排序的数组，直接从头遍历，然后找到大于或者等于目标值的下标，就是结果。</li>
+<li>解法二：使用二分法查找，然后找到目标值或者左边界（low）。</li>
+</ul>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int searchInsert(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        for (int i = 0; i &lt; nums.length; i++) {
+            if (nums[i] &gt;= target) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+
+    public int searchInsertByBinary(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int min = 0;
+        int max = nums.length - 1;
+        while (min &lt;= max) {
+            int mid = (max + min) / 2;
+            if (nums[mid] &gt; target) {
+                max = mid - 1;
+            } else if (nums[mid] &lt; target) {
+                min = mid + 1;
+            } else {
+                return mid;
+            }
+        }
+        return min;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：解法一 O(n)，解法二 O(logn)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h3 id="69-x-的平方根简单">69. X 的平方根（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>实现 <code>int sqrt(int x)</code> 函数。计算并返回 <em>x</em> 的平方根，其中 <em>x</em> 是非负整数。</p>
+<p>由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code class="language-properties">输入: 4
+输出: 2
+输入: 8
+输出: 2
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<pre><code>牛顿法 https://en.wikipedia.org/wiki/Integer_square_root
+注意防止整形越界。
+</code></pre>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int mySqrt(int x) {
+        if (x &lt;= 1) {
+            return x;
+        }
+        int r = x / 2;
+        while (r &gt; x / r) {
+            r = (r + x / r) / 2;
+        }
+        return r;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(logn)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/s/story/readability-as-usability-78c5a2a373cc">What is readable code?</a>  什么是可读的代码？</p>
+<p>代码创建了接口，但是代码本身也是一种接口。就像生活中的门可以打开、关闭一样，开发者写代码可以添加新功能、修复错误。忘记代码的位置很容易，所以代码应该是可搜索的，简短通用的名称可以作为默认值表示。</p>
+<p>可读的代码应当容易安全地编辑，前提是要理解代码的逻辑。当变量名称具有表现力时，代码更容易编辑。可读的代码一定可用，另外看起来也漂亮。</p>
+<p>作者从 UI 层面举了几个例子，View 的状态和代码层面的变量产生对应关系，如果让用户清晰理解操作意图，那么代码也要保证逻辑是一致的。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>读《码出高效：Java 开发手册》集合篇看到 fail-fast 有感，<a href="https://www.jianshu.com/p/6d87c36bad3e">Java集合的fail-fast机制</a></p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/FkrrBLoB2YZ45fIQed0dsw">马蜂窝张矗：我对技术团队绩效考核管理的几点思考</a></p>
+<p>技术人员绩效考核一般难以量化，不好的衡量标准有代码行数、Bug 数量等。要关注目标，而不是任务，目标可量化。不同级别的人员，考核的重点不同。按月或按季度进行评估，周期不宜太长。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 1 期]]></title>
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-1-qi</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-1-qi">
+        </link>
+        <updated>2019-04-07T02:49:12.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="13-罗马数字转整数简单">13. 罗马数字转整数（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>罗马数字包含以下七种字符: <code>I</code>， <code>V</code>， <code>X</code>， <code>L</code>，<code>C</code>，<code>D</code> 和 <code>M</code>。</p>
+<pre><code class="language-properties">字符          数值
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+</code></pre>
+<p>例如， 罗马数字 2 写做 <code>II</code> ，即为两个并列的 1。12 写做 <code>XII</code> ，即为 <code>X</code> + <code>II</code> 。 27 写做  <code>XXVII</code>, 即为 <code>XX</code> + <code>V</code> + <code>II</code> 。</p>
+<p>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 <code>IIII</code>，而是 <code>IV</code>。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 <code>IX</code>。这个特殊的规则只适用于以下六种情况：</p>
+<ul>
+<li><code>I</code> 可以放在 <code>V</code> (5) 和 <code>X</code> (10) 的左边，来表示 4 和 9。</li>
+<li><code>X</code> 可以放在 <code>L</code> (50) 和 <code>C</code> (100) 的左边，来表示 40 和 90。</li>
+<li><code>C</code> 可以放在 <code>D</code> (500) 和 <code>M</code> (1000) 的左边，来表示 400 和 900。</li>
+</ul>
+<p>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code class="language-properties">输入: &quot;III&quot;
+输出: 3
+输入: &quot;IV&quot;
+输出: 4
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<p>把罗马数字和整数建立映射，然后从左到右遍历字符串，对比前后的两个值。因为正常的罗马数字是位上的值递减的，当出现左值大于右值，就使用两者的差作为结果。</p>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int romanToInt(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        Map&lt;Character, Integer&gt; romanIntMap = new HashMap&lt;&gt;(8);
+        romanIntMap.put('I', 1);
+        romanIntMap.put('V', 5);
+        romanIntMap.put('X', 10);
+        romanIntMap.put('L', 50);
+        romanIntMap.put('C', 100);
+        romanIntMap.put('D', 500);
+        romanIntMap.put('M', 1000);
+        int result = 0;
+        char[] chars = s.toCharArray();
+        int preValue = 0;
+        for (int i = 0; i &lt; chars.length; i++) {
+            int value = romanIntMap.get(chars[i]);
+            if(value &gt; preValue){
+                result -= preValue;
+                result += value - preValue;
+            } else {
+                result += value;
+            }
+            preValue = value;
+        }
+        return result;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<hr>
+<h3 id="27-移除元素简单">27. 移除元素（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个数组 <em>nums</em> 和一个值 <em>val</em>，你需要<strong>原地</strong>移除所有数值等于 <em>val</em> 的元素，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在<strong>原地修改输入数组</strong>并在使用 O(1) 额外空间的条件下完成。
+元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code>给定 nums = [3,2,2,3], val = 3,
+函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<ul>
+<li>解法一：题目要求原地修改，我想到的是在遍历数组的时候，如果当前元素和 val 相等，那么交换到后面的位置，最后的结果是
+要移除的元素都在数组右端，然后就得到新数组的长度和移除后的数组。</li>
+<li>解法二：使用快慢指针，在遍历数组（快指针）的时候，如果当前元素和 val 不等，那么把元素赋值给慢指针，慢指针向后移动，最后根据慢指针的位置，就可以得到新的长度和移除后的数组。</li>
+</ul>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int removeElement2(int[] nums, int val) {
+        if (nums == null) {
+            return 0;
+        }
+        int slowPointer = 0;
+        for (int i = 0; i &lt; nums.length; i++) {
+            if(nums[i] != val){
+                nums[slowPointer++] = nums[i];
+            }
+        }
+        return slowPointer;
+    }
+  
+    public int removeElement1(int[] nums, int val) {
+        if (nums == null) {
+            return 0;
+        }
+        int valIndex = nums.length - 1;
+        int i = 0;
+        while (i &lt; nums.length) {
+            if (nums[i] == val &amp; i &lt;= valIndex) {
+                int temp = nums[i];
+                nums[i] = nums[valIndex];
+                nums[valIndex--] = temp;
+            } else {
+                i++;
+            }
+        }
+        return valIndex + 1;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p>从 <a href="https://medium.com/">Medium</a> 上读到一篇文章：<a href="https://medium.com/@smashingmag/learning-to-code-by-writing-code-poems-cd29cd3ba320">Learning To Code By Writing Code Poems</a> 从写代码诗开始学习编程。</p>
+<p>作者编造了一个故事——相爱的两个比特，用人类可以理解的 JavaScript 代码写出来，其语法和人类语言有差异，让浏览器去执行。</p>
+<pre><code class="language-javascript">// Love at first sight
+const me = new Bit('blue');
+const you = new Bit('purple');
+
+if (me.getDistanceTo(you.position) &lt; 200) {
+  me.setFeelings({
+    inLove: true,
+  })
+}
+</code></pre>
+<p>一旦你把代码看作人类语言，而不是外星人发明的东西，学习编程就会变得容易。</p>
+<p>作者是个浪漫的程序员，写代码就像写诗一样，编程本来就该这么有趣，哈哈。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>本周学习了 Java 线程间通信，简单总结了一下。<a href="https://www.jianshu.com/p/8d40ef55e301">Java线程间通信和协作的两种方式</a></p>
+<h2 id="4-share">4. Share</h2>
+<p>有些事情因为难做而不想做，但是真正做起来的时候，却发现它没有预想的那么难，比如这个 ARTS 挑战。学习是逆人性的，成长的道路是不舒服的。要想成为大牛，必须得苦练呐。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Java Servlet 总结]]></title>
+        <id>https://isuperqiang.github.io/post/java-servlet-zong-jie</id>
+        <link href="https://isuperqiang.github.io/post/java-servlet-zong-jie">
+        </link>
+        <updated>2018-07-07T02:59:19.000Z</updated>
+        <summary type="html"><![CDATA[<p>Servlet 是 Java Web 开发的起点，几乎所有的 Java Web 框架都是基于 Servlet 的封装，其中最主要的就是 Servlet 和 Filter 接口。我重新学习了一遍 Servlet，对 Java Web 开发有了更深的理解。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>Servlet 是 Java Web 开发的起点，几乎所有的 Java Web 框架都是基于 Servlet 的封装，其中最主要的就是 Servlet 和 Filter 接口。我重新学习了一遍 Servlet，对 Java Web 开发有了更深的理解。</p>
+<!-- more -->
+<h4 id="1-servlet-是什么">1. Servlet 是什么</h4>
+<p>从 API 可以看出，Servlet 本质是一套接口（Interface）。那么接口的本质是什么？是规范、是协议，所以我们常说要面向接口编程，而不是面向实现。接口是连接 Servlet 和 Servlet 容器（Tomcat、Jetty 等）的关键。</p>
+<p>Servlet 接口定义了一套处理网络请求的规范，所有实现 Servlet 的类都需要实现它的五个方法，其中最主要的是两个生命周期方法 init 和 destroy，还有一个处理请求的 service 方法。也就是说，所有实现 Servlet 接口的类，或者说，所有想要处理网络请求的类，都需要回答这三个问题：</p>
+<ul>
+<li>你初始化时要做什么</li>
+<li>你销毁时要做什么</li>
+<li>你接收到请求时要做什么</li>
+</ul>
+<p>这是 Java EE 给的一种规范！就像阿西莫夫的机器人三大定律一样，是规范！</p>
+<p>看一下 Servlet 的接口定义，即 Servlet 和 Servlet 容器的规范。我们最关心的就是 service 方法，在这里处理请求。</p>
+<pre><code class="language-java">public interface Servlet {
+    void init(ServletConfig var1) throws ServletException;
+
+    ServletConfig getServletConfig();
+
+    void service(ServletRequest var1, ServletResponse var2) throws ServletException, IOException;
+
+    String getServletInfo();
+
+    void destroy();
+}
+</code></pre>
+<h4 id="2-servlet-如何工作">2. Servlet 如何工作</h4>
+<p>Servlet 想要工作离不开 Servlet 容器，比如我们最常用的 Tomcat。它监听了某个端口，http 请求过来后，容器根据 url 等信息，确定要将请求交给哪个 Servlet 去处理，然后调用 Servlet 的 service 方法，service 方法返回一个 response 对象，容器将 respose 对象解析之后封装成一个 http 响应返回客户端。</p>
+<p><img src="http://oj5p78bp3.bkt.clouddn.com/18-7-7/50339800.jpg" alt="Servlet 工作原理"></p>
+<h4 id="3-servlet-体系结构">3. Servlet 体系结构</h4>
+<p>Servlet 规范类有这么几个：</p>
+<ul>
+<li>Servlet</li>
+<li>ServletContext</li>
+<li>ServletConfig</li>
+<li>ServletRequest</li>
+<li>ServletResponse</li>
+</ul>
+<p>Servlet 运行模式是典型的「握手型」交互。举个例子：</p>
+<p>买早点的场景。找到一家早点铺（SerletContext 开始），看到牌面上写着可以加肉松（ServletConfig），就告诉老板我要加肉松的煎饼果子，拿出手机扫码支付了五块钱（ServletRequest）。老板娴熟地给我摊好，然后递给我（ServletResponse），我就美滋滋地离开了（ServletContext 结束）。</p>
+<p>引用开源中国红薯的一段话，<a href="https://www.oschina.net/question/12_52027?sort=default&amp;p=2">原文</a> 在这里。</p>
+<blockquote>
+<p>为什么我这么强调 HttpServletRequest 和 HttpServletResponse 这两个接口，因为 Web 开发是离不开 HTTP 协议的，而 <strong>Servlet 规范其实就是对 HTTP 协议做面向对象的封装</strong>，HTTP协议中的请求和响应就是对应了 HttpServletRequest 和 HttpServletResponse 这两个接口。</p>
+<p>你可以通过 HttpServletRequest 来获取所有请求相关的信息，包括 URI、Cookie、Header、请求参数等等，别无它路。因此当你使用某个框架时，你想获取 HTTP 请求的相关信息，只要拿到 HttpServletRequest 实例即可。而 HttpServletResponse接口是用来生产 HTTP 回应，包含 Cookie、Header 以及回应的内容等等。</p>
+</blockquote>
+<h4 id="4-servlet-实践">4. Servlet 实践</h4>
+<p>我们来写一个简单的 Servlet，在 doGet 方法打印所有请求的信息。</p>
+<pre><code>public class HelloWorld extends HttpServlet {
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        System.out.println(&quot;init helloworld: &quot; + config);
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println(&quot;********doGet********&quot;);
+        resp.setContentType(&quot;text/html;charset=UTF-8&quot;);
+        resp.setCharacterEncoding(&quot;UTF-8&quot;);
+
+        System.out.println(&quot;method: &quot; + req.getMethod());
+        System.out.println(&quot;charsetEncoding: &quot; + req.getCharacterEncoding());
+        System.out.println(&quot;contentType: &quot; + req.getContentType());
+        System.out.println(&quot;contentLength: &quot; + req.getContentLength());
+        System.out.println(&quot;requestUrl: &quot; + req.getRequestURL());
+        System.out.println(&quot;servletPath: &quot; + req.getServletPath());
+        System.out.println(&quot;contextPath: &quot; + req.getContextPath());
+        System.out.println(&quot;requestUri: &quot; + req.getRequestURI());
+        System.out.println(&quot;locale: &quot; + req.getLocale());
+        System.out.println(&quot;authType: &quot; + req.getAuthType());
+        System.out.println(&quot;scheme: &quot; + req.getScheme());
+        System.out.println(&quot;protocol: &quot; + req.getProtocol());
+        System.out.println(&quot;serverPort: &quot; + req.getServerPort());
+        System.out.println(&quot;remoteHost: &quot; + req.getRemoteHost());
+        System.out.println(&quot;remoteAddr: &quot; + req.getRemoteAddr());
+        System.out.println(&quot;remoteUser: &quot; + req.getRemoteUser());
+        System.out.println(&quot;requestedSessionId: &quot; + req.getRequestedSessionId());
+        System.out.println(&quot;pathInfo: &quot; + req.getPathInfo());
+        System.out.println(&quot;isSecure: &quot; + req.isSecure());
+        System.out.println(&quot;servletName: &quot; + req.getServerName());
+        System.out.println(&quot;pathTranslated: &quot; + req.getPathTranslated());
+
+        System.out.println(&quot;++headers++&quot;);
+        Enumeration headerNames = req.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String paramName = (String) headerNames.nextElement();
+            String paramValue = req.getHeader(paramName);
+            System.out.println(&quot;name: &quot; + paramName + &quot;, value: &quot; + paramValue);
+        }
+        System.out.println(&quot;--headers--&quot;);
+
+        System.out.println(&quot;++parameters++&quot;);
+        Enumeration&lt;String&gt; parameterNames = req.getParameterNames();
+        while (parameterNames.hasMoreElements()) {
+            String name = parameterNames.nextElement();
+            String value = req.getParameter(name);
+            System.out.println(&quot;name: &quot; + name + &quot;, value: &quot; + value);
+        }
+        System.out.println(&quot;--parameters--&quot;);
+
+        System.out.println(&quot;++attributes++&quot;);
+        Enumeration&lt;String&gt; attributeNames = req.getAttributeNames();
+        while (attributeNames.hasMoreElements()) {
+            String name = attributeNames.nextElement();
+            Object value = req.getAttribute(name);
+            System.out.println(&quot;name: &quot; + name + &quot;, value: &quot; + value);
+        }
+        System.out.println(&quot;--attributes--&quot;);
+
+        System.out.println(&quot;++cookies++&quot;);
+        Cookie[] cookies = req.getCookies();
+        for (Cookie cookie : cookies) {
+            System.out.println(&quot;name: &quot; + cookie.getName() + &quot;, value: &quot; + URLDecoder.decode(cookie.getValue(), &quot;utf-8&quot;));
+        }
+        System.out.println(&quot;--cookies--&quot;);
+
+        PrintWriter writer = resp.getWriter();
+        try {
+            writer.println(&quot;&lt;h1&gt;Hello world!&lt;/h1&gt;&quot;);
+            writer.flush();
+        } finally {
+            writer.close();
+        }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        System.out.println(&quot;--------doPost--------&quot;);
+        doGet(req, resp);
+    }
+    
+    @Override
+    public void destroy() {
+        super.destroy();
+        System.out.println(&quot;destroy helloworld&quot;);
+    }
+}
+</code></pre>
+<p>在 web.xml 配置上面的 Servlet。</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
+         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
+         version=&quot;4.0&quot;&gt;
+
+	&lt;servlet&gt;
+        &lt;servlet-name&gt;HelloWorld&lt;/servlet-name&gt;
+        &lt;servlet-class&gt;com.richie.servlet.HelloWorld&lt;/servlet-class&gt;
+    &lt;/servlet&gt;
+
+    &lt;servlet-mapping&gt;
+        &lt;servlet-name&gt;HelloWorld&lt;/servlet-name&gt;
+        &lt;url-pattern&gt;/helloworld&lt;/url-pattern&gt;
+    &lt;/servlet-mapping&gt;
+    
+&lt;/web-app&gt;
+</code></pre>
+<p>配置好 Tomcat，运行输出，然后使用 postman 发送 post 请求 http://localhost:8080/helloworld，并加上参数username=admin&amp;password=123。</p>
+<pre><code>--------doPost--------
+********doGet********
+method: POST
+charsetEncoding: null
+contentType: application/x-www-form-urlencoded
+contentLength: 23
+requestUrl: http://localhost:8080/helloworld
+servletPath: /helloworld
+contextPath: 
+requestUri: /helloworld
+locale: zh_CN
+authType: null
+scheme: http
+protocol: HTTP/1.1
+serverPort: 8080
+remoteHost: 0:0:0:0:0:0:0:1
+remoteAddr: 0:0:0:0:0:0:0:1
+remoteUser: null
+requestedSessionId: F17A359B0544082FC6A6C5F62E672E8A
+pathInfo: null
+isSecure: false
+servletName: localhost
+pathTranslated: null
+++headers++
+name: host, value: localhost:8080
+name: connection, value: keep-alive
+name: content-length, value: 23
+name: cache-control, value: max-age=0
+name: origin, value: http://localhost:8080
+name: upgrade-insecure-requests, value: 1
+name: content-type, value: application/x-www-form-urlencoded
+name: user-agent, value: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
+name: accept, value: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+name: referer, value: http://localhost:8080/
+name: accept-encoding, value: gzip, deflate, br
+name: accept-language, value: zh-CN,zh;q=0.9,en;q=0.8
+name: cookie, value: __utmz=111872281.1521468435.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Idea-734b2b82=47daaaf7-bc69-41ca-9234-dffa6c217ef8; _ga=GA1.1.2085956305.1521468435; Webstorm-717d1cc9=b6b7f7ea-d8d3-4891-8e20-0dca54d5cbd2; __utmc=111872281; __utma=111872281.2085956305.1521468435.1529898141.1530148517.11; SESSION=12913786-3c46-421d-ac2c-02c9c29ae03d; JSESSIONID=F17A359B0544082FC6A6C5F62E672E8A
+--headers--
+++parameters++
+name: username, value: admin
+name: password, value: 123
+--parameters--
+++attributes++
+--attributes--
+++cookies++
+name: __utmz, value: 111872281.1521468435.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)
+name: Idea-734b2b82, value: 47daaaf7-bc69-41ca-9234-dffa6c217ef8
+name: _ga, value: GA1.1.2085956305.1521468435
+name: Webstorm-717d1cc9, value: b6b7f7ea-d8d3-4891-8e20-0dca54d5cbd2
+name: __utmc, value: 111872281
+name: __utma, value: 111872281.2085956305.1521468435.1529898141.1530148517.11
+name: SESSION, value: 12913786-3c46-421d-ac2c-02c9c29ae03d
+name: JSESSIONID, value: F17A359B0544082FC6A6C5F62E672E8A
+--cookies--
+</code></pre>
+<p>可以看出，http 请求的基本信息都能取到，每个方法都有它的含义，具体可以参考 <a href="http://www.runoob.com/servlet/servlet-client-request.html">菜鸟教程</a> 上的解释。</p>
+<h4 id="5-filter-过滤器">5. Filter 过滤器</h4>
+<p>Filter 和 Servlet 一样重要，它可以实现许多功能，比如敏感词过滤、用户验证等。它也是一个接口，和 Servlet 类似，有 init 和 destroy 方法，最重要的是 doFilter 方法。</p>
+<p>Filter 主要用于对用户请求进行预处理，也可以对 HttpServletResponse 进行后处理。使用 Filter 的完整流程：Filter 对用户请求进行预处理，接着将请求交给 Servlet 进行处理并生成响应，最后 Filter 再对服务器响应进行后处理。</p>
+<pre><code class="language-java">public interface Filter {
+    default void init(FilterConfig filterConfig) throws ServletException {
+    }
+
+    void doFilter(ServletRequest var1, ServletResponse var2, FilterChain var3) throws IOException, ServletException;
+
+    default void destroy() {
+    }
+}
+</code></pre>
+<p>除此之外，规范类还有 FilterChain、FilterConfig，Filter 使用了责任链的设计模式，传递的对象就 FilterChain。</p>
+<h4 id="6-filter-工作原理">6. Filter 工作原理</h4>
+<p>当我们写好 Filter，并配置对哪个 web 资源进行拦截后，web 服务器每次在调用 Servlet 的 service 方法之前， 都会先调用一下 filter 的 doFilter 方法。因此，在该方法内编写代码可达到如下目的：</p>
+<ul>
+<li>
+<p>调用目标资源之前，让一段代码执行。</p>
+</li>
+<li>
+<p>是否调用目标资源（即是否让用户访问 web 资源）。</p>
+</li>
+<li>
+<p>调用目标资源之后，让一段代码执行。</p>
+</li>
+</ul>
+<p>web 服务器在调用 doFilter 方法时，会传递一个 FilterChain 对象进来，FilterChain 对象是 Filter 接口中最重要的一个对象，它也提供了一个 doFilter 方法，开发人员可以根据需求决定是否调用此方法。</p>
+<p><img src="http://oj5p78bp3.bkt.clouddn.com/18-7-7/87453110.jpg" alt="Filter原理"></p>
+<h4 id="7-filter-实践">7. Filter 实践</h4>
+<p>简单实现一个拦截器，打印它的生命周期。</p>
+<pre><code>public class LogFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        System.out.println(&quot;init logFilter: &quot; + filterConfig);
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println(&quot;log doFilter pre&quot;);
+        // 一定要调用 filterChain 的 doFilter 方法，继续传递事件
+        filterChain.doFilter(servletRequest, servletResponse);
+        System.out.println(&quot;log doFilter after&quot;);
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println(&quot;destroy logFilter&quot;);
+    }
+}
+</code></pre>
+<p>然后配置 web.xml，一般把 filter 配置在所有的 servlet 前面，/* 表示匹配所有的请求。</p>
+<pre><code>    &lt;filter&gt;
+        &lt;filter-name&gt;LogFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;com.richie.servlet.LogFilter&lt;/filter-class&gt;
+    &lt;/filter&gt;
+
+    &lt;filter-mapping&gt;
+        &lt;filter-name&gt;LogFilter&lt;/filter-name&gt;
+        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+    &lt;/filter-mapping&gt;
+</code></pre>
+<p>运行后输出，我们可以对请求和响应进行预处理和后处理，</p>
+<pre><code>log doFilter pre
+Servlet 处理的方法
+log doFilter after
+</code></pre>
+<p>这篇文章详细阐释了 Filter 的有关内容，推荐看看 <a href="https://tianweili.github.io/2015/01/26/Java%E4%B8%AD%E7%9A%84Filter-%E8%BF%87%E6%BB%A4%E5%99%A8/">Java 中的 Filter 过滤器</a>。</p>
+<p>另外还有 Listener 监听器的内容，后面再写吧。</p>
+<p>多啰嗦几句。其实客户端和服务端的通信，本质上是一种 IO 操作。用户输入网址后（略去查询 DNS ），浏览器从某个端口发出数据包，里面有目标地址、请求参数等等（output）。然后经过网络一层层传递，跨越万水千山，到达服务器被 80 端口捕获到了（input），交给 Servlet 容器处理，根据请求信息拿到数据返回给客户端（output）。这是一对多的数据交换，如果请求数据的人多了，服务端的压力其实蛮大的。</p>
+<p>更细一点说，客户端和服务端的通信是一种进程间的通信。运行在 A 主机上的 A1 进程和运行在 B 主机上的 B1 进程进行通信，它是基于 Socket 的通信，端口是一个重要的标识。</p>
+]]></content>
+    </entry>
+</feed>

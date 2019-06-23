@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>每周 ARTS 第 1 期 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1561258815090">
+<link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1561258815090" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.github.io" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.github.io/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.github.io/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">每周 ARTS 第 1 期</h2>
+            <div class="post-date">2019-04-07</div>
+            
+            <div class="post-content">
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="13-罗马数字转整数简单">13. 罗马数字转整数（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>罗马数字包含以下七种字符: <code>I</code>， <code>V</code>， <code>X</code>， <code>L</code>，<code>C</code>，<code>D</code> 和 <code>M</code>。</p>
+<pre><code class="language-properties">字符          数值
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+</code></pre>
+<p>例如， 罗马数字 2 写做 <code>II</code> ，即为两个并列的 1。12 写做 <code>XII</code> ，即为 <code>X</code> + <code>II</code> 。 27 写做  <code>XXVII</code>, 即为 <code>XX</code> + <code>V</code> + <code>II</code> 。</p>
+<p>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 <code>IIII</code>，而是 <code>IV</code>。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 <code>IX</code>。这个特殊的规则只适用于以下六种情况：</p>
+<ul>
+<li><code>I</code> 可以放在 <code>V</code> (5) 和 <code>X</code> (10) 的左边，来表示 4 和 9。</li>
+<li><code>X</code> 可以放在 <code>L</code> (50) 和 <code>C</code> (100) 的左边，来表示 40 和 90。</li>
+<li><code>C</code> 可以放在 <code>D</code> (500) 和 <code>M</code> (1000) 的左边，来表示 400 和 900。</li>
+</ul>
+<p>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code class="language-properties">输入: &quot;III&quot;
+输出: 3
+输入: &quot;IV&quot;
+输出: 4
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<p>把罗马数字和整数建立映射，然后从左到右遍历字符串，对比前后的两个值。因为正常的罗马数字是位上的值递减的，当出现左值大于右值，就使用两者的差作为结果。</p>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int romanToInt(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        Map&lt;Character, Integer&gt; romanIntMap = new HashMap&lt;&gt;(8);
+        romanIntMap.put('I', 1);
+        romanIntMap.put('V', 5);
+        romanIntMap.put('X', 10);
+        romanIntMap.put('L', 50);
+        romanIntMap.put('C', 100);
+        romanIntMap.put('D', 500);
+        romanIntMap.put('M', 1000);
+        int result = 0;
+        char[] chars = s.toCharArray();
+        int preValue = 0;
+        for (int i = 0; i &lt; chars.length; i++) {
+            int value = romanIntMap.get(chars[i]);
+            if(value &gt; preValue){
+                result -= preValue;
+                result += value - preValue;
+            } else {
+                result += value;
+            }
+            preValue = value;
+        }
+        return result;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<hr>
+<h3 id="27-移除元素简单">27. 移除元素（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个数组 <em>nums</em> 和一个值 <em>val</em>，你需要<strong>原地</strong>移除所有数值等于 <em>val</em> 的元素，返回移除后数组的新长度。
+不要使用额外的数组空间，你必须在<strong>原地修改输入数组</strong>并在使用 O(1) 额外空间的条件下完成。
+元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code>给定 nums = [3,2,2,3], val = 3,
+函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
+你不需要考虑数组中超出新长度后面的元素。
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<ul>
+<li>解法一：题目要求原地修改，我想到的是在遍历数组的时候，如果当前元素和 val 相等，那么交换到后面的位置，最后的结果是
+要移除的元素都在数组右端，然后就得到新数组的长度和移除后的数组。</li>
+<li>解法二：使用快慢指针，在遍历数组（快指针）的时候，如果当前元素和 val 不等，那么把元素赋值给慢指针，慢指针向后移动，最后根据慢指针的位置，就可以得到新的长度和移除后的数组。</li>
+</ul>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int removeElement2(int[] nums, int val) {
+        if (nums == null) {
+            return 0;
+        }
+        int slowPointer = 0;
+        for (int i = 0; i &lt; nums.length; i++) {
+            if(nums[i] != val){
+                nums[slowPointer++] = nums[i];
+            }
+        }
+        return slowPointer;
+    }
+  
+    public int removeElement1(int[] nums, int val) {
+        if (nums == null) {
+            return 0;
+        }
+        int valIndex = nums.length - 1;
+        int i = 0;
+        while (i &lt; nums.length) {
+            if (nums[i] == val &amp; i &lt;= valIndex) {
+                int temp = nums[i];
+                nums[i] = nums[valIndex];
+                nums[valIndex--] = temp;
+            } else {
+                i++;
+            }
+        }
+        return valIndex + 1;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p>从 <a href="https://medium.com/">Medium</a> 上读到一篇文章：<a href="https://medium.com/@smashingmag/learning-to-code-by-writing-code-poems-cd29cd3ba320">Learning To Code By Writing Code Poems</a> 从写代码诗开始学习编程。</p>
+<p>作者编造了一个故事——相爱的两个比特，用人类可以理解的 JavaScript 代码写出来，其语法和人类语言有差异，让浏览器去执行。</p>
+<pre><code class="language-javascript">// Love at first sight
+const me = new Bit('blue');
+const you = new Bit('purple');
+
+if (me.getDistanceTo(you.position) &lt; 200) {
+  me.setFeelings({
+    inLove: true,
+  })
+}
+</code></pre>
+<p>一旦你把代码看作人类语言，而不是外星人发明的东西，学习编程就会变得容易。</p>
+<p>作者是个浪漫的程序员，写代码就像写诗一样，编程本来就该这么有趣，哈哈。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>本周学习了 Java 线程间通信，简单总结了一下。<a href="https://www.jianshu.com/p/8d40ef55e301">Java线程间通信和协作的两种方式</a></p>
+<h2 id="4-share">4. Share</h2>
+<p>有些事情因为难做而不想做，但是真正做起来的时候，却发现它没有预想的那么难，比如这个 ARTS 挑战。学习是逆人性的，成长的道路是不舒服的。要想成为大牛，必须得苦练呐。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.github.io/tag/arts" class="tag">
+                    ARTS
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.github.io/post/java-servlet-zong-jie">
+                  <h3 class="post-title">
+                    Java Servlet 总结
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+  
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: location.pathname,      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
