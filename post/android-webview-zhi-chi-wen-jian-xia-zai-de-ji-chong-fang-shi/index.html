@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -131,7 +131,7 @@
     }
 });
 </code></pre>
-<h4 id="1-跳转浏览器下载">1. 跳转浏览器下载</h4>
+<h3 id="1-跳转浏览器下载">1. 跳转浏览器下载</h3>
 <p>这种方式最为简单粗暴，直接把下载任务抛给浏览器，剩下的就不用我们管了。缺点是无法感知下载完成，当然就没有后续的处理，比如下载 apk 完成后打开安装界面。</p>
 <pre><code>    private void downloadByBrowser(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -140,7 +140,7 @@
         startActivity(intent);
     }
 </code></pre>
-<h4 id="2-使用系统的下载服务">2. 使用系统的下载服务</h4>
+<h3 id="2-使用系统的下载服务">2. 使用系统的下载服务</h3>
 <p>DownloadManager 是系统提供的用于处理下载的服务，使用者只需提供下载 URI 和存储路径，并进行简单的设置。DownloadManager 会在后台进行下载，并且在下载失败、网络切换以及系统重启后尝试重新下载。</p>
 <pre><code>     private void downloadBySystem(String url, String contentDisposition, String mimeType) {
         // 指定下载地址
@@ -210,7 +210,7 @@
         registerReceiver(receiver, intentFilter);
 </code></pre>
 <p>Ok，到这里，利用系统服务下载就算结束了，简单总结一下。我们只关心开始和完成，至于下载过程中的暂停、重试等机制，系统已经帮我们做好了，是不是非常友好？</p>
-<h4 id="3-自定义下载任务">3. 自定义下载任务</h4>
+<h3 id="3-自定义下载任务">3. 自定义下载任务</h3>
 <p>有了下载链接就可以自己实现网络部分，我在这儿自定义了一个下载任务，使用 HttpURLConnection 和 AsyncTask 实现，代码还是比较简单的。</p>
 <pre><code>    private class DownloadTask extends AsyncTask&lt;String, Void, Void&gt; {
         // 传递两个参数：URL 和 目标路径
@@ -308,9 +308,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang">
+                <a href="https://isuperqiang.cn/post/android-jing-mo-an-zhuang-zong-jie">
                   <h3 class="post-title">
-                    Android WebView 运行在系统进程引发的异常
+                    Android 静默安装总结
                   </h3>
                 </a>
               </div>

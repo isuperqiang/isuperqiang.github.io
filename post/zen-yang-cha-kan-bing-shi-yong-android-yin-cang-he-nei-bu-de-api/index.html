@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>怎样查看并使用 Android 隐藏和内部的 API | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">怎样查看并使用 Android 隐藏和内部的 API</h2>
+            <div class="post-date">2017-06-09</div>
+            
+            <div class="post-content">
+              <p>Android 有两种类型的 API 不能通过 SDK 访问。一种是在 com.android.internal 包中的 API，称之为 internal API。另一种是被标记为 <code>@hide</code> 属性的类和方法，这是一组小级别的被隐藏的 API，称之为 hidden API。</p>
+<!-- more -->
+<p>当使用 Android SDK 进行开发的时候，应用默认引用了 android.jar，它位于 SDKDir\platforms\android-X 目录下（X 代表 API 级别），默认移除了所有的被<code>@hide</code>标识的方法或者类以及 internal 包下的类。。当应用在设备上运行时，它会加载 framework.jar。简单来说，framework.jar 和 android.jar 等同，但是没有移除 internal API 和 hidden API。Hidden API 之所以被隐藏，是想阻止开发者使用 SDK 中未完成或不稳定的部分。</p>
+<p>举个栗子：这是没有移除 internal API 的 android.jar，可以看到包里的类是完整的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-fc2c19de18e3cce4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="internal api"></p>
+<p>比如 AssetManager 的 addAssetPath 方法被 <code>@hide</code> 标记，它属于 hidden API，我们无法直接调用该方法。</p>
+<pre><code>    /**
+     * Add an additional set of assets to the asset manager.  This can be
+     * either a directory or ZIP file.  Not for use by applications.  Returns
+     * the cookie of the added asset, or 0 on failure.
+     * {@hide}
+     */
+    public final int addAssetPath(String path) {
+        synchronized (this) {
+            int res = addAssetPathNative(path);
+            makeStringBlocks(mStringBlocks);
+            return res;
+        }
+    }
+</code></pre>
+<p>但是，人的需求是无限的。如果我们非要使用不可用的 API 怎么办呢？最简单的就是 Java 的反射，反射 <code>@hiden</code> 的方法或类，修改访问修饰符，然后就可以搞事情了~~还有一种方法是从设备中提取，简单说就是把设备上的 /system/framework/framework.jar 提取出来，经过一系列转换，最终得到完整的 android.jar，具体的步骤可以参考这篇文章：<a href="http://blog.csdn.net/hudan2714/article/details/7853908">android怎样调用@hide和internal API</a>。另外一种方式非常简单，GitHub 上有一个项目：[<a href="https://github.com/anggrayudi/android-hidden-api">android-hidden-api</a>](https://github.com/anggrayudi/android-hidden-api)，里面提供了众多版本完整的 android.jar 包，下图所示。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-ca9529f334927137.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="android  hidden api"></p>
+<p>我们把工程 clone 下来，找到对应平台的 android.jar 包，替换掉 Android SDK 下面的 jar，最好先备份一下原始的 jar，重新编译工程或者重启 Studio 就行了。</p>
+<p>比如 AssetManager 的 addAssetPath 方法，没有替换之前是这样，Studio 提示错误，编译失败~o(&gt;_&lt;)o ~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-42a67c7b87d640fb.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="can't resolve addAssetPath"></p>
+<p>但是在使用了完整的 android.jar 后，发现竟然不会报错了，代码可以通过编译，终于可以愉快地使用想要的方法了 O(∩_∩)O~</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-6e28d1545f1b1205.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="can resolve addAssetPath"></p>
+<p>这种方式对于个人开发来说没有问题，你把 android.jar 替换掉就好了，但是如果面对团队开发，就非常痛苦了 %&gt;_&lt;%，每个人都要替换 SDK 的 android.jar，代价和风险可想而知。那么有没有好的解决办法，既可以让工程编译通过，又能够免去多人替换 jar 的成本呢？答案是有的。</p>
+<p>Studio 默认引用的是 SDK 下面的 android.jar，那我们把它的引用改成完整的 jar 的路径不就行了么？
+我们把完整的 android.jar 放在工程 libs 目录下，也就是平时依赖 jar 的地方，然后在工程 build.gradle 配置的 dependencies 里，以 provided 的方式引用 android.jar。因为每个工程模块依赖 android.jar 的类型就是 provided，这样不会把 android.jar 打包到应用中，运行环境中存在 framework.jar，应用直接就可以使用。</p>
+<pre><code>dependencies {
+     // compile fileTree(include: ['*.jar'], dir: 'libs')  这行一定要去掉，当然为 android.jar 换个目录也行
+    testCompile 'junit:junit:4.12'
+    provided files('libs/hidden_api_23.jar')
+}
+</code></pre>
+<p>最后还要在工程根目录的 build.gradle 里面配置当前 project，加上下面的代码就行了。</p>
+<pre><code>project('app') { // app是你工程的名字，配置只对当前工程有效
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            // 注意修改 jar 包的路径，替换 app/libs/hidden_api_23.jar，其他部分不要改
+            // Xbootclasspath/p:是 Java 编译的寻址优先设置，先找缺省路径还是全路径
+            options.compilerArgs.add('-Xbootclasspath/p:app/libs/hidden_api_23.jar')
+        }
+    }
+}
+</code></pre>
+<p>现在重新编译工程，虽然会在代码中出现错误提示，但是编译打包运行都是正常的。</p>
+<p>在开发中使用隐藏 API 和内部 API 是不推荐的做法，但是为了实现一些「黑科技」，这些又是必须的~</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi">
+                  <h3 class="post-title">
+                    Android WebView 支持文件下载的几种方式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

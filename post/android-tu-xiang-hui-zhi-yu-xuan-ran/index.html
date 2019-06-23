@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 图像绘制与渲染 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 图像绘制与渲染</h2>
+            <div class="post-date">2019-02-18</div>
+            
+            <div class="post-content">
+              <p>UI 开发是 Android 中的基本操作，优美绚丽的界面是最容易打动人的。但是，Android 的碎片化太严重，各种硬件层出不穷，为了实现设计师妹子的效果，再苦再累也是值得。下面我会介绍 Android 绘制的内容，知其所以然很重要。</p>
+<!-- more -->
+<h3 id="1-屏幕与适配">1. 屏幕与适配</h3>
+<p>对于屏幕碎片化问题，Android 推荐使用 dp 作为尺寸单位，首先要了解 dp、px、density 等概念。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/e3094e900dccacb9d9e72063ca3084ce.png" alt="Android屏幕尺寸概念"></p>
+<p>使用 dp 是 Android 推荐的屏幕适配方式，但是以下存在问题：dpi 与 ppi 不一致导致控件大小不统一。</p>
+<p>目前业界常用的 UI 适配方法主要有下面几种：</p>
+<ul>
+<li>限制符适配。包括宽高限定符和 smallestWidth 限定符适配，可以参考：<a href="https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&amp;mid=2650826381&amp;idx=1&amp;sn=5b71b7f1654b04a55fca25b0e90a4433&amp;chksm=80b7b213b7c03b0598f6014bfa2f7de12e1f32ca9f7b7fc49a2cf0f96440e4a7897d45c788fb&amp;scene=21#wechat_redirect">Android 目前稳定高效的UI适配方案</a></li>
+<li>今日头条适配方案。通过反射修改系统的 density，可以参考 <a href="https://mp.weixin.qq.com/s/oSBUA7QKMWZURm1AHMyubA">一种极低成本的Android屏幕适配方式</a></li>
+</ul>
+<h3 id="2-cpu-与-gpu">2. CPU 与 GPU</h3>
+<p>UI 渲染依赖两个核心硬件：CPU 和 GPU。UI 组件在绘制到屏幕之前，需要经过栅格化操作，而栅格化非常耗时。GPU 主要用于处理图形运算，可以加快栅格化的过程。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1c94e50372ff29ef68690da92c6b468d.png" alt="软硬件绘制"></p>
+<p>对于硬件绘制，Android 使用 OpenGL 在 GPU 上完成，OpenGL 是扩平台的图形 API，为 2D/3D 图形处理硬件制定了标准的软件接口。软件绘制使用的是 Skia 库，它能在低端设备上呈现高质量的 2D 跨平台图形。</p>
+<h3 id="3-渲染">3. 渲染</h3>
+<p>Android 图形系统的整体架构和它包含的主要组件。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/7efc5431b860634224f1cd7dda8abd66.png" alt="Android图形系统"></p>
+<p>如果把应用程序图形渲染过程当作一次绘画过程。那么绘画过程中，Android 的各个图形组件的作用是：</p>
+<ul>
+<li>
+<p>画笔：Skia 或者 OpenGL。我们可以用 Skia 画笔绘制 2D 图形，也可以用 OpenGL 来绘 制2D/3D图形。正如前面所说,前者使用CPU绘制,后者使用 GPU 绘制。</p>
+</li>
+<li>
+<p>画纸：Surface。所有的元素都在 Surface 这张画纸上进行绘制和渲染。在 Android 中，Window 是 View 的容器，每个窗口都会关联一个 Surface。而 Windowmanager 则负责管理这些窗口，并且把它们的数据传递给 Surfaceflinger。</p>
+</li>
+<li>
+<p>画板：Graphic Buffer。Graphic Buffer 缓冲用于应用程序图形的绘制，在 Android 4.1 之前使用的是双冲机制；在 Android 4.1 之后，使用的是三缓冲机制。</p>
+</li>
+<li>
+<p>显示：Surfaceflinger。它将 Windowmanager 提供的所有 Surface，通过硬件合成器 Hardware Composer 合成并输出到显示屏。</p>
+</li>
+</ul>
+<h3 id="4-硬件加速">4. 硬件加速</h3>
+<p>从 Android 3.0 开始，支持硬件加速，到 4.0 时，默认开启硬件加速。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/79c315275abac0823971e5d6b9657be8.png" alt="硬件加速绘制"></p>
+<p>硬件加速绘制与软件绘制整个流程差异非常大，最核心就是我们通过 GPU 完成 Graphic Buffer 的内容绘制。此外硬件绘制还引入了ー个 Display List 的概念，每个 View 内部都有个 Displaylist，当某个 View 需要重绘时，将它标记为 Dirty。</p>
+<p>当需要重绘时，仅仅只需要重绘一个 View 的 Display List，而不是像软件绘制那样需要向上递归。这样可以大大减少绘图的操作数量，因而提高了渲染效率。</p>
+<p>硬件加速大大提高来 Android 系统显示和刷新的速度，但是也存在一些问题：一方面内存消耗，OpenGL API 和Graphic Buffer 缓冲区占用内存。还存在兼容性问题。</p>
+<p><a href="https://source.android.com/devices/graphics">官方文档</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei">
+                  <h3 class="post-title">
+                    《Effective Java》— Java 进阶必备
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 使用 Gradle 打包之签名配置 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 使用 Gradle 打包之签名配置</h2>
+            <div class="post-date">2017-11-10</div>
+            
+            <div class="post-content">
+              <p>最近正好在项目里用到了 Gradle 打包的配置，顺便总结一下。</p>
+<!-- more -->
+<p>一般的 apk 打包类型分为 debug 和 release：debug 开启日志，不进行混淆，用于测试；release 关闭日志，开启混淆，用于正式发布。在 Android Studio 里面，生成的 debug 包使用了 AS 默认的签名，而 release 包没有签名。如果我们需要定制，比如生成 debug 和 release 包后，自动进行签名，就需要在 gradle 配置文件里面加上 apk 签名的配置。</p>
+<pre><code>android {
+    ......
+    // 配置 release 的签名信息
+    signingConfigs {
+        release {
+            storeFile
+            storePassword
+            keyAlias
+            keyPassword
+        }
+    }
+
+    // 读取签名配置
+    getSigningProperties()
+
+    buildTypes {
+        // debug 和 release 使用同样的签名
+        debug {
+            signingConfig signingConfigs.release
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            // 修改生成的 apk 文件名，输出 apk 名称：MyApp_v1.0.0_2017-11-10_debug.apk
+            applicationVariants.all { variant -&gt;
+                def suffix
+                if (variant.buildType.name == 'release') {
+                    suffix = 'release'
+                } else {
+                    suffix = 'debug'
+                }
+                variant.outputs.each { output -&gt;
+                    def outputFile = output.outputFile
+                    if (outputFile != null &amp;&amp; outputFile.name.endsWith('.apk')) {
+                        def fileName = &quot;MyApp_v${defaultConfig.versionName}_${releaseTime()}_${suffix}.apk&quot;
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+    ......
+}
+
+// 读取签名配置
+def getSigningProperties() {
+    def propFile = file('../signing.properties')
+    if (propFile.exists() &amp;&amp; propFile.canRead()) {
+        def props = new Properties()
+        props.load(new FileInputStream(propFile))
+        if (props.containsKey('STORE_FILE') &amp;&amp; props.containsKey('STORE_PASSWORD') &amp;&amp;
+                props.containsKey('KEY_ALIAS') &amp;&amp; props.containsKey('KEY_PASSWORD')) {
+            android.signingConfigs.release.storeFile = file('../' + props['STORE_FILE'])
+            android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+            android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+            android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+        } else {
+            println 'signing.properties are found but some entries are missed!'
+            android.buildTypes.release.signingConfig = null
+        }
+    } else {
+        println 'signing.properties are not found!'
+        android.buildTypes.release.signingConfig = null
+    }
+}
+
+// 定义打包时间
+static def releaseTime() {
+    return new Date().format(&quot;yyyy-MM-dd&quot;, TimeZone.getTimeZone(&quot;UTC&quot;))
+}
+</code></pre>
+<p>其中，签名配置文件（signing.properties）和签名文件（.jks）存放在项目工程的根目录，它们不需要加入版本控制。这是 signing.properties，可以根据需要自己修改。</p>
+<pre><code>STORE_FILE=RichiePersonal.jks
+STORE_PASSWORD=ExamplePassword
+KEY_ALIAS=ExampleKeyAlias
+KEY_PASSWORD=ExampleKeyPassword
+</code></pre>
+<p>最后，我们通过 Gradle 命令就可以完成打包工作，生成的 apk 文件名像是这样：MyApp_v1.0.0_2017-11-10_debug.apk。</p>
+<p>命令格式：gradlew project:task</p>
+<blockquote>
+<p>gradlew app:assembleDebug</p>
+</blockquote>
+<p>或者</p>
+<blockquote>
+<p>gradlew app:assembleRelease</p>
+</blockquote>
+<p>Gradle 构建的功能还是蛮强大的，从签名的配置就能看出，此外还有自定义构建类型、多工程全局配置、多渠道打包等待，这里就不多介绍了，感兴趣的朋友请自行了解。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-duo-mo-kuai-da-bao-hun-yao-tian-keng-ji">
+                  <h3 class="post-title">
+                    Android 多模块打包混淆填坑记
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

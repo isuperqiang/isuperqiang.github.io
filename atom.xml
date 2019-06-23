@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-06-23T04:37:35.329Z</updated>
+    <updated>2019-06-23T05:03:03.052Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -378,6 +378,90 @@ f1 and f2 are equal using BigDecimal
 <p>日常的琐事都用软件记录，比如有道云笔记、滴答清单、LastPass。大脑是用来思考的，不是用来记东西的，它充当的更多是 CPU 的角色，而不是硬盘。所以，让大脑轻松一下，用工具记录吧。</p>
 <h2 id="4-share">4. Share</h2>
 <p><a href="https://mp.weixin.qq.com/s/qodCngOPXGSaaBy2ULAgqg">关于线程和I/O模型的极简知识</a> 主要讲述了线程和 I/O 模型的演化历史，问题驱动模型的演化，每种模型都有各自的使用场景。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Android I/O 那些事儿]]></title>
+        <id>https://isuperqiang.cn/post/android-io-na-xie-shi-er</id>
+        <link href="https://isuperqiang.cn/post/android-io-na-xie-shi-er">
+        </link>
+        <updated>2019-06-04T04:47:01.000Z</updated>
+        <summary type="html"><![CDATA[<p>I/O 操作是编程离不开的话题，它不仅是读写那么简单，还涉及底层的文件系统和存储设备。I/O 的快慢影响程序的执行效率，这篇文章主要介绍 Android 平台 I/O 的方式和使用场景。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>I/O 操作是编程离不开的话题，它不仅是读写那么简单，还涉及底层的文件系统和存储设备。I/O 的快慢影响程序的执行效率，这篇文章主要介绍 Android 平台 I/O 的方式和使用场景。</p>
+<!-- more -->
+<h3 id="1-linux-io-的基本组成">1. Linux I/O 的基本组成</h3>
+<p>众所周知，Android 基于 Linux 系统，先介绍一些 Linux 上 I/O 的知识。</p>
+<p>I/O 操作由应用程序、文件系统和磁盘共同完成，应用程序将 I/O 命令发送给文件系统，文件系统在合适的时间把 I/O 指令发送给磁盘。I/O 的流程如下图：</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603080604.png" alt="I/O操作"></p>
+<p>CPU 和内存的速度比磁盘快得多，I/O 操作的瓶颈在于磁盘的性能。为了降低磁盘对应用程序的影响，文件系统要进行各种各样的优化。</p>
+<h4 id="文件系统">文件系统</h4>
+<p>简单来说，文件系统就是存储和组织数据的方式。应用程序调用 read() 方法，系统会通过中断从用户空间进入内核空间，然后经过虚拟文件系统、具体文件系统、页缓存。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603081904.png" alt="Linux-I/O架构"></p>
+<ul>
+<li>虚拟文件系统（VFS）。主要用于屏蔽具体的文件系统，为应用程序的操作提供一个统一的接口。</li>
+<li>文件系统（File System）。ext4、F2FS 都是具体文件系统实现。每个文件系统都有适合自己的场景。</li>
+<li>页缓存（Page Cache）。文件系统对数据的缓存，读文件时先检查页缓存，如果命中就不去读磁盘。</li>
+</ul>
+<h4 id="磁盘">磁盘</h4>
+<p>磁盘指的是系统的存储设备，常见的有机械硬盘、固态硬盘等。如果发现应用程序要读的数据没有在页缓存中，这时候就需要真正向磁盘发起 I/O 请求。磁盘 I/O 的过程要先经过内核的通用块层、I/O 调度层、设备驱动层，最后才会交给具体的硬件设备处理。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603082924.png" alt="磁盘架构"></p>
+<ul>
+<li>通用块层。接收上层发出的磁盘请求，并最终发出 I/O 请求。它与 VPS 的作用类似。</li>
+<li>I/O 调度层。根据设置的调度算法对请求合并和排序。不能接收到磁盘请求就立刻交给驱动层处理。</li>
+<li>块设备驱动层。根据具体的物理设备，选择对应的驱动程序，通过操控硬件设备完成最终的 I/O 请求。</li>
+</ul>
+<h3 id="2-android-上的-io">2. Android 上的 I/O</h3>
+<p>Android 现在普遍使用的是 Linux 常用的 ext4 文件系统。F2FS（Flash-Friendly File System）是三星为闪存研发的文件系统，它针对闪存进行了大量优化，F2FS 文件系统在小文件的随机读写方面比 ext4 更快。随着 Google、华为的投入和使用，F2FS 应该会成为 Android 主流的文件系统。</p>
+<p>Android 手机使用闪存作为存储设备，也就是我们常说的 ROM。前几年闪存通常使用 eMMC 标准，近年来采用性能更好的 UFS 2.0/2.1 标准。手机存储也朝着体积更小、功耗更低、速度更快、容量更大的方向发展，闪存的随机读写速度甚至比 SSD 还快。</p>
+<h4 id="手机变卡">手机变卡</h4>
+<p>Android 手机用久了会变卡，除了系统升级、设备折旧等因素，还和 I/O 有密切关系。I/O 操作变慢的原因有下面几条：</p>
+<ul>
+<li>内存不足。系统回收 Page Cache 和 Buffer Cache 的内存，大部分的写操作会直接落盘，导致性能低下。</li>
+<li>写入放大。闪存重复写入需要先进行擦除，一次写入会引起整个块数据的迁移，导致写入时间非常久。</li>
+<li>设备性能差。在高负载的情况下容易出现瓶颈。</li>
+</ul>
+<h4 id="文件损坏">文件损坏</h4>
+<p>文件损坏是令人头疼的问题，大多是由不正确的操作导致的。文件损坏的原因可以从应用程序、文件系统和磁盘三个角度来分析：</p>
+<ul>
+<li>应用程序。大部分的 I/O 方法都不是原子操作，文件的跨进程或者多线程写入、使用一个已经关闭的文件描述符 fd 来操作文件，都有可能导致数据被覆盖或者删除。</li>
+<li>文件系统。虽说内核崩溃或者系统突然断电都有可能导致文件系统损坏，不过文件系统也做了很多的保护措施。例如 system 分区保证只读不可写，增加异常检查和恢复机制。</li>
+<li>磁盘。手机上使用的闪存是电子式的存储设备，所以在资料传输过程可能会发生电子遗失等现象导致数据错误。</li>
+</ul>
+<h3 id="3-io-的三种方式">3. I/O 的三种方式</h3>
+<p>I/O 有三种方式：标准 I/O、mmap 和 Direct I/O。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190604090403.png" alt="I/O的方式"></p>
+<h4 id="标准-io">标准 I/O</h4>
+<p>应用程序平时用到 read/write 操作都属于标准 I/O，也就是缓存 I/O（Buffered I/O）。它的关键特性有：</p>
+<ul>
+<li>对于读操作，当应用程序读取某块数据时，如果这块数据已经在页缓存中，那么就不需要经过物理读盘操作。</li>
+<li>对于写操作，应用程序会先将数据写到页缓存中去，不需要等全部数据被写回磁盘，系统会定期将页缓存中的数据刷到磁盘上。</li>
+</ul>
+<p>缓存 I/O 可以很大程度减少真正读写磁盘的次数，从而提升性能。但是延迟写机制可能会导致数据丢失。在实际应用中，如果某些数据非常重要，我们应该采用同步写机制。</p>
+<p>读操作时，数据会先从磁盘拷贝到 Page Cache 中，然后再从 Page Cache 拷贝到应用程序的用户空间，这样就会多一次内存拷贝。内存相对磁盘是高速设备，即使多拷贝一次，也比真正读一次硬盘要快。</p>
+<h4 id="mmap">mmap</h4>
+<p>mmap 把文件映射到进程的地址空间，提高了 I/O 的性能。</p>
+<p>mmap 的优点有：</p>
+<ul>
+<li>减少系统调用。只需要一次 mmap() 系统调用，后续所有的调用像操作内存一样。</li>
+<li>减少数据拷贝。mmap 只需要从磁盘拷贝一次，由于做过内存映射，不需要再拷贝回用户空间。</li>
+<li>可靠性高。mmap 把数据写入页缓存后，跟缓存 I/O 的延迟写机制一样。</li>
+</ul>
+<p>存在的缺点：</p>
+<ul>
+<li>虚拟内存增大。Apk、Dex、so 都是通过 mmap 读取。mmap 会导致虚拟内存增大，mmap 大文件容易出现 OOM。</li>
+<li>磁盘延迟。mmap 通过缺页中断向磁盘发起真正的磁盘 I/O，不能通过 mmap 消除磁盘 I/O 的延迟。</li>
+</ul>
+<p>在 Android 中可以将文件通过 <a href="https://developer.android.com/reference/android/os/MemoryFile">MemoryFile</a> 或者 <a href="https://developer.android.com/reference/java/nio/MappedByteBuffer">MappedByteBuffer</a> 映射到内存，然后进行读写，使用这种方式对于小文件和频繁读写操作的文件还是有一定优势的。</p>
+<p>mmap 比较适合对同一块区域频繁读写的情况，推荐使用 I/O 线程来操作。用户日志、数据上报都满足这种场景，另外需要跨进程同步的时候，mmap 也是一个不错的选择。Android 跨进程通信有自己独有的 Binder 机制，它内部也是使用 mmap 实现。</p>
+<h4 id="direct-io">Direct I/O</h4>
+<p>一些数据库自己实现了数据和索引的缓存管理，对页缓存的依赖没那么强烈。它们想绕开页缓存机制，减少一次数据拷贝，它的数据也不会污染页缓存。</p>
+<p>直接 I/O 访问文件方式减少了一次数据拷贝和一些系统调用的耗时，很大程度降低了 CPU 的使用率以及内存的占用。负面影响就是读写操作都是同步执行，导致应用程序等待。</p>
+<h3 id="4-同步与异步-io">4. 同步与异步 I/O</h3>
+<p>多线程阻塞式在 I/O 操作上的并没有优势，I/O 操作的主要瓶颈在于磁盘带宽。所以 I/O 操作不能开大量的线程。</p>
+<p>NIO 是非阻塞 I/O，将 I/O 以事件的方式通知，可以减少线程切换的开销。NIO 的最大作用不是减少读取文件的耗时，而是最大化提升应用整体的 CPU 利用率。</p>
+<p>另外，非常推荐 Square 的 <a href="https://github.com/square/okio">Okio</a>，它支持同步和异步 I/O，也做了比较多的优化。</p>
+<p>I/O 优化对提升应用的体验非常有用，希望上面所讲的内容对你有帮助。</p>
 ]]></content>
     </entry>
     <entry>
@@ -907,6 +991,137 @@ f1 and f2 are equal using BigDecimal
 ]]></content>
     </entry>
     <entry>
+        <title type="html"><![CDATA[Android 开发者指南之性能提示]]></title>
+        <id>https://isuperqiang.cn/post/android-kai-fa-zhe-zhi-nan-zhi-xing-neng-ti-shi</id>
+        <link href="https://isuperqiang.cn/post/android-kai-fa-zhe-zhi-nan-zhi-xing-neng-ti-shi">
+        </link>
+        <updated>2019-05-10T04:42:56.000Z</updated>
+        <summary type="html"><![CDATA[<p>翻译自 Android 开发者训练课程，原文链接：<a href="https://developer.android.com/training/articles/perf-tips">Performance tips</a></p>
+]]></summary>
+        <content type="html"><![CDATA[<p>翻译自 Android 开发者训练课程，原文链接：<a href="https://developer.android.com/training/articles/perf-tips">Performance tips</a></p>
+<!-- more -->
+<hr>
+<p>这篇文档主要涵盖了一些微小的优化，组合它们能够提升应用的整体性能，但是这些变化不会带来戏剧性的效果。你应该优选选择正确的算法和数据结构，但是它超出了本文档要说明的范围。在一般的开发练习中，你应该使用本文档中的提示，这样才能把提高代码效率当成一种习惯。</p>
+<p>编写高效代码的两个基本原则：</p>
+<ul>
+<li>不要做不该做的事</li>
+<li>尽量避免分配内存</li>
+</ul>
+<p>当你微优化安卓应用时，面对最棘手的问题之一就是，你的应用会运行在各种不同类型的硬件上。不同版本的虚拟机跑在不同处理器上，运行速度也不同。通常你不能简单地说，设备 X 是比设备 Y 运行快/慢的因素，将结果从一个设备扩展到其他设备。特别是，关于在其他设备上的性能，模拟器上的测量结果不全面。有没有 JIT 的设备也有非常大的差异：具有 JIT 的设备的最佳代码并不总是没有设备的最佳代码。</p>
+<p>为确保你的应用在各种设备上都能正常运行，确保你的代码在各个级别都高效，并积极优化你的性能。</p>
+<h4 id="避免创建不必要的对象">避免创建不必要的对象</h4>
+<p>创建对象并不是没有开销的。分代垃圾收集器具有用于临时对象的每个线程分配池，这可以使分配更便宜，但是分配内存总是比不分配代价要大。</p>
+<p>当你在应用中创建更多的对象时，你将被迫进行垃圾收集，对于用户体验来说，它就像「打嗝」一样的。在安卓 2.3 之后引入了并发垃圾收集器，但是也应该避免不必要的工作。</p>
+<p>因此，你要避免创建不必要的对象。下面是一些例子：</p>
+<ul>
+<li>如果你的方法返回一个字符串，你知道它的结果总会拼接到 <code>StringBuffer</code>，这时你就该更改签名和实现，这样函数会直接追加，而不是创建存活期短的临时对象。</li>
+<li>当从输入数据提取字符串时，尝试返回原始数据到子字符串，而不是创建一个拷贝。你会创建一个新的 <code>String</code> 对象，但是它会和原始数据共享 <code>char[]</code>。（需要考虑的是，如果你只使用原始输入的一小部分，那么无论如何，如果你用这个方法，你都会在内存中保留它。））</li>
+</ul>
+<p>一个激进的想法是，把多维数组切片变成并行的一维数组。</p>
+<ul>
+<li><code>int</code> 数组比 <code>Integer</code> 对象数组好多了。但是概括来说，两个并行的 <code>int</code> 数组同样比二维数组 <code>(int,int)</code>高效。对于其他的基本数据类型的组合也是如此。</li>
+<li>如果你需要实现一个容器，用来存储二元组 <code>(Foo,Bar)</code> 对象，记住两个并行的 <code>Foo[]</code> 和 <code>Bar[]</code> 数组通常比一个常规的 <code>(Foo,Bar)</code> 对象数组要好得多。（当然例外情况是，你为其他代码设计 API 以进行访问。在这些情况下，为了实现良好的 API 设计，通常最好对速度进行小的折衷。但是在你自己的内部代码中，你应该尝试尽可能高效。）</li>
+</ul>
+<p>一般来说，尽量避免创建短期的临时对象。更少地创建对象意味着更低频率的垃圾回收，这对用户体验有直接影响。</p>
+<h4 id="首选静态虚拟">首选静态虚拟</h4>
+<p>如果你不需要访问对象的字段，请将方法设为静态，调用速度就会提高 15%-20%。这也是很好的做法，因为你可以从方法签名中看出，调用方法不能改变对象的状态。</p>
+<p>考虑下面的在类首部的声明。</p>
+<pre><code>static int intVal = 42;
+static String strVal = &quot;Hello, world!&quot;;
+</code></pre>
+<p>编译器生成一个类的初始化方法，叫做 <code>&lt;clint&gt;</code>，当第一次使用类的时候，该方法会被执行。这个方法把值 42 存在 <code>intVal</code> 变量中，从类文件字符串常量表中提取一个引用指向 <code>strVal</code>。当稍后引用这些值时，通过字段可以访问它们。</p>
+<p>我们可以使用 <code>final</code> 关键字改善这一步：</p>
+<pre><code>static final int intVal = 42;
+static final String strVal = &quot;Hello, world!&quot;;
+</code></pre>
+<p>这样，类就不需要 <code>&lt;clinit&gt;</code> 方法了，因为常量进入 dex 文件中的静态字段初始值设定项。引用 <code>intVal</code> 的代码会直接使用整数值 42，访问 <code>strVal</code> 会使用相对划算的「字符串常量」指令，而不是字段查找。</p>
+<p>注意：此优化仅适用于基本类型和字符串常量，而不适用于任意引用类型。尽管如此，最好尽可能地声明常量 <code>static final</code> 值。</p>
+<h4 id="使用增强型-for-循环">使用增强型 for 循环</h4>
+<p>增强型 <code>for</code> 循环（也就是 for-each 循环）可以遍历实现了 <code>Iterable</code> 接口的集合和数组。对于集合，迭代器被分配用于创建叫做 <code>hasNext()</code> 和 <code>next()</code> 的接口。对于 <code>ArrayList</code>，一个手写的计数循环比 for-each 快约 3 倍，但是对于其他集合，增强型 for 循环完全等同于显式迭代器用法。</p>
+<p>这里有几个遍历数组的方案：</p>
+<pre><code>static class Foo {
+    int splat;
+}
+
+Foo[] array = ...
+
+public void zero() {
+    int sum = 0;
+    for (int i = 0; i &lt; array.length; ++i) {
+        sum += array[i].splat;
+    }
+}
+
+public void one() {
+    int sum = 0;
+    Foo[] localArray = array;
+    int len = localArray.length;
+
+    for (int i = 0; i &lt; len; ++i) {
+        sum += localArray[i].splat;
+    }
+}
+
+public void two() {
+    int sum = 0;
+    for (Foo a : array) {
+        sum += a.splat;
+    }
+}
+</code></pre>
+<p><code>zero()</code> 最慢，因为每次通过循环迭代获得数组长度是有成本的，JIT 还不会优化。</p>
+<p><code>one()</code> 快一些，它将所有内容都拉到局部变量中，从而避免了查找。只有数组的长度才能提供性能优势。</p>
+<p><code>two()</code> 在没有 JIT 的设备上是最快的，与具有 JIT 的设备的 one() 无法区分。它使用了 Java 语言 1.5 版本后引入的增强型 for 循环语法。</p>
+<p>所以，你应该默认使用增强型 for 循环，但是考虑一个手写的计数循环，用于性能关键的 ArrayList 迭代。</p>
+<h4 id="考虑包而不是私有内部类的私有访问">考虑包而不是私有内部类的私有访问</h4>
+<p>来看下面的类的定义：</p>
+<pre><code>public class Foo { 
+    private class Inner { 
+        void stuff() { 
+            Foo.this.doStuff(Foo.this.mValue);
+        } 
+    } 
+ 
+    private int mValue;
+ 
+    public void run() { 
+        Inner in = new Inner();
+        mValue = 27;
+        in.stuff();
+    } 
+ 
+    private void doStuff(int value) {
+        System.out.println(&quot;Value is &quot; + value);
+    } 
+} 
+</code></pre>
+<p>重要的是，我们定义了一个私有的内部类 <code>Foo$Inner</code>，它可以直接访问外部类的私有方法和私有成员变量。这是合法的，代码会打印 「Value is27」。</p>
+<p>问题是，虚拟机认为从 <code>Foo$Inner</code> 直接访问 <code>Foo</code> 的私有成员是非法的，因为 <code>Foo</code> 和 <code>Foo$Inner</code> 是不同的类，即使 Java 语言允许内部类访问外部类的私有成员。为了弥合差距，编译器会生成一对合成方法：</p>
+<pre><code>/*package*/ static int Foo.access$100(Foo foo) {
+    return foo.mValue;
+}
+/*package*/ static void Foo.access$200(Foo foo, int value) {
+    foo.doStuff(value);
+}
+</code></pre>
+<p>当内部类要访问外部类的 <code>mValue</code> 字段或者调用 <code>doStuff()</code> 方法时，它会调用这些静态方法。这意味着上面的代码实际上归结为，你通过访问器方法访问成员字段的情况。之前我们讨论到访问器如何比直接访问字段更慢。所以这是一个特定语言习语的例子，导致「看不见」的表演。</p>
+<h4 id="避免使用浮点型">避免使用浮点型</h4>
+<p>根据经验，浮点数 比Android 设备上的整数慢约 2 倍。</p>
+<p>在速度方面，现代硬件上的 <code>float</code> 和 <code>double</code> 没有区别。在空间方面，<code>double</code> 大 2 倍。与桌面计算机一样，假设空间不是问题，您应该更喜欢 <code>double</code>。</p>
+<p>此外，即使对于整数，一些处理器也有硬件乘法但缺乏硬件除法。在这种情况下，整数除法和模数运算在软件中执行 - 如果您正在设计哈希表或进行大量数学运算，则需要考虑。</p>
+<h4 id="了解并使用库">了解并使用库</h4>
+<p>除了喜欢库代码而不是自己编写代码，请记住系统可以自由地用手动编译汇编程序替换对库方法的调用，这可能比 JIT 可以生成的等效的 Java 最佳代码更好。这里典型的例子是 <code>String.indexOf()</code> 和相关的 API，Dalvik 用内联的内在代替。类似地，<code>System.arraycopy()</code> 方法比带有 JIT 的 Nexus One 上的手动编码循环快约 9 倍。</p>
+<h4 id="小心使用原生方法">小心使用原生方法</h4>
+<p>使用 Android NDK 的原生代码开发应用，不一定比用 Java 语言开发的更高效。一方面，Java 和 原生之间传递有损耗，JIT 不会跨越这些边界优化。如果你分配了原生资源（原生堆上的内存，文件描述符，或其他内容），安排及时收集这些资源可能要困难得多。你还需要为要运行的每个体系结构编译代码（而不是依赖于具有 JIT 的体系结构）。你可能甚至需要为相同的架构编译多个版本：为 G1 中的 ARM 处理器编译的原生代码无法充分利用 Nexus One 中的 ARM，以及为 Nexus One 中的 ARM 编译的代码不会在 G1 中的 ARM 上运行。</p>
+<h4 id="性能神话">性能神话</h4>
+<p>在没有 JIT 的设备上，通过具有精确类型而不是接口的变量调用方法确实更有效。（因此例如，调用 <code>HashMap</code> 映射上的方法比使用 <code>Map</code> 映射更便宜，即使在这两种情况下映射都是 <code>HashMap</code>。）情况并非如此慢 2 倍，实际差异更像是慢了 6％。此外，JIT 使两者有效地难以区分。</p>
+<p>在没有 JIT 的设备上，缓存字段访问比重复访问字段快约 20％。使用 JIT，字段访问的成本与本地访问大致相同，因此除非您觉得它使代码更易于阅读，否则这不值得进行优化。（对于 final，static 和 static final 字段也是如此。）</p>
+<h4 id="总是测量">总是测量</h4>
+<p>在开始优化之前，请确保你遇到需要解决的问题。确保你可以准确衡量现有的绩效，否则你将无法衡量尝试的替代方案的好处。</p>
+<p>你可能还会发现 Traceview 对于分析很有用，但重要的是要知道当前会禁用 JIT，这可能会导致它错误地将时间错误归结为 JIT 可能能够赢回的代码。在 Traceview 数据建议进行更改以确保在没有 Traceview 的情况下运行时生成的代码实际运行得更快时，这一点尤其重要。</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[每周 ARTS 第 5 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-5-qi</id>
         <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-5-qi">
@@ -998,380 +1213,6 @@ f1 and f2 are equal using BigDecimal
 <p><a href="https://mp.weixin.qq.com/s/qGC08VgXc66t0WT7mgZxhA">写代码这条路，能走多远？工程师能力模型告诉你</a></p>
 <p>从能力习得速度和技能演进速度两个维度分析，程序员发生职业危机的可能性非常高。解决问题的三条出路：技术专家、管理岗、产品运营等。适合于走哪个路线，需要结合自己的性格来定。</p>
 <p>技术专家的能力模型，处于中心的是行为处事的准则，也就是正确的思想观念。其中最核心的观念就是要把职业生涯当作自己的事业，为自己而工作，把提升自身能力作为事业的目标。围绕着这一核心的还包括以结果导向、主动承担责任的观念和既精又专的技术、团队协作能力等</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android 使用 OpenGL ES 绘制图片]]></title>
-        <id>https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian</id>
-        <link href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian">
-        </link>
-        <updated>2019-05-03T03:52:37.000Z</updated>
-        <content type="html"><![CDATA[<p>关于 OpenGL ES 的介绍，请先看上篇：<a href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian/index.html">Android 使用 OpenGL ES 绘制三角形</a>。</p>
-<h3 id="1-纹理介绍">1. 纹理介绍</h3>
-<p>使用 OpenGL ES 绘制简单的几何形状还不够，OpenGL 更多地是用来显示而纹理图像，比如本地图片、相机画面。简单说，纹理（texture）就是一个图像或照片，它们可以被加载进 OpenGL 中。</p>
-<p>OpenGL 中的纹理可以用来表示图像、照片等，每个二维的纹理都由许多小的纹理元素组成，它们是小块的数据，类似片段和像素。要使用纹理，最常用的方式是直接从一个图像文件加载数据。</p>
-<p>纹理不会被直接绘制，它们要被绑定到纹理单元，然后把这些纹理单元传递给着色器。纹理映射的基本思想就是：首先为图元中的每个顶点指定恰当的纹理坐标，然后通过纹理坐标在纹理图中可以确定选中的纹理区域，最后将选中纹理区域中的内容根据纹理坐标映射到指定的图元上。</p>
-<p>纹理的坐标系和顶点着色器的坐标系是不一样的。纹理坐标用浮点数来表示，范围 [0, 1]，左上角坐标为 (0.0, 0.0)，右上角坐标为 (1.0, 0.0)。注意：要将纹理坐标对应到正确的顶点上，才能使纹理正确地显示。</p>
-<h3 id="2-使用纹理显示图片">2. 使用纹理显示图片</h3>
-<p>定义顶点和纹理坐标，两者的顺序必须一一对应。</p>
-<pre><code class="language-java">    private static final int COORDS_PER_VERTEX = 2;
-    private static final int COORDS_PER_TEXTURE = 2;
-    private static final float[] VERTEX = {
-            1, 1,  // top right
-            -1, 1, // top left
-            1, -1, // bottom right
-            -1, -1,// bottom left
-    };
-    private static final float[] TEXTURE = {
-            1, 0,  // top right
-            0, 0,  // top left
-            1, 1,  // bottom right
-            0, 1,  // bottom left
-    };
-</code></pre>
-<p>定义着色器。</p>
-<pre><code class="language-java">    private static final String VERTEX_SHADER =
-            &quot;uniform mat4 uMVPMatrix;&quot; +
-                    &quot;attribute vec4 aPosition;&quot; +
-                    &quot;attribute vec2 aTexCoord;&quot; +
-                    &quot;varying vec2 vTexCoord;&quot; +
-                    &quot;void main() {&quot; +
-                    &quot;  gl_Position = uMVPMatrix * aPosition;&quot; +
-                    &quot;  vTexCoord = aTexCoord;&quot; +
-                    &quot;}&quot;;
-    private static final String FRAGMENT_SHADER =
-            &quot;precision mediump float;&quot; +
-                    &quot;uniform sampler2D uTextureUnit;&quot; +
-                    &quot;varying vec2 vTexCoord;&quot; +
-                    &quot;void main() {&quot; +
-                    &quot;  gl_FragColor = texture2D(uTextureUnit, vTexCoord);&quot; +
-                    &quot;}&quot;;
-</code></pre>
-<p>加载图片到 OpenGL 中。</p>
-<pre><code class="language-java">        // 加载图片并且保存在 OpenGL 纹理系统中
-        Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
-        mBitmapWidth = bitmap.getWidth();
-        mBitmapHeight = bitmap.getHeight();
-        int[] texture = new int[1];
-        // 生成纹理
-        GLES20.glGenTextures(1, texture, 0);
-        // 绑定纹理
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
-        // 激活纹理
-        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-        // 设置缩小过滤为三线性过滤
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR);
-        // 设置放大过滤为双线性过滤
-        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-        // 加载纹理到 OpenGL，读入 Bitmap 定义的位图数据，并把它复制到当前绑定的纹理对象
-        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-        // 生成 MIP 贴图
-        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
-        // 把选定的纹理单元传给片段着色器
-        GLES20.glUniform1i(texUnitHandle, 0);
-</code></pre>
-<p>计算变换矩阵，采用 CenterInside 或者 CenterCrop 的方式显示。</p>
-<pre><code class="language-java">    public static float[] changeMvpMatrixInside(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
-        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
-        float[] mvp = new float[16];
-        Matrix.setIdentityM(mvp, 0);
-        Matrix.scaleM(mvp, 0, scale &gt; 1 ? (1F / scale) : 1F, scale &gt; 1 ? 1F : scale, 1F);
-        return mvp;
-    }
-
-    public static float[] changeMvpMatrixCrop(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
-        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
-        float[] mvp = new float[16];
-        Matrix.setIdentityM(mvp, 0);
-        Matrix.scaleM(mvp, 0, scale &gt; 1 ? 1F : (1F / scale), scale &gt; 1 ? scale : 1F, 1F);
-        return mvp;
-    }
-</code></pre>
-<p>显示图片。</p>
-<pre><code class="language-java">        GLES20.glUseProgram(mProgram);
-        GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
-        // 传入顶点坐标
-        GLES20.glEnableVertexAttribArray(mPositionHandle);
-        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
-        // 传入纹理坐标
-        GLES20.glEnableVertexAttribArray(mTexCoordHandle);
-        GLES20.glVertexAttribPointer(mTexCoordHandle, COORDS_PER_TEXTURE, GLES20.GL_FLOAT, false, 0, mTextureBuffer);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VERTEX.length / COORDS_PER_VERTEX);
-        GLES20.glDisableVertexAttribArray(mPositionHandle);
-        GLES20.glDisableVertexAttribArray(mTexCoordHandle);
-        GLES20.glUseProgram(0);
-</code></pre>
-<p>源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/opengl">GitHub</a> 上。</p>
-<p><strong>参考资料：</strong></p>
-<ul>
-<li><a href="https://glumes.com/post/opengl/opengl-tutorial-texture/">OpenGL 学习系列---纹理</a></li>
-<li><a href="https://blog.csdn.net/junzia/article/details/52842816">Android OpenGLES2.0（八）——纹理贴图之显示图片</a></li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Android 使用 MediaCodec 编解码 AAC]]></title>
-        <id>https://isuperqiang.cn/post/android-shi-yong-mediacodec-bian-jie-ma-aac</id>
-        <link href="https://isuperqiang.cn/post/android-shi-yong-mediacodec-bian-jie-ma-aac">
-        </link>
-        <updated>2019-05-03T03:41:28.000Z</updated>
-        <summary type="html"><![CDATA[<p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
-<!-- more -->
-<h3 id="1-音频的基本概念">1. 音频的基本概念</h3>
-<p>在音频开发中，有些基本概念是需要了解的。</p>
-<ul>
-<li>采样率（SampleRate）：每秒采集声音的数量，它用赫兹（Hz）来表示。采样频率越高，音频质量越好。常用的音频采样频率有：8kHz、16kHz、44.1kHz、48kHz 等。</li>
-<li>声道数（Channel）：一般表示声音录制时的音源数量或回放时相应的扬声器数量。常用的是单声道（Mono）和双声道（Stereo）。</li>
-<li>采样精度（BitDepth）：每个采样点用多少数据量表示，它以位（Bit）为单位。位数越多，表示得就越精细，声音质量自然就越好，当然数据量也越大。常见的位宽是：8bit 或者 16bit。</li>
-<li>比特率（BitRate）：每秒音频占用的比特数量，单位是 bps（Bit Per Second），比特率越高，压缩比越小，声音质量越好，音频体积也越大。</li>
-</ul>
-<p>AAC 是应用非常广泛的音频压缩格式，Android 硬件编码天生支持 AAC。我们采集的原始 PCM 音频，一般不直接用来网络传输，而是经过编码器压缩成 AAC，这样就提高了传输效率，节省了网络带宽。</p>
-<p>简言之，编码就是压缩，解码就是解压。编码的目的是减小数据的体积，方便网络传输和本地存储。编码后的数据是不能直接使用的，必须先解码成原来的样子。就像 zip 压缩文件里面有张图片，我们用图片查看器是无法打开的，必须先解压文件，恢复图片原来的数据，这样才能查看。音视频编解码也是同样的道理。</p>
-<h3 id="2-mediacodec-介绍">2. MediaCodec 介绍</h3>
-<p>Android 在 API 16 后引入的音视频编解码 API，Android 应用层统一由 MediaCodec API 提供音视频编解码的功能，由参数配置来决定采用何种编解码算法、是否采用硬件编解码加速等。由于使用硬件编解码，兼容性有不少问题，据说 MediaCodec 坑比较多。</p>
-<p>MediaCodec 采用了基于环形缓冲区的「生产者-消费者」模型，异步处理数据。在 input 端，Client 是这个环形缓冲区「生产者」，MediaCodec 是「消费者」。在 output 端，MediaCodec 是这个环形缓冲区「生产者」，而 Client 则变成了「消费者」。</p>
-<p>工作流程是这样的：</p>
-<p>（1）Client 从 input 缓冲区队列申请 empty buffer [dequeueInputBuffer]</p>
-<p>（2）Client 把需要编解码的数据拷贝到 empty buffer，然后放入 input 缓冲区队列 [queueInputBuffer]</p>
-<p>（3）MediaCodec 从 input 缓冲区队列取一帧数据进行编解码处理</p>
-<p>（4）处理结束后，MediaCodec 将原始数据 buffer 置为 empty 后放回 input 缓冲区队列，将编解码后的数据放入到 output 缓冲区队列</p>
-<p>（5）Client 从 output 缓冲区队列申请编解码后的 buffer [dequeueOutputBuffer]</p>
-<p>（6）Client 对编解码后的 buffer 进行渲染/播放</p>
-<p>（7）渲染/播放完成后，Client 再将该 buffer 放回 output 缓冲区队列 [releaseOutputBuffer]</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/wKioL1cCSojSz4HdAAD0xxQxvwg230.png" alt="MediaCodeC"></p>
-<p>MediaCodec 基本使用流程：</p>
-<pre><code>- createEncoderByType/createDecoderByType
-- configure
-- start
-- while(true) {
-    - dequeueInputBuffer
-    - queueInputBuffer
-    - dequeueOutputBuffer
-    - releaseOutputBuffer
-}
-- stop
-- release
-</code></pre>
-<h3 id="3-实时采集音频并编码">3. 实时采集音频并编码</h3>
-<p>我们将使用 AudioRecord 和 MediaCodec 实现这个功能，关于 AudioRecord 的使用可以参考之前的文章：<a href="https://www.jianshu.com/p/e677d616fe57">Android音视频之使用AudioRecord采集音频</a>。</p>
-<p>为了保证兼容性，推荐的配置是 44.1kHz、单通道、16 位精度。首先创建并配置 AudioRecord 和 MediaCodec。</p>
-<pre><code class="language-java">    // 输入源 麦克风
-    private final static int AUDIO_SOURCE = MediaRecorder.AudioSource.MIC;
-    // 采样率 44.1kHz，所有设备都支持
-    private final static int SAMPLE_RATE = 44100;
-    // 通道 单声道，所有设备都支持
-    private final static int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
-    // 精度 16 位，所有设备都支持
-    private final static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
-    // 通道数 单声道
-    private static final int CHANNEL_COUNT = 1;
-    // 比特率
-    private static final int BIT_RATE = 96000;
-
-public void createAudio() {
-        mBufferSizeInBytes = AudioRecord.getMinBufferSize(AudioEncoder.SAMPLE_RATE, AudioEncoder.CHANNEL_CONFIG, AudioEncoder.AUDIO_FORMAT);
-        if (mBufferSizeInBytes &lt;= 0) {
-            throw new RuntimeException(&quot;AudioRecord is not available, minBufferSize: &quot; + mBufferSizeInBytes);
-        }
-        Log.i(TAG, &quot;createAudioRecord minBufferSize: &quot; + mBufferSizeInBytes);
-
-        mAudioRecord = new AudioRecord(AudioEncoder.AUDIO_SOURCE, AudioEncoder.SAMPLE_RATE, AudioEncoder.CHANNEL_CONFIG, AudioEncoder.AUDIO_FORMAT, mBufferSizeInBytes);
-        int state = mAudioRecord.getState();
-        Log.i(TAG, &quot;createAudio state: &quot; + state + &quot;, initialized: &quot; + (state == AudioRecord.STATE_INITIALIZED));
-    }
-    
-        public void createMediaCodec() throws IOException {
-        MediaCodecInfo mediaCodecInfo = CodecUtils.selectCodec(MIMETYPE_AUDIO_AAC);
-        if (mediaCodecInfo == null) {
-            throw new RuntimeException(MIMETYPE_AUDIO_AAC + &quot; encoder is not available&quot;);
-        }
-        Log.i(TAG, &quot;createMediaCodec: mediaCodecInfo &quot; + mediaCodecInfo.getName());
-
-        MediaFormat format = MediaFormat.createAudioFormat(MIMETYPE_AUDIO_AAC, SAMPLE_RATE, CHANNEL_COUNT);
-        format.setInteger(MediaFormat.KEY_AAC_PROFILE, MediaCodecInfo.CodecProfileLevel.AACObjectLC);
-        format.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);
-
-        mMediaCodec = MediaCodec.createEncoderByType(MIMETYPE_AUDIO_AAC);
-        mMediaCodec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
-    }
-</code></pre>
-<p>然后开始录音，得到原始音频数据，再编码为 AAC 格式。这个地方会阻塞调用的线程，而且编码比较耗时，一定要在主线程之外调用。</p>
-<pre><code class="language-java">   public void start(File outFile) throws IOException {
-        Log.d(TAG, &quot;start() called with: outFile = [&quot; + outFile + &quot;]&quot;);
-        mStopped = false;
-        FileOutputStream fos = new FileOutputStream(outFile);
-        mMediaCodec.start();
-        mAudioRecord.startRecording();
-        byte[] buffer = new byte[mBufferSizeInBytes];
-        ByteBuffer[] inputBuffers = mMediaCodec.getInputBuffers();
-        ByteBuffer[] outputBuffers = mMediaCodec.getOutputBuffers();
-        try {
-            while (!mStopped) {
-                int readSize = mAudioRecord.read(buffer, 0, mBufferSizeInBytes);
-                if (readSize &gt; 0) {
-                    int inputBufferIndex = mMediaCodec.dequeueInputBuffer(-1);
-                    if (inputBufferIndex &gt;= 0) {
-                        ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
-                        inputBuffer.clear();
-                        inputBuffer.put(buffer);
-                        inputBuffer.limit(buffer.length);
-                        mMediaCodec.queueInputBuffer(inputBufferIndex, 0, readSize, 0, 0);
-                    }
-
-                    MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
-                    int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
-                    while (outputBufferIndex &gt;= 0) {
-                        ByteBuffer outputBuffer = outputBuffers[outputBufferIndex];
-                        outputBuffer.position(bufferInfo.offset);
-                        outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
-                        byte[] chunkAudio = new byte[bufferInfo.size + 7];// 7 is ADTS size
-                        addADTStoPacket(chunkAudio, chunkAudio.length);
-                        outputBuffer.get(chunkAudio, 7, bufferInfo.size);
-                        outputBuffer.position(bufferInfo.offset);
-                        fos.write(chunkAudio);
-                        mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
-                        outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
-                    }
-                } else {
-                    Log.w(TAG, &quot;read audio buffer error:&quot; + readSize);
-                    break;
-                }
-            }
-        } finally {
-            Log.i(TAG, &quot;released&quot;);
-            mAudioRecord.stop();
-            mAudioRecord.release();
-            mMediaCodec.stop();
-            mMediaCodec.release();
-            fos.close();
-        }
-    }
-
-</code></pre>
-<p>AAC 是一种压缩格式，可以直接使用播放器播放。为了实现流式播放，也就是做到边下边播，我们采用 ADTS 格式。给每帧加上 7 个字节的头信息。加上头信息就是为了告诉解码器，这帧音频长度、采样率、通道是多少，每帧都携带头信息，解码器随时都可以解码播放。我们这里采用单通道、44.1KHz 采样率的头信息配置。</p>
-<pre><code class="language-java">    private void addADTStoPacket(byte[] packet, int packetLen) {
-        int profile = 2;  //AAC LC
-        int freqIdx = 4;  //44.1KHz
-        int chanCfg = 1;  //CPE
-        // fill in ADTS data
-        packet[0] = (byte) 0xFF;
-        packet[1] = (byte) 0xF9;
-        packet[2] = (byte) (((profile - 1) &lt;&lt; 6) + (freqIdx &lt;&lt; 2) + (chanCfg &gt;&gt; 2));
-        packet[3] = (byte) (((chanCfg &amp; 3) &lt;&lt; 6) + (packetLen &gt;&gt; 11));
-        packet[4] = (byte) ((packetLen &amp; 0x7FF) &gt;&gt; 3);
-        packet[5] = (byte) (((packetLen &amp; 7) &lt;&lt; 5) + 0x1F);
-        packet[6] = (byte) 0xFC;
-    }
-</code></pre>
-<h3 id="4-aac-解码">4. AAC 解码</h3>
-<p>我们可以利用 MediaExtractor 和 MediaCodec 来提取编码后的音频数据，并解压成音频源数据。</p>
-<pre><code class="language-java">    /**
-     * AAC 格式解码成 PCM 数据
-     *
-     * @param aacFile
-     * @param pcmFile
-     * @throws IOException
-     */
-    public static void decodeAacToPcm(File aacFile, File pcmFile) throws IOException {
-        MediaExtractor extractor = new MediaExtractor();
-        extractor.setDataSource(aacFile.getAbsolutePath());
-        MediaFormat mediaFormat = null;
-        for (int i = 0; i &lt; extractor.getTrackCount(); i++) {
-            MediaFormat format = extractor.getTrackFormat(i);
-            String mime = format.getString(MediaFormat.KEY_MIME);
-            if (mime.startsWith(&quot;audio/&quot;)) {
-                extractor.selectTrack(i);
-                mediaFormat = format;
-                break;
-            }
-        }
-        if (mediaFormat == null) {
-            Log.e(TAG, &quot;Invalid file with audio track.&quot;);
-            extractor.release();
-            return;
-        }
-
-        FileOutputStream fosDecoder = new FileOutputStream(pcmFile);
-        String mediaMime = mediaFormat.getString(MediaFormat.KEY_MIME);
-        Log.i(TAG, &quot;decodeAacToPcm: mimeType: &quot; + mediaMime);
-        MediaCodec codec = MediaCodec.createDecoderByType(mediaMime);
-        codec.configure(mediaFormat, null, null, 0);
-        codec.start();
-        ByteBuffer[] codecInputBuffers = codec.getInputBuffers();
-        ByteBuffer[] codecOutputBuffers = codec.getOutputBuffers();
-        final long kTimeOutUs = 10_000;
-        MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
-        boolean sawInputEOS = false;
-        boolean sawOutputEOS = false;
-
-        try {
-            while (!sawOutputEOS) {
-                if (!sawInputEOS) {
-                    int inputBufIndex = codec.dequeueInputBuffer(kTimeOutUs);
-                    if (inputBufIndex &gt;= 0) {
-                        ByteBuffer dstBuf = codecInputBuffers[inputBufIndex];
-                        int sampleSize = extractor.readSampleData(dstBuf, 0);
-                        if (sampleSize &lt; 0) {
-                            Log.i(TAG, &quot;saw input EOS.&quot;);
-                            sawInputEOS = true;
-                            codec.queueInputBuffer(inputBufIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
-                        } else {
-                            codec.queueInputBuffer(inputBufIndex, 0, sampleSize, extractor.getSampleTime(), 0);
-                            extractor.advance();
-                        }
-                    }
-                }
-
-                int outputBufferIndex = codec.dequeueOutputBuffer(info, kTimeOutUs);
-                if (outputBufferIndex &gt;= 0) {
-                    // Simply ignore codec config buffers.
-                    if ((info.flags &amp; MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != 0) {
-                        Log.i(TAG, &quot;audio encoder: codec config buffer&quot;);
-                        codec.releaseOutputBuffer(outputBufferIndex, false);
-                        continue;
-                    }
-
-                    if (info.size != 0) {
-                        ByteBuffer outBuf = codecOutputBuffers[outputBufferIndex];
-                        outBuf.position(info.offset);
-                        outBuf.limit(info.offset + info.size);
-                        byte[] data = new byte[info.size];
-                        outBuf.get(data);
-                        fosDecoder.write(data);
-                    }
-
-                    codec.releaseOutputBuffer(outputBufferIndex, false);
-                    if ((info.flags &amp; MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
-                        Log.i(TAG, &quot;saw output EOS.&quot;);
-                        sawOutputEOS = true;
-                    }
-                } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
-                    codecOutputBuffers = codec.getOutputBuffers();
-                    Log.i(TAG, &quot;output buffers have changed.&quot;);
-                } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
-                    MediaFormat oformat = codec.getOutputFormat();
-                    Log.i(TAG, &quot;output format has changed to &quot; + oformat);
-                }
-            }
-        } finally {
-            Log.i(TAG, &quot;decodeAacToPcm finish&quot;);
-            codec.stop();
-            codec.release();
-            extractor.release();
-            fosDecoder.close();
-        }
-    }
-</code></pre>
-<p>源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/mediacodec">GitHub</a>上，欢迎交流。</p>
-<p><strong>参考资料：</strong></p>
-<ul>
-<li><a href="https://blog.51cto.com/ticktick/1760191">Android音频开发（5）：音频数据的编解码</a></li>
-<li><a href="http://lastwarmth.win/2016/10/22/live-audio/">【Android音视频开发】- 实时采集音频并编码</a></li>
-<li><a href="https://yedaxia.github.io/Android-MediaExtractor-And-MediaCodec/">MediaExtractor和MediaCodec实现音频编解码和混音</a></li>
-<li><a href="https://blog.csdn.net/KokJuis/article/details/72781835">android音频采集，MediaCodec实时PCM转AAC</a></li>
-</ul>
 ]]></content>
     </entry>
 </feed>

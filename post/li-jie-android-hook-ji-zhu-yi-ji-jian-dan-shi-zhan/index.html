@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>理解 Android Hook 技术以及简单实战 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">理解 Android Hook 技术以及简单实战</h2>
+            <div class="post-date">2017-06-11</div>
+            
+            <div class="post-content">
+              <h4 id="1-什么是-hook">1. 什么是 Hook</h4>
+<p>Hook 英文翻译过来就是「钩子」的意思，那我们在什么时候使用这个「钩子」呢？在 Android 操作系统中系统维护着自己的一套事件分发机制。应用程序，包括应用触发事件和后台逻辑处理，也是根据事件流程一步步地向下执行。而「钩子」的意思，就是在事件传送到终点前截获并监控事件的传输，像个钩子钩上事件一样，并且能够在钩上事件时，处理一些自己特定的事件。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-151e50cb305a17fa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Hook 原理图"></p>
+<p>Hook 的这个本领，使它能够将自身的代码「融入」被勾住（Hook）的程序的进程中，成为目标进程的一个部分。API Hook 技术是一种用于改变 API 执行结果的技术，能够将系统的 API 函数执行重定向。在 Android 系统中使用了沙箱机制，普通用户程序的进程空间都是独立的，程序的运行互不干扰。这就使我们希望通过一个程序改变其他程序的某些行为的想法不能直接实现，但是 Hook 的出现给我们开拓了解决此类问题的道路。当然，根据 Hook 对象与 Hook 后处理的事件方式不同，Hook 还分为不同的种类，比如消息 Hook、API Hook 等。</p>
+<h4 id="2-常用的-hook-框架">2. 常用的 Hook 框架</h4>
+<ol>
+<li>关于 Android 中的 Hook 机制，大致有两个方式：</li>
+</ol>
+<ul>
+<li>要 root 权限，直接 Hook 系统，可以干掉所有的 App。</li>
+<li>免 root 权限，但是只能 Hook 自身，对系统其它 App 无能为力。</li>
+</ul>
+<ol start="2">
+<li>几种 Hook 方案：</li>
+</ol>
+<ul>
+<li><a href="repo.xposed.info/module/de.robv.android.xposed.installer">Xposed</a></li>
+</ul>
+<p>通过替换 /system/bin/app_process 程序控制 Zygote 进程，使得 app_process 在启动过程中会加载 XposedBridge.jar 这个 Jar 包，从而完成对 Zygote 进程及其创建的 Dalvik 虚拟机的劫持。
+Xposed 在开机的时候完成对所有的 Hook Function 的劫持，在原 Function 执行的前后加上自定义代码。</p>
+<ul>
+<li>
+<p><a href="http://www.cydiasubstrate.com/">Cydia Substrate</a></p>
+<p>Cydia Substrate 框架为苹果用户提供了越狱相关的服务框架，当然也推出了 Android 版 。Cydia Substrate 是一个代码修改平台，它可以修改任何进程的代码。不管是用 Java 还是 C/C++（native代码）编写的，而 Xposed 只支持 Hook app_process 中的 Java 函数。</p>
+</li>
+<li>
+<p><a href="https://github.com/asLody/legend">Legend</a></p>
+<p>Legend 是 Android 免 Root 环境下的一个 Apk Hook 框架，该框架代码设计简洁，通用性高，适合逆向工程时一些 Hook 场景。大部分的功能都放到了 Java 层，这样的兼容性就非常好。
+原理是这样的，直接构造出新旧方法对应的虚拟机数据结构，然后替换信息写到内存中即可。</p>
+</li>
+</ul>
+<h4 id="3-使用-java-反射实现-api-hook">3. 使用 Java 反射实现 API Hook</h4>
+<p>通过对 Android 平台的虚拟机注入与 Java 反射的方式，来改变 Android 虚拟机调用函数的方式（ClassLoader），从而达到 Java 函数重定向的目的，这里我们将此类操作称为 Java API Hook。</p>
+<p>下面通过 Hook View 的 OnClickListener 来说明 Hook 的使用方法。</p>
+<p>首先进入 View 的 setOnClickListener 方法，我们看到 OnClickListener 对象被保存在了一个叫做 ListenerInfo 的内部类里，其中 mListenerInfo 是 View 的成员变量。ListeneInfo 里面保存了 View 的各种监听事件，比如 OnClickListener、OnLongClickListener、OnKeyListener 等等。</p>
+<pre><code>    public void setOnClickListener(@Nullable OnClickListener l) {
+        if (!isClickable()) {
+            setClickable(true);
+        }
+        getListenerInfo().mOnClickListener = l;
+    }
+
+    ListenerInfo getListenerInfo() {
+        if (mListenerInfo != null) {
+            return mListenerInfo;
+        }
+        mListenerInfo = new ListenerInfo();
+        return mListenerInfo;
+    }
+</code></pre>
+<p>我们的目标是 Hook OnClickListener，所以就要在给 View 设置监听事件后，替换 OnClickListener 对象，注入自定义的操作。</p>
+<pre><code>    private void hookOnClickListener(View view) {
+        try {
+            // 得到 View 的 ListenerInfo 对象
+            Method getListenerInfo = View.class.getDeclaredMethod(&quot;getListenerInfo&quot;);
+            getListenerInfo.setAccessible(true);
+            Object listenerInfo = getListenerInfo.invoke(view);
+            // 得到 原始的 OnClickListener 对象
+            Class&lt;?&gt; listenerInfoClz = Class.forName(&quot;android.view.View$ListenerInfo&quot;);
+            Field mOnClickListener = listenerInfoClz.getDeclaredField(&quot;mOnClickListener&quot;);
+            mOnClickListener.setAccessible(true);
+            View.OnClickListener originOnClickListener = (View.OnClickListener) mOnClickListener.get(listenerInfo);
+            // 用自定义的 OnClickListener 替换原始的 OnClickListener
+            View.OnClickListener hookedOnClickListener = new HookedOnClickListener(originOnClickListener);
+            mOnClickListener.set(listenerInfo, hookedOnClickListener);
+        } catch (Exception e) {
+            log.warn(&quot;hook clickListener failed!&quot;, e);
+        }
+    }
+
+    class HookedOnClickListener implements View.OnClickListener {
+        private View.OnClickListener origin;
+
+        HookedOnClickListener(View.OnClickListener origin) {
+            this.origin = origin;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(MainActivity.this, &quot;hook click&quot;, Toast.LENGTH_SHORT).show();
+            log.info(&quot;Before click, do what you want to to.&quot;);
+            if (origin != null) {
+                origin.onClick(v);
+            }
+            log.info(&quot;After click, do what you want to to.&quot;);
+        }
+    }
+</code></pre>
+<p>到这里，我们成功 Hook 了 OnClickListener，在点击之前和点击之后可以执行某些操作，达到了我们的目的。下面是调用的部分，在给 Button 设置 OnClickListener 后，执行 Hook 操作。点击按钮后，日志的打印结果是：Before click → onClick → After click。</p>
+<pre><code>        Button btnSend = (Button) findViewById(R.id.btn_send);
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                log.info(&quot;onClick&quot;);
+            }
+        });
+        hookOnClickListener(btnSend);
+</code></pre>
+<h4 id="4-使用-hook-拦截应用内的通知">4. 使用 Hook 拦截应用内的通知</h4>
+<p>当应用内接入了众多的 SDK，SDK 内部会使用系统服务 NotificationManager 发送通知，这就导致通知难以管理和控制。现在我们就用 Hook 技术拦截部分通知，限制应用内的通知发送操作。</p>
+<p>发送通知使用的是 NotificationManager 的 notify 方法，我们跟随 API 进去看看。它会使用  INotificationManager 类型的对象，并调用其 enqueueNotificationWithTag 方法完成通知的发送。</p>
+<pre><code>    public void notify(String tag, int id, Notification notification)
+    {
+        INotificationManager service = getService();
+        …… // 省略部分代码
+        try {
+            service.enqueueNotificationWithTag(pkg, mContext.getOpPackageName(), tag, id,
+                    stripped, idOut, UserHandle.myUserId());
+            if (id != idOut[0]) {
+                Log.w(TAG, &quot;notify: id corrupted: sent &quot; + id + &quot;, got back &quot; + idOut[0]);
+            }
+        } catch (RemoteException e) {
+        }
+    }
+</code></pre>
+<pre><code>    private static INotificationManager sService;
+
+    /** @hide */
+    static public INotificationManager getService()
+    {
+        if (sService != null) {
+            return sService;
+        }
+        IBinder b = ServiceManager.getService(&quot;notification&quot;);
+        sService = INotificationManager.Stub.asInterface(b);
+        return sService;
+    }
+</code></pre>
+<p>INotificationManager  是跨进程通信的 Binder 类，sService 是 NMS(NotificationManagerService) 在客户端的代理，发送通知要委托给 sService，由它传递给 NMS，具体的原理在这里不再细究，感兴趣的可以了解系统服务和应用的通信过程。</p>
+<p>我们发现 sService 是个静态成员变量，而且只会初始化一次。只要把 sService 替换成自定义的不就行了么，确实如此。下面用到大量 Java 反射和动态代理的技术，特别要注意代码的书写。</p>
+<pre><code>    private void hookNotificationManager(Context context) {
+        try {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            // 得到系统的 sService
+            Method getService = NotificationManager.class.getDeclaredMethod(&quot;getService&quot;);
+            getService.setAccessible(true);
+            final Object sService = getService.invoke(notificationManager);
+
+            Class iNotiMngClz = Class.forName(&quot;android.app.INotificationManager&quot;);
+            // 动态代理 INotificationManager
+            Object proxyNotiMng = Proxy.newProxyInstance(getClass().getClassLoader(), new Class[]{iNotiMngClz}, new InvocationHandler() {
+                
+                @Override
+                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                    log.debug(&quot;invoke(). method:{}&quot;, method);
+                    if (args != null &amp;&amp; args.length &gt; 0) {
+                        for (Object arg : args) {
+                            log.debug(&quot;type:{}, arg:{}&quot;, arg != null ? arg.getClass() : null, arg);
+                        }
+                    }
+                    // 操作交由 sService 处理，不拦截通知
+                    // return method.invoke(sService, args);
+                    // 拦截通知，什么也不做
+                    return null;
+                    // 或者是根据通知的 Tag 和 ID 进行筛选
+                }
+            });
+            // 替换 sService
+            Field sServiceField = NotificationManager.class.getDeclaredField(&quot;sService&quot;);
+            sServiceField.setAccessible(true);
+            sServiceField.set(notificationManager, proxyNotiMng);
+        } catch (Exception e) {
+            log.warn(&quot;Hook NotificationManager failed!&quot;, e);
+        }
+    }
+</code></pre>
+<p>Hook 的时机还是尽量要早，我们在 attachBaseContext 里面操作。</p>
+<pre><code>    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        hookNotificationManager(newBase);
+    }
+</code></pre>
+<p>这样我们就完成了对通知的拦截，可见 Hook 技术真的是非常强大，好多插件化的原理都是建立在 Hook 之上的。</p>
+<p><strong>总结一下：</strong></p>
+<ol>
+<li>Hook 的选择点：静态变量和单例，因为一旦创建对象，它们不容易变化，非常容易定位。</li>
+<li>Hook 过程：
+<ul>
+<li>寻找 Hook 点，原则是静态变量或者单例对象，尽量 Hook public 的对象和方法。</li>
+<li>选择合适的代理方式，如果是接口可以用动态代理。</li>
+<li>偷梁换柱——用代理对象替换原始对象。</li>
+</ul>
+</li>
+<li>Android 的 API 版本比较多，方法和类可能不一样，所以要做好 API 的兼容工作。</li>
+</ol>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="http://www.epubit.com.cn/book/onlinechapter/33620">动态注入技术</a></li>
+<li><a href="http://weishu.me/2016/01/28/understand-plugin-framework-proxy-hook/">Android插件化原理解析——Hook机制之动态代理</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/zen-yang-cha-kan-bing-shi-yong-android-yin-cang-he-nei-bu-de-api">
+                  <h3 class="post-title">
+                    怎样查看并使用 Android 隐藏和内部的 API
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

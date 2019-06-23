@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android SharedPreferences 实现原理分析 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android SharedPreferences 实现原理分析</h2>
+            <div class="post-date">2017-03-06</div>
+            
+            <div class="post-content">
+              <p>Android 中的 SharedPreference 是轻量级的数据存储方式，能够保存简单的数据类型，比如 String、int、boolean 值等。其内部是以 XML 结构保存在 /data/data/包名/shared_prefs 文件夹下，数据以键值对的形式保存。</p>
+<!-- more -->
+<p>下面有个例子：</p>
+<pre><code>&lt;?xml version='1.0' encoding='utf-8' standalone='yes' ?&gt;
+&lt;map&gt;
+    &lt;float name=&quot;isFloat&quot; value=&quot;1.5&quot; /&gt;
+    &lt;string name=&quot;isString&quot;&gt;Android&lt;/string&gt;
+    &lt;int name=&quot;isInt&quot; value=&quot;1&quot; /&gt;
+    &lt;long name=&quot;isLong&quot; value=&quot;1000&quot; /&gt;
+    &lt;boolean name=&quot;isBoolean&quot; value=&quot;true&quot; /&gt;
+    &lt;set name=&quot;isStringSet&quot;&gt;
+        &lt;string&gt;element 1&lt;/string&gt;
+        &lt;string&gt;element 2&lt;/string&gt;
+        &lt;string&gt;element 3&lt;/string&gt;
+    &lt;/set&gt;
+&lt;/map&gt;
+</code></pre>
+<p>这里不讨论 API 的使用方法，主要是从源码角度分析 SharedPreferences （以下简称 SP） 的实现方式。</p>
+<h3 id="1-初始化">1. 初始化</h3>
+<p>首先我们使用 context 的 getSharedPreferences 方法获取 SP 实例，它是一个接口对象。
+<code>SharedPreferences testSp = getSharedPreferences(&quot;test_sp&quot;, Context.MODE_PRIVATE);</code>
+Context 是一个抽象类，其核心实现类是 ContextImpl ，找到里面的 getSharedPreferences 方法。</p>
+<pre><code class="language-java">    @Override
+    public SharedPreferences getSharedPreferences(String name, int mode) {
+        SharedPreferencesImpl sp;
+        synchronized (ContextImpl.class) {
+            if (sSharedPrefs == null) {
+                // sSharedPrefs 是 ContextImpl 的静态成员变量，通过 Map 维护着当前包名下的 SP Map 集合
+                sSharedPrefs = new ArrayMap&lt;String, ArrayMap&lt;String, SharedPreferencesImpl&gt;&gt;();
+            }
+
+            final String packageName = getPackageName();
+            ArrayMap&lt;String, SharedPreferencesImpl&gt; packagePrefs = sSharedPrefs.get(packageName);
+            if (packagePrefs == null) {
+                packagePrefs = new ArrayMap&lt;String, SharedPreferencesImpl&gt;();
+                sSharedPrefs.put(packageName, packagePrefs);
+            }
+
+            // At least one application in the world actually passes in a null
+            // name.  This happened to work because when we generated the file name
+            // we would stringify it to &quot;null.xml&quot;.  Nice.
+            if (mPackageInfo.getApplicationInfo().targetSdkVersion &lt;
+                    Build.VERSION_CODES.KITKAT) {
+                // name 参数为 null 时，文件名使用 null.xml
+                if (name == null) {
+                    name = &quot;null&quot;;
+                }
+            }
+
+            sp = packagePrefs.get(name);
+            if (sp == null) {
+                // SP 集合是一个以 SP 的名字为 key , SP 为值的 Map
+                File prefsFile = getSharedPrefsFile(name);
+                // SP 的实现类是 SharedPreferencesImpl
+                sp = new SharedPreferencesImpl(prefsFile, mode);
+                packagePrefs.put(name, sp);
+                return sp;
+            }
+        }
+        // Android 3.0 以下或者支持 MODE_MULTI_PROCESS 模式时，如果文件被改动，就重新从文件读取，实现多进程数据同步，但是实际使用中效果不佳，可能会有很多坑。
+        if ((mode &amp; Context.MODE_MULTI_PROCESS) != 0 ||
+            getApplicationInfo().targetSdkVersion &lt; android.os.Build.VERSION_CODES.HONEYCOMB) {
+            // If somebody else (some other process) changed the prefs
+            // file behind our back, we reload it.  This has been the
+            // historical (if undocumented) behavior.
+            sp.startReloadIfChangedUnexpectedly();
+        }
+        return sp;
+    }
+</code></pre>
+<p>首次使用 getSharedPreferences 时，内存中不存在 SP 以及 SP Map 缓存，需要创建 SP 并添加到 ContextImpl 的静态成员变量（sSharedPrefs）中。</p>
+<p>下面来看 SharedPreferencesImpl 的构造方法，</p>
+<pre><code class="language-java"> SharedPreferencesImpl(File file, int mode) {
+        mFile = file;
+        mBackupFile = makeBackupFile(file);
+        mMode = mode;
+        mLoaded = false;
+        mMap = null;
+        startLoadFromDisk();
+    }
+</code></pre>
+<p>makeBackupFile 用来定义备份文件，该文件在写入磁盘时会用到，继续看 startLoadFromDisk 方法。</p>
+<pre><code class="language-java">private void startLoadFromDisk() {
+        synchronized (this) {
+            mLoaded = false;
+        }
+        // 开启异步线程从磁盘读取文件，加锁防止多线程并发操作
+        new Thread(&quot;SharedPreferencesImpl-load&quot;) {
+            public void run() {
+                synchronized (SharedPreferencesImpl.this) {
+                    loadFromDiskLocked();
+                }
+            }
+        }.start();
+    }
+
+ private void loadFromDiskLocked() {
+        if (mLoaded) {
+            return;
+        }
+        // 备份文件存在，说明上次的写入操作失败，直接读取备份文件
+        if (mBackupFile.exists()) {
+            mFile.delete();
+            mBackupFile.renameTo(mFile);
+        }
+
+        // Debugging
+        if (mFile.exists() &amp;&amp; !mFile.canRead()) {
+            Log.w(TAG, &quot;Attempt to read preferences file &quot; + mFile + &quot; without permission&quot;);
+        }
+
+        Map map = null;
+        StructStat stat = null;
+        try {
+            stat = Os.stat(mFile.getPath());
+            if (mFile.canRead()) {
+                BufferedInputStream str = null;
+                try {
+                    str = new BufferedInputStream(
+                            new FileInputStream(mFile), 16*1024);
+                    // 从 XML 里面读取数据返回一个 Map，内部使用了 XmlPullParser
+                    map = XmlUtils.readMapXml(str);
+                } catch (XmlPullParserException e) {
+                    Log.w(TAG, &quot;getSharedPreferences&quot;, e);
+                } catch (FileNotFoundException e) {
+                    Log.w(TAG, &quot;getSharedPreferences&quot;, e);
+                } catch (IOException e) {
+                    Log.w(TAG, &quot;getSharedPreferences&quot;, e);
+                } finally {
+                    IoUtils.closeQuietly(str);
+                }
+            }
+        } catch (ErrnoException e) {
+        }
+        mLoaded = true;
+        if (map != null) {
+            mMap = map;
+            mStatTimestamp = stat.st_mtime;
+            mStatSize = stat.st_size;
+        } else {
+            mMap = new HashMap&lt;String, Object&gt;();
+        }
+         // 唤醒等待的线程，到这文件读取完毕
+        notifyAll();
+}
+</code></pre>
+<p>看到这，基本明白了 getSharedPreferences 的原理，应用首次使用 SP 的时候会从磁盘读取，之后缓存在内存中。</p>
+<h3 id="2-读数据">2. 读数据</h3>
+<p>下面分析 SP 读取数据的方法，就以 getString 为例。</p>
+<pre><code class="language-java">@Nullable
+public String getString(String key, @Nullable String defValue) {
+      synchronized (this) {
+          awaitLoadedLocked();
+          String v = (String)mMap.get(key);
+          return v != null ? v : defValue;
+      }
+}
+
+private void awaitLoadedLocked() {
+      if (!mLoaded) {
+          // Raise an explicit StrictMode onReadFromDisk for this
+          // thread, since the real read will be in a different
+          // thread and otherwise ignored by StrictMode.
+          BlockGuard.getThreadPolicy().onReadFromDisk();
+      }
+      while (!mLoaded) {
+          try {
+              wait();
+          } catch (InterruptedException unused) {
+          }
+      }
+}
+</code></pre>
+<p>首先取得 SharedPreferencesImpl 对象锁，然后同步等待从磁盘加载数据完成，最后返回数据。这里有个问题，如果单个 SP 存储的内容过多，导致我们使用 getXXX 方法的时候阻塞，特别是在主线程调用的时候，所以建议在单个 SP 中尽量少地保存数据，虽然操作时间是毫秒级别的，用户基本上感觉不到。</p>
+<h3 id="3-写数据">3. 写数据</h3>
+<p>SP 写入数据的操作是通过 Editor 完成的，它也是一个接口，实现类是 EditorImpl，是 SharedPreferencesImpl 的内部类。
+通过 SP 的 edit 方法获取 Editor 实例，等到加载完毕直接返回一个 EditorImpl 对象。</p>
+<pre><code class="language-java">public Editor edit() {
+      // TODO: remove the need to call awaitLoadedLocked() when
+      // requesting an editor.  will require some work on the
+      // Editor, but then we should be able to do:
+      //
+      //      context.getSharedPreferences(..).edit().putString(..).apply()
+      //
+      // ... all without blocking.
+      synchronized (this) {
+          awaitLoadedLocked();
+      }
+      return new EditorImpl();
+}
+</code></pre>
+<p>比如我们要保存某个 String 的值，调用 putString 方法。</p>
+<pre><code class="language-java">public Editor putString(String key, @Nullable String value) {
+      synchronized (this) {
+          mModified.put(key, value);
+          return this;
+      }
+}
+</code></pre>
+<p>mModified 是一个 editor 中的一个 Map，保存着要修改的数据，在将改动保存到 SP 的 Map（变量 mMap，里面保存着使用中的键值对 ） 后被清空。put 完成后就要调用 commit 或者 apply 进行保存。</p>
+<pre><code class="language-java">        public boolean commit() {
+            MemoryCommitResult mcr = commitToMemory();
+            SharedPreferencesImpl.this.enqueueDiskWrite(
+                mcr, null /* sync write on this thread okay */);
+            try {
+                mcr.writtenToDiskLatch.await();
+            } catch (InterruptedException e) {
+                return false;
+            }
+            notifyListeners(mcr);
+            return mcr.writeToDiskResult;
+        }
+
+        public void apply() {
+            final MemoryCommitResult mcr = commitToMemory();
+            final Runnable awaitCommit = new Runnable() {
+                    public void run() {
+                        try {
+                            mcr.writtenToDiskLatch.await();
+                        } catch (InterruptedException ignored) {
+                        }
+                    }
+                };
+
+            QueuedWork.add(awaitCommit);
+
+            Runnable postWriteRunnable = new Runnable() {
+                    public void run() {
+                        awaitCommit.run();
+                        QueuedWork.remove(awaitCommit);
+                    }
+                };
+
+            SharedPreferencesImpl.this.enqueueDiskWrite(mcr, postWriteRunnable);
+
+            // Okay to notify the listeners before it's hit disk
+            // because the listeners should always get the same
+            // SharedPreferences instance back, which has the
+            // changes reflected in memory.
+            notifyListeners(mcr);
+        }
+</code></pre>
+<p>可以看到，commit 和 apply 操作首先执行了 commitToMemory，顾名思义就是提交到内存，返回值是 MemoryCommitResult 类型，里面保存着本次提交的状态。然后 commit 调用 enqueueDiskWrite 会阻塞当前线程，而 apply 通过封装 Runnable 把写磁盘之后的操作传递给 enqueueDiskWrite 方法。</p>
+<pre><code class="language-java">        private MemoryCommitResult commitToMemory() {
+            MemoryCommitResult mcr = new MemoryCommitResult();
+            synchronized (SharedPreferencesImpl.this) {
+                // We optimistically don't make a deep copy until
+                // a memory commit comes in when we're already
+                // writing to disk.
+                // mDiskWritesInFlight  表示准备操作磁盘的进程数
+                if (mDiskWritesInFlight &gt; 0) {
+                    // We can't modify our mMap as a currently
+                    // in-flight write owns it.  Clone it before
+                    // modifying it.
+                    // noinspection unchecked
+                    mMap = new HashMap&lt;String, Object&gt;(mMap);
+                }
+                mcr.mapToWriteToDisk = mMap;
+                mDiskWritesInFlight++;
+                //  把注册的 listeners 放到 mcr 中去，以便在数据写入的时候被回调
+                boolean hasListeners = mListeners.size() &gt; 0;
+                if (hasListeners) {
+                    mcr.keysModified = new ArrayList&lt;String&gt;();
+                    mcr.listeners =
+                            new HashSet&lt;OnSharedPreferenceChangeListener&gt;(mListeners.keySet());
+                }
+
+                synchronized (this) {
+                    if (mClear) {
+                        if (!mMap.isEmpty()) {
+                            mcr.changesMade = true;
+                            mMap.clear();
+                        }
+                        mClear = false;
+                    }
+
+                    for (Map.Entry&lt;String, Object&gt; e : mModified.entrySet()) {
+                        String k = e.getKey();
+                        Object v = e.getValue();
+                        // &quot;this&quot; is the magic value for a removal mutation. In addition,
+                        // setting a value to &quot;null&quot; for a given key is specified to be
+                        // equivalent to calling remove on that key.
+                        // 当值是 null 时，表示移除该键值对，在 editor 的 remove 实现中，并不是真正地移除，
+                        // 而是把 value 赋值为当前 editor 对象
+                        if (v == this || v == null) {
+                            if (!mMap.containsKey(k)) {
+                                continue;
+                            }
+                            mMap.remove(k);
+                        } else {
+                            if (mMap.containsKey(k)) {
+                                Object existingValue = mMap.get(k);
+                                if (existingValue != null &amp;&amp; existingValue.equals(v)) {
+                                    continue;
+                                }
+                            }
+                            mMap.put(k, v);
+                        }
+
+                        mcr.changesMade = true;
+                        if (hasListeners) {
+                            mcr.keysModified.add(k);
+                        }
+                    }
+                    // 添加完成后把 editor 里的 map 清空
+                    mModified.clear();
+                }
+            }
+            return mcr;
+        }
+</code></pre>
+<p>这是 MemoryCommitResult 类，主要用于提交到内存后返回结果，然后在写入磁盘时作为参数传递。</p>
+<pre><code class="language-java"> private static class MemoryCommitResult {
+        public boolean changesMade;  // any keys different?
+        public List&lt;String&gt; keysModified;  // may be null
+        public Set&lt;OnSharedPreferenceChangeListener&gt; listeners;  // may be null
+        public Map&lt;?, ?&gt; mapToWriteToDisk;
+        public final CountDownLatch writtenToDiskLatch = new CountDownLatch(1);
+        public volatile boolean writeToDiskResult = false;
+
+        public void setDiskWriteResult(boolean result) {
+            writeToDiskResult = result;
+            writtenToDiskLatch.countDown();
+        }
+    }
+</code></pre>
+<p>下面看保存到磁盘的操作，enqueueDiskWrite 方法，参数有 MemoryCommitResult  和 Runnable，mcr 刚才说过，就看这个 Runnable 是干嘛的。在 commit 方法中调用 enqueueDiskWrite 方法是传入的 Runnable 是null，它会在当前线程直接执行写文件的操作，然后返回写入结果。而如果 Runnable 不是 null，那就使用 QueueWork 中的单线程执行。这就是 apply 和 commit 的根本区别：一个同步执行，有返回值；一个异步执行，没有返回值。大多数情况下，我们使用 apply 就够了，这也是官方推荐的做法。</p>
+<pre><code class="language-java">    private void enqueueDiskWrite(final MemoryCommitResult mcr,
+                                  final Runnable postWriteRunnable) {
+        final Runnable writeToDiskRunnable = new Runnable() {
+                public void run() {
+                    synchronized (mWritingToDiskLock) {
+                        // 真正写入文件
+                        writeToFile(mcr);
+                    }
+                    synchronized (SharedPreferencesImpl.this) {
+                        mDiskWritesInFlight--;
+                    }
+                    if (postWriteRunnable != null) {
+                        postWriteRunnable.run();
+                    }
+                }
+            };
+
+        final boolean isFromSyncCommit = (postWriteRunnable == null);
+
+        // Typical #commit() path with fewer allocations, doing a write on
+        // the current thread.
+        if (isFromSyncCommit) {
+            boolean wasEmpty = false;
+            synchronized (SharedPreferencesImpl.this) {
+                wasEmpty = mDiskWritesInFlight == 1;
+            }
+            if (wasEmpty) {
+                writeToDiskRunnable.run();
+                return;
+            }
+        }
+        // 把写文件的操作放到线程池中执行
+        QueuedWork.singleThreadExecutor().execute(writeToDiskRunnable);
+    }
+</code></pre>
+<p>再看一下具体写文件的代码 writeToFile 方法，关键点在代码中文注释部分。简单说就是备份 → 写入 → 检查 → 善后，这样保证了数据的安全性和稳定性。</p>
+<pre><code class="language-java">    private void writeToFile(MemoryCommitResult mcr) {
+        // Rename the current file so it may be used as a backup during the next read
+        if (mFile.exists()) {
+            if (!mcr.changesMade) {
+                // If the file already exists, but no changes were
+                // made to the underlying map, it's wasteful to
+                // re-write the file.  Return as if we wrote it
+                // out.
+                mcr.setDiskWriteResult(true);
+                return;
+            }
+            // 首先把当前的文件备份
+            if (!mBackupFile.exists()) {
+                if (!mFile.renameTo(mBackupFile)) {
+                    Log.e(TAG, &quot;Couldn't rename file &quot; + mFile
+                          + &quot; to backup file &quot; + mBackupFile);
+                    mcr.setDiskWriteResult(false);
+                    return;
+                }
+            } else {
+                mFile.delete();
+            }
+        }
+
+        // Attempt to write the file, delete the backup and return true as atomically as
+        // possible.  If any exception occurs, delete the new file; next time we will restore
+        // from the backup.
+        try {
+            FileOutputStream str = createFileOutputStream(mFile);
+            if (str == null) {
+                mcr.setDiskWriteResult(false);
+                return;
+            }
+            // 然后把新数据写入文件
+            XmlUtils.writeMapXml(mcr.mapToWriteToDisk, str);
+            FileUtils.sync(str);
+            str.close();
+            ContextImpl.setFilePermissionsFromMode(mFile.getPath(), mMode, 0);
+            try {
+                final StructStat stat = Os.stat(mFile.getPath());
+                synchronized (this) {
+                    mStatTimestamp = stat.st_mtime;
+                    mStatSize = stat.st_size;
+                }
+            } catch (ErrnoException e) {
+                // Do nothing
+            }
+            // Writing was successful, delete the backup file if there is one.
+            // 写入成功删除备份文件
+            mBackupFile.delete();
+            mcr.setDiskWriteResult(true);
+            return;
+        } catch (XmlPullParserException e) {
+            Log.w(TAG, &quot;writeToFile: Got exception:&quot;, e);
+        } catch (IOException e) {
+            Log.w(TAG, &quot;writeToFile: Got exception:&quot;, e);
+        }
+        // Clean up an unsuccessfully written file
+        // 写入失败删除临时文件
+        if (mFile.exists()) {
+            if (!mFile.delete()) {
+                Log.e(TAG, &quot;Couldn't clean up partially-written file &quot; + mFile);
+            }
+        }
+        mcr.setDiskWriteResult(false);
+    }
+</code></pre>
+<h3 id="4-总结">4. 总结</h3>
+<ol>
+<li>通过 getSharedPreferences 可以获取 SP 实例，从首次初始化到读到数据会存在延迟，因为读文件的操作阻塞调用的线程直到文件读取完毕，如果在主线程调用，可能会对 UI 流畅度造成影响。</li>
+<li>commit 会在调用者线程同步执行写文件，返回写入结果；apply 将写文件的操作异步执行，没有返回值。可以根据具体情况选择性使用，推荐使用 apply。</li>
+<li>虽然支持设置 MODE_MULTI_PROCESS 标志位，但是跨进程共享 SP 存在很多问题，所以不建议使用该模式。</li>
+</ol>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="http://www.sixwolf.net/blog/2016/05/03/Android_SharedPreferences%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Android SharedPreferences 源码分析</a></li>
+<li><a href="http://zmywly8866.github.io/2015/09/09/sharedpreferences-in-multiprocess.html">SharedPreferences在多进程中的使用及注意事项</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-expandablelistview-shi-yong-xiao-jie-er">
+                  <h3 class="post-title">
+                    Android ExpandableListView 使用小结（二）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

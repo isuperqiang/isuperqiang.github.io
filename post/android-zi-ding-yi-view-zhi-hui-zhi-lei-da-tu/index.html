@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -36,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -118,7 +118,7 @@
 <!-- more -->
 <p>我的工作范围很少涉及界面，所以对视图方面了解不多。在网上找到了一份教程：<a href="https://github.com/GcsSloop">GcsSloop</a> 的 <a href="https://github.com/GcsSloop/AndroidNote">AndroidNote</a>，里面对自定义 View 讲得非常详细，从基础到进阶，每个绘图的 API 都有解释，想要学习的朋友千万不要错过~</p>
 <p>下面两段摘自 GcsSloop 的 Android 笔记，分别总结了自定义 View 的分类和流程。</p>
-<h6 id="自定义-view-分类">自定义 View 分类</h6>
+<h3 id="自定义-view-分类">自定义 View 分类</h3>
 <blockquote>
 <p>PS：实际上 ViewGroup 是 View 的一个子类。</p>
 </blockquote>
@@ -186,7 +186,7 @@
 </tbody>
 </table>
 <p>学习完 Path 的基本操作，GcsSloop 给我们留了一道作业题 ---- 绘制雷达图，熟悉 Path 的使用。下面我们就按照步骤来做一下，其中涉及一些数学计算，看来算法还是蛮重要的。</p>
-<h4 id="1-构造函数初始化-view">1. 构造函数，初始化 View</h4>
+<h3 id="1-构造函数初始化-view">1. 构造函数，初始化 View</h3>
 <p>首先看成员变量的声明，主要是画笔、画布的属性（宽和高）、图形的属性（圈数、半径等）。为了计算 cos 值，重温了高中数学（笑哭 ing）</p>
 <pre><code> // 6条线上的点的 con 值，从 y 轴负方向开始画线，即竖直的上方
     private static final PointF[] UNIT_POINTS = {
@@ -266,7 +266,7 @@
         }
     }
 </code></pre>
-<h4 id="2-onsizechanged确定-view-的大小">2. onSizeChanged，确定 View 的大小</h4>
+<h3 id="2-onsizechanged确定-view-的大小">2. onSizeChanged，确定 View 的大小</h3>
 <p>由于我们要绘制的是简单的 View，onMeasure 过程暂时不需要重写。然后到了 onSizeChanged 方法，在这里获取当前 View 的宽高。关于 onSizeChanged，API 是这么说的：在 layout 期间，当 View 的尺寸发生变化是被调用。所以这里的宽高就是 View 测量后的真实宽高。</p>
 <pre><code>    @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
@@ -276,7 +276,7 @@
         mHeight = h;
     }
 </code></pre>
-<h4 id="3-ondraw绘制实际的内容">3. onDraw，绘制实际的内容</h4>
+<h3 id="3-ondraw绘制实际的内容">3. onDraw，绘制实际的内容</h3>
 <p>由于我们的 View 不包含子 View，所以 onLayout 过程跳过，直接进行 onDraw 绘制。
 我的思路和蜘蛛织网差不多：先从中心开始，画出 6 条射线，作为图形的骨架， 然后从外圈向内圈画线，最后打点填色。要不然怎么雷达图又叫「蜘蛛网图」呢 (～ o ～)~zZ</p>
 <pre><code>    @Override
@@ -347,7 +347,7 @@
         return focused;
     }
 </code></pre>
-<h4 id="4-提供接口设置-view-的属性">4. 提供接口，设置 View 的属性</h4>
+<h3 id="4-提供接口设置-view-的属性">4. 提供接口，设置 View 的属性</h3>
 <p>这里主要提供了两个对外的接口：设置雷达图的圈数和步长，并且做了一些限制。设置完数据后，调用 invalidate 方法进行重绘，这样就能提供多样化的视图啦~</p>
 <pre><code>    // 设置圈数
     public void setLoop(int loop) {
@@ -384,7 +384,7 @@
         }
     }
 </code></pre>
-<h4 id="5-使用-view">5. 使用 View</h4>
+<h3 id="5-使用-view">5. 使用 View</h3>
 <p>直接创建 View，可以设置属性，添加到界面即可~</p>
 <pre><code>        LinearLayout container = (LinearLayout) findViewById(R.id.container);
         RadarView radarView = new RadarView(this);
@@ -396,7 +396,7 @@
 </code></pre>
 <p>一起来看下效果吧</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1820210-4b97d7775a3b37ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="雷达图"></p>
-<h4 id="总结">总结</h4>
+<h3 id="总结">总结</h3>
 <p>自定义 View 其实没有那么难，我们看到一些复杂的效果，往往不是几十行代码能搞定的，可能就被吓到了。把任务分解成小目标，设计良好的算法，一步一步就能做出来。</p>
 
             </div>
@@ -412,9 +412,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi">
+                <a href="https://isuperqiang.cn/post/li-jie-android-hook-ji-zhu-yi-ji-jian-dan-shi-zhan">
                   <h3 class="post-title">
-                    Android WebView 支持文件下载的几种方式
+                    理解 Android Hook 技术以及简单实战
                   </h3>
                 </a>
               </div>

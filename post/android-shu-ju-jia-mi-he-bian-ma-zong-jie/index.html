@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 数据加密和编码总结 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 数据加密和编码总结</h2>
+            <div class="post-date">2017-11-15</div>
+            
+            <div class="post-content">
+              <p>最近正好在项目中用到数据加密，于是从网上查阅一些资料，了解各种加密方式并写代码验证，就在本篇文章中做个总结吧。</p>
+<!-- more -->
+<p>我将从这几个方面介绍 Android 中的加密方式以及相关的概念：</p>
+<ul>
+<li>异或加密</li>
+<li>MD5 算法</li>
+<li>Base64 编码</li>
+<li>DES 加密</li>
+<li>AES 加密</li>
+<li>RSA 加密</li>
+</ul>
+<p>从严格意义上来说，MD5 和 Base64 不属于加密，它们分别是信息摘要算法和编码方式，但是网上好多人都说 MD5 加密、Base64 加密，我觉得有必要纠正一下。对于其他的几种加密方式，下面我会一一进行举例说明。</p>
+<h3 id="1-异或加密">1. 异或加密</h3>
+<p>异或运算（xor）有个特点：数 a 两次异或同一个数 b 仍然为 a，即<code>(a^b)^b=a</code>。利用这个原理可以实现数据的加密和解密功能。
+举个栗子：a=10100001，b=00000110</p>
+<pre><code>    a=a^b； 　　// a=10100111
+    b=b^a； 　　// b=10100001，此时 b 等于 a
+</code></pre>
+<p>异或运算直接对二进制数据进行操作，对每一位（bit）上的数据进行变换。所以输入和输出的数据长度相同，不占用额外的空间，可以用于字符和文件的加密，效率比较高。下面我们用代码实践一下：</p>
+<pre><code>    // 加密的密钥，构造一定长度的字节数组
+    private final static byte[] KEY_BYTES = &quot;Vp6flFpGW86g7hi6MhD3Zl2eThJTjPnIjXE4&quot;.getBytes();
+    private final static int KEY_LENGTH = KEY_BYTES.length;
+
+    /**
+     * 异或运算加密
+     *
+     * @param input 要加密的内容
+     * @return 加密后的数据
+     */
+    public static byte[] xorEncode(byte[] input) {
+        int keyIndex = 0;
+        int length = input.length;
+        for (int i = 0; i &lt; length; i++) {
+            input[i] = (byte) (input[i] ^ KEY_BYTES[(keyIndex++ % KEY_LENGTH)]);
+        }
+        return input;
+    }
+
+    /**
+     * 异或运算解密
+     *
+     * @param input 要解密的内容
+     * @return 解密后的数据
+     */
+    public static byte[] xorDecode(byte[] input) {
+        int keyIndex = 0;
+        int length = input.length;
+        for (int i = 0; i &lt; length; i++) {
+            input[i] = (byte) (input[i] ^ KEY_BYTES[(keyIndex++ % KEY_LENGTH)]);
+        }
+        return input;
+    }
+</code></pre>
+<p>为了方便查看加密后的内容，这里对输出结果做了一下 Base64 编码。</p>
+<blockquote>
+<p>输入：123456abcdef，输出：Z0IFUl1aJzooFCIx</p>
+</blockquote>
+<h3 id="2-md5-编码">2. MD5 编码</h3>
+<p>MD5 是将任意长度的数据字符串转化成短小的固定长度的值的单向操作，任意两个字符串不应有相同的散列值。因此 MD5 经常用于校验字符串或者文件，因为如果文件的 MD5 不一样，说明文件内容也是不一样的，如果发现下载的文件和给定的 MD5 值不一样，就要慎重使用。</p>
+<p>MD5 主要用做数据一致性验证、数字签名和安全访问认证，而不是用作加密。比如说用户在某个网站注册账户时，输入的密码一般经过 MD5 编码，更安全的做法还会加一层盐（salt），这样密码就具有不可逆性。然后把编码后的密码存入数据库，下次登录的时候把密码 MD5 编码，然后和数据库中的作对比，这样就提升了用户账户的安全性。</p>
+<p>使用 Java 实现简单的 MD5 编码：</p>
+<pre><code>    /**
+     * 计算字符串的 MD5
+     *
+     * @param text 原文
+     * @return 密文
+     */
+    public static String md5Encode(String text) {
+        try {
+            MessageDigest md = MessageDigest.getInstance(&quot;MD5&quot;);
+            byte[] digest = md.digest(text.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                String hexString = Integer.toHexString(b &amp; 0xFF);
+                if (hexString.length() == 1) {
+                    hexString = &quot;0&quot; + hexString;
+                }
+                sb.append(hexString);
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+</code></pre>
+<blockquote>
+<p>输入：123456abcdef，输出：6f3b8ded65bd7a4db11625ac84e579bb</p>
+</blockquote>
+<h3 id="3-base64-编码">3. Base64 编码</h3>
+<p>Base64 编码是我们程序开发中经常使用到的编码方法，它用 64 个可打印字符来表示二进制数据。这 64 个字符是：小写字母 a-z、大写字母 A-Z、数字 0-9、符号&quot;+&quot;、&quot;/&quot;（再加上作为垫字的&quot;=&quot;，实际上是 65 个字符），其他所有符号都转换成这个字符集中的字符。Base64 编码通常用作存储、传输一些二进制数据编码方法，所以说它本质上是一种将二进制数据转成文本数据的方案。</p>
+<p>在 Android 中使用 Base64 很简单，系统的 API 已经封装好方法，我们直接调用即可。</p>
+<pre><code>// 编码
+ String encode = Base64.encodeToString(&quot; 123456abcdef&quot;.getBytes(), Base64.DEFAULT);
+
+// 解码
+ byte[] decodeByte = Base64.decode(encode .getBytes(), Base64.DEFAULT);
+String decode = new String(decodeByte);
+</code></pre>
+<blockquote>
+<p>输入：123456abcdef，输出：MTIzNDU2YWJjZGVm</p>
+</blockquote>
+<p>无论是编码还是解码都会有一个参数 flags，系统 API 提供了以下几种：</p>
+<ul>
+<li>DEFAULT：表示使用默认的方法来加密。</li>
+<li>NO_PADDING：表示省略加密字符串最后的 &quot;=&quot;。</li>
+<li>NO_WRAP：表示省略所有的换行符（设置后 CRLF 就会失去作用）。</li>
+<li>CRLF：表示使用 CR、LF 这一对作为一行的结尾而不是 Unix 风格的 LF。</li>
+<li>URL_SAFE：表示加密时不使用对 URL 和文件名有特殊意义的字符来作为加密字符，就是以 &quot;-&quot; 和 &quot;_&quot; 代替 &quot;+&quot; 和 &quot;/&quot;。</li>
+</ul>
+<h3 id="4-des-加密">4. DES 加密</h3>
+<p>DES 是一种对称加密算法，所谓对称加密算法就是：加密和解密使用相同密钥的算法。DES 加密算法出自 IBM 的研究，后来被美国政府正式采用，之后开始广泛流传。但近些年使用越来越少，因为 DES 使用 56 位密钥，以现代的计算能力，24 小时内即可被破解。</p>
+<p>顺便说一下 3DES（Triple DES），它是 DES 向 AES 过渡的加密算法，使用 3 条 56 位的密钥对数据进行三次加密。是 DES 的一个更安全的变形。它以 DES 为基本模块，通过组合分组方法设计出分组加密算法。比起最初的 DES，3DES 更为安全。</p>
+<p>使用 Java 实现 DES 加密解密，注意密码长度要是 8 的倍数。加密和解密的 Cipher 构造参数一定要相同，不然会报错。</p>
+<pre><code>    /* 加密使用的 key */
+    private final static byte[] KEY_BYTES = &quot;Vp6fhlFXKpGW8k6QPRg7Q6Jb7HyAhRi6MIhJ2YtGD3Zl26eTthJTj5PnIjXH5EI4&quot;.getBytes();
+
+   /**
+     * DES 加密
+     *
+     * @param content 待加密内容
+     * @param key     加密的密钥
+     * @return 加密后的字节数组
+     */
+    public static byte[] encryptDES(byte[] content, byte[] key) {
+        try {
+            SecureRandom random = new SecureRandom();
+            DESKeySpec desKey = new DESKeySpec(key);
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);
+            SecretKey secretKey = keyFactory.generateSecret(desKey);
+            // DES 是加密方式, EBC 是工作模式, PKCS5Padding 是填充模式
+            Cipher cipher = Cipher.getInstance(&quot;DES/ECB/PKCS5Padding&quot;);
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, random);
+            return cipher.doFinal(content);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+ /**
+     * DES 解密
+     *
+     * @param content 待解密内容
+     * @param key     解密的密钥
+     * @return 解密的数据
+     */
+    public static byte[] decryptDES(byte[] content, byte[] key) {
+        try {
+            SecureRandom random = new SecureRandom();
+            DESKeySpec desKey = new DESKeySpec(key);
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(&quot;DES&quot;);
+            SecretKey secretKey = keyFactory.generateSecret(desKey);
+            Cipher cipher = Cipher.getInstance(&quot;DES/ECB/PKCS5Padding&quot;);
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, random);
+            return cipher.doFinal(content);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+</code></pre>
+<blockquote>
+<p>输入：123456abcdef，输出：j1kR1+ZraO2Tg78dHueoTg==</p>
+</blockquote>
+<h3 id="5-aes-加密">5. AES 加密</h3>
+<p>高级加密标准（英语：Advanced Encryption Standard，缩写：AES），在密码学中又称 Rijndael 加密法，是美国联邦政府采用的一种区块加密标准。这个标准用来替代原先的 DES，已经被多方分析且广为全世界所使用。简单说就是 DES 的增强版，比 DES 的加密强度更高。</p>
+<p>AES 与 DES 一样，一共有四种加密模式：电子密码本模式（ECB）、加密分组链接模式（CBC）、加密反馈模式（CFB）和输出反馈模式（OFB）。关于加密模式的介绍，推荐这篇文章：<a href="https://blog.poxiao.me/p/advanced-encryption-standard-and-block-cipher-mode/">高级加密标准AES的工作模式（ECB、CBC、CFB、OFB）</a></p>
+<pre><code>    /* 加密使用的 key */
+    private static final String AES_KEY = &quot;KUbHwTqBy6TBQ2gN&quot;;
+    /* 加密使用的 IV */
+    private static final String AES_IV = &quot;pIbF6GR3XEN1PG05&quot;;
+
+ /**
+     * AES 加密
+     *
+     * @param content 待解密内容
+     * @param key     密钥
+     * @return 解密的数据
+     */
+    public static byte[] encryptAES(byte[] content, byte[] key) {
+        try {
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key, &quot;AES&quot;);
+            // AES 是加密方式, CBC 是工作模式, PKCS5Padding 是填充模式
+            Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);
+            // IV 是初始向量，可以增强密码的强度
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, new IvParameterSpec(AES_IV.getBytes()));
+            return cipher.doFinal(content);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * AES 解密
+     *
+     * @param content 待解密内容
+     * @param key     密钥
+     * @return 解密的数据
+     */
+    public static byte[] decryptAES(byte[] content, byte[] key) {
+        try {
+            SecretKeySpec secretKeySpec = new SecretKeySpec(key, &quot;AES&quot;);
+            Cipher cipher = Cipher.getInstance(&quot;AES/CBC/PKCS5Padding&quot;);
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec, new IvParameterSpec(AES_IV.getBytes()));
+            return cipher.doFinal(content);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+</code></pre>
+<blockquote>
+<p>输入：123456abcdef，输出：ho9cn9SvmeisfJy6Pv96oQ==</p>
+</blockquote>
+<h3 id="6-rsa-加密">6. RSA 加密</h3>
+<p>RSA算法是一种非对称加密算法，所谓非对称就是该算法需要一对密钥，若使用其中一个加密，则需要用另一个才能解密。目前它是最有影响力和最常用的公钥加密算法，能够抵抗已知的绝大多数密码攻击。从提出到现今的三十多年里，经历了各种攻击的考验，逐渐为人们接受，普遍认为是目前最优秀的公钥方案之一。</p>
+<p>该算法基于一个的数论事实：将两个大质数相乘十分容易，但是想要对其乘积进行因式分解却极其困难，因此可以将乘积公开作为加密密钥。由于进行的都是大数计算，RSA 最快的情况也比 DES 慢上好几倍，比对应同样安全级别的对称密码算法要慢 1000 倍左右。所以 RSA 一般只用于少量数据加密，比如说交换对称加密的密钥。</p>
+<p>使用 RSA 加密主要有这么几步：生成密钥对、公开公钥、公钥加密私钥解密、私钥加密公钥解密。</p>
+<pre><code>    public static final String AES = &quot;AES&quot;;
+    public static final String ECB_PKCS1_PADDING = &quot;RSA/ECB/PKCS1Padding&quot;;
+
+   /**
+     * 随机生成 RSA 密钥对
+     *
+     * @param keyLength 密钥长度, 范围: 512～2048, 一般 1024
+     * @return 密钥对
+     */
+    public static KeyPair generateRSAKeyPair(int keyLength) {
+        try {
+            KeyPairGenerator kpg = KeyPairGenerator.getInstance(RSA);
+            kpg.initialize(keyLength);
+            return kpg.genKeyPair();
+        } catch (NoSuchAlgorithmException e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * 公钥加密
+     *
+     * @param data      原文
+     * @param publicKey 公钥
+     * @return 加密后的数据
+     */
+    public static byte[] encryptByPublicKey(byte[] data, byte[] publicKey) {
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKey);
+        try {
+            KeyFactory kf = KeyFactory.getInstance(RSA);
+            PublicKey keyPublic = kf.generatePublic(keySpec);
+            Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
+            cipher.init(Cipher.ENCRYPT_MODE, keyPublic);
+            return cipher.doFinal(data);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * 私钥加密
+     *
+     * @param data       待加密数据
+     * @param privateKey 密钥
+     * @return 加密后的数据
+     */
+    public static byte[] encryptByPrivateKey(byte[] data, byte[] privateKey) {
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKey);
+        try {
+            KeyFactory kf = KeyFactory.getInstance(RSA);
+            PrivateKey keyPrivate = kf.generatePrivate(keySpec);
+            Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
+            cipher.init(Cipher.ENCRYPT_MODE, keyPrivate);
+            return cipher.doFinal(data);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * 公钥解密
+     *
+     * @param data      待解密数据
+     * @param publicKey 密钥
+     * @return 解密后的数据
+     */
+    public static byte[] decryptByPublicKey(byte[] data, byte[] publicKey) {
+        X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKey);
+        try {
+            KeyFactory kf = KeyFactory.getInstance(RSA);
+            PublicKey keyPublic = kf.generatePublic(keySpec);
+            Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
+            cipher.init(Cipher.DECRYPT_MODE, keyPublic);
+            return cipher.doFinal(data);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+
+    /**
+     * 私钥解密
+     *
+     * @param data  待解密的数据
+     * @param privateKey 私钥
+     * @return 解密后的数据
+     */
+    public static byte[] decryptByPrivateKey(byte[] data, byte[] privateKey) {
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateKey);
+        try {
+            KeyFactory kf = KeyFactory.getInstance(RSA);
+            PrivateKey keyPrivate = kf.generatePrivate(keySpec);
+            Cipher cipher = Cipher.getInstance(ECB_PKCS1_PADDING);
+            cipher.init(Cipher.DECRYPT_MODE, keyPrivate);
+            return cipher.doFinal(data);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+</code></pre>
+<p>密钥对生成后是一串灰常长特别长的数据，大家可以对其 Base64 后看看公钥和随机性如何。使用测试数据<code>123456abcdef</code>加密过、Base64 编码后的结果如下。加密这么短的字符串竟然生成这么长的密文，难怪 RSA 算法这么慢！</p>
+<blockquote>
+<p>密文 Base64 后：X6yx1XfkVk4DZpnzcCSZr2oK+WMP7Azm4fBcGNEwWPrRdtf9isfMeKgQsI6kqOF5Vb5b5IYAIqHZRE5QcDbIM/3bTWVTVg/t7enGCUSxValIvJ/A37syWTUXlh59DZzBMgzG4rbziGCc8CGyO03XFq8gCncr4NMZXQwkKI8Alds=</p>
+</blockquote>
+<p>一般来说，客户端和服务端的通信过程是这样的：服务端生成 RSA 加密的密钥对，把公钥给客户端，私钥偷偷保留。客户端在首次使用公钥加密数据，然后发送给服务端。服务端接收并处理后，会把对称加密的密钥下发给客户端。客户端接收到对称加密的密钥，以后的通信就会使用对称加密的方式。当然也可以由客户端生成对称加密的密钥，然后用公钥加密发给服务端。这样在双方交换密钥时保证了安全，之后的对称加密保证了效率。</p>
+<p>好了，关于 Android 加密和编码的方式就先介绍这么多，欢迎大家留言交流~</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-shi-yong-gradle-da-bao-zhi-qian-ming-pei-zhi">
+                  <h3 class="post-title">
+                    Android 使用 Gradle 打包之签名配置
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

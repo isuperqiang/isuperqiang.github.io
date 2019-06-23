@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android I/O 那些事儿 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561266157583">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561266157583" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android I/O 那些事儿</h2>
+            <div class="post-date">2019-06-04</div>
+            
+            <div class="post-content">
+              <p>I/O 操作是编程离不开的话题，它不仅是读写那么简单，还涉及底层的文件系统和存储设备。I/O 的快慢影响程序的执行效率，这篇文章主要介绍 Android 平台 I/O 的方式和使用场景。</p>
+<!-- more -->
+<h3 id="1-linux-io-的基本组成">1. Linux I/O 的基本组成</h3>
+<p>众所周知，Android 基于 Linux 系统，先介绍一些 Linux 上 I/O 的知识。</p>
+<p>I/O 操作由应用程序、文件系统和磁盘共同完成，应用程序将 I/O 命令发送给文件系统，文件系统在合适的时间把 I/O 指令发送给磁盘。I/O 的流程如下图：</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603080604.png" alt="I/O操作"></p>
+<p>CPU 和内存的速度比磁盘快得多，I/O 操作的瓶颈在于磁盘的性能。为了降低磁盘对应用程序的影响，文件系统要进行各种各样的优化。</p>
+<h4 id="文件系统">文件系统</h4>
+<p>简单来说，文件系统就是存储和组织数据的方式。应用程序调用 read() 方法，系统会通过中断从用户空间进入内核空间，然后经过虚拟文件系统、具体文件系统、页缓存。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603081904.png" alt="Linux-I/O架构"></p>
+<ul>
+<li>虚拟文件系统（VFS）。主要用于屏蔽具体的文件系统，为应用程序的操作提供一个统一的接口。</li>
+<li>文件系统（File System）。ext4、F2FS 都是具体文件系统实现。每个文件系统都有适合自己的场景。</li>
+<li>页缓存（Page Cache）。文件系统对数据的缓存，读文件时先检查页缓存，如果命中就不去读磁盘。</li>
+</ul>
+<h4 id="磁盘">磁盘</h4>
+<p>磁盘指的是系统的存储设备，常见的有机械硬盘、固态硬盘等。如果发现应用程序要读的数据没有在页缓存中，这时候就需要真正向磁盘发起 I/O 请求。磁盘 I/O 的过程要先经过内核的通用块层、I/O 调度层、设备驱动层，最后才会交给具体的硬件设备处理。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603082924.png" alt="磁盘架构"></p>
+<ul>
+<li>通用块层。接收上层发出的磁盘请求，并最终发出 I/O 请求。它与 VPS 的作用类似。</li>
+<li>I/O 调度层。根据设置的调度算法对请求合并和排序。不能接收到磁盘请求就立刻交给驱动层处理。</li>
+<li>块设备驱动层。根据具体的物理设备，选择对应的驱动程序，通过操控硬件设备完成最终的 I/O 请求。</li>
+</ul>
+<h3 id="2-android-上的-io">2. Android 上的 I/O</h3>
+<p>Android 现在普遍使用的是 Linux 常用的 ext4 文件系统。F2FS（Flash-Friendly File System）是三星为闪存研发的文件系统，它针对闪存进行了大量优化，F2FS 文件系统在小文件的随机读写方面比 ext4 更快。随着 Google、华为的投入和使用，F2FS 应该会成为 Android 主流的文件系统。</p>
+<p>Android 手机使用闪存作为存储设备，也就是我们常说的 ROM。前几年闪存通常使用 eMMC 标准，近年来采用性能更好的 UFS 2.0/2.1 标准。手机存储也朝着体积更小、功耗更低、速度更快、容量更大的方向发展，闪存的随机读写速度甚至比 SSD 还快。</p>
+<h4 id="手机变卡">手机变卡</h4>
+<p>Android 手机用久了会变卡，除了系统升级、设备折旧等因素，还和 I/O 有密切关系。I/O 操作变慢的原因有下面几条：</p>
+<ul>
+<li>内存不足。系统回收 Page Cache 和 Buffer Cache 的内存，大部分的写操作会直接落盘，导致性能低下。</li>
+<li>写入放大。闪存重复写入需要先进行擦除，一次写入会引起整个块数据的迁移，导致写入时间非常久。</li>
+<li>设备性能差。在高负载的情况下容易出现瓶颈。</li>
+</ul>
+<h4 id="文件损坏">文件损坏</h4>
+<p>文件损坏是令人头疼的问题，大多是由不正确的操作导致的。文件损坏的原因可以从应用程序、文件系统和磁盘三个角度来分析：</p>
+<ul>
+<li>应用程序。大部分的 I/O 方法都不是原子操作，文件的跨进程或者多线程写入、使用一个已经关闭的文件描述符 fd 来操作文件，都有可能导致数据被覆盖或者删除。</li>
+<li>文件系统。虽说内核崩溃或者系统突然断电都有可能导致文件系统损坏，不过文件系统也做了很多的保护措施。例如 system 分区保证只读不可写，增加异常检查和恢复机制。</li>
+<li>磁盘。手机上使用的闪存是电子式的存储设备，所以在资料传输过程可能会发生电子遗失等现象导致数据错误。</li>
+</ul>
+<h3 id="3-io-的三种方式">3. I/O 的三种方式</h3>
+<p>I/O 有三种方式：标准 I/O、mmap 和 Direct I/O。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190604090403.png" alt="I/O的方式"></p>
+<h4 id="标准-io">标准 I/O</h4>
+<p>应用程序平时用到 read/write 操作都属于标准 I/O，也就是缓存 I/O（Buffered I/O）。它的关键特性有：</p>
+<ul>
+<li>对于读操作，当应用程序读取某块数据时，如果这块数据已经在页缓存中，那么就不需要经过物理读盘操作。</li>
+<li>对于写操作，应用程序会先将数据写到页缓存中去，不需要等全部数据被写回磁盘，系统会定期将页缓存中的数据刷到磁盘上。</li>
+</ul>
+<p>缓存 I/O 可以很大程度减少真正读写磁盘的次数，从而提升性能。但是延迟写机制可能会导致数据丢失。在实际应用中，如果某些数据非常重要，我们应该采用同步写机制。</p>
+<p>读操作时，数据会先从磁盘拷贝到 Page Cache 中，然后再从 Page Cache 拷贝到应用程序的用户空间，这样就会多一次内存拷贝。内存相对磁盘是高速设备，即使多拷贝一次，也比真正读一次硬盘要快。</p>
+<h4 id="mmap">mmap</h4>
+<p>mmap 把文件映射到进程的地址空间，提高了 I/O 的性能。</p>
+<p>mmap 的优点有：</p>
+<ul>
+<li>减少系统调用。只需要一次 mmap() 系统调用，后续所有的调用像操作内存一样。</li>
+<li>减少数据拷贝。mmap 只需要从磁盘拷贝一次，由于做过内存映射，不需要再拷贝回用户空间。</li>
+<li>可靠性高。mmap 把数据写入页缓存后，跟缓存 I/O 的延迟写机制一样。</li>
+</ul>
+<p>存在的缺点：</p>
+<ul>
+<li>虚拟内存增大。Apk、Dex、so 都是通过 mmap 读取。mmap 会导致虚拟内存增大，mmap 大文件容易出现 OOM。</li>
+<li>磁盘延迟。mmap 通过缺页中断向磁盘发起真正的磁盘 I/O，不能通过 mmap 消除磁盘 I/O 的延迟。</li>
+</ul>
+<p>在 Android 中可以将文件通过 <a href="https://developer.android.com/reference/android/os/MemoryFile">MemoryFile</a> 或者 <a href="https://developer.android.com/reference/java/nio/MappedByteBuffer">MappedByteBuffer</a> 映射到内存，然后进行读写，使用这种方式对于小文件和频繁读写操作的文件还是有一定优势的。</p>
+<p>mmap 比较适合对同一块区域频繁读写的情况，推荐使用 I/O 线程来操作。用户日志、数据上报都满足这种场景，另外需要跨进程同步的时候，mmap 也是一个不错的选择。Android 跨进程通信有自己独有的 Binder 机制，它内部也是使用 mmap 实现。</p>
+<h4 id="direct-io">Direct I/O</h4>
+<p>一些数据库自己实现了数据和索引的缓存管理，对页缓存的依赖没那么强烈。它们想绕开页缓存机制，减少一次数据拷贝，它的数据也不会污染页缓存。</p>
+<p>直接 I/O 访问文件方式减少了一次数据拷贝和一些系统调用的耗时，很大程度降低了 CPU 的使用率以及内存的占用。负面影响就是读写操作都是同步执行，导致应用程序等待。</p>
+<h3 id="4-同步与异步-io">4. 同步与异步 I/O</h3>
+<p>多线程阻塞式在 I/O 操作上的并没有优势，I/O 操作的主要瓶颈在于磁盘带宽。所以 I/O 操作不能开大量的线程。</p>
+<p>NIO 是非阻塞 I/O，将 I/O 以事件的方式通知，可以减少线程切换的开销。NIO 的最大作用不是减少读取文件的耗时，而是最大化提升应用整体的 CPU 利用率。</p>
+<p>另外，非常推荐 Square 的 <a href="https://github.com/square/okio">Okio</a>，它支持同步和异步 I/O，也做了比较多的优化。</p>
+<p>I/O 优化对提升应用的体验非常有用，希望上面所讲的内容对你有帮助。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-9-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 9 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
