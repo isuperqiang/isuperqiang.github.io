@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之模版方法模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之模版方法模式</h2>
+            <div class="post-date">2018-03-20</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1. 定义</h3>
+<p>定义一个操作的算法骨架，而将一些步骤延迟到子类中。模板方法使得子类可以不改变一个算法的结构，即可重定义该算法的某些特定步骤。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>基于继承的代码复用技术，在模板方法模式中，可以将相同的代码放在父类中，而将不同的实现放在子类中。抽象类将部分逻辑以具体方法的形式实现，然后声明一些抽象方法来让子类实现剩余的逻辑。不同的子类以不同的方式实现这些抽象方法，从而对剩余的逻辑有不同的实现。</p>
+<h3 id="3-结构">3. 结构</h3>
+<ul>
+<li>
+<p>抽象类</p>
+<p>定义模板方法，也就是逻辑的骨架，细化的操作定义成抽象方法由子类实现。</p>
+</li>
+<li>
+<p>具体类</p>
+<p>实现抽象类的抽象方法，实现本身的具体操作。</p>
+</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p>举个例子：泡茶和冲咖啡。都要经过烧水、放料和冲泡的过程，其中烧水和冲泡是一样的操作，而放入的原料却不同。所以，定义一个冲泡热饮的基本方法：烧水--放料--冲泡，放料定义为抽象方法，由茶和咖啡分别实现。</p>
+<p>另外，我们可以决定是否加糖，默认是加糖（甜是大家都爱的嘛），在这里咖啡需要加糖，而茶却不需要。所以，茶类可以覆盖抽象类的默认实现，那么在泡茶的时候，就不会加糖啦。这个方法称作钩子方法，具体类可以通过它来控制抽象类的行为。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-2be6ca5d931fb8fa..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<pre><code>public abstract class CoffeineBeverage {
+
+    /**
+     * 模板方法，不允许子类覆盖
+     */
+    public final void prepareRecipe() {
+        boilWater();
+        addCondiment();
+        brew();
+        if (isAddSugar()) {
+            System.out.println(&quot;加糖&quot;);
+        }
+    }
+
+    private void boilWater() {
+        System.out.println(&quot;烧水&quot;);
+    }
+
+    private void brew() {
+        System.out.println(&quot;冲泡&quot;);
+    }
+
+    /**
+     * 是否加糖，钩子方法
+     *
+     * @return
+     */
+    protected boolean isAddSugar() {
+        return true;
+    }
+
+    /**
+     * 加料
+     */
+    protected abstract void addCondiment();
+}
+</code></pre>
+<pre><code>public class Coffee extends CoffeineBeverage {
+
+    @Override
+    protected void addCondiment() {
+        System.out.println(&quot;加入咖啡&quot;);
+    }
+}
+
+public class Tea extends CoffeineBeverage {
+
+    @Override
+    protected void addCondiment() {
+        System.out.println(&quot;加入茶叶&quot;);
+    }
+
+    @Override
+    protected boolean isAddSugar() {
+        return false;
+    }
+}
+</code></pre>
+<pre><code>    public static void main(String[] args) {
+        // 冲咖啡
+        CoffeineBeverage coffee = new Coffee();
+        coffee.prepareRecipe();
+
+        System.out.println(&quot;-----------------&quot;);
+        // 泡茶
+        CoffeineBeverage tea = new Tea();
+        tea.prepareRecipe();
+    }
+</code></pre>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点：</strong></p>
+<p>封装不变部分，扩展可变部分，提高了代码的复用性；实现了反向的控制结构，父类调用其子类的操作，子类的扩展增加新的行为，符合「开闭原则」。</p>
+<p><strong>2. 缺点：</strong></p>
+<p>每个不同的实现都需要定义一个子类，这会导致类的个数增加，系统更加庞大，设计也更加抽象。</p>
+<p><strong>3. 使用场景：</strong></p>
+<ul>
+<li>一次性实现算法的不变部分，并将可变的行为留给子类来实现。</li>
+<li>各子类中公共的行为应被提取出来并集中到一个公共父类中以避免代码重复。</li>
+<li>控制子类扩展。模板方法只在特定点调用“hook”操作 ，这样就只允许在这些点进行扩展。</li>
+</ul>
+<p><strong>参考文章：</strong></p>
+<p><a href="http://blog.csdn.net/hguisu/article/details/7564039">模板方法模式</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-wai-guan-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之外观模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

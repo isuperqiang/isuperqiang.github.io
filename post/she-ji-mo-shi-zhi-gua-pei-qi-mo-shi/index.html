@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之适配器模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之适配器模式</h2>
+            <div class="post-date">2018-03-18</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1.  定义</h3>
+<p>将一个接口转换成客户希望的另一个接口，使接口不兼容的类可以一起工作，其别名为包装器。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。</p>
+<p>适配器模式分为类适配器模式和对象适配器模式，由于Java 不支持多重继承，提倡多用组合少用继承，所以本文主要介绍对象适配器。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>简言之就是接口转换，比如日常生活中，iPhone 使用 Lightning 接口充电，Android 手机使用 MicroUsb 接口。如果我们想用带 MicroUsb 接口的线给 iPhone 充电怎么办？自然是找个转接头，让电流从 MicroUsb 接口流向 Lightning 接口。这样，转接头就是个适配器，让本来不能一起使用的 MicroUsb 接口和 iPhone 可以友好相处啦。</p>
+<h3 id="3-结构">3. 结构</h3>
+<p>适配器模式包含如下角色：</p>
+<ul>
+<li>Target：目标抽象类</li>
+<li>Adapter：适配器类</li>
+<li>Adaptee：适配者类</li>
+<li>Client：客户类</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-3b980002c42859d8..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<ol>
+<li>
+<p>目标抽象类，就是 iPhone 要使用的 Lightning 接口。</p>
+<pre><code class="language-java">public interface ILightningInterface {
+    /**
+     * 充电
+     */
+    void charge();
+}
+</code></pre>
+</li>
+<li>
+<p>适配器类，转接头把 MicroUsb 接口转换为 Lightning 接口。</p>
+<pre><code class="language-java">public class InterfaceAdapter implements ILightningInterface {
+    private MicroUsbInterface microUsbInterface;
+
+    public InterfaceAdapter(MicroUsbInterface microUsbInterface) {
+        this.microUsbInterface = microUsbInterface;
+    }
+
+    @Override
+    public void charge() {
+        microUsbInterface.charge();
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>适配者类，要适配的 MicroUsb 接口。</p>
+<pre><code class="language-java">public class MicroUsbInterface {
+
+    public void charge() {
+        System.out.println(&quot;charge with MicroUsb&quot;);
+    }
+}
+</code></pre>
+</li>
+<li>
+<p>客户类，有了转接头，iPhone 也可以使用 MicroUsb 线充电啦。</p>
+<pre><code class="language-java">public class AdapterTest {
+
+    public static void main(String[] args) {
+        // 直接使用 Lightning 充电口
+        ILightningInterface lightningInterface = new LightningInterface();
+        lightningInterface.charge();
+
+        // 使用转接头把 MicroUsb 接口转换为 Lightning 接口
+        MicroUsbInterface microUsbInterface = new MicroUsbInterface();
+        ILightningInterface interfaceAdapter = new InterfaceAdapter(microUsbInterface);
+        interfaceAdapter.charge();
+    }
+}
+</code></pre>
+</li>
+</ol>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点：</strong></p>
+<ul>
+<li>将目标类和适配者类解耦，增加了类的透明性和复用性；</li>
+<li>系统的灵活性和扩展性都非常好，更换适配器或者增加新的适配器都非常方便，符合「开闭原则」。</li>
+</ul>
+<p><strong>2. 缺点：</strong></p>
+<p>过多地使用适配器，会让系统非常零乱，不易整体进行把握。比如，明明看到调用的是 A 接口，其实内部被适配成了 B 接口的实现，一个系统如果太多出现这种情况，无异于一场灾难。</p>
+<p><strong>3. 使用场景：</strong></p>
+<ul>
+<li>系统需要使用现有的类，而这些类的接口不符合系统的需要；</li>
+<li>想要建立一个可以重复使用的类，用于与一些彼此之间没有太大关联的类一起工作。</li>
+</ul>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/adapter.html">适配器模式</a></li>
+<li><a href="http://www.hollischuang.com/archives/1524">适配器模式</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-ming-ling-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之命令模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

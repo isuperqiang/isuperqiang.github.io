@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之装饰者模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之装饰者模式</h2>
+            <div class="post-date">2018-03-09</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1.  定义</h3>
+<p>使用装饰者模式可以在运行时动态地扩充一个类的功能，它提供了比继承更具弹性的代替方案。</p>
+<p>在装饰模式中的角色有：</p>
+<ol>
+<li><strong>抽象构件(Component)角色：</strong> 给出一个抽象接口，以规范准备接收附加责任的对象。</li>
+<li><strong>具体构件(ConcreteComponent)角色：</strong> 定义一个将要接收附加责任的类。</li>
+<li><strong>装饰(Decorator)角色：</strong> 持有一个构件(Component)对象的实例，并定义一个与抽象构件接口一致的接口。</li>
+<li><strong>具体装饰(ConcreteDecorator)角色：</strong> 负责给构件对象「贴上」附加的责任。</li>
+</ol>
+<h3 id="2-实现">2. 实现</h3>
+<p>下面就以买豆浆为例，实现一个装饰者模式。在买豆浆时，我们可以选择原味的，然后再添加红豆、绿豆等原料，从而磨出多种口味的豆浆。那么，这个添加的原料就属于对原味豆浆的扩展，所以使用装饰者模式再好不过了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-ec8877ebd154d3fd..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<ol>
+<li>定义抽象构件角色，即豆浆和原料共同的接口。</li>
+</ol>
+<pre><code class="language-java">public interface IMilk {
+    /**
+     * 描述
+     *
+     * @return
+     */
+    String getDescription();
+
+    /**
+     * 价格
+     *
+     * @return
+     */
+    double cost();
+}
+</code></pre>
+<ol start="2">
+<li>定义具体构件角色，即被装饰的原味豆浆。</li>
+</ol>
+<pre><code class="language-java">public class SoybeanMilk implements IMilk {
+
+    @Override
+    public String getDescription() {
+        return &quot;原味&quot;;
+    }
+
+    @Override
+    public double cost() {
+        return 2;
+    }
+}
+</code></pre>
+<ol start="3">
+<li>定义装饰角色，用来加入豆浆的原料。</li>
+</ol>
+<pre><code class="language-java">public abstract class MilkAddition implements IMilk {
+    protected IMilk milk;
+
+    public MilkAddition(IMilk milk){
+        this.milk = milk;
+    }
+}
+</code></pre>
+<ol start="4">
+<li>定义具体装饰角色，即加入的不同原料。</li>
+</ol>
+<pre><code class="language-java">public class RedBeanAddition extends MilkAddition {
+
+    public RedBeanAddition(IMilk milk) {
+        super(milk);
+    }
+
+    @Override
+    public String getDescription() {
+        return milk.getDescription() + &quot; + 红豆&quot;;
+    }
+
+    @Override
+    public double cost() {
+        return milk.cost() + 3;
+    }
+}
+
+public class MungBeanAddition extends MilkAddition {
+
+    public MungBeanAddition(IMilk milk) {
+        super(milk);
+    }
+
+    @Override
+    public String getDescription() {
+        return milk.getDescription() + &quot; + 绿豆&quot;;
+    }
+
+    @Override
+    public double cost() {
+        return milk.cost() + 2;
+    }
+}
+
+public class SugarAddition extends MilkAddition {
+
+    public SugarAddition(IMilk milk) {
+        super(milk);
+    }
+
+    @Override
+    public String getDescription() {
+        return milk.getDescription() + &quot; + 糖&quot;;
+    }
+
+    @Override
+    public double cost() {
+        return milk.cost() + 0.5;
+    }
+}
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">        // 原味豆浆，两块钱
+        IMilk milk = new SoybeanMilk();
+        // 加糖，五毛钱
+        milk = new SugarAddition(milk);
+        // 加红豆，三块钱
+        milk = new RedBeanAddition(milk);
+        // 加绿豆，两块钱
+        milk = new MungBeanAddition(milk);
+
+        System.out.println(&quot;喝到的豆浆：&quot; + milk.getDescription() + &quot;, 价格：&quot; + milk.cost() + &quot;元&quot;);
+		// 输出：喝到的豆浆：原味 + 糖 + 红豆 + 绿豆, 价格：7.5元
+</code></pre>
+<h3 id="3-应用">3. 应用</h3>
+<ul>
+<li>
+<p><strong>优点：</strong></p>
+<ol>
+<li>装饰者模式与继承关系的目的都是要扩展对象的功能，但是装饰者可以提供比继承更多的灵活性。</li>
+<li>通过使用不同的具体装饰类以及这些装饰类的排列组合，设计师可以创造出很多不同行为的组合。</li>
+<li>具体构件类与具体装饰类可以独立变化，用户可以根据需要增加新的具体构件类和具体装饰类，原有类库代码无须改变，符合「开闭原则」。</li>
+</ol>
+</li>
+<li>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>这种比继承更加灵活机动的特性，也同时意味着更加多的复杂性，使用时更容易出错。</li>
+<li>装饰模式会导致设计中出现许多小类，如果过度使用，会使程序变得很复杂。</li>
+</ol>
+</li>
+<li>
+<p><strong>使用场景：</strong></p>
+<ol>
+<li>在不影响其他对象的情况下，以动态、透明的方式给单个对象添加职责。</li>
+<li>当不能采用继承的方式对系统进行扩展，或者采用继承不利于系统扩展和维护时，可以使用装饰模式。</li>
+</ol>
+</li>
+</ul>
+<p>Java IO 模块使用了不少装饰者模式，比如我们经常会这么写：</p>
+<pre><code class="language-java">new DataInputStream(new BufferedInputStream(new FileInputStream(&quot;README.md&quot;)));
+</code></pre>
+<p>起初学习 IO 部分的时候就是一头雾水，心想怎么会包装这么多层，谁记得住这么多代码。现在来看，不过是装饰者模式的应用罢了，这就是进步吧。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-guan-cha-zhe-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之观察者模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

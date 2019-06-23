@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>年中杭州 Android 面试总结 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">年中杭州 Android 面试总结</h2>
+            <div class="post-date">2018-08-05</div>
+            
+            <div class="post-content">
+              <p>相比公务员这种稳定的职业，漂泊的程序员就是无业！听起来狠残酷，现实的确如此。但是程序员靠手艺吃饭，只要专业技能傍身，找份养家糊口的工作并不难。</p>
+<p>我在 6 月份离职了，主要是上家公司的项目不行了，团队分崩离析，看不到前景。当初进入这家公司也是够蠢的，只注重短期利益，忽略长远发展，简单概括就是短视。</p>
+<p>离职后，本来想转向 Java 方面的开发，但是投简历面试之后发现，效果并不理想。思来想去，还是继续做 Android，日后慢慢学习其他方向。最近面试了许多家公司，简单写写我的感受。</p>
+<p>简历主要在拉勾网和 Boss 直聘上投递，在直聘上沟通更方便，机会也比拉勾上多。由于错过了三四月份的招聘旺季，经验要求三年以下的岗位并不多。但是我还是挑选了一些不错的公司，简历投递后大多都能收到面试通知。</p>
+<p>我选择公司的标准有这么几个：</p>
+<ol>
+<li>看公司规模，低于 100 人的排除</li>
+<li>看公司类型，互联网公司优先，拒绝外包</li>
+<li>看公司成立时间，少于两年的排除</li>
+<li>看公司的产品是否可行，是否盈利</li>
+<li>看公司的技术团队和管理层，是否名校或名企出身</li>
+<li>看公司的文化氛围，互联网文化好的优先考虑</li>
+<li>看公司在招的其他岗位，对组织架构有个大概了解</li>
+</ol>
+<p>杭州这边的创业公司真多，人员规模小，真的是 Boss 直聘。根据这份标准，能过滤掉至少一半的公司，然后就开始撒网吧。</p>
+<p>下面说说简历，这个可是决定是否面试的入场券。我之前推荐过一个非常简洁的<a href="https://isuperqiang.cn/post/gei-cheng-xu-yuan-tui-jian-yi-ge-jian-ji-shi-yong-de-jian-li-mo-ban/index.html">模版</a>，使用 Markdown 编辑，省去了排版的烦恼，这次用的也是它。</p>
+<p>除了基本信息和项目经历之外，我还加上了一些独特的内容，比如技能清单和编程信仰。有的 HR 告诉我，看到这些就好奇，想约我面试呢，偷笑...。你得让人觉得你不一样才行，这就是差异化竞争。</p>
+<hr>
+<p><strong>技能清单</strong></p>
+<ul>
+<li>
+<p>语言：Java<code>+</code>、SQL<code>+</code>、Python、前端相关（HTML、JS 等）</p>
+</li>
+<li>
+<p>工具：macOS<code>+</code>、IntelliJ IEDA<code>+</code>、Git<code>+</code>、Vim 等</p>
+</li>
+<li>
+<p>网站：Google<code>+</code>、GitHub<code>+</code>、Stackover Flow 等</p>
+</li>
+</ul>
+<p>其中，<code>+</code> 表示熟练使用。</p>
+<p><strong>个人评价</strong></p>
+<ul>
+<li>推崇工程师文化，追逐极客精神</li>
+<li>对技术孜孜不倦，热爱分享，拥抱开源</li>
+<li>对效率有严苛的追求，遵循 clean code 原则</li>
+</ul>
+<hr>
+<p>然后就是赴约面试，我一般会提前十五分钟到达，这样心里不会急躁。与面试官交谈还是比较轻松的，对于自己熟知的东西，我对答如流滔滔不绝；对于自己不了解的，我直接说不知道。下面举几个例子说说面试的情况。</p>
+<h4 id="1-海康威视">1. 海康威视</h4>
+<p><strong>技术面</strong></p>
+<ol>
+<li>介绍项目</li>
+<li>OkHttp 底层用的什么实现</li>
+<li>EventBus 原理</li>
+<li>ButterKnife 原理</li>
+<li>View 绘制原理</li>
+<li>插件化如何实现</li>
+<li>ThreadLocal 是什么</li>
+<li>Handler 原理</li>
+<li>RxJava 介绍</li>
+<li>事件分发机制</li>
+</ol>
+<p><strong>HR 面</strong></p>
+<ol>
+<li>离职原因</li>
+<li>平时怎么学习</li>
+<li>职业发展规划</li>
+<li>介绍工作强度、薪资等</li>
+</ol>
+<p>海康是个上市公司，国内安防第一，两栋办公大楼非常耀眼。招聘规范和流程化方面做得很好，但是技术面后让我等了很久，本来有技术二面，由于时间不够直接 HR 面了。海康毕竟是传统的硬件公司，软件的使用体验真不行，和某些银行、通信公司的差不多。其实，我的内心是拒绝的，但是考虑到大平台，我还是打算来试试。</p>
+<h4 id="2-同花顺">2. 同花顺</h4>
+<p><strong>笔试</strong></p>
+<p>上机面试题，一共八道题，时间一个小时。常用布局、事件传递、进程间通信、view 绘制过程等</p>
+<p><strong>技术面</strong></p>
+<p>主要介绍项目，根据项目描述考察你的理解。</p>
+<p>同花顺算不上是互联网公司，公司的装潢狠土豪，或者说土气，一副有钱的样子。到了后 HR 领着上机笔试，看到题目后我也是服了，有些知识点都是几年前的。技术面试官有两个，都是聊的项目，没有谈技术，真是搞不懂。</p>
+<h4 id="3腾展科技">3.腾展科技</h4>
+<p><strong>技术一面</strong></p>
+<ol>
+<li>Handler 怎么实现延时消息</li>
+<li>Broadcast 的过程和原理</li>
+<li>ThreadPool 底层实现</li>
+<li>设计模式例子</li>
+<li>RxJava 观察者模式的差异</li>
+<li>Java NIO 和 IO</li>
+<li>HashMap 什么情况下会产生线程不安全</li>
+<li>插件化、热修复相关</li>
+</ol>
+<p><strong>技术二面</strong></p>
+<ol>
+<li>TCP 怎么保证可靠传输</li>
+<li>HTTPS 是怎么实现的</li>
+<li>聊聊做过的项目</li>
+<li>工作流程、方式等</li>
+</ol>
+<p><strong>HR面</strong></p>
+<p>对公司的介绍</p>
+<p>腾展科技做的是移动互联网出海项目，它的产品在海外的用户量非常大，但是在国内很低调。技术一面是个主程，聊得还可以，从中也能看出公司的技术实力。技术二面是项目主管，和我聊了许多移动互联网方面，业务上是比较成熟的公司。</p>
+<p>面试的过程中，气场是隐形决定结果的因素。有的面试官就是让人觉得不自在，那就不必相互打扰了。就算以后进入了公司，相处也不一定愉快。</p>
+<p>最后加入了一家做 3D 图像的公司，技术实力很强，浙大系的创业公司。面对公司业务，还有许多技术要学，持续不断地学习才是程序员的生命力。</p>
+<p>换工作的成本是很大的，我深有体会。选择一家前景好、技术强的公司，发挥自己的才能，跟着公司一起成长，这才是主要的。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/interview" class="tag">
+                    面试
+                  </a>
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/java-servlet-zong-jie">
+                  <h3 class="post-title">
+                    Java Servlet 总结
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

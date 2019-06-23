@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之单例模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之单例模式</h2>
+            <div class="post-date">2018-03-15</div>
+            
+            <div class="post-content">
+              <p>单例模式应该是我们接触到的最简单的设计模式，结构简洁，代码短小，实现起来非常容易。它确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例。</p>
+<p>单例模式包含如下角色：</p>
+<ul>
+<li>Singleton：单例
+在单例类的内部实现只生成一个实例，同时它提供一个静态的工厂方法，让客户可以使用它的唯一实例；为了防止在外部对其实例化，将其构造函数设计为私有。</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-e86adc943aa44906..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<p>单例模式的要点有三个：一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。</p>
+<p>单例模式的实现方式有饿汉式、懒汉式、静态内部类等，菜鸟教程上的<a href="http://www.runoob.com/design-pattern/singleton-pattern.html">单例模式</a>总结得就很全面，要根据实际情况选择合适的方式。</p>
+<p>我主要使用下面三种实现方式，双重校验锁和静态内部类保证了线程安全和懒加载；饿汉式做到了线程安全，在类加载时就进行实例化。</p>
+<h3 id="1-双重校验锁">1. 双重校验锁：</h3>
+<pre><code class="language-java">public class Singleton {  
+    private volatile static Singleton singleton;  
+    
+    private Singleton (){
+        
+    }  
+    
+    public static Singleton getSingleton() {  
+        if (singleton == null) {  
+            synchronized (Singleton.class) {  
+                if (singleton == null) {  
+                    singleton = new Singleton();  
+                }  
+            }  
+        }  
+        return singleton;  
+    }  
+}  
+</code></pre>
+<h3 id="2-静态内部类">2. 静态内部类：</h3>
+<pre><code class="language-java">public class Singleton {  
+    private static class SingletonHolder {  
+        private static final Singleton INSTANCE = new Singleton();  
+    }  
+    
+    private Singleton (){
+        
+    }  
+    
+    public static final Singleton getInstance() {  
+        return SingletonHolder.INSTANCE;  
+    }  
+}   
+</code></pre>
+<h3 id="3-饿汉式">3. 饿汉式：</h3>
+<pre><code class="language-java">public class Singleton {  
+    private static Singleton instance = new Singleton();  
+    
+    private Singleton (){
+        
+    }  
+    
+    public static Singleton getInstance() {  
+        return instance;  
+    }  
+}  
+
+</code></pre>
+<ul>
+<li>**优点：**提供了对唯一实例的受控访问并可以节约系统资源。</li>
+<li>**缺点：**由于缺少抽象层而难以扩展，而且单例类职责过重。</li>
+<li>**使用场景：**系统只需要一个实例对象；客户调用类的单个实例只允许使用一个公共访问点。</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-shi-yong-sao-ma-qiang-shu-ru-zi-fu-de-zong-jie">
+                  <h3 class="post-title">
+                    Android 使用扫码枪输入字符的总结
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

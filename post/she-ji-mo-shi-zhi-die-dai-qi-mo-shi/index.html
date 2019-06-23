@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之迭代器模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之迭代器模式</h2>
+            <div class="post-date">2018-03-25</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1. 定义</h3>
+<p>提供一种方法访问一个容器对象中各个元素，而又不暴露该对象的内部细节。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>在遍历集合的时候，把在元素之间游走的责任交给迭代器，而不是集合。</p>
+<h3 id="3-结构">3. 结构</h3>
+<ul>
+<li>
+<p>抽象容器
+一般是一个接口，提供一个 iterator() 方法，例如 Java 中的 Collection 接口。</p>
+</li>
+<li>
+<p>具体容器
+就是抽象容器的具体实现类，比如 List 接口的实现有序列表 ArrayList，List 接口的链表实现 LinkList，Set 接口的哈希列表的实现 HashSet 等。</p>
+</li>
+<li>
+<p>抽象迭代器
+定义遍历元素所需要的方法，一般会有两个方法：取得下一个元素的方法 next()，判断是否遍历结束的方法 hasNext()，移出当前对象的方法 remove()。</p>
+</li>
+<li>
+<p>具体迭代器
+实现迭代器接口中定义的方法，完成集合的迭代。</p>
+</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-1617e1c7acf4b354..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<ol>
+<li>抽象容器接口，可以当作 Collection 接口的简化版。</li>
+</ol>
+<pre><code>public interface Aggregate&lt;E&gt; {
+    /**
+     * 添加元素
+     *
+     * @param data
+     */
+    void add(E data);
+
+    /**
+     * 移除元素
+     *
+     * @param data
+     */
+    void remove(E data);
+
+    /**
+     * 迭代器
+     *
+     * @return
+     */
+    Iterator&lt;E&gt; iterator();
+}
+</code></pre>
+<ol start="2">
+<li>迭代器接口，类似 Java 内置的迭代器。</li>
+</ol>
+<pre><code>public interface Iterator&lt;E&gt; {
+    /**
+     * 是否存在下一个元素
+     *
+     * @return
+     */
+    boolean hasNext();
+
+    /**
+     * 获取下一个元素
+     *
+     * @return
+     */
+    E next();
+}
+</code></pre>
+<ol start="3">
+<li>具体容器和迭代器，这里使用 ArrayList 作为内部存储，迭代器顺序遍历集合。</li>
+</ol>
+<pre><code>public class ConcreteAggregate&lt;E&gt; implements Aggregate&lt;E&gt; {
+    private List&lt;E&gt; list = new ArrayList&lt;&gt;();
+
+    @Override
+    public void add(E data) {
+        list.add(data);
+    }
+
+    @Override
+    public void remove(E data) {
+        list.remove(data);
+    }
+
+    @Override
+    public Iterator&lt;E&gt; iterator() {
+        return new InnerIterator();
+    }
+
+    /**
+     * 迭代器
+     */
+    private class InnerIterator implements Iterator&lt;E&gt; {
+        private int cursor;
+
+        @Override
+        public boolean hasNext() {
+            return cursor &lt; list.size();
+        }
+
+        @Override
+        public E next() {
+            E data = list.get(cursor);
+            cursor++;
+            return data;
+        }
+    }
+}
+</code></pre>
+<ol start="4">
+<li>测试，使用起来和 Java 内置的集合是不是很像。</li>
+</ol>
+<pre><code>    public static void main(String args[]) {
+        Aggregate&lt;String&gt; aggregate = new ConcreteAggregate&lt;&gt;();
+        aggregate.add(&quot;小刘&quot;);
+        aggregate.add(&quot;小李&quot;);
+        aggregate.add(&quot;小王&quot;);
+
+        Iterator&lt;String&gt; iterator = aggregate.iterator();
+        while (iterator.hasNext()) {
+            String name = iterator.next();
+            System.out.println(name);
+        }
+    }
+</code></pre>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点</strong>
+迭代器简化了遍历一个聚合对象的方式，在同一个聚合上可以有多个遍历。在迭代器模式中，增加新的聚合类和迭代器类都很方便，无须修改原有代码。</p>
+<p><strong>2. 缺点</strong>
+由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。</p>
+<p><strong>3. 使用场景</strong>
+迭代器模式是与集合共存的。一般来说，我们只要实现一个集合，就需要同时提供这个集合的迭代器，就像 Java 中的 Collection、Set、Map 等，这些集合都有自己的迭代器。假如我们要实现一个这样的新容器，当然也需要引入迭代器模式，给我们的容器添加一个迭代器。</p>
+<p><strong>参考文章：</strong>
+<a href="https://blog.csdn.net/zhengzhb/article/details/7610745">迭代器模式</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-mo-ban-fang-fa-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之模版方法模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

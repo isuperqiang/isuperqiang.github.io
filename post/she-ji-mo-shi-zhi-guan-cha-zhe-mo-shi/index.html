@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之观察者模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之观察者模式</h2>
+            <div class="post-date">2018-03-08</div>
+            
+            <div class="post-content">
+              <p>最近在看「Head First 设计模式」，感觉收获很大，对架构设计有了更深的理解。我会陆续记录读后的心得，并进行编码实践，强化理解。</p>
+<h4 id="观察者模式是常用的设计模式之一它的定义是这样的">观察者模式是常用的设计模式之一，它的定义是这样的：</h4>
+<blockquote>
+<p>观察者模式定义了一个一对多的依赖关系，让一个或多个观察者对象监听一个主题对象。这样一来，当被观察者状态发生改变时，需要通知相应的观察者，使这些观察者对象能够自动更新。</p>
+</blockquote>
+<p>关键的两个角色：观察者和被观察者。</p>
+<p><strong>观察者（observer）</strong></p>
+<p>当被观察者发生变化时，观察者会收到通知，并进行相应的处理。</p>
+<p><strong>被观察者（observable）</strong></p>
+<p>内部持有观察者的集合，在观察者注册和解除注册时用。当数据发生变化时，及时通知观察者。</p>
+<h4 id="实战演练我拿微信用户订阅公众号的例子进行说明">实战演练：我拿微信用户订阅公众号的例子进行说明。</h4>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-4361b299a8d85cee..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<p>观察者接口：微信用户，能够接收消息。</p>
+<pre><code class="language-java">public interface IWechatUser {
+    /**
+     * 接收到消息
+     *
+     * @param message
+     */
+    void onReceived(String message);
+}
+</code></pre>
+<p>被观察者接口：微信公众号，主要有三个方法：订阅、取消和群发。</p>
+<pre><code class="language-java">public interface IOfficialAccount {
+    /**
+     * 订阅公众号
+     *
+     * @param wechatUser
+     */
+    void addSubscriber(IWechatUser wechatUser);
+
+    /**
+     * 取消订阅公众号
+     *
+     * @param wechatUser
+     */
+    void removeSubscriber(IWechatUser wechatUser);
+
+    /**
+     * 群发消息
+     *
+     * @param message
+     */
+    void notifySubscribers(String message);
+}
+</code></pre>
+<p>微信用户实现类，构造时就让他关注公众号，在收到消息时进行显示。</p>
+<pre><code class="language-java">public class WechatUser implements IWechatUser {
+    private String name;
+
+    public WechatUser(String name, IOfficialAccount officialAccount) {
+        this.name = name;
+        officialAccount.addSubscriber(this);
+    }
+
+    @Override
+    public void onReceived(String message) {
+        System.out.println(this.name + &quot; 收到: &quot; + message);
+    }
+}
+</code></pre>
+<p>公众号实现类，提供关注和取关的接口，使用列表保存订阅的用户，支持群发消息。</p>
+<pre><code class="language-java">public class OfficialAccount implements IOfficialAccount {
+    private String name;
+    private List&lt;IWechatUser&gt; wechatUsers;
+
+    public OfficialAccount(String name) {
+        this.name = name;
+        wechatUsers = new ArrayList&lt;&gt;();
+    }
+
+    @Override
+    public void addSubscriber(IWechatUser wechatUser) {
+        if (!wechatUsers.contains(wechatUser)) {
+            wechatUsers.add(wechatUser);
+        }
+    }
+
+    @Override
+    public void removeSubscriber(IWechatUser wechatUser) {
+        wechatUsers.remove(wechatUser);
+    }
+
+    @Override
+    public void notifySubscribers(String message) {
+        for (IWechatUser wechatUser : wechatUsers) {
+            wechatUser.onReceived(name + &quot; - &quot; + message);
+        }
+    }
+}
+</code></pre>
+<p>测试：</p>
+<pre><code class="language-java">        IOfficialAccount xdxx = new OfficialAccount(&quot;小道消息&quot;);
+        IOfficialAccount rmrb = new OfficialAccount(&quot;人民日报&quot;);
+
+        IWechatUser zs = new WechatUser(&quot;张三&quot;, xdxx);
+        IWechatUser ls = new WechatUser(&quot;李四&quot;, rmrb);
+
+        xdxx.notifyUsers(&quot;走在前沿，拥抱变化&quot;);
+        rmrb.notifyUsers(&quot;热爱祖国，热爱人民&quot;);
+</code></pre>
+<p>这样，一个观察者模式就实现了。下面说一下它的优点：松耦合。</p>
+<ul>
+<li>
+<p>被观察者无须了解观察者的细节，只负责通知观察者。比如：公众号作者只负责推送消息，至于用户看没看，那他就不得而知了。</p>
+</li>
+<li>
+<p>观察者订阅还是取消订阅，只要调用添加和移除的接口即可。比如：用户点击关注、取关按钮就可以完成。</p>
+</li>
+<li>
+<p>观察者被动接收通知，不需要在意被观察者的细节。比如：用户等待作者推送，不必关心内容是如何排版的。</p>
+<p>​</p>
+</li>
+</ul>
+<p>目前，观察者模式使用推送的方式进行通知，如果观察者只需要其中的部分数据呢？推送大量数据未免是多余的。这时，可以采用观察者主动向被观察者获取数据的方式，只取自己需要的数据。接口参数加上被观察者的引用，这么改动：</p>
+<pre><code class="language-java">    /**
+     * 允许用户主动获取消息
+     *
+     * @param officialAccount
+     */
+    void onReceivedCustom(IOfficialAccount officialAccount);
+</code></pre>
+<p>在使用的时候，直接获取即可。</p>
+<pre><code class="language-java">    @Override
+    public void onReceivedCustom(IOfficialAccount officialAccount) {
+        if(officialAccount instanceof OfficialAccount){
+            System.out.println(this.name + &quot; 取到: &quot; + ((OfficialAccount) officialAccount).getCustomMessage());
+        }
+    }
+</code></pre>
+<p>JDK 中存在观察者和被观察者的类，在 java.util 包下，Observer 接口和 Observable 类，系统给封装好了，使用起来比较方便。</p>
+<p>Android 里面的事件监听，就大量使用观察者模式，其实主要是从松耦合的考虑吧。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-dui-eventbus-feng-zhuang">
+                  <h3 class="post-title">
+                    Android 对 EventBus 封装
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

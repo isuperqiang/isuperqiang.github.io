@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之状态模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之状态模式</h2>
+            <div class="post-date">2018-03-31</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1. 定义</h3>
+<p>允许一个对象在其内部状态改变时改变它的行为，对象看起来似乎修改了它的类。它是一种对象行为型模式。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>状态模式把所研究的对象的行为包装在不同的状态对象里，每一个状态对象都属于一个抽象状态类的一个子类。状态模式的意图是让一个对象在其内部状态改变的时候，其行为也随之改变。</p>
+<h3 id="3-角色">3. 角色</h3>
+<ul>
+<li>环境(Context)角色，也叫上下文：定义客户端所感兴趣的接口，并且保留一个具体状态类的实例。这个具体状态类的实例给出此环境对象的现有状态。</li>
+<li>抽象状态(State)角色：定义一个接口，用以封装环境（Context）对象的一个特定的状态所对应的行为。</li>
+<li>具体状态(ConcreteState)角色：每一个具体状态类都实现了环境（Context）的一个状态所对应的行为。</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p>举个例子，路口的交通信号灯就有不同的状态，红灯停、绿灯行、黄灯暂停。所以，我们就用状态模式来模拟这个过程。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-c411013bce82a3b4.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<ol>
+<li>定义抽象状态，即红绿灯在亮起时，表现的行为。</li>
+</ol>
+<pre><code>public interface ILightState {
+    /**
+     * 行为表示
+     */
+    void behave();
+}
+</code></pre>
+<ol start="2">
+<li>定义具体状态，分别是红灯、绿灯和黄灯的实现。</li>
+</ol>
+<pre><code>public class RedLight implements ILightState {
+
+    @Override
+    public void behave() {
+        System.out.println(&quot;红灯停&quot;);
+    }
+}
+
+public class GreenLight implements ILightState {
+
+    @Override
+    public void behave() {
+        System.out.println(&quot;绿灯行&quot;);
+    }
+}
+
+public class YellowLight implements ILightState {
+
+    @Override
+    public void behave() {
+        System.out.println(&quot;黄灯亮了等一等&quot;);
+    }
+}
+</code></pre>
+<ol start="3">
+<li>定义环境角色，交管系统负责信号灯，按照一定的规则进行控制。</li>
+</ol>
+<pre><code>public class TrafficSystem {
+    private ILightState redLight = new RedLight();
+    private ILightState greenLight = new GreenLight();
+    private ILightState yellowLight = new YellowLight();
+
+    public void work() {
+        double random = Math.random();
+        if (random &gt; 0.33) {
+            redLight.behave();
+        } else if (random &gt; 0.67) {
+            greenLight.behave();
+        } else {
+            yellowLight.behave();
+        }
+    }
+}
+</code></pre>
+<ol start="4">
+<li>客户角色，信号灯投入使用，并正常运行。</li>
+</ol>
+<pre><code>    public static void main(String[] args) {
+        TrafficSystem trafficSystem = new TrafficSystem();
+        trafficSystem.work();
+    }
+</code></pre>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点：</strong>
+封装了转换规则，并枚举可能的状态，它将所有与某个状态有关的行为放到一个类中，并且可以方便地增加新的状态，只需要改变对象状态即可改变对象的行为，还可以让多个环境对象共享一个状态对象，从而减少系统中对象的个数。</p>
+<p><strong>2. 缺点：</strong>
+使用状态模式会增加系统类和对象的个数，且状态模式的结构与实现都较为复杂，如果使用不当将导致程序结构和代码的混乱，对于可以切换状态的状态模式不满足「开闭原则」的要求。</p>
+<p><strong>3. 使用场景：</strong>
+对象的行为依赖于它的状态（属性），并且可以根据它的状态改变而改变它的相关行为；代码中包含大量与对象状态有关的条件语句，这些条件语句的出现，会导致代码的可维护性和灵活性变差，不能方便地增加和删除状态，使客户类与类库之间的耦合增强。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/state.html">状态模式</a></li>
+<li><a href="https://www.cnblogs.com/java-my-life/archive/2012/06/08/2538146.html">状态模式</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-zu-he-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之组合模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

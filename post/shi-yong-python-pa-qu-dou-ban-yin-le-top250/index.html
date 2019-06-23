@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>使用 Python 爬取豆瓣音乐 Top250 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">使用 Python 爬取豆瓣音乐 Top250</h2>
+            <div class="post-date">2018-06-01</div>
+            
+            <div class="post-content">
+              <p>网络爬虫是个比较有意思的东西，就像自然界的蚂蚁大军一样，在浩瀚的网络世界搜寻目标，从而得到我们想要的数据。用 Python 做爬虫非常容易，我用爬取豆瓣音乐的例子进行说明。</p>
+<!-- more -->
+<p>爬虫一般分为三个步骤：</p>
+<ol>
+<li>抓取网页</li>
+<li>解析网页</li>
+<li>存储数据</li>
+</ol>
+<p>下面我们就分三个步骤进行操作。</p>
+<h4 id="1-抓取网页">1. 抓取网页</h4>
+<p>我使用 requests 库进行网络请求，代码非常简洁，拿到原始的 html 文本就可以。</p>
+<pre><code class="language-python">import requests
+import logging
+
+# 定义日志输出格式 eg: 2017-12-10 21:50:14,021 HelloWorld.py (21) __main__ [DEBUG]:debug message
+FORMAT = '%(asctime)s %(filename)s (%(lineno)d) %(name)s [%(levelname)s]:%(message)s'
+# 打开日志，允许输出 debug 及以上级别的日志
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+# 关闭日志，禁止输出 critical 及以下级别日志
+# logging.disable(level=logging.CRITICAL)
+# 建议使用模块名称作为日志名称
+log = logging.getLogger(__name__)
+
+def __request_html(url):
+    # 加上 UA 请求头模拟浏览器请求，使用代理防止 IP 被封
+    proxies = {'http': 'http://27.40.158.52:61234'}
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.104 Safari/537.36 Core/1.53.4295.400 QQBrowser/9.7.12661.400'}
+    response = requests.get(url, headers=headers, proxies=proxies)
+    if response.status_code == 200:
+        log.info('status ok')
+        # 响应的 text 就是 html 文本
+        return response.text
+    else:
+        log.debug('status:'.format(response.status_code))
+        return None
+</code></pre>
+<h4 id="2-解析网页">2. 解析网页</h4>
+<p>使用 lxml 解析网页，xpath 定位元素。在 Chrome 浏览器中打开开发者模式，在 Elements 模块找到要抓去的数据，然后右键拷贝元素的 xpath，放到代码里使用就可以了。</p>
+<p><strong>xpath 基础语法：</strong></p>
+<ul>
+<li>// 双斜杠 定位根节点，会对全文进行扫描，在文档中选取所有符合条件的内容，以列表的形式返回。</li>
+<li>/ 单斜杠 寻找当前标签路径的下一层路径标签或者对当前路标签内容进行操作</li>
+<li>/text() 获取当前路径下的文本内容</li>
+<li>/@xxxx 提取当前路径下标签的属性值</li>
+<li>| 可选符 使用|可选取若干个路径 如//p | //div 即在当前路径下选取所有符合条件的p标签和div标签。</li>
+<li>. 点 用来选取当前节点</li>
+<li>.. 双点 选取当前节点的父节点</li>
+<li>xpath 返回值是 list 类型</li>
+</ul>
+<pre><code class="language-python">from lxml import etree
+
+def __parse_html(text):
+    if text is None or len(text) &lt;= 0:
+        return
+    
+    es = etree.HTML(text)
+    # xpath 返回的数据类型是 list
+    # 当前路径下的文本，使用 /text()
+    # 当前路径下的链接，使用 /@href
+    # 当前路径下的图片，使用 /@src
+    title_x = es.xpath('//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div/a/text()')
+    title = title_x[0].strip()
+    rate_x = es.xpath('//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div/div/span[2]/text()')
+    rate = rate_x[0].strip()
+    numbers_x = es.xpath('//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div/div/span[3]/text()')
+    numbers = numbers_x[0].strip()
+    url_x = es.xpath('//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div/a/@href')
+    url = url_x[0].strip()
+    image_x = es.xpath('//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[1]/a/img/@src')
+    image = image_x[0].strip()
+    desc_x = es.xpath('//*[@id=&quot;content&quot;]/div/div[1]/div/table[1]/tr/td[2]/div/p/text()')
+    desc = desc_x[0].strip()
+    numbers = __format_text(numbers)
+    music = {
+        'title': title,
+        'rate': rate,
+        'url': url,
+        'numbers': numbers,
+        'image': image,
+        'description': desc
+    }
+    log.debug('music:{}'.format(music))
+    return music
+
+# 去除换行和空格
+def __format_text(text):
+    a = text[1: len(text) - 1].strip()
+    return a
+</code></pre>
+<h4 id="3-存储数据">3. 存储数据</h4>
+<p>通过解析网页拿到数据后，就可以保存了，比如保存到数据库，excel 文件。这里，我使用 MySQL 数据库作为示例。</p>
+<p>创建对应的数据表后，我们引入 pymysql 库，进行数据库操作。执行插入就可以了，注意事务的提交和恢复，以及连接的关闭。</p>
+<pre><code class="language-python">import pymysql
+
+__USER = 'root'
+__PASSWORD = 'xxxxxx'
+__LOCAL_HOST = '127.0.0.1'
+__PORT = '3306'
+__DATABASE = 'python_data'
+__TABLE = 'db_music'
+
+def __save2db(music):
+    sql = 'insert into ' + __TABLE + ' (title, rate, url, numbers, image, description) values (%s, %s, %s, %s, %s, %s)'
+    conn = pymysql.connect(host=__LOCAL_HOST, user=__USER, passwd=__PASSWORD, db=__DATABASE, charset='utf8')
+    cur = conn.cursor()
+    affected_rows = 0
+    try:
+        affected_rows = cur.execute(sql, (music['title'], music['rate'], music['url'], music['numbers'], music['image'], music['description']))
+        conn.commit()
+    except BaseException as e:
+        log.exception(e)
+        conn.rollback()
+    finally:
+        log.info('affected_rows:{}'.format(affected_rows))
+        cur.close()
+        conn.close()
+</code></pre>
+<p>最后，在使用的时候，就可以这么调用。</p>
+<pre><code class="language-python">__MUSIC_URL = 'https://music.douban.com/top250/'
+
+if __name__ == '__main__':
+    log.debug('run main')
+    __html_text = __request_html(__MUSIC_URL)
+    __music = __parse_html(__html_text)
+    __save2db(__music)
+</code></pre>
+<p>来看一下我们抓到的数据，就是豆瓣音乐 top 250。</p>
+<p>这只是个小应用，如果有更高的要求，可以使用 Scrapy 框架，它更强大。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/python" class="tag">
+                    Python
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/ren-sheng-ku-duan-wo-yong-python">
+                  <h3 class="post-title">
+                    人生苦短，我用 Python
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

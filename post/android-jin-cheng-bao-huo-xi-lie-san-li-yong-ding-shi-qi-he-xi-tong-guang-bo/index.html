@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 进程保活系列：（三）利用定时器和系统广播 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 进程保活系列：（三）利用定时器和系统广播</h2>
+            <div class="post-date">2017-01-17</div>
+            
+            <div class="post-content">
+              <p>前两篇文章讲的是怎么保护进程不被杀，今天来说说进程被杀后该怎么拉活。</p>
+<p>在系统安全管家清理内存的时候，第三方应用很容易被干掉。如果不想被杀怎么办？最有效的解决办法是：<strong>诱导用户把你的应用加入白名单</strong>。但是不是所有用户都会乖乖听你的话。这就需要我们采取其他手段，想方设法再次把进程启动。</p>
+<p>今天介绍两种常用的方法，可以让进程被杀后还有复活的希望。</p>
+<h5 id="一-定时器">一、定时器</h5>
+<p>说到定时器，我们最先想到的肯定是 AlarmManager，利用它可以完成定时任务。具体用法我在这里就不细说了，只讲讲在进程拉活的时候怎么用。在 Service 启动的时候，我们开启一个定时任务：每十分钟检查一次 Service 是否存活，如果未在运行，就启动该 Service。</p>
+<pre><code>AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+Intent alarmIntent = new Intent(getApplication(), DaemonService.class);
+PendingIntent pendingIntent = PendingIntent.getService(this, 1024, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+am.cancel(pendingIntent);
+am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 10 * 60 * 1000, pendingIntent);
+</code></pre>
+<p>但是 AlarmManager 有个硬伤，在系统 force stop 某进程的时候，会清除该进程注册的闹钟事件。这样，定时器就无法完成定时任务，我们的目的达不到了。</p>
+<p>好在天无绝人之路！Android 5.0 及以上版本提供了 JobScheduler 的 API，它和 AlarmManager 类似，都是为了完成定时任务。但是 JobScheduler 的触发条件比较灵活，比如网络连接时、充电时、空闲时。最关键的一点是它无视 force stop，被系统强行杀死的进程依然能在某一时间完成定时任务，这就给我们提供了无限可能！</p>
+<p>首先开启 JobScheduler 定时任务，它需要指定一个完成定时任务的 JobService，触发条件设置为网络连接、周期为十分钟，顺便设置重启后继续生效 JobScheduler 任务。</p>
+<pre><code>JobScheduler jobScheduler = (JobScheduler) getSystemService(Context.JOB_SCHEDULER_SERVICE);
+jobScheduler.cancelAll();JobInfo.Builder builder = new JobInfo.Builder(1024, new ComponentName(getPackageName(), ScheduleService.class.getName()));
+builder.setPeriodic(10 * 60 * 1000);
+builder.setPersisted(true);
+builder.setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY);
+int schedule = jobScheduler.schedule(builder.build());
+if (schedule &lt;= 0) {    
+  Log.w(TAG, &quot;schedule error！&quot;);
+}
+</code></pre>
+<p>我们在 ScheduleService 里启动要拉活的进程，然后告诉 JobScheduler 我们干完活了。</p>
+<pre><code>public class ScheduleService extends JobService {
+    private static final String TAG = &quot;ScheduleService&quot;;
+
+    @Override
+    public boolean onStartJob(JobParameters params) {    
+      Log.d(TAG, &quot;onStartJob(): params = [&quot; + params + &quot;]&quot;);    
+      Intent intent = new Intent(this, DaemonService.class);    
+      startService(intent);    
+      jobFinished(params, false);    
+      return false;
+    }
+
+     @Override
+     public boolean onStopJob(JobParameters params) {    
+       Log.d(TAG, &quot;onStopJob(): params = [&quot; + params + &quot;]&quot;);    
+       return false;
+    }
+}
+</code></pre>
+<p>注册 manifest 时，需要声明一下权限。</p>
+<pre><code>&lt;service    
+  android:name=&quot;com.silence.keeplive.timer.ScheduleService&quot;    
+  android:enabled=&quot;true&quot;    
+  android:exported=&quot;true&quot;    
+  android:permission=&quot;android.permission.BIND_JOB_SERVICE&quot; /&gt;
+</code></pre>
+<h5 id="二-系统广播">二、系统广播</h5>
+<p>在发生特定系统事件时，系统会发出响应的广播，通过在 AndroidManifest 中静态注册对应的广播监听器，即可在发生响应事件时拉活。但是对于国内各种定制的 ROM 来说，此方案的效果并不好，因为安全管家会管理开机和后台自启，拦截发送给第三方应用的广播，所以该方案只能作为备选方案。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-4ea112f55d16ea30.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="常用的系统广播"></p>
+<p>除了上面列出的，还有</p>
+<blockquote>
+<p>电源连接或断开：ACTION_POWER_CONNECTED、ACTION_POWER_DISCONNECTED</p>
+</blockquote>
+<p>在测试过程中发现，进程在被 force stop 后，一段时间内是收不到广播的，该方案的局限性太大，收效甚微。</p>
+<p><strong>项目地址：</strong> <a href="https://github.com/isuperqiang/AndroidKeepLivePractice">AndroidKeepPractive</a></p>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="http://www.jianshu.com/p/63aafe3c12af">关于 Android 进程保活，你所需要知道的一切</a></li>
+<li><a href="https://segmentfault.com/a/1190000006251859">【腾讯Bugly干货分享】Android 进程保活招式大全</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-jin-cheng-bao-huo-xi-lie-er-li-yong-notification-ti-sheng-quan-xian">
+                  <h3 class="post-title">
+                    Android 进程保活系列：（二）利用 Notification 提升权限
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

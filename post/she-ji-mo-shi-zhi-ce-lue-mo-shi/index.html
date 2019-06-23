@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之策略模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之策略模式</h2>
+            <div class="post-date">2018-04-10</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1. 定义</h3>
+<p>策略模式(Strategy Pattern)：定义一系列算法，将每一个算法封装起来，并让它们可以相互替换，让算法独立于使用它的客户而变化。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>策略模式是对算法的封装，它把算法的责任和算法本身分离，委派给不同的对象管理。策略模式通常把算法封装到一系列的策略类里面，作为抽象策略类的子类。用一句话来说，就是「准备一组算法，并将每个算法封装起来，使得它们可以互换」。策略模式并不决定在何时使用何种算法，算法的选择由客户端来决定。</p>
+<h3 id="3-角色">3. 角色</h3>
+<ul>
+<li>上下文：对策略进行二次封装，目的是避免高层模块对策略的直接调用。</li>
+<li>抽象策略：通常情况下是一个接口，当各个实现类中存在着重复的逻辑时，则使用抽象类来封装这部分公共的代码，此时，策略模式看上去更像是模版方法模式。</li>
+<li>具体策略：具体策略角色通常由一组封装了算法的类来担任，这些类之间可以根据需要自由替换。</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p>就拿出行方式来举个例子，我们去上班的方式有许多，可以开车、坐公交、骑车等。那么就可以把出行方式抽象出一个策略接口，各种具体的方式是策略实现，在出门时就可以自由选择啦。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-2ac2f3c7fe86b8c6.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<ol>
+<li>定义抽象策略，就是出行方式。</li>
+</ol>
+<pre><code>public interface IOutWay {
+    /**
+     * 外出方式
+     */
+    void goOut();
+}
+</code></pre>
+<ol start="2">
+<li>定义具体策略，可以是汽车、公交出行。</li>
+</ol>
+<pre><code>public class CarWay implements IOutWay {
+    @Override
+    public void goOut() {
+        System.out.println(&quot;开汽车&quot;);
+    }
+}
+
+public class BusWay implements IOutWay {
+    @Override
+    public void goOut() {
+        System.out.println(&quot;做公交车&quot;);
+    }
+}
+</code></pre>
+<ol start="3">
+<li>定义上下文，封装出行方式，调用其出行方法。</li>
+</ol>
+<pre><code>public class OutContext {
+    private IOutWay outWay;
+
+    public OutContext(IOutWay outWay) {
+        this.outWay = outWay;
+    }
+
+    public void setOutWay(IOutWay outWay) {
+        this.outWay = outWay;
+    }
+
+    public void go2Work() {
+        outWay.goOut();
+    }
+}
+</code></pre>
+<ol start="4">
+<li>测试。</li>
+</ol>
+<pre><code>public class StrategyTest {
+    public static void main(String[] args) {
+        OutContext outContext = new OutContext(new CarWay());
+        outContext.go2Work();
+
+        outContext.setOutWay(new BusWay());
+        outContext.go2Work();
+    }
+}
+</code></pre>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点：</strong>
+易于扩展，对「开闭原则」完美支持，在不修改原有系统的基础上，可以更换算法或者增加新的算法，提高了代码的复用性，是一种替换继承，避免多重条件转移语句的实现方式。</p>
+<p><strong>2. 缺点：</strong>
+客户端必须知道所有的策略类，并理解其区别，同时在一定程度上增加了系统中类的个数，可能会存在很多策略类。</p>
+<p><strong>3. 使用场景：</strong>
+在一个系统里面有许多类，它们之间的区别仅在于它们的行为，使用策略模式可以动态地让一个对象在许多行为中选择一种行为；一个系统需要动态地在几种算法中选择一种；避免使用难以维护的多重条件选择语句。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/behavioral_patterns/strategy.html">策略模式</a></li>
+<li><a href="https://blog.csdn.net/zhengzhb/article/details/7609670">策略模式</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-dai-li-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之代理模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

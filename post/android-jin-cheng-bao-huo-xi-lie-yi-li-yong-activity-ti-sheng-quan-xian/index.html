@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 进程保活系列：（一）利用 Activity 提升权限 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 进程保活系列：（一）利用 Activity 提升权限</h2>
+            <div class="post-date">2017-01-04</div>
+            
+            <div class="post-content">
+              <p>最近公司有进程保活方面的业务需求，所以就趁着闲暇时间研究了相关的技术方案，并且亲身验证它们的可行性，接下来我会用几篇文章详细介绍。</p>
+<!-- more -->
+<p>之前就有人爆出手机 QQ 长久存活的秘诀，那就是 <strong>监听用户的解锁屏操作，在锁屏的时候启动一个像素的透明窗口的 Activity，在解锁的时候把 Activity 销毁。</strong> 不得不佩服鹅厂的程序猿，竟然能想出这么棒的方案！管你 Android 怎么升级，该方案真的是屡试不爽！用户无感知，目的达到了，两全其美的事情。</p>
+<p>首先验证一下：在锁屏状态下 cmd 输入</p>
+<pre><code>adb shell dumpsys activity activities
+</code></pre>
+<p>我们来看一下 dump 的输出：最顶层的 Task 的信息，包名：com.tencent.reading，我看了一下应用列表，它是「天天快报」，果然是腾讯家的。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-dab0014b082b2b7a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="dump 输出"></p>
+<p>我们看到 OffActicity 就是顶层的 Activity，怀着好奇心找到了源码所在的目录，参考相关代码，自己写了一个 demo。</p>
+<h4 id="具体实现分两步">具体实现分两步：</h4>
+<ol>
+<li>创建一个透明的 Activity</li>
+<li>监听用户解锁屏操作</li>
+</ol>
+<h6 id="第一步创建一个透明的-activity">第一步：创建一个透明的 Activity</h6>
+<p><strong>1.</strong> 在 onCreate 方法中设置 window 的属性</p>
+<pre><code>Window window = getWindow();
+window.setGravity(Gravity.TOP | Gravity.LEFT);
+LayoutParams attributes = window.getAttributes();
+attributes.x = 0;
+attributes.y = 0;
+attributes.height = 1;
+attributes.width = 1;
+window.setAttributes(attributes);
+</code></pre>
+<p><strong>2.</strong> 在 Manifest 中设置一些属性，包括排除在最近任务列表外、透明主题、启动模式等</p>
+<pre><code>&lt;activity
+    android:name=&quot;com.silence.keeplive.onepx.OnePxActivity&quot;    
+    android:excludeFromRecents=&quot;true&quot;
+    android:exported=&quot;false&quot;
+    android:finishOnTaskLaunch=&quot;false&quot;
+    android:launchMode=&quot;singleInstance&quot;
+    android:process=&quot;:main&quot;
+    android:theme=&quot;@android:style/Theme.Translucent&quot;    
+    android:configChanges=&quot;keyboardHidden|orientation|screenSize&quot; /&gt;
+</code></pre>
+<p><strong>3.</strong> 处理触摸和销毁事件
+因为 Activity 是在锁屏的时候启动的，所以在用户点亮屏幕后，它是绝对不能存在的。我们要在 Activity 的生命周期里做些处理。为了稳妥起见，对 Activity 的触摸事件我们也要处理，直接销毁 Activity 就可以了。</p>
+<pre><code>@Override
+protected void onResume() {    
+  super.onResume();    
+  if (isScreenOn()) {       
+      finishSelf();    
+  }
+}
+
+@Override
+protected void onDestroy() {    
+  super.onDestroy();    
+  if (instance != null &amp;&amp; instance.get() == this) {        
+    instance = null;   
+  }
+}
+
+public void finishSelf() {    
+  if (!isFinishing()) {        
+    finish();    
+  }  
+}
+
+private boolean isScreenOn() {    
+    PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);        
+    if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT_WATCH) {            
+        return powerManager.isInteractive();        
+    } else {            
+        return powerManager.isScreenOn();        
+     }    
+ }
+</code></pre>
+<h6 id="第二步监听用户解锁屏操作">第二步：监听用户解锁屏操作</h6>
+<p>实现该功能要注册三个广播：</p>
+<pre><code>&lt;action android:name=&quot;android.intent.action.USER_PRESENT&quot;/&gt;
+&lt;action android:name=&quot;android.intent.action.SCREEN_ON&quot;/&gt;
+&lt;action android:name=&quot;android.intent.action.SCREEN_OFF&quot;/&gt;
+</code></pre>
+<p>但是这里有一个问题，USER_PRESENT 可以静态注册，其余两个只能通过动态注册才能收到广播。我们索性把这三个广播都动态和静态注册一次，反正不会有什么坏处。然后接收到开关屏广播事件，对 Activity 做处理。</p>
+<pre><code>if (&quot;android.intent.action.SCREEN_OFF&quot;.equals(action)) {    
+    Log.i(TAG, &quot;锁屏开启一像素&quot;);
+    CheckTopTask.setForeground(context);    
+    mHandler.postDelayed(mCheckTopTask, 3000);
+} else if (&quot;android.intent.action.USER_PRESENT&quot;.equals(action) || &quot;android.intent.action.SCREEN_ON&quot;.equals(action)) {   
+    Log.i(TAG, &quot;开屏关闭一像素&quot;);    
+    OnePxActivity onePxActivity = OnePxActivity.instance != null ? OnePxActivity.instance.get() : null;   
+    if (onePxActivity != null) {        
+        onePxActivity.finishSelf();   
+    }    
+    mHandler.removeCallbacks(mCheckTopTask);
+}
+</code></pre>
+<p>这里有一个很鸡贼的地方，既然锁屏时已经启动了透明 Activity，为什么还要再三秒后还要执行一个任务？因为担心其他应用也采用同样的方案，把它的 Activity 盖在我们的上面。这个任务就是在三秒后检测当前 Activity 是否在前台，如果不在就再次启动，获得前台的焦点。我看腾讯就是这么搞的，大写的「服」！</p>
+<p>最后实现的功能是 Activity 为我们占据前台，保证进程不被杀死，后台的 Service 在辛勤工作，目的达到了，so happy ~~</p>
+<p><strong>项目地址：</strong> <a href="https://github.com/isuperqiang/AndroidKeepLivePractice">AndroidKeepPractive</a></p>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="https://segmentfault.com/a/1190000006251859">【腾讯Bugly干货分享】Android 进程保活招式大全</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-expandablelistview-shi-yong-xiao-jie-er">
+                  <h3 class="post-title">
+                    Android ExpandableListView 使用小结（二）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之代理模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之代理模式</h2>
+            <div class="post-date">2018-04-02</div>
+            
+            <div class="post-content">
+              <h3 id="1定义">1.定义</h3>
+<p>给某一个对象提供一个代 理，并由代理对象控制对原对象的引用，它是一种对象结构型模式。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>在某些情况下，客户不想或者不能直接引用一个对象，此时可以通过一个称之为「代理」的第三者来实现间接引用。代理对象可以在客户端和目标对象之间起到中介的作用，并且可以通过代理对象去掉客户不能看到的内容和服务，或者添加客户需要的额外服务。</p>
+<h3 id="3-角色">3. 角色</h3>
+<ul>
+<li>抽象主题角色：声明了真实主题和代理主题的共同接口；</li>
+<li>代理主题角色：内部包含对真实主题的引用，可以在任何时候操作真实主题对象；</li>
+<li>真实主题角色：定义代理角色所代表的真实对象，在真实主题角色中实现真实的业务操作，客户端可以通过代理主题角色间接调用真实主题角色中定义的方法。</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p>一到节假日，火车票就十分难买，于是各种抢票软件盛行。我们把信息交给服务商，然后软件帮我们日夜不停地刷票，最后大概率会抢到车票。在这里，提供抢票服务的人就是代理对象，帮助买票人抢票获得佣金。买票的人是被代理对象，具有真实的购票需求。</p>
+<p>下面就以抢票的例子来说明代理模式的使用。</p>
+<p>代理的实现分为：</p>
+<ul>
+<li>静态代理：代理类是在编译时完成的。也就是说 Java 编译完成后代理类是一个实际的 class 文件。</li>
+<li>动态代理：代理类是在运行时生成的。也就是说 Java 编译完之后并没有实际的 class 文件，而是在运行时动态生成的类字节码，并加载到 JVM 中。</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-10aabd84c8253335.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<p>首先来看静态代理，这个比较容易理解。</p>
+<ol>
+<li>定义抽象主题角色。</li>
+</ol>
+<pre><code>public interface ITicketBuyer {
+    /**
+     * 买票
+     */
+    void buyTicket();
+}
+</code></pre>
+<ol start="2">
+<li>定义真实主题角色，即需要买票的人。</li>
+</ol>
+<pre><code>public class RealBuyer implements ITicketBuyer {
+
+    @Override
+    public void buyTicket() {
+        System.out.println(&quot;我要一张北京到上海的复兴号商务座&quot;);
+    }
+}
+</code></pre>
+<ol start="3">
+<li>定义代理主题角色，提供抢票服务的人，持有买票人的信息。</li>
+</ol>
+<pre><code>public class ProxyBuyer implements ITicketBuyer {
+    // 被代理对象，即真正要买票的人
+    private ITicketBuyer realBuyer;
+
+    public ProxyBuyer(ITicketBuyer realBuyer) {
+        this.realBuyer = realBuyer;
+    }
+
+    @Override
+    public void buyTicket() {
+        System.out.println(&quot;代理人来买票:&quot;);
+        realBuyer.buyTicket();
+    }
+}
+</code></pre>
+<p>动态代理，动态地创建代理类，代理对象所有的方法被转发给一个称为 InvocationHandler 的对象，此时调用被代理对象的方法即可实现代理。更多动态代理的知识，请参考「<a href="https://www.jianshu.com/p/6f6bb2f0ece9">代理模式及Java实现动态代理</a>」。</p>
+<pre><code>public class DynamicProxyBuyer implements InvocationHandler {
+    // 被代理对象，即真正要买票的人
+    private ITicketBuyer ticketBuyer;
+
+    public DynamicProxyBuyer(ITicketBuyer ticketBuyer) {
+        this.ticketBuyer = ticketBuyer;
+    }
+
+    public ITicketBuyer createProxy() {
+        return (ITicketBuyer) Proxy.newProxyInstance(ITicketBuyer.class.getClassLoader(), new Class[]{ITicketBuyer.class}, this);
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (&quot;buyTicket&quot;.equals(method.getName())) {
+            System.out.println(&quot;代理人来买票：&quot;);
+        }
+        return method.invoke(ticketBuyer, args);
+    }
+}
+</code></pre>
+<p>客户类使用时，直接调用代理对象的方法，即可实现代理的目的。</p>
+<pre><code>public class ProxyTest {
+
+    public static void main(String[] args) {
+        // 静态代理
+        ITicketBuyer realBuyer = new RealBuyer();
+        //ITicketBuyer proxyBuyer = new ProxyBuyer(realBuyer);
+        //proxyBuyer.buyTicket();
+
+        // 动态代理
+        DynamicProxyBuyer dynamicProxyBuyer = new DynamicProxyBuyer(realBuyer);
+        ITicketBuyer proxyBuyer = dynamicProxyBuyer.createProxy();
+        proxyBuyer.buyTicket();
+    }
+}
+</code></pre>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点：</strong>
+协调调用者和被调用者，降低了系统的耦合；代理对象作为客户端和目标对象之间的中介，起到了保护目标对象的作用</p>
+<p><strong>2. 缺点：</strong>
+由于在客户端和真实主题之间增加了代理对象，因此会造成请求的处理速度变慢；
+实现代理模式需要额外的工作（有些代理模式的实现非常复杂），从而增加了系统实现的复杂度。</p>
+<p><strong>3. 使用场景：</strong>
+当需要控制对原始对象的访问时；当需要创建开销非常大的对象时；当需要在访问对象时附加额外操作时。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/proxy.html">代理模式</a></li>
+<li><a href="https://blog.csdn.net/carson_ho/article/details/54910472">代理模式</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-zhuang-tai-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之状态模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

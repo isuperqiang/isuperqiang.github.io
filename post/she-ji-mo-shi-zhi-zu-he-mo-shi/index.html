@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>设计模式之组合模式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">设计模式之组合模式</h2>
+            <div class="post-date">2018-03-27</div>
+            
+            <div class="post-content">
+              <h3 id="1-定义">1. 定义</h3>
+<p>组合模式，又叫部分整体模式，用于把一组相似的对象当作一个单一的对象。组合模式依据树形结构来组合对象，用来表示部分以及整体层次。</p>
+<h3 id="2-作用">2. 作用</h3>
+<p>组合模式使得用户对单个对象和组合对象的使用具有一致性。它模糊了简单元素和复杂元素的概念，客户程序可以像处理简单元素一样来处理复杂元素，从而使得客户程序与复杂元素的内部结构解耦。</p>
+<h3 id="3-结构">3. 结构</h3>
+<ul>
+<li>
+<p>抽象构建角色：</p>
+<p>对象声明接口，在适当的情况下，实现所有类共有接口的默认行为。声明一个接口用于访问和管理它的子部件。</p>
+</li>
+<li>
+<p>树叶构建角色：</p>
+<p>在组合树中表示叶节点对象，叶节点没有子节点。</p>
+</li>
+<li>
+<p>树枝构建角色：</p>
+<p>容器对象，定义有枝节点行为，用来存储子部件，在接口中实现与子部件有关的操作，例如增加(add)和删除(remove)等。</p>
+</li>
+</ul>
+<h3 id="4-实现">4. 实现</h3>
+<p>Android 里面的视图都是 View 的子类，包括 ViewGroup 和 View，我们就模仿它来实现组合模式。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-2bb08e0b4f2e15f7..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<ol>
+<li>定义抽象构建角色，也就是 View 接口，它有宽和高两个属性。</li>
+</ol>
+<pre><code>public abstract class View {
+    protected int width;
+    protected int height;
+
+    public View(int width, int height){
+        this.width = width;
+        this.height = height;
+    }
+
+    public abstract void display();
+}
+</code></pre>
+<ol start="2">
+<li>定义树枝构建角色，在这里是指 View 容器，负责添加、移除和展示子 View。</li>
+</ol>
+<pre><code>public class ViewGroup extends View {
+    private List&lt;View&gt; viewList;
+
+    public ViewGroup(int width, int height) {
+        super(width, height);
+        viewList = new ArrayList&lt;&gt;();
+    }
+
+    @Override
+    public void display() {
+        System.out.println(&quot;我是容器，宽：&quot; + width + &quot;，高：&quot; + height + &quot;，里面有&quot; + viewList.size() + &quot;个子视图&quot;);
+        for (View view : viewList) {
+            view.display();
+        }
+    }
+
+    public void addView(View view) {
+        viewList.add(view);
+    }
+
+    public void removeView(View view) {
+        viewList.remove(view);
+    }
+}
+</code></pre>
+<ol start="3">
+<li>定义树叶构建角色，显示内容的 View，比如按钮、文本框等。</li>
+</ol>
+<pre><code>public class Button extends View {
+
+    public Button(int width, int height) {
+        super(width, height);
+    }
+
+    @Override
+    public void display() {
+        System.out.println(&quot;我是按钮，宽：&quot; + width + &quot;，高：&quot; + height);
+    }
+}
+
+public class TextView extends View {
+
+    public TextView(int width, int height) {
+        super(width, height);
+    }
+
+    @Override
+    public void display() {
+        System.out.println(&quot;我是文本框，宽：&quot; + width + &quot;，高：&quot; + height);
+    }
+}
+</code></pre>
+<ol start="4">
+<li>测试，把 View 添加到容器中并展示。</li>
+</ol>
+<pre><code>    public static void main(String args[]) {
+        Button button = new Button(100, 200);
+        TextView textView = new TextView(200, 200);
+        ViewGroup viewGroup = new ViewGroup(300, 300);
+        viewGroup.addView(button);
+        viewGroup.addView(textView);
+        viewGroup.display();
+    }
+</code></pre>
+<h3 id="5-优缺点">5. 优缺点</h3>
+<p><strong>1. 优点</strong>
+可以清楚地定义分层次的复杂对象，表示对象的全部或部分层次，增加新构件更容易；客户端调用简单，可以一致地使用组合结构或其中单个对象。</p>
+<p><strong>2. 缺点</strong>
+使设计变得更加抽象，如果对象的业务规则很复杂，则实现组合模式具有很大挑战性，而且不是所有的方法都与叶子对象子类都有关联。</p>
+<p><strong>3. 使用场景</strong>
+需要表示一个对象整体或部分层次，忽略整体与部分的差异，可以一致地对待它们；客户端可以针对抽象构件编程，无须关心对象层次结构的细节。</p>
+<p><strong>参考文章：</strong></p>
+<p><a href="https://www.cnblogs.com/chenssy/p/3299719.html">组合模式</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
+                    设计模式
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-die-dai-qi-mo-shi">
+                  <h3 class="post-title">
+                    设计模式之迭代器模式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

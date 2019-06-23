@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 进程保活系列：（二）利用 Notification 提升权限 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561273089319">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561273089319" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 进程保活系列：（二）利用 Notification 提升权限</h2>
+            <div class="post-date">2017-01-05</div>
+            
+            <div class="post-content">
+              <p>前一篇文章 —— <a href="https://isuperqiang.cn/post/android-jin-cheng-bao-huo-xi-lie-yi-li-yong-activity-ti-sheng-quan-xian/index.html">Android 进程保活系列：（一）利用 Activity 提升权限</a> 讲到了利用前台的 Activity 保证系统管家不会杀死我们的应用。这只是一种讨巧的技术手段，并没有利用系统的漏洞。今天要说的方法适用性非常广，应用间互不干扰，不存在像是我开启一像素 Activity 把你盖住，然后你我争夺焦点的问题。</p>
+<p>在实践之前还是先看看别人家的应用，比如腾讯新闻。adb shell 下输入</p>
+<pre><code>dumpsys activity services com.tencent.news
+</code></pre>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-2c87cfaee8aa9b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="腾讯新闻前台 Service"></p>
+<p>看一下控制台的输出，顾名思义 PushService 应该是推送服务，ServiceRecord 指明了它是前台服务。我们看一下它的 oom_adj 的值：</p>
+<pre><code>ps | grep com.tencent.news
+cat /proc/25890/oom_adj
+</code></pre>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-8a4a8c8f1ea29d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="进程优先级"></p>
+<p>没错，PuseService 的优先级是 2，属于可感知进程，一般不会被杀死。下面有个关于 oom_adj 的说明。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-015dac049bb2f48a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="oom_adj 说明"></p>
+<p>其中红色部分代表比较容易被杀死的 Android 进程（OOM_ADJ &gt;= 4），绿色部分表示不容易被杀死的 Android 进程，其他表示非 Android 进程（纯 Linux 进程）。在 Lowmemorykiller 回收内存时会根据进程的级别优先杀死 OOM_ADJ 比较大的进程，对于优先级相同的进程，则进一步受到进程所占内存和进程存活时间的影响。</p>
+<p>下面就来亲身实践一下。利用系统的漏洞开启前台服务，提升进程的优先级。这里有两个思路：</p>
+<ul>
+<li>思路一：API &lt; 18，启动前台 Service 时直接传入new Notification()；</li>
+<li>思路二：API &gt;= 18，同时启动两个id相同的前台 Service，然后再将后启动的 Service 做 stop 处理；</li>
+</ul>
+<pre><code> // 要开启前台的 service
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {      
+    if (Build.VERSION.SDK_INT &lt; 18) {
+        startForeground(SERVICE_ID, new Notification());    
+    } else {        
+        startForeground(SERVICE_ID, new Notification());        
+        Intent sendIntend = new Intent(this, ChannelService.class);        
+        startService(sendIntend);    
+    }
+    return super.onStartCommand(intent, flags, startId);
+}
+
+// 为开启前台 service 服务的傀儡 service
+@Override
+public int onStartCommand(Intent intent, int flags, int startId) {     
+    startForeground(DaemonService.SERVICE_ID, new Notification());    
+    stopForeground(true);    
+    stopSelf();    
+    return super.onStartCommand(intent, flags, startId);
+}
+</code></pre>
+<p>这样就完成了，我们再次用 shell 命令验证一下。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-3f3b423ee2a24fde.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自己的前台服务"></p>
+<p>没错，它已经是前台服务了，用户看不见摸不着的前台服务，系统是不会轻易杀死该服务的，可以放心大胆地搞事情啦~~</p>
+<p><strong>项目地址：</strong> <a href="https://github.com/isuperqiang/AndroidKeepLivePractice">AndroidKeepPractive</a></p>
+<p><strong>参考链接：</strong></p>
+<ul>
+<li><a href="http://www.jianshu.com/p/63aafe3c12af">关于 Android 进程保活，你所需要知道的一切</a></li>
+<li><a href="https://segmentfault.com/a/1190000006251859">【腾讯Bugly干货分享】Android 进程保活招式大全</a></li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-jin-cheng-bao-huo-xi-lie-yi-li-yong-activity-ti-sheng-quan-xian">
+                  <h3 class="post-title">
+                    Android 进程保活系列：（一）利用 Activity 提升权限
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
