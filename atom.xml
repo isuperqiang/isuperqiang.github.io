@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
-    <title>落英坠露</title>
-    <updated>2019-06-23T03:17:49.261Z</updated>
+    <title>落英坠露的博客</title>
+    <updated>2019-06-23T03:24:31.381Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
     <subtitle>技术让生活更美好</subtitle>
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
-    <rights>All rights reserved 2019, 落英坠露</rights>
+    <rights>All rights reserved 2019, 落英坠露的博客</rights>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 2 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-2-qi</id>
