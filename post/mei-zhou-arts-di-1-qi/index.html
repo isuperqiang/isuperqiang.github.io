@@ -9,7 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561259399873">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561259862934">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
 
@@ -35,7 +36,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1561259399873" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561259862934" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -80,9 +81,21 @@
         
       
         
-      
+          <a class="social-link" href="https://twitter.com/RichieLiu2" target="_blank">
+            <i class="fab fa-twitter"></i>
+          </a>
         
       
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
         
       
         
@@ -92,7 +105,7 @@
       技术让生活更美好
     </div>
     <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
     </div>
   </div>
 </div>
@@ -308,7 +321,7 @@ var app = new Vue({
 </script>
 
 
-  
+
   
     <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
     <script>
@@ -319,7 +332,7 @@ var app = new Vue({
         repo: 'isuperqiang.github.io',
         owner: 'isuperqiang',
         admin: ['isuperqiang'],
-        id: location.pathname,      // Ensure uniqueness and length less than 50
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
         distractionFreeMode: false  // Facebook-like distraction free mode
       })
 
