@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java 集合的 fail-fast 机制 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java 集合的 fail-fast 机制</h2>
+            <div class="post-date">2019-03-19</div>
+            
+            <div class="post-content">
+              <p>fail-fast 机制是集合世界中比较常见的错误检测机制，通常出现在遍历集合元素的过程中。它是一种对集合遍历操作时的错误检测机制，在遍历中途出现意外的修改时，通过 unchecked 异常暴力地反馈出来。</p>
+<!-- more -->
+<p>这种机制经常出现在多线程环境下，当前线程会维护一个计数比较器， 即 expectedModCount， 记录已经修改的次数。在进入遍历前，会把实时修改次数 modCount 赋值给 expectedModCount，如果这两个数据不相等，则抛出异常。 java.util 下的所有集合类都是 fail-fast，而 concurrent 包中的集合类都是 fail-safe。</p>
+<pre><code class="language-java">    public static void main(String[] args) {
+        List&lt;String&gt; names = new ArrayList&lt;&gt;();
+        names.add(&quot;one&quot;);
+        names.add(&quot;two&quot;);
+        names.add(&quot;three&quot;);
+        for (String name : names) {
+            if (&quot;one&quot;.equals(name)) {
+                names.remove(name);
+            }
+        }
+        System.out.println(names);
+    }
+</code></pre>
+<p>运行程序，出现异常：</p>
+<p>Exception in thread &quot;main&quot; java.util.ConcurrentModificationException at java.util.ArrayList<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>I</mi><mi>t</mi><mi>r</mi><mi mathvariant="normal">.</mi><mi>c</mi><mi>h</mi><mi>e</mi><mi>c</mi><mi>k</mi><mi>F</mi><mi>o</mi><mi>r</mi><mi>C</mi><mi>o</mi><mi>m</mi><mi>o</mi><mi>d</mi><mi>i</mi><mi>f</mi><mi>i</mi><mi>c</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo stretchy="false">(</mo><mi>A</mi><mi>r</mi><mi>r</mi><mi>a</mi><mi>y</mi><mi>L</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi mathvariant="normal">.</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mo>:</mo><mn>907</mn><mo stretchy="false">)</mo><mi>a</mi><mi>t</mi><mi>j</mi><mi>a</mi><mi>v</mi><mi>a</mi><mi mathvariant="normal">.</mi><mi>u</mi><mi>t</mi><mi>i</mi><mi>l</mi><mi mathvariant="normal">.</mi><mi>A</mi><mi>r</mi><mi>r</mi><mi>a</mi><mi>y</mi><mi>L</mi><mi>i</mi><mi>s</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">Itr.checkForComodification(ArrayList.java:907)
+	at java.util.ArrayList</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord">.</span><span class="mord mathdefault">c</span><span class="mord mathdefault">h</span><span class="mord mathdefault">e</span><span class="mord mathdefault">c</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.07153em;">C</span><span class="mord mathdefault">o</span><span class="mord mathdefault">m</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">i</span><span class="mord mathdefault">c</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span><span class="mopen">(</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">L</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord">.</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">9</span><span class="mord">0</span><span class="mord">7</span><span class="mclose">)</span><span class="mord mathdefault">a</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.05724em;">j</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">v</span><span class="mord mathdefault">a</span><span class="mord">.</span><span class="mord mathdefault">u</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord">.</span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord mathdefault">L</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span></span></span></span>Itr.next(ArrayList.java:857) at</p>
+<p>这是因为 ArrayList 内部的 Iterator 在执行 next 方法时，首先检查 modCount。而 ArrayList 的 remove 方法会使 modCount 加 1，这就导致 Iterator 内部的 expectedModCount 与 ArrayList 中的 modCount 不一致，所以抛出异常。</p>
+<p>那么移除元素的正确姿势是什么呢？就是使用 Iterator 的 remove 方法，它会修改游标位置和 expectedModCount。如果是多线程并发，还需要再 Iterator 遍历时加锁。</p>
+<pre><code class="language-java">        while (iterator.hasNext()){
+            synchronized (lock) {
+                String name = iterator.next();
+                if (&quot;one&quot;.equals(name)) {
+                    iterator.remove();
+                }
+            }
+        }
+</code></pre>
+<p>COW（奶牛家族），即 Copy-On-Write，它是并发的一种新思路，实行读写分离，如果是写操作，则复制一个新集合，在新集合内添加或删除元素。待一切修改完成之后，再将原集合的引用指向新的集合。这样做的好处是可以高并发地对 COW 进行读和遍历操作，而不需要加锁，因为当前集合不会添加任何元素。使用 COW 时应注意两点：第一，尽量设置合理的容量初始值，它扩容的代价比较大；第二，使用批量添加或删除方法，如 addAll 或 removeAll操作，在高并发请求下，可以攒一下要添加或者删除的元素，避免增加一个元素复制整个集合。适用于读多写少的场景。</p>
+<p>看看 COW 添加元素的方法，内部实现一目了然，线程安全，写时复制。</p>
+<pre><code class="language-java">    public boolean add(E e) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len + 1);
+            newElements[len] = e;
+            setArray(newElements);
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
+</code></pre>
+<p>COW 是 fail-safe 机制的，在并发包的集合申都是由这种机制实现的，fail-safe 是在安全的副本（或者没有修改操作的正本）上进行遍历，集合修改与副本的遍历是没有任何关系的，但是缺点也很明显，就是读取不到最新的数据。这也是 CAP 理论中 C(Consistency)与 A (Availability) 的矛盾，即一致性与可用性的矛盾。</p>
+<p>以上内容来自：《码出高效：Java开发手册》，这时一本非常好的 Java 进阶书，强烈推荐多读几遍！</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei">
+                  <h3 class="post-title">
+                    《Effective Java》— Java 进阶必备
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

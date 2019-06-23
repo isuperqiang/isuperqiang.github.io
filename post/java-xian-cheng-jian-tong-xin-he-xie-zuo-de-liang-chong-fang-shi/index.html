@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java 线程间通信和协作的两种方式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java 线程间通信和协作的两种方式</h2>
+            <div class="post-date">2019-04-06</div>
+            
+            <div class="post-content">
+              <p>现在计算机和智能手机都是多核处理器，为了更好地发挥设备的性能，提高应用程序的体验性，多线程是必不可少的技术。线程之间不是孤立的，它们共享进程的资源和数据，彼此之间还需要进行通信和协作，最典型的例子就是「生产者-消费者模型」。</p>
+<!-- more -->
+<p>下面先介绍 wait/notify 机制和 Lock/Condition 机制，然后用两个线程交替打印奇偶数。</p>
+<h3 id="1-waitnotify">1. wait/notify</h3>
+<p>wait 和 notify 是 Object 类的两个方法，理解起来还是有些复杂的。它和多线程同步有关系，个人觉得放在 Object 类不太合理，可能是历史遗留问题吧。每个对象都有一把锁（monitor），在进入同步方法或代码块之前，当前线程需要先获取对象锁，然后才能执行同步块的代码，完成后释放对象锁。锁可以理解为唯一的凭证，有了它就能入场，而且独占所有的资源，立场就得交出去。</p>
+<p>wait 方法的作用是使当前线程释放对象锁，并进入等待状态，不再往下执行。当其他线程调用对象的 notify/notifyAll 时，会唤醒等待的线程，等到其他线程释放锁后，被唤醒的现象将继续往下执行。notify 随机唤醒一个等待的线程，notifAll 唤醒所有等待的线程。注意：wait 和 notify 都需要在拿到对象锁的情况下调用。下面是 wait 的标准使用方法（来自 《Effective Java》一书）：</p>
+<pre><code class="language-java">synchronized (obj) {
+  while (condition does not hold) {
+    obj.wait(); // release lock and reacquire on wakeup
+    // perform action appropriate to condition
+  }
+}
+</code></pre>
+<p>每个锁对象都有两个队列：就绪队列和阻塞队列。就绪队列存储了已经就绪（将要竞争锁）的线程，阻塞队列存储了被阻塞的线程。当阻塞线程被唤醒后，才会进入就绪队列，然后等待 CPU 的调度；反之，当一个线程被阻塞后，就会进入阻塞队列，等待被唤醒。</p>
+<p>举个例子，线程 A 在执行任务，它等待线程 B 做完某个操作，才能往下执行，这就可以用 wait/notify 实现。</p>
+<pre><code class="language-java">    public void start() {
+        new Thread(new TaskA()).start();
+        new Thread(new TaskB()).start();
+    }
+
+    private final Object lock = new Object();
+    private boolean finished;
+
+    private class TaskA implements Runnable {
+        @Override
+        public void run() {
+            synchronized (lock) {
+                System.out.println(&quot;线程 A 拿到锁了，开始工作&quot;);
+                while (!finished) {
+                    try {
+                        System.out.println(&quot;线程 A 释放了锁，进入等待状态&quot;);
+                        lock.wait();
+                        System.out.println(&quot;线程 A 收到信号，继续工作&quot;);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            System.out.println(&quot;线程 A 释放了锁&quot;);
+        }
+    }
+
+    private class TaskB implements Runnable {
+        @Override
+        public void run() {
+            synchronized (lock) {
+                System.out.println(&quot;线程 B 拿到了锁，开始工作&quot;);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(&quot;-----------------------&quot;);
+                System.out.println(&quot;线程 B 发信号了，完成工作&quot;);
+                finished = true;
+                lock.notify();
+            }
+            System.out.println(&quot;线程 B 释放了锁&quot;);
+        }
+    }
+/* 打印：
+线程 A 拿到锁了，开始工作
+线程 A 释放了锁，进入等待状态
+线程 B 拿到了锁，开始工作
+-----------------------
+线程 B 发信号了，完成工作
+线程 B 释放了锁
+线程 A 收到信号，继续工作
+线程 A 释放了锁  
+*/
+</code></pre>
+<h4 id="2-lockcondition">2. Lock/Condition</h4>
+<p>Condition 可以看作 Object 的 wait/notify 的替代方案，同样用来实现线程间的协作。与使用 wait/notify 相比，Condition的 await/signal 更加灵活、安全和高效。Condition 是个接口，基本的方法就是 await() 和 signal()。Condition 依赖于 Lock 接口，生成一个 Condition 的代码是 lock.newCondition() 。 需要注意 Condition 的 await()/signal() 使用都必须在lock.lock() 和 lock.unlock() 之间才可以，Conditon 和 Object 的 wait/notify 有着天然的对应关系：</p>
+<ul>
+<li>Conditon 中的 await() 对应 Object 的 wait()；</li>
+<li>Condition 中的 signal() 对应 Object 的 notify()；</li>
+<li>Condition 中的 signalAll() 对应 Object 的 notifyAll()；</li>
+</ul>
+<p>举个例子，使用 Condition 实现和上面的功能。</p>
+<pre><code class="language-java">    public void start() {
+        new Thread(new TaskC()).start();
+        new Thread(new TaskD()).start();
+    }
+    
+    private Lock reentrantLock = new ReentrantLock();
+    private Condition condition = reentrantLock.newCondition();
+
+    private class TaskC implements Runnable {
+        @Override
+        public void run() {
+            reentrantLock.lock();
+            System.out.println(&quot;线程 C 拿到了锁，开始工作&quot;);
+            try {
+                System.out.println(&quot;线程 C 释放了锁，进入等待状态&quot;);
+                condition.await();
+                System.out.println(&quot;线程 C 收到信号，继续工作&quot;);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                System.out.println(&quot;线程 C 释放了锁&quot;);
+                reentrantLock.unlock();
+            }
+        }
+    }
+
+    private class TaskD implements Runnable {
+        @Override
+        public void run() {
+            reentrantLock.lock();
+            System.out.println(&quot;线程 D 拿到了锁，开始工作&quot;);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(&quot;-----------------------&quot;);
+            try {
+                System.out.println(&quot;线程 D 发信号了，完成工作&quot;);
+                condition.signal();
+            } finally {
+                System.out.println(&quot;线程 D 释放了锁&quot;);
+                reentrantLock.unlock();
+            }
+        }
+    }
+/*打印：
+线程 C 拿到了锁，开始工作
+线程 C 释放了锁，进入等待状态
+线程 D 拿到了锁，开始工作
+-----------------------
+线程 D 发信号了，完成工作
+线程 D 释放了锁
+线程 C 收到信号，继续工作
+线程 C 释放了锁
+*/
+</code></pre>
+<p>相比 Object 的 wait/notify，Condition 有许多优点：</p>
+<ul>
+<li>
+<p>Condition 可以支持多个等待队列，因为一个 Lock 实例可以绑定多个 Condition</p>
+</li>
+<li>
+<p>Condition 支持等待状态下不响应中断</p>
+</li>
+<li>
+<p>Condition 支持当前线程进入等待状态，直到将来的某个时间</p>
+</li>
+</ul>
+<h4 id="3-两个线程交替打印奇偶数">3. 两个线程交替打印奇偶数</h4>
+<p>使用 wait/notify：</p>
+<pre><code class="language-java">    public void printNumber() {
+        new Thread(new EvenTask()).start();
+        new Thread(new OddTask()).start();
+    }
+    
+    private int number = 10;
+    private final Object numberLock = new Object();
+
+    private class EvenTask implements Runnable {
+        @Override
+        public void run() {
+            synchronized (numberLock) {
+                while (number &gt;= 0 &amp;&amp; (number &amp; 1) == 0) {
+                    System.out.println(&quot;偶数: &quot; + (number--));
+                    numberLock.notify();
+                    try {
+                        numberLock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
+    private class OddTask implements Runnable {
+        @Override
+        public void run() {
+            synchronized (numberLock) {
+                while (number &gt;= 0 &amp;&amp; (number &amp; 1) == 1) {
+                    System.out.println(&quot;奇数: &quot; + (number--));
+                    numberLock.notify();
+                    try {
+                        numberLock.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+</code></pre>
+<p>使用 Lock/Condition：</p>
+<pre><code class="language-java">    public void printNumber() {
+        new Thread(new EvenTask()).start();
+        new Thread(new OddTask()).start();
+    }
+    
+    private int number = 10;
+    private Condition evenCondition = reentrantLock.newCondition();
+    private Condition oddCondition = reentrantLock.newCondition();
+
+    private class EvenTask implements Runnable {
+
+        @Override
+        public void run() {
+            reentrantLock.lock();
+            try {
+                while (number &gt;= 0 &amp;&amp; (number &amp; 1) == 0) {
+                    System.out.println(&quot;偶数: &quot; + (number--));
+                    oddCondition.signal();
+                    evenCondition.await();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+        }
+    }
+
+    private class OddTask implements Runnable {
+        @Override
+        public void run() {
+            reentrantLock.lock();
+            try {
+                while (number &gt;= 0 &amp;&amp; (number &amp; 1) == 1) {
+                    System.out.println(&quot;奇数: &quot; + (number--));
+                    evenCondition.signal();
+                    oddCondition.await();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } finally {
+                reentrantLock.unlock();
+            }
+        }
+    }
+</code></pre>
+<p>运行后打印：</p>
+<pre><code>偶数: 10
+奇数: 9
+偶数: 8
+奇数: 7
+偶数: 6
+奇数: 5
+偶数: 4
+奇数: 3
+偶数: 2
+奇数: 1
+偶数: 0
+</code></pre>
+<p>最后，建议使用 Lock/Condition 代替 Object 的 wait/notify，因为前者是 java.util.concurrent 包下的接口，对于同步更简洁高效，多线程操作优先选用 JUC 包的类。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://blog.csdn.net/justloveyou_/article/details/54929949">Java 并发：线程间通信与协作</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-shi-yong-constraintlayout-you-hua-bu-ju">
+                  <h3 class="post-title">
+                    Android 使用 ConstraintLayout 优化布局
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

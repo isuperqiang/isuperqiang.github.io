@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android WebView 运行在系统进程引发的异常 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android WebView 运行在系统进程引发的异常</h2>
+            <div class="post-date">2017-03-26</div>
+            
+            <div class="post-content">
+              <p>因为最近有个需求是在系统应用中使用 WebView，所以配置了 <code>android:sharedUserId=&quot;android.uid.system&quot;</code>， 让应用共享系统进程。但是测试的时候就 crash 了，我表示有点方...错误日志是这样的：</p>
+<pre><code>java.lang.UnsupportedOperationException: For security reasons, WebView is not allowed in privileged processes
+  at android.webkit.WebViewFactory.getProvider(WebViewFactory.java:96)
+  at android.webkit.WebView.getFactory(WebView.java:2194)
+  at android.webkit.WebView.ensureProviderCreated(WebView.java:2189)
+  at android.webkit.WebView.setOverScrollMode(WebView.java:2248)
+  at android.view.View.&lt;init&gt;(View.java:3588)
+  at android.view.View.&lt;init&gt;(View.java:3682)
+  at android.view.ViewGroup.&lt;init&gt;(ViewGroup.java:497)
+  at android.widget.AbsoluteLayout.&lt;init&gt;(AbsoluteLayout.java:55)
+  at android.webkit.WebView.&lt;init&gt;(WebView.java:544)
+  at android.webkit.WebView.&lt;init&gt;(WebView.java:489)
+  at android.webkit.WebView.&lt;init&gt;(WebView.java:472)
+  at android.webkit.WebView.&lt;init&gt;(WebView.java:459)
+  at android.webkit.WebView.&lt;init&gt;(WebView.java:449)
+</code></pre>
+<p>就是说为了安全性考虑，不允许在享有特权的进程也就是系统进程里面使用 WebView，异常是在 WebView 初始化的时候抛出的，想要解决这个问题还要看源码（<strong>Read the fucking source code</strong>）。</p>
+<p>这是 Android 5.1（API 22） 里面的类 WebViewFactory 的 getProvider 方法源码：</p>
+<pre><code>    static WebViewFactoryProvider getProvider() {
+        synchronized (sProviderLock) {
+            // For now the main purpose of this function (and the factory abstraction) is to keep
+            // us honest and minimize usage of WebView internals when binding the proxy.
+            if (sProviderInstance != null) return sProviderInstance;
+
+            final int uid = android.os.Process.myUid();
+            if (uid == android.os.Process.ROOT_UID || uid == android.os.Process.SYSTEM_UID) {
+                throw new UnsupportedOperationException(
+                        &quot;For security reasons, WebView is not allowed in privileged processes&quot;);
+            }
+
+            Trace.traceBegin(Trace.TRACE_TAG_WEBVIEW, &quot;WebViewFactory.getProvider()&quot;);
+            try {
+                Trace.traceBegin(Trace.TRACE_TAG_WEBVIEW, &quot;WebViewFactory.loadNativeLibrary()&quot;);
+                loadNativeLibrary();
+                Trace.traceEnd(Trace.TRACE_TAG_WEBVIEW);
+
+                Class&lt;WebViewFactoryProvider&gt; providerClass;
+                Trace.traceBegin(Trace.TRACE_TAG_WEBVIEW, &quot;WebViewFactory.getFactoryClass()&quot;);
+                try {
+                    providerClass = getFactoryClass();
+                } catch (ClassNotFoundException e) {
+                    Log.e(LOGTAG, &quot;error loading provider&quot;, e);
+                    throw new AndroidRuntimeException(e);
+                } finally {
+                    Trace.traceEnd(Trace.TRACE_TAG_WEBVIEW);
+                }
+
+                StrictMode.ThreadPolicy oldPolicy = StrictMode.allowThreadDiskReads();
+                Trace.traceBegin(Trace.TRACE_TAG_WEBVIEW, &quot;providerClass.newInstance()&quot;);
+                try {
+                    try {
+                        sProviderInstance = providerClass.getConstructor(WebViewDelegate.class)
+                                .newInstance(new WebViewDelegate());
+                    } catch (Exception e) {
+                        sProviderInstance = providerClass.newInstance();
+                    }
+                    if (DEBUG) Log.v(LOGTAG, &quot;Loaded provider: &quot; + sProviderInstance);
+                    return sProviderInstance;
+                } catch (Exception e) {
+                    Log.e(LOGTAG, &quot;error instantiating provider&quot;, e);
+                    throw new AndroidRuntimeException(e);
+                } finally {
+                    Trace.traceEnd(Trace.TRACE_TAG_WEBVIEW);
+                    StrictMode.setThreadPolicy(oldPolicy);
+                }
+            } finally {
+                Trace.traceEnd(Trace.TRACE_TAG_WEBVIEW);
+            }
+        }
+    }
+</code></pre>
+<p>可以看出，首次使用时，系统会进行检查，如果 UID 是 root 进程或者系统进程，直接抛出异常。sProviderInstance 是 WebViewFactoryProvider 的对象，主要提供创建 WebView 内核的机制。WebView在 Android 4.4 之前使用的是 Webkit 内核，在 Android 4.4 以后切换到了 Chromium 内核。Google 使用了工厂方法模式，优雅地切换 WebView 内核的实现方式。我们注意到只有 sProviderInstance 为空的时候系统才去检查进程，然后创建 sProviderInstance对象。所以这给了我们一个启发 ---- 能不能一开始就主动创建 sProviderInstance 对象，把她塞到 WebViewFactory 类里面，从而欺骗 API 绕过系统检查呢？</p>
+<p>下面就要用到 Hook 的思想了，首先要找到一个合适的点，静态变量、单例是最佳选择，刚刚好 sProviderInstance 是静态的。那就开始拿它开刀，看看系统是怎么创建 sProviderInstance 的，我们自己也模仿它这么做。其实系统也是通过反射来做的，这是 getFactoryClass 的源码，我们来看看。</p>
+<pre><code>    private static Class&lt;WebViewFactoryProvider&gt; getFactoryClass() throws ClassNotFoundException {
+        Application initialApplication = AppGlobals.getInitialApplication();
+        try {
+            // First fetch the package info so we can log the webview package version.
+            String packageName = getWebViewPackageName();
+            sPackageInfo = initialApplication.getPackageManager().getPackageInfo(packageName, 0);
+            Log.i(LOGTAG, &quot;Loading &quot; + packageName + &quot; version &quot; + sPackageInfo.versionName +
+                          &quot; (code &quot; + sPackageInfo.versionCode + &quot;)&quot;);
+
+            // Construct a package context to load the Java code into the current app.
+            Context webViewContext = initialApplication.createPackageContext(packageName,
+                    Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
+            initialApplication.getAssets().addAssetPath(
+                    webViewContext.getApplicationInfo().sourceDir);
+            ClassLoader clazzLoader = webViewContext.getClassLoader();
+            Trace.traceBegin(Trace.TRACE_TAG_WEBVIEW, &quot;Class.forName()&quot;);
+            try {
+                return (Class&lt;WebViewFactoryProvider&gt;) Class.forName(CHROMIUM_WEBVIEW_FACTORY, true,
+                                                                     clazzLoader);
+            } finally {
+                Trace.traceEnd(Trace.TRACE_TAG_WEBVIEW);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            // If the package doesn't exist, then try loading the null WebView instead.
+            // If that succeeds, then this is a device without WebView support; if it fails then
+            // swallow the failure, complain that the real WebView is missing and rethrow the
+            // original exception.
+            try {
+                return (Class&lt;WebViewFactoryProvider&gt;) Class.forName(NULL_WEBVIEW_FACTORY);
+            } catch (ClassNotFoundException e2) {
+                // Ignore.
+            }
+            Log.e(LOGTAG, &quot;Chromium WebView package does not exist&quot;, e);
+            throw new AndroidRuntimeException(e);
+        }
+    }
+</code></pre>
+<p>返回值是一个 WebViewFactoryProvider 的类，可以看到系统会首先加载 CHROMIUM_WEBVIEW_FACTORY，也就是使用 Chrome 内核的 WebView。这个方法是静态的，我们就可以用反射调用了。整个创建 sProviderInstance 的过程都可以用反射搞定，其他细节就不多说了。需要注意的是 API 21 以上在使用 WebView 时系统才会检查进程。但是 API 22 和 22 以上源码还是有差别，这里只是方法名字的改动，我们根据版本处理一下就好。</p>
+<pre><code>    public static void hookWebView() {
+        int sdkInt = Build.VERSION.SDK_INT;
+        try {
+            Class&lt;?&gt; factoryClass = Class.forName(&quot;android.webkit.WebViewFactory&quot;);
+            Field field = factoryClass.getDeclaredField(&quot;sProviderInstance&quot;);
+            field.setAccessible(true);
+            Object sProviderInstance = field.get(null);
+            if (sProviderInstance != null) {
+                log.debug(&quot;sProviderInstance isn't null&quot;);
+                return;
+            }
+            Method getProviderClassMethod;
+            if (sdkInt &gt; 22) {
+                getProviderClassMethod = factoryClass.getDeclaredMethod(&quot;getProviderClass&quot;);
+            } else if (sdkInt == 22) {
+                getProviderClassMethod = factoryClass.getDeclaredMethod(&quot;getFactoryClass&quot;);
+            } else {
+                log.info(&quot;Don't need to Hook WebView&quot;);
+                return;
+            }
+            getProviderClassMethod.setAccessible(true);
+            Class&lt;?&gt; providerClass = (Class&lt;?&gt;) getProviderClassMethod.invoke(factoryClass);
+            Class&lt;?&gt; delegateClass = Class.forName(&quot;android.webkit.WebViewDelegate&quot;);
+            Constructor&lt;?&gt; providerConstructor = providerClass.getConstructor(delegateClass);
+            if (providerConstructor != null) {
+                providerConstructor.setAccessible(true);
+                Constructor&lt;?&gt; declaredConstructor = delegateClass.getDeclaredConstructor();
+                declaredConstructor.setAccessible(true);
+                sProviderInstance = providerConstructor.newInstance(declaredConstructor.newInstance());
+                log.debug(&quot;sProviderInstance:{}&quot;, sProviderInstance);
+                field.set(&quot;sProviderInstance&quot;, sProviderInstance);
+            }
+            log.debug(&quot;Hook done!&quot;);
+        } catch (Throwable e) {
+            log.error(e);
+        }
+    }
+</code></pre>
+<p>在使用 WebView 之前，我们先 Hook WebViewFactory，创建 sProviderInstance 对象，从而绕过系统检查。经过测试，该方案完美解决了我们的问题 ~</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi">
+                  <h3 class="post-title">
+                    Java 使用静态工厂方法代替构造器
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

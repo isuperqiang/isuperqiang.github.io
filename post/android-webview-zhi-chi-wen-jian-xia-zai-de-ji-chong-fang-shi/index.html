@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android WebView 支持文件下载的几种方式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android WebView 支持文件下载的几种方式</h2>
+            <div class="post-date">2017-05-06</div>
+            
+            <div class="post-content">
+              <p>最近在开发的过程中遇到一个需求，那就是让 WebView 支持文件下载，比如说下载 apk。WebView 默认是不支持下载的，需要开发者自己实现。</p>
+<!-- more -->
+<p>既然 PM 提出了需求，那咱就撸起袖子干呗。于是乎在网上寻找了几种方法，主要思路有这么几种：</p>
+<ul>
+<li>跳转浏览器下载</li>
+<li>使用系统的下载服务</li>
+<li>自定义下载任务</li>
+</ul>
+<p>有了思路就好办了，下面介绍具体实现。
+要想让 WebView 支持下载，需要给 WebView 设置下载监听器 <code>setDownloadListener</code>，DownloadListener 里面只有一个方法 onDownloadStart，每当有文件需要下载时，该方法就会被回调，下载的 URL 通过方法参数传递，我们可以在这里处理下载事件。</p>
+<pre><code>mWebView.setDownloadListener(new DownloadListener() {
+    @Override
+    public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+        // TODO: 2017-5-6 处理下载事件
+    }
+});
+</code></pre>
+<h4 id="1-跳转浏览器下载">1. 跳转浏览器下载</h4>
+<p>这种方式最为简单粗暴，直接把下载任务抛给浏览器，剩下的就不用我们管了。缺点是无法感知下载完成，当然就没有后续的处理，比如下载 apk 完成后打开安装界面。</p>
+<pre><code>    private void downloadByBrowser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse(url));
+        startActivity(intent);
+    }
+</code></pre>
+<h4 id="2-使用系统的下载服务">2. 使用系统的下载服务</h4>
+<p>DownloadManager 是系统提供的用于处理下载的服务，使用者只需提供下载 URI 和存储路径，并进行简单的设置。DownloadManager 会在后台进行下载，并且在下载失败、网络切换以及系统重启后尝试重新下载。</p>
+<pre><code>     private void downloadBySystem(String url, String contentDisposition, String mimeType) {
+        // 指定下载地址
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        // 允许媒体扫描，根据下载的文件类型被加入相册、音乐等媒体库
+        request.allowScanningByMediaScanner();
+        // 设置通知的显示类型，下载进行时和完成后显示通知
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        // 设置通知栏的标题，如果不设置，默认使用文件名
+//        request.setTitle(&quot;This is title&quot;);
+        // 设置通知栏的描述
+//        request.setDescription(&quot;This is description&quot;);
+        // 允许在计费流量下下载
+        request.setAllowedOverMetered(false);
+        // 允许该记录在下载管理界面可见
+        request.setVisibleInDownloadsUi(false);
+        // 允许漫游时下载
+        request.setAllowedOverRoaming(true);
+        // 允许下载的网路类型
+        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI);
+        // 设置下载文件保存的路径和文件名
+        String fileName  = URLUtil.guessFileName(url, contentDisposition, mimeType);
+        log.debug(&quot;fileName:{}&quot;, fileName);
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
+//        另外可选一下方法，自定义下载路径
+//        request.setDestinationUri()
+//        request.setDestinationInExternalFilesDir()
+        final DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+        // 添加一个下载任务
+        long downloadId = downloadManager.enqueue(request);
+        log.debug(&quot;downloadId:{}&quot;, downloadId);
+    }
+</code></pre>
+<p>这样我们就添加了一项下载任务，然后就静静等待系统下载完成吧。还要注意一点，别忘了添加读写外置存储权限和网络权限哦~
+那怎么知道文件下载成功呢？系统在下载完成后会发送一条广播，里面有任务 ID，告诉调用者任务完成，通过 DownloadManager 获取到文件信息就可以进一步处理。</p>
+<pre><code>    private class DownloadCompleteReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            log.verbose(&quot;onReceive. intent:{}&quot;, intent != null ? intent.toUri(0) : null);
+            if (intent != null) {
+                if (DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(intent.getAction())) {
+                    long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                    log.debug(&quot;downloadId:{}&quot;, downloadId);
+                    DownloadManager downloadManager = (DownloadManager) context.getSystemService(DOWNLOAD_SERVICE);
+                    String type = downloadManager.getMimeTypeForDownloadedFile(downloadId);
+                    log.debug(&quot;getMimeTypeForDownloadedFile:{}&quot;, type);
+                    if (TextUtils.isEmpty(type)) {
+                        type = &quot;*/*&quot;;
+                    }
+                    Uri uri = downloadManager.getUriForDownloadedFile(downloadId);
+                    log.debug(&quot;UriForDownloadedFile:{}&quot;, uri);
+                    if (uri != null) {
+                        Intent handlerIntent = new Intent(Intent.ACTION_VIEW);
+                        handlerIntent.setDataAndType(uri, type);
+                        context.startActivity(handlerIntent);
+                    }
+                }
+            }
+        }
+    }
+
+        // 使用
+        DownloadCompleteReceiver receiver = new DownloadCompleteReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        registerReceiver(receiver, intentFilter);
+</code></pre>
+<p>Ok，到这里，利用系统服务下载就算结束了，简单总结一下。我们只关心开始和完成，至于下载过程中的暂停、重试等机制，系统已经帮我们做好了，是不是非常友好？</p>
+<h4 id="3-自定义下载任务">3. 自定义下载任务</h4>
+<p>有了下载链接就可以自己实现网络部分，我在这儿自定义了一个下载任务，使用 HttpURLConnection 和 AsyncTask 实现，代码还是比较简单的。</p>
+<pre><code>    private class DownloadTask extends AsyncTask&lt;String, Void, Void&gt; {
+        // 传递两个参数：URL 和 目标路径
+        private String url;
+        private String destPath;
+
+        @Override
+        protected void onPreExecute() {
+            log.info(&quot;开始下载&quot;);
+        }
+
+        @Override
+        protected Void doInBackground(String... params) {
+            log.debug(&quot;doInBackground. url:{}, dest:{}&quot;, params[0], params[1]);
+            url = params[0];
+            destPath = params[1];
+            OutputStream out = null;
+            HttpURLConnection urlConnection = null;
+            try {
+                URL url = new URL(params[0]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setConnectTimeout(15000);
+                urlConnection.setReadTimeout(15000);
+                InputStream in = urlConnection.getInputStream();
+                out = new FileOutputStream(params[1]);
+                byte[] buffer = new byte[10 * 1024];
+                int len;
+                while ((len = in.read(buffer)) != -1) {
+                    out.write(buffer, 0, len);
+                }
+                in.close();
+            } catch (IOException e) {
+                log.warn(e);
+            } finally {
+                if (urlConnection != null) {
+                    urlConnection.disconnect();
+                }
+                if (out != null) {
+                    try {
+                        out.close();
+                    } catch (IOException e) {
+                        log.warn(e);
+                    }
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            log.info(&quot;完成下载&quot;);
+            Intent handlerIntent = new Intent(Intent.ACTION_VIEW);
+            String mimeType = getMIMEType(url);
+            Uri uri = Uri.fromFile(new File(destPath));
+            log.debug(&quot;mimiType:{}, uri:{}&quot;, mimeType, uri);
+            handlerIntent.setDataAndType(uri, mimeType);
+            startActivity(handlerIntent);
+        }
+    }
+
+    private String getMIMEType(String url) {
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        log.debug(&quot;extension:{}&quot;, extension);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        return type;
+    }
+
+        //  使用
+        mWebView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                String fileName = URLUtil.guessFileName(url, contentDisposition, mimeType);
+                String destPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                        .getAbsolutePath() + File.separator + fileName;
+                new DownloadTask().execute(url, destPath);
+            }
+        });
+</code></pre>
+<p>优势是我们可以感知下载进度，处理开始、取消、失败、完成等事件，不足之处是对下载的控制不如系统服务，必须自己处理网络带来的问题。</p>
+<p>可以看出，这三种下载方式各有特点，大家可以根据需要选择，欢迎留言交流~~</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang">
+                  <h3 class="post-title">
+                    Android WebView 运行在系统进程引发的异常
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

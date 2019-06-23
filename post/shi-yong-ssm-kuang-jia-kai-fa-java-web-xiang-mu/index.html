@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 11 期 | 落英坠露</title>
+<title>使用 SSM 框架开发 Java Web 项目 | 落英坠露</title>
 <meta name="description" content="技术让生活更美好">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -110,134 +110,34 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 11 期</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">使用 SSM 框架开发 Java Web 项目</h2>
+            <div class="post-date">2018-07-02</div>
             
             <div class="post-content">
-              <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="263-丑数简单">263. 丑数（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>编写一个程序判断给定的数是否为丑数。丑数就是只包含质因数 2, 3, 5 的正整数。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>示例：
-输入: 6
-输出: true
-解释: 6 = 2 × 3
-</code></pre>
-<h5 id="思路">思路：</h5>
-<ul>
-<li>循环实现：循环去除 2、3、5，直到不能整除，如果余数是 1，那么就是丑数。</li>
-<li>递归实现：和循环一样，也是不停地除2、3、5。</li>
-</ul>
-<pre><code class="language-java">class Solution {
-    public boolean isUgly(int num) {
-        if (num &lt;= 0) {
-            return false;
-        } else if (num == 1) {
-            return true;
-        }
-        while (num % 2 == 0) {
-            num /= 2;
-        }
-        while (num % 3 == 0) {
-            num /= 3;
-        }
-        while (num % 5 == 0) {
-            num /= 5;
-        }
-        return num == 1;
-    }
-  
-   private static boolean isUgly2(int num) {
-        if (num &lt;= 0) {
-            return false;
-        } else if (num == 1) {
-            return true;
-        }
-        if (num % 2 == 0) {
-            return isUgly2(num / 2);
-        }
-        if (num % 3 == 0) {
-            return isUgly2(num / 3);
-        }
-        if (num % 5 == 0) {
-            return isUgly2(num / 5);
-        }
-        return false;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<p>循环和递归实现一样：</p>
-<ul>
-<li>时间复杂度：O(logn)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<hr>
-<h3 id="349-两个数组的交集简单">349.  两个数组的交集（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>给定两个数组，编写一个函数来计算它们的交集。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>输入: nums1 = [1,2,2,1], nums2 = [2,2]
-输出: [2]
-</code></pre>
-<h5 id="说明">说明：</h5>
-<ul>
-<li>输出结果中的每个元素一定是唯一的。</li>
-<li>我们可以不考虑输出结果的顺序。</li>
-</ul>
-<h5 id="思路-2">思路：</h5>
-<p>使用一个 Set 去除数组一重复元素，另一个 Set 保存两个数组的交集</p>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public int[] intersection(int[] nums1, int[] nums2) {
-        if (nums1 == null || nums2 == null) {
-            return new int[]{};
-        }
-
-        Set&lt;Integer&gt; set1 = new HashSet&lt;&gt;(nums1.length);
-        for (int i : nums1) {
-            set1.add(i);
-        }
-        Set&lt;Integer&gt; set2 = new HashSet&lt;&gt;(nums1.length);
-        for (int i : nums2) {
-            if (set1.contains(i)) {
-                set2.add(i);
-            }
-        }
-        int size = set2.size();
-        int[] ret = new int[size];
-        Iterator&lt;Integer&gt; iterator = set2.iterator();
-        for (int i = 0; i &lt; size; i++) {
-            ret[i] = iterator.next();
-        }
-        return ret;
-    }
-}
-</code></pre>
-<h5 id="分析-2">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(n)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/free-code-camp/what-is-an-api-in-english-please-b880a3214a82">What is an API? In English, please.</a> 什么是 API？</p>
-<p>开发者都知道 API 是应用程序接口，作者对它有更广泛的认识。API 是服务方的一部分，它接收请求并发出响应。API 是向客户提供服务的一种方式，客户端访问 API 获取消息，比如 GitHub 的 API。在面向对象编程中，对象的 public 方法也可以看作是一种 API，用来与其他对象进行交互。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p><a href="https://www.jianshu.com/p/43af9c156674">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
-<h2 id="4-share">4. Share</h2>
-<p>经典是经过时间筛选的，在这个浮躁的社会，多读经典是最省时间的选择。</p>
+              <p>这段时间学习了 SSM 框架（Spring、Spring MVC 和 Mybatis），确实感觉到使用 Java 语言开发 Web 的强大。Java 属于工业级的编程语言，Spring 家族就是 Java 框架里面最耀眼的明珠，没有之一。</p>
+<!-- more -->
+<p>以前做 Android 的时候，很少接触后端开发相关的东西，觉得后端就是数据的增删改查，没有什么新鲜的。学习 SSM 过后，对后端开发豁然开朗，更加坚定了我对开源的信心。</p>
+<p>Spring Boot 的存在就是为了摆脱 Spring 繁琐的配置，让开发者专注于业务本身，它使用起来非常简单，连 Tomcat 也不用配置，直接就能跑起来，偷懒才是技术进步的动力啊。</p>
+<p>下面说一下这个项目。我司的商户后台使用 PHP 开发的，功能就是让商家管理商品、分类和会员，还有订单的查询等。这么一看，其实比较容易实现，我打算用 Java 实现一样的功能，说做就做。</p>
+<p>首先进行数据库的设计，无非是建表、表间的关联等，我用到了这几张表：用户表、商品表、分类表、会员表、门店表。然后就是业务接口，写 SQL 语句，从 DAO、Service 到 Controller，自底向上进行开发，一边开发一边进行单元测试，保证接口正常工作。</p>
+<p>之后就是前端界面的开发，我不太擅长用 HTML 和 CSS，而且没有设计师标注，界面可能不太美观。所以在网上对比了各种前端框架后，我选择了 layui，它真的对开发者很友好。界面上的每个元素都有多种样式，几行代码就能使用，而且比原始的样式漂亮多了，没有设计师，我也可以做出不错的效果。</p>
+<p>中间遇到过许多的坑，比如 Thymeleaf 解析 html 出错，原因是标签没有闭合；静态资源的查找；前端的数据传入等等，还好都通过 Google 解决了。</p>
+<p>之前买过阿里云服务器，新用户价格特别便宜，一年只要 99 元，我果断拿下了。配置是 1 核 2G 内存 40G 硬盘，装有 Cent OS 7.4 系统，部署个小项目基本够用。开始用 SSH 连接服务器，命令行操作，安装软件，修改配置，这又是一番折腾……</p>
+<p>最后，项目成功部署到阿里云上，代码也放到 GitHub 上，叫做 <a href="https://github.com/isuperqiang/StoreBackstage">StoreBackstage</a>。我们来看一下效果：</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1820210-21e7ec4eb4691cbd.jpg" alt="效果图"></p>
+<p>几点总结：</p>
+<ol>
+<li>官方文档是最可靠的，其他的帖子也可以参考</li>
+<li>出错了不可怕，日志会解释一切</li>
+<li>做好单元测试很重要，细节做好了，大局就稳了</li>
+</ol>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
-                    ARTS
+                  <a href="https://isuperqiang.cn/tag/java" class="tag">
+                    Java
                   </a>
                 
               </div>
@@ -245,9 +145,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi">
+                <a href="https://isuperqiang.cn/post/android-zi-ding-yi-view-zhi-hui-zhi-lei-da-tu">
                   <h3 class="post-title">
-                    每周 ARTS 第 10 期
+                    Android 自定义 View 之绘制雷达图
                   </h3>
                 </a>
               </div>

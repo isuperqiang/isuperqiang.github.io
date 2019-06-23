@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 自定义 View 之绘制雷达图 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 自定义 View 之绘制雷达图</h2>
+            <div class="post-date">2017-07-02</div>
+            
+            <div class="post-content">
+              <p>做 Android 应用开发，界面自然是少不了的，它是最直接可被用户感知的部分。每当看到手机上应用做出绚丽的画面、巧妙的动画，使用体验就像把玩一件艺术品一般，真的令人赞叹！</p>
+<!-- more -->
+<p>我的工作范围很少涉及界面，所以对视图方面了解不多。在网上找到了一份教程：<a href="https://github.com/GcsSloop">GcsSloop</a> 的 <a href="https://github.com/GcsSloop/AndroidNote">AndroidNote</a>，里面对自定义 View 讲得非常详细，从基础到进阶，每个绘图的 API 都有解释，想要学习的朋友千万不要错过~</p>
+<p>下面两段摘自 GcsSloop 的 Android 笔记，分别总结了自定义 View 的分类和流程。</p>
+<h6 id="自定义-view-分类">自定义 View 分类</h6>
+<blockquote>
+<p>PS：实际上 ViewGroup 是 View 的一个子类。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">继承自</th>
+<th style="text-align:center">特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">View</td>
+<td style="text-align:center">View  SurfaceView  等</td>
+<td style="text-align:center">不含子 View</td>
+</tr>
+<tr>
+<td style="text-align:center">ViewGroup</td>
+<td style="text-align:center">ViewGroup、xxLayout 等</td>
+<td style="text-align:center">包含子 View</td>
+</tr>
+</tbody>
+</table>
+<h6 id="自定义-view-流程">自定义 View 流程</h6>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">步骤</th>
+<th style="text-align:center">关键字</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">构造函数</td>
+<td style="text-align:center">初始化 View</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">onMeasure</td>
+<td style="text-align:center">测量 View 大小</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">onSizeChanged</td>
+<td style="text-align:center">确定 View 大小</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">onLayout</td>
+<td style="text-align:center">确定子 View 布局(自定义 View 包含子 View 时有用)</td>
+</tr>
+<tr>
+<td style="text-align:center">5</td>
+<td style="text-align:center">onDraw</td>
+<td style="text-align:center">实际绘制内容</td>
+</tr>
+<tr>
+<td style="text-align:center">6</td>
+<td style="text-align:center">提供接口</td>
+<td style="text-align:center">控制 View 或监听 View 某些状态</td>
+</tr>
+</tbody>
+</table>
+<p>学习完 Path 的基本操作，GcsSloop 给我们留了一道作业题 ---- 绘制雷达图，熟悉 Path 的使用。下面我们就按照步骤来做一下，其中涉及一些数学计算，看来算法还是蛮重要的。</p>
+<h4 id="1-构造函数初始化-view">1. 构造函数，初始化 View</h4>
+<p>首先看成员变量的声明，主要是画笔、画布的属性（宽和高）、图形的属性（圈数、半径等）。为了计算 cos 值，重温了高中数学（笑哭 ing）</p>
+<pre><code> // 6条线上的点的 con 值，从 y 轴负方向开始画线，即竖直的上方
+    private static final PointF[] UNIT_POINTS = {
+            new PointF(0, -1),
+            new PointF((float) (Math.cos(Math.PI / 6)), -(float) (Math.cos(Math.PI / 3))),
+            new PointF((float) (Math.cos(Math.PI / 6)), (float) (Math.cos(Math.PI / 3))),
+            new PointF(0, 1),
+            new PointF(-(float) (Math.cos(Math.PI / 6)), (float) (Math.cos(Math.PI / 3))),
+            new PointF(-(float) (Math.cos(Math.PI / 6)), -(float) (Math.cos(Math.PI / 3))),
+    };
+    // 边数
+    private static final int EDGE_COUNT = 6;
+    private final ILogger log = LoggerFactory.getLogger(&quot;RadarView&quot;);
+    // 雷达线画笔
+    private Paint mLinePaint;
+    // 填色区画笔
+    private Paint mAreaPaint;
+    // 数据点画笔
+    private Paint mPointPaint;
+    // 画布的宽
+    private int mWidth;
+    // 画布的高
+    private int mHeight;
+    // 圈数，限制 3--5 圈
+    private int mLoop = 5;
+    // 步长，限制 50--100
+    private float mStep = 100;
+    // 「半径」长度
+    private float mLength = mStep * mLoop;
+    // 最外层端点的坐标
+    private List&lt;PointF&gt; mEndPoints;
+</code></pre>
+<p>下面是构造方法，需要重写三个方法，在这里初始化画笔和坐标数据。</p>
+<pre><code>    public RadarView(Context context) {
+        this(context, null);
+    }
+
+    public RadarView(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public RadarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initPaints();
+        initEndPoints(mLength);
+    }
+
+    // 初始化画笔
+    private void initPaints() {
+        mLinePaint = new Paint();
+        mLinePaint.setStyle(Paint.Style.STROKE);
+        mLinePaint.setAntiAlias(true);
+        mLinePaint.setColor(Color.BLACK);
+
+        mAreaPaint = new Paint();
+        mAreaPaint.setStyle(Paint.Style.FILL);
+        mAreaPaint.setAntiAlias(true);
+        mAreaPaint.setColor(Color.BLUE);
+        mAreaPaint.setAlpha(100);
+
+        mPointPaint = new Paint();
+        mPointPaint.setAntiAlias(true);
+        mPointPaint.setColor(Color.BLUE);
+        mPointPaint.setStyle(Paint.Style.FILL);
+        mPointPaint.setStrokeWidth(10);
+    }
+
+    // 添加最外层的6个端点
+    private void initEndPoints(float length) {
+        mEndPoints = new ArrayList&lt;&gt;(EDGE_COUNT);
+        PointF pointF;
+        for (int i = 0; i &lt; EDGE_COUNT; i++) {
+            pointF = new PointF();
+            pointF.x = length * UNIT_POINTS[i].x;
+            pointF.y = length * UNIT_POINTS[i].y;
+            mEndPoints.add(pointF);
+        }
+    }
+</code></pre>
+<h4 id="2-onsizechanged确定-view-的大小">2. onSizeChanged，确定 View 的大小</h4>
+<p>由于我们要绘制的是简单的 View，onMeasure 过程暂时不需要重写。然后到了 onSizeChanged 方法，在这里获取当前 View 的宽高。关于 onSizeChanged，API 是这么说的：在 layout 期间，当 View 的尺寸发生变化是被调用。所以这里的宽高就是 View 测量后的真实宽高。</p>
+<pre><code>    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        log.debug(&quot;onSizeChanged. w:{}, h:{}, oldW:{}, oldH:{}&quot;, w, h, oldw, oldh);
+        mWidth = w;
+        mHeight = h;
+    }
+</code></pre>
+<h4 id="3-ondraw绘制实际的内容">3. onDraw，绘制实际的内容</h4>
+<p>由于我们的 View 不包含子 View，所以 onLayout 过程跳过，直接进行 onDraw 绘制。
+我的思路和蜘蛛织网差不多：先从中心开始，画出 6 条射线，作为图形的骨架， 然后从外圈向内圈画线，最后打点填色。要不然怎么雷达图又叫「蜘蛛网图」呢 (～ o ～)~zZ</p>
+<pre><code>    @Override
+    protected void onDraw(Canvas canvas) {
+        log.debug(&quot;onDraw. canvas:{}&quot;, canvas);
+        super.onDraw(canvas);
+
+        // 将坐标原点移动到中心
+        canvas.translate(mWidth / 2, mHeight / 2);
+        Path path = new Path();
+
+        // 先画 6 条射线，这是基本骨架
+        int size = mEndPoints.size();
+        for (int i = 0; i &lt; size; i++) {
+            path.moveTo(0, 0);
+            PointF endPoint = mEndPoints.get(i);
+            path.lineTo(endPoint.x, endPoint.y);
+        }
+        canvas.drawPath(path, mLinePaint);
+        path.reset();
+
+        // 再从外圈到内圈画闭合线，一圈又一圈~
+        PointF firstPoint = mEndPoints.get(0);
+        for (int i = mLoop; i &gt;= 1; i--) {
+            float rate = i / (float) mLoop;
+//            log.info(&quot;rate:{}&quot;, rate);
+            float firstX = firstPoint.x * rate;
+            float firstY = firstPoint.y * rate;
+            path.moveTo(firstX, firstY);
+            for (int j = 1; j &lt; size; j++) {
+                PointF endPoint = mEndPoints.get(j);
+                path.lineTo(endPoint.x * rate, endPoint.y * rate);
+            }
+            path.lineTo(firstX, firstY);
+        }
+        canvas.drawPath(path, mLinePaint);
+        path.reset();
+
+        // 画数据点
+        List&lt;PointF&gt; pointFs = generateFocused();
+        PointF firstF = pointFs.get(0);
+        path.moveTo(firstF.x, firstF.y);
+        for (PointF pointF : pointFs) {
+            canvas.drawPoint(pointF.x, pointF.y, mPointPaint);
+            path.lineTo(pointF.x, pointF.y);
+        }
+        // 画填色区域
+        canvas.drawPath(path, mAreaPaint);
+        path.reset();
+    }
+
+    // 产生随机数据点
+    private List&lt;PointF&gt; generateFocused() {
+        List&lt;PointF&gt; focused = new ArrayList&lt;&gt;(mEndPoints.size());
+        PointF point;
+        for (PointF pointF : mEndPoints) {
+            point = new PointF();
+            float random = 0;
+            // 为了让区域好看，所以随机合适的点
+            while (random &lt; 0.2 || random &gt; 0.8) {
+                random = (float) Math.random();
+            }
+            point.x = (random * pointF.x);
+            point.y = (random * pointF.y);
+//            log.debug(&quot;point. x:{}, y:{}&quot;, point.x, point.y);
+            focused.add(point);
+        }
+        return focused;
+    }
+</code></pre>
+<h4 id="4-提供接口设置-view-的属性">4. 提供接口，设置 View 的属性</h4>
+<p>这里主要提供了两个对外的接口：设置雷达图的圈数和步长，并且做了一些限制。设置完数据后，调用 invalidate 方法进行重绘，这样就能提供多样化的视图啦~</p>
+<pre><code>    // 设置圈数
+    public void setLoop(int loop) {
+        if (loop &lt; 3) {
+            loop = 3;
+        } else if (loop &gt; 6) {
+            loop = 6;
+        }
+        mLoop = loop;
+        mLength = mLoop * mStep;
+        setEndPoints(mLength);
+        invalidate();
+    }
+
+    // 设置步长
+    public void setStep(float step) {
+        if (step &lt; 50) {
+            step = 50;
+        } else if (step &gt; 100) {
+            step = 100;
+        }
+        mStep = step;
+        mLength = mLoop * mStep;
+        setEndPoints(mLength);
+        invalidate();
+    }
+
+    // 重新设置端点坐标
+    private void setEndPoints(float length) {
+        for (int i = 0, j = mEndPoints.size(); i &lt; j; i++) {
+            PointF pointF = mEndPoints.get(i);
+            pointF.x = length * UNIT_POINTS[i].x;
+            pointF.y = length * UNIT_POINTS[i].y;
+        }
+    }
+</code></pre>
+<h4 id="5-使用-view">5. 使用 View</h4>
+<p>直接创建 View，可以设置属性，添加到界面即可~</p>
+<pre><code>        LinearLayout container = (LinearLayout) findViewById(R.id.container);
+        RadarView radarView = new RadarView(this);
+//        radarView.setStep(80);
+//        radarView.setLoop(5);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        container.removeAllViews();
+        container.addView(radarView, params);
+</code></pre>
+<p>一起来看下效果吧</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1820210-4b97d7775a3b37ca.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="雷达图"></p>
+<h4 id="总结">总结</h4>
+<p>自定义 View 其实没有那么难，我们看到一些复杂的效果，往往不是几十行代码能搞定的，可能就被吓到了。把任务分解成小目标，设计良好的算法，一步一步就能做出来。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi">
+                  <h3 class="post-title">
+                    Android WebView 支持文件下载的几种方式
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

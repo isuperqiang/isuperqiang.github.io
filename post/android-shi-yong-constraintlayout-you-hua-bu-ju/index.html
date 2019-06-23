@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 11 期 | 落英坠露</title>
+<title>Android 使用 ConstraintLayout 优化布局 | 落英坠露</title>
 <meta name="description" content="技术让生活更美好">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -110,134 +110,38 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 11 期</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">Android 使用 ConstraintLayout 优化布局</h2>
+            <div class="post-date">2019-04-05</div>
             
             <div class="post-content">
-              <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="263-丑数简单">263. 丑数（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>编写一个程序判断给定的数是否为丑数。丑数就是只包含质因数 2, 3, 5 的正整数。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>示例：
-输入: 6
-输出: true
-解释: 6 = 2 × 3
-</code></pre>
-<h5 id="思路">思路：</h5>
+              <p>ConstraintLayout（约束布局）是 Android Studio 推荐的布局方式，能够实现灵活的布局，减少控件之间的嵌套，从而优化界面的渲染性能。</p>
+<!-- more -->
+<p>官方文档：</p>
 <ul>
-<li>循环实现：循环去除 2、3、5，直到不能整除，如果余数是 1，那么就是丑数。</li>
-<li>递归实现：和循环一样，也是不停地除2、3、5。</li>
+<li><a href="https://developer.android.com/reference/android/support/constraint/ConstraintLayout">ConstraintLayout</a></li>
+<li><a href="https://developer.android.com/training/constraint-layout">Build a Responsive UI with ConstraintLayout</a></li>
 </ul>
-<pre><code class="language-java">class Solution {
-    public boolean isUgly(int num) {
-        if (num &lt;= 0) {
-            return false;
-        } else if (num == 1) {
-            return true;
-        }
-        while (num % 2 == 0) {
-            num /= 2;
-        }
-        while (num % 3 == 0) {
-            num /= 3;
-        }
-        while (num % 5 == 0) {
-            num /= 5;
-        }
-        return num == 1;
-    }
-  
-   private static boolean isUgly2(int num) {
-        if (num &lt;= 0) {
-            return false;
-        } else if (num == 1) {
-            return true;
-        }
-        if (num % 2 == 0) {
-            return isUgly2(num / 2);
-        }
-        if (num % 3 == 0) {
-            return isUgly2(num / 3);
-        }
-        if (num % 5 == 0) {
-            return isUgly2(num / 5);
-        }
-        return false;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<p>循环和递归实现一样：</p>
-<ul>
-<li>时间复杂度：O(logn)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<hr>
-<h3 id="349-两个数组的交集简单">349.  两个数组的交集（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>给定两个数组，编写一个函数来计算它们的交集。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>输入: nums1 = [1,2,2,1], nums2 = [2,2]
-输出: [2]
-</code></pre>
-<h5 id="说明">说明：</h5>
-<ul>
-<li>输出结果中的每个元素一定是唯一的。</li>
-<li>我们可以不考虑输出结果的顺序。</li>
-</ul>
-<h5 id="思路-2">思路：</h5>
-<p>使用一个 Set 去除数组一重复元素，另一个 Set 保存两个数组的交集</p>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public int[] intersection(int[] nums1, int[] nums2) {
-        if (nums1 == null || nums2 == null) {
-            return new int[]{};
-        }
-
-        Set&lt;Integer&gt; set1 = new HashSet&lt;&gt;(nums1.length);
-        for (int i : nums1) {
-            set1.add(i);
-        }
-        Set&lt;Integer&gt; set2 = new HashSet&lt;&gt;(nums1.length);
-        for (int i : nums2) {
-            if (set1.contains(i)) {
-                set2.add(i);
-            }
-        }
-        int size = set2.size();
-        int[] ret = new int[size];
-        Iterator&lt;Integer&gt; iterator = set2.iterator();
-        for (int i = 0; i &lt; size; i++) {
-            ret[i] = iterator.next();
-        }
-        return ret;
-    }
-}
-</code></pre>
-<h5 id="分析-2">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(n)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/free-code-camp/what-is-an-api-in-english-please-b880a3214a82">What is an API? In English, please.</a> 什么是 API？</p>
-<p>开发者都知道 API 是应用程序接口，作者对它有更广泛的认识。API 是服务方的一部分，它接收请求并发出响应。API 是向客户提供服务的一种方式，客户端访问 API 获取消息，比如 GitHub 的 API。在面向对象编程中，对象的 public 方法也可以看作是一种 API，用来与其他对象进行交互。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p><a href="https://www.jianshu.com/p/43af9c156674">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
-<h2 id="4-share">4. Share</h2>
-<p>经典是经过时间筛选的，在这个浮躁的社会，多读经典是最省时间的选择。</p>
+<p>以前我们用 LinearLayout、RelativeLayout 等实现的布局，现在用 ConstraintLayout 都可以实现，而且布局更轻巧，更扁平。</p>
+<p>举个例子，要实现下面的布局，一个图标和一段文字两者居中对齐，而且文本长度不固定，考虑一下需要怎么做？</p>
+<p><a href="https://imgchr.com/i/ADTIKK"><img src="http://upload-images.jianshu.io/upload_images/1820210-fa9f099f98a9512c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果.png"></a></p>
+<p>以前，我们可能会采用下面这种方式实现，通过嵌套一层 LinearLayout 来包裹要居中的元素，最后实现的效果没有任何问题，但不是最优的方案。</p>
+<p><a href="https://imgchr.com/i/ADTOPA"><img src="http://upload-images.jianshu.io/upload_images/1820210-ea19df5edb80aae0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="旧方案.png"></a></p>
+<p>有了 ConstraintLayout 后，一切变得那么简单。不再需要嵌套一层，直接给元素添加约束就可以，二者通过 packed 合为一体，布局更加扁平。</p>
+<p><a href="https://imgchr.com/i/AD7Sr8"><img src="http://upload-images.jianshu.io/upload_images/1820210-0a8b0d3de71d6966.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新方案.png"></a></p>
+<p>这是 ConstraintLayout 的 ChainStype 属性，LinearLayout 的 layout-weight 属性也包含在其中，还可以指定左右边距的比例，实在是太灵活、太强大了。</p>
+<p><a href="https://imgchr.com/i/AD7CVg"><img src="http://upload-images.jianshu.io/upload_images/1820210-36aee7b69ffd1fd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="ChainStyle.png"></a></p>
+<p>除此之外，还有 GuideLine，Barrier，Group，PlaceHolder 等用法，支持相对定位、角度定位、比例尺寸约束等特性，有了 ConstraintLayout 还要啥自行车。</p>
+<p>另外，从 Android Studio 的 Layout Editor 界面中可以看出，官方已经不推荐使用 Legacy 里的控件，包括 ListView、GridView、RelativeLayout 等。Layouts 里的 ConstraintLayout、LinearLayout 和 FrameLayout 可以实现绝大多数的布局，列表使用 RecyclerView 就够了。在控件选择上，没有最好的，只有最合适的。</p>
+<p><a href="https://imgchr.com/i/AD7NqO"><img src="http://upload-images.jianshu.io/upload_images/1820210-f42384d18f539c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS-legacy.png"></a>
+<a href="https://imgchr.com/i/AD7tsK"><img src="http://upload-images.jianshu.io/upload_images/1820210-21cd1479c6d19cae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS-layouts.png"></a></p>
+<p>如果想了解更多，推荐这篇文章：<a href="https://juejin.im/post/5bac92f2f265da0aba70c1bf">约束布局ConstraintLayout看这一篇就够了</a></p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
-                    ARTS
+                  <a href="https://isuperqiang.cn/tag/android" class="tag">
+                    Android
                   </a>
                 
               </div>
@@ -245,9 +149,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi">
+                <a href="https://isuperqiang.cn/post/java-ji-he-de-fail-fast-ji-zhi">
                   <h3 class="post-title">
-                    每周 ARTS 第 10 期
+                    Java 集合的 fail-fast 机制
                   </h3>
                 </a>
               </div>

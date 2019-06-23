@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java 比较浮点数的正确方式 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java 比较浮点数的正确方式</h2>
+            <div class="post-date">2019-06-23</div>
+            
+            <div class="post-content">
+              <p>今天在读《Java开发手册》时，看到浮点数的等值判断问题「浮点数的基本数据类型不能用 <code>==</code> 比较，包装数据类型不能用 <code>equals</code> 比较」。以前开发时也遇到过浮点数的坑，所以就想一探究竟。</p>
+<!-- more -->
+<h3 id="1-浮点数表示">1. 浮点数表示</h3>
+<p>在计算机系统理论中，浮点数采用 IEEE 754 标准表示，编码方式是符号+阶码+尾数，如图：</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1820210-61af804d90504fc0.webp" alt="浮点数表示"></p>
+<p>比如 float 类型占用 32 位，单精度浮点表示法：</p>
+<ul>
+<li>符号位（sign）占用 1 位，用来表示正负数，0 表示正数，1 表示负数</li>
+<li>指数位（exponent）占用 8 位，用来表示指数，实际要加上偏移量</li>
+<li>小数位（fraction）占用 23 位，用来表示小数，不足位数补 0</li>
+</ul>
+<p>从这里可以看出，指数位决定了大小范围，小数位决定了计算精度。当十进制数值转换为二进制科学表达式后，得到的尾数位数是有可能很长甚至是无限长。所以当使用浮点格式来存储数字的时候，实际存储的尾数是被截取或执行舍入后的近似值。这就解释了浮点数计算不准确的问题，因为近似值和原值是有差异的。</p>
+<p>更详细的介绍可以查阅 <a href="https://www.zhihu.com/question/46432979/answer/221485161">java浮点类型float和double的主要区别，它们的小数精度范围大小是多少？ - Boss呱呱的回答 - 知乎</a>。</p>
+<h3 id="2-比较浮点数的方式">2. 比较浮点数的方式</h3>
+<p>让我们来验证一下比较浮点数的几种方式。</p>
+<h4 id="1-操作符">1. <code>==</code> 操作符</h4>
+<p>比较两个浮点数，一个从零开始加 11 次 0.1，另一个用 0.1 乘以 11 计算。然后用 <code>==</code> 比较大小。</p>
+<pre><code class="language-java">    private void compareByOperator() {
+        float f1 = 0.0f;
+        for (int i = 0; i &lt; 11; i++) {
+            f1 += 0.1f;
+        }
+
+        float f2 = 0.1f * 11;
+
+        System.out.println(&quot;f1 = &quot; + f1);
+        System.out.println(&quot;f2 = &quot; + f2);
+
+        if (f1 == f2) {
+            System.out.println(&quot;f1 and f2 are equal using operator ==&quot;);
+        } else {
+            System.out.println(&quot;f1 and f2 are not equal using operator ==&quot;);
+        }
+    }
+</code></pre>
+<p>运行输出：</p>
+<pre><code>f1 = 1.1000001
+f2 = 1.1
+f1 and f2 are not equal
+</code></pre>
+<p>可以看到，两个浮点数不相等，所以通过 <code>==</code> 来比较浮点数是不可靠的。</p>
+<h4 id="2-误差范围">2. 误差范围</h4>
+<p>指定一个误差范围，两个浮点数的差值在范围之内，则认为是相等的。使用 <code>Math.abs()</code> 计算差值，然后和阈值比较。</p>
+<pre><code class="language-java">    private void compareByThreshold() {
+        final float THRESHOLD = 0.000001;
+        float f1 = 0.0f;
+        for (int i = 0; i &lt; 11; i++) {
+            f1 += 0.1f;
+        }
+
+        float f2 = 0.1f * 11;
+
+        System.out.println(&quot;f1 = &quot; + f1);
+        System.out.println(&quot;f2 = &quot; + f2);
+
+        if (Math.abs(f1 - f2) &lt; THRESHOLD) {
+            System.out.println(&quot;f1 and f2 are equal using threshold&quot;);
+        } else {
+            System.out.println(&quot;f1 and f2 are not equal using threshold&quot;);
+        }
+    }
+</code></pre>
+<p>运行输出：</p>
+<pre><code>f1 = 1.1000001
+f2 = 1.1
+f1 and f2 are equal using threshold
+</code></pre>
+<h4 id="3-使用-bigdecimal">3. 使用 <code>BigDecimal</code></h4>
+<p><code>BigDecimal</code> 是不可变的，能够精确地表示十进制数字。需要注意的是，创建 <code>BigDecimal</code> 对象时，要使用参数为 <code>String</code> 的构造方法，不要使用构造参数为 <code>double</code> 的，如果非要使用 <code>double</code> 创建，一定要用 <code>valueOf</code> 静态方法，防止丢失精度。然后调用 <code>compareTo</code> 方法比较即可。</p>
+<pre><code class="language-java">    private void compareByBigDecimal() {
+        BigDecimal f1 = new BigDecimal(&quot;0.0&quot;);
+        BigDecimal pointOne = new BigDecimal(&quot;0.1&quot;);
+        for (int i = 0; i &lt; 11; i++) {
+            f1 = f1.add(pointOne);
+        }
+
+        BigDecimal f2 = new BigDecimal(&quot;0.1&quot;);
+        BigDecimal eleven = new BigDecimal(&quot;11&quot;);
+        f2 = f2.multiply(eleven);
+
+        System.out.println(&quot;f1 = &quot; + f1);
+        System.out.println(&quot;f2 = &quot; + f2);
+
+        if (f1.compareTo(f2) == 0) {
+            System.out.println(&quot;f1 and f2 are equal using BigDecimal&quot;);
+        } else {
+            System.out.println(&quot;f1 and f2 are not equal using BigDecimal&quot;);
+        }
+    }
+</code></pre>
+<p>运行输出：</p>
+<pre><code>f1 = 1.1
+f2 = 1.1
+f1 and f2 are equal using BigDecimal
+</code></pre>
+<h3 id="3-结论">3. 结论</h3>
+<p>使用 <code>==</code> 比较浮点数不准确，可以采用误差范围近似相等，或者 <code>BigDecimal</code> 计算比较。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-11-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 11 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

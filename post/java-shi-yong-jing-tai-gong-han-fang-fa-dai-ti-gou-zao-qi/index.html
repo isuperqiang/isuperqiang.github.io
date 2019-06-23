@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Java 使用静态工厂方法代替构造器 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561264652382">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561264652382" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Java 使用静态工厂方法代替构造器</h2>
+            <div class="post-date">2017-03-22</div>
+            
+            <div class="post-content">
+              <p>最近看到一段代码，感觉写得非常好，它的功能是带参数启动 Activity：</p>
+<!-- more -->
+<pre><code>public class SecondActivity extends Activity {
+
+    public static void actionStart(Context context, String data1, String data2) {
+        Intent intent = new Intent(context, SecondActivity.class);
+        intent.putExtra(&quot;param1&quot;, data1);
+        intent.putExtra(&quot;param2&quot;, data2);
+        context.startActivity(intent);
+    }
+    ...
+}
+</code></pre>
+<p>使用静态方法的好处是什么呢？首先是一目了然，SecondActivity 需要的数据在方法参数中全部体现出来了，这样即使不阅读 SecondActivity 的代码，不用询问负责编写 SecondActivity 的同事，也可以清楚地知道启动 SecondActivity 需要传递哪些数据。另外，这样写还简化了启动 Activity 的代码，调用者只需要使用一行代码就可以启动 Activity，真的是非常简便！</p>
+<pre><code>SecondActivity.actionStart(FirstActivity.this, &quot;data1&quot;, &quot;data2&quot;);
+</code></pre>
+<p>这让我想到了《Effective Java 第2版》书中讲的一条经验：考虑使用静态工厂方法代替构造器。这里的静态工厂方法与设计模式中的工厂方法模式不同，它是用于创建当前类对象的静态方法。</p>
+<p>提供静态工厂方法而不是公有的构造器的好处是什么呢？</p>
+<ul>
+<li>静态工厂方法有名称，可以清晰地阅读。如果构造器的参数本身没有确切地描述返回的对象，那么具有适当名称的静态工厂方法会更容易使用。</li>
+</ul>
+<p>举个栗子：Executors 类里面有一系列构建线程池的静态工厂方法，根据方法名就能知道返回的线程池的类型，清晰简洁，对使用者来说非常友好。</p>
+<pre><code>```
+public static ExecutorService newCachedThreadPool() {
+        return new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+                                  60L, TimeUnit.SECONDS,
+                                  new SynchronousQueue&lt;Runnable&gt;());
+}
+
+public static ExecutorService newFixedThreadPool(int nThreads) {
+      return new ThreadPoolExecutor(nThreads, nThreads,
+                                  0L, TimeUnit.MILLISECONDS,
+                                  new LinkedBlockingQueue&lt;Runnable&gt;());
+}
+```
+</code></pre>
+<ul>
+<li>
+<p>不必在每次调用静态工厂方法的时候都创建一个新对象。这使得不可变类可以使用预先构建好的实例，或者将实例缓存起来进行复用，从而避免创建不必要的重复对象。</p>
+<p>举个栗子：Boolean 类的 valueOf 方法，返回预先构建的缓存的实例，实例的复用提升了软件的性能。</p>
+<pre><code>public static final Boolean TRUE = new Boolean(true);
+public static final Boolean FALSE = new Boolean(false);
+
+public static Boolean valueOf(boolean b) {
+    return b ? Boolean.TRUE : Boolean.FALSE;
+}
+</code></pre>
+</li>
+<li>
+<p>静态工厂方法可以返回原返回类型的任何子类型的对象，这样我们在选择返回对象的类时就有了更好的灵活性。</p>
+<p>举个栗子：EnumSet 类的 noneOf 方法返回一个空的枚举集合，类型是 EnumSet 的子类，这样根据不同的条件就能得到不同的实现类的实例，提高了方法的灵活性。</p>
+<pre><code>public static &lt;E extends Enum&lt;E&gt;&gt; EnumSet&lt;E&gt; noneOf(Class&lt;E&gt; elementType) {
+    if (!elementType.isEnum()) {
+        throw new ClassCastException(elementType.getClass().getName() + &quot; is not an Enum&quot;);
+    }
+    E[] enums = Enum.getSharedConstants(elementType);
+    if (enums.length &lt;= 64) {
+        return new MiniEnumSet&lt;E&gt;(elementType, enums);
+    }
+    return new HugeEnumSet&lt;E&gt;(elementType, enums);
+}
+</code></pre>
+</li>
+<li>
+<p>使用静态工厂方法创建参数化类型的实例，代码会变得非常简洁</p>
+<p>举个栗子：使用静态工厂方法 newInstance 创建带参数的 Fragment，参数清晰、代码简洁，使用起来非常容易。</p>
+<pre><code>public class BlankFragment extends Fragment {
+
+        public static BlankFragment newInstance(String param1, String param2) {
+              BlankFragment fragment = new BlankFragment();
+              Bundle args = new Bundle();
+              args.putString(&quot;param1&quot;, param1);
+              args.putString(&quot;param2&quot;, param2);
+              fragment.setArguments(args);
+              return fragment;
+        }
+        ...
+}
+</code></pre>
+</li>
+</ul>
+<p>静态工厂方法的命名也有标准，下面是一些惯用名称：</p>
+<ul>
+<li>valueOf： 这是类型转换的方法，返回的实例与它的参数具有相同的值。</li>
+<li>of：valueOf 的一种更为简洁的替代，在 EnumSet 中使用并流行起来。</li>
+<li>getInstance：返回的实例是通过方法的参数来描述的，对于单例来说，返回唯一的实例。</li>
+<li>newInstance：像 getInstance 一样，但是可以确保返回的每个实例都与其他的实例不同。</li>
+<li>getType：像 getInstance 一样，但是在工厂方法处于不用的类中的时候使用。</li>
+<li>newType：像 newInstance 一样，但是在工厂方法处于不用的类中的时候使用。</li>
+</ul>
+<p>总而言之，静态工厂方法的优势还是很明显的，简洁易读，方便使用。所以在编码的过程中，还是要考虑使用静态工厂方法，不要一味地使用构造器。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-expandablelistview-shi-yong-xiao-jie-er">
+                  <h3 class="post-title">
+                    Android ExpandableListView 使用小结（二）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
