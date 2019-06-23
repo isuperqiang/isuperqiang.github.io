@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-06-23T10:49:08.823Z</updated>
+    <updated>2019-06-23T13:59:04.433Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,65 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 12 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi">
+        </link>
+        <updated>2019-06-23T13:53:36.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="108-将有序数组转换为二叉搜索树简单">108. 将有序数组转换为二叉搜索树（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。本题中，一个高度平衡二叉树是指一个二叉树每个节点的左右两个子树的高度差的绝对值不超过 1。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>给定有序数组: [-10,-3,0,5,9],
+一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
+
+      0
+     / \
+   -3   9
+   /   /
+ -10  5
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>以数组的中间元素为根节点，将数组分为左右两部分，用递归的方法对两个子数组分别构建左右子树。</p>
+<pre><code class="language-java">class Solution {
+    public TreeNode sortedArrayToBST(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return null;
+        }
+        return toBst(nums, 0, nums.length - 1);
+    }
+
+    private TreeNode toBst(int[] nums, int l, int r) {
+        if (l &gt; r) {
+            return null;
+        }
+        int mid = l + (r - l) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = toBst(nums, l, mid - 1);
+        root.right = toBst(nums, mid + 1, r);
+        return root;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(logn)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/javascript-scene/tdd-changed-my-life-5af0ce099f80">TDD Changed My Life</a> TDD 改变了我的人生</p>
+<p>TDD 是测试驱动开发，先写测试用例，再写实现代码。作者讲了一个切身的经历，debug 到奔溃也没有发现问题。如果提前写好单元测试，就能及早发现这个 bug。软件开发就是模块的组装，单元测试针对某个功能，每个部件都通过验证，那么整个系统也得到保证。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p><a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">Java 比较浮点数的正确方式</a> 重新认识了浮点数，解决了以前踩过的坑。</p>
+<h2 id="4-share">4. Share</h2>
+<p>一本书不读完，坚决不碰下一本。最近读书一直虎头蛇尾，看到一半就停下来看其他的。碎片化的生活，耐心越来越稀缺，我想静下心来，踏踏实实做下去。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Java 比较浮点数的正确方式]]></title>
         <id>https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi</id>
@@ -237,7 +296,7 @@ f1 and f2 are equal using BigDecimal
 <p><a href="https://medium.com/free-code-camp/what-is-an-api-in-english-please-b880a3214a82">What is an API? In English, please.</a> 什么是 API？</p>
 <p>开发者都知道 API 是应用程序接口，作者对它有更广泛的认识。API 是服务方的一部分，它接收请求并发出响应。API 是向客户提供服务的一种方式，客户端访问 API 获取消息，比如 GitHub 的 API。在面向对象编程中，对象的 public 方法也可以看作是一种 API，用来与其他对象进行交互。</p>
 <h2 id="3-tip">3. Tip</h2>
-<p><a href="https://www.jianshu.com/p/43af9c156674">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
+<p><a href="https://isuperqiang.cn/post/android-io-na-xie-shi-er/">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
 <h2 id="4-share">4. Share</h2>
 <p>经典是经过时间筛选的，在这个浮躁的社会，多读经典是最省时间的选择。</p>
 ]]></content>
@@ -977,61 +1036,6 @@ f1 and f2 are equal using BigDecimal
 <li>链表法解决冲突，JDK1.8 后引入红黑树</li>
 <li>散列函数 <code>(h ^ (h &gt;&gt;&gt; 16)) &amp; (capitity -1);</code></li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[散列表（上）：单词拼写检查功能如何实现]]></title>
-        <id>https://isuperqiang.cn/post/san-lie-biao-shang-dan-ci-pin-xie-jian-cha-gong-neng-ru-he-shi-xian</id>
-        <link href="https://isuperqiang.cn/post/san-lie-biao-shang-dan-ci-pin-xie-jian-cha-gong-neng-ru-he-shi-xian">
-        </link>
-        <updated>2019-05-12T09:10:19.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1-散列思想">1. 散列思想</h3>
-<p>散列表利用的就是数组支持按照下标随机访问的时候，时间复杂度是 O(1) 的特性。通过散列函数把元素的键值映射为下标，然后将数据存储在数组中对应下标的位置。当我们按照键值查询元素时，用同样的散列函数，将键值转化数组下标，从对应的数组下标的位置取数据。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512204112.png" alt="散列"></p>
-<h3 id="2-散列函数">2. 散列函数</h3>
-<p>散列函数定义为 hash(key)，其中 key 表示元素的键值，hash(key) 的值表示经过散列函数计算得到的散列值。</p>
-<p>该如何构造散列函数？有三点基本要求：</p>
-<ul>
-<li>散列函数计算得到的散列值是一个非负整数；</li>
-<li>如果 key1 = key2，那 hash(key1) == hash(key2)；</li>
-<li>如果 key1 ≠ key2，那 hash(key1) ≠ hash(key2)。</li>
-</ul>
-<p>第一、二点很好理解，第三点实际上几乎不可能，因为它无法避免散列冲突。</p>
-<h3 id="3-散列冲突">3. 散列冲突</h3>
-<p>解决方法：开放寻址法和链表法。</p>
-<h4 id="开放寻址法">开放寻址法</h4>
-<p>核心思想是，如果出现了散列冲突，就重新探测一个空闲位置，将其插入。探测方法有线形探测、二次探测和双重散列。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512203435.png" alt="开放寻址法"></p>
-<p><strong>线性探测</strong></p>
-<ul>
-<li>插入数据：当我们往散列表中插入数据时，如果某个数据经过散列函数之后，存储的位置已经被占用了，就从当前位置开始，依次往后查找，看是否有空闲位置，直到找到为止。</li>
-<li>查找数据：通过散列函数求出要查找元素的键值对应的散列值，然后比较数组中下标为散列值的元素和要查找的元素是否相等。如果相等，则说明就是要找的元素；否则，就顺序往后依次查找。如果遍历到数组的空闲位置还未找到，就说明要查找的元素并没有在散列表中。</li>
-<li>删除数据：为了不让查找算法失效，可以将删除的元素特殊标记为 deleted，当线性探测查找的时候，遇到标记为 deleted 的空间，并不是停下来，而是继续往下探测。</li>
-</ul>
-<p>结论：最坏的时间复杂度为O(n)</p>
-<p><strong>二次探测</strong></p>
-<p>线性探测每次探测的步长为1，即在数组中一个个探测，而二次探测的步长变为原来的平方。</p>
-<p><strong>双重散列</strong></p>
-<p>使用一组散列函数，直到找到空闲位置为止。</p>
-<p>散列表用装载因子（load factor）来表示空位的多少，计算公式是：</p>
-<blockquote>
-<p>散列表的装载因子 = 填入表中的元素个数 / 散列表的长度</p>
-</blockquote>
-<p>装载因子越大，说明空闲位置越少，冲突越多，散列表的性能会下降。</p>
-<h4 id="链表法">链表法</h4>
-<p>更加常用，比开放寻址法简单。</p>
-<p>在散列表中，每个“桶（bucket）”或者“槽（slot）”会对应一条链表，所有散列值相同的元素我们都放到相同槽位对应的链表中。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512201452.png" alt="链表法"></p>
-<ul>
-<li>插入数据：当插入的时候，通过散列函数计算出对应的散列槽位，将其插入到对应的链表中即可，所以时间复杂度为 O(1)。</li>
-<li>查找或删除数据：当查找、删除一个元素时，通过散列函数计算对应的槽，然后遍历链表查找或删除。对于散列比较均匀的散列函数，链表的节点个数 k=n/m，其中 n 表示散列表中数据的个数，m 表示散列表中槽的个数，所以时间复杂度为 O(k)。</li>
-</ul>
-<h3 id="课后思考">课后思考</h3>
-<ol>
-<li>Word 文档中单词拼写检查功能是如何实现的？</li>
-<li>假设我们有 10 万条 URL 访问日志，如何按照访问次数给 URL 排序？</li>
-<li>有两个字符串数组，每个数组大约有 10 万条字符串，如何快速找出两个数组中相同的字符串？</li>
-</ol>
 ]]></content>
     </entry>
 </feed>
