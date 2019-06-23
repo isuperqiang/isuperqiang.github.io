@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 音视频之使用 AudioRecord 采集音频 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 音视频之使用 AudioRecord 采集音频</h2>
+            <div class="post-date">2018-10-30</div>
+            
+            <div class="post-content">
+              <p>AudioRecord 是 Android 系统提供的用于实现录音功能的 API，官方文档是这么解释的：</p>
+<!-- more -->
+<p>AndioRecord 类的主要功能是让各种 Java 应用能够管理音频资源，以便它们通过此类能够录制声音相关的硬件所收集的声音。此功能的实现就是通过“pulling”（读取）AudioRecord 对象的声音数据来完成的。在录音过程中，应用所需要做的就是通过后面三个类方法中的一个去及时地获取AudioRecord对象的录音数据。AudioRecord 类提供的三个获取声音数据的方法分别是 read(byte[], int, int),、read(short[], int, int)和 read(ByteBuffer, int)。无论选择使用那一个方法都必须事先设定方便用户的声音数据存储格式。</p>
+<p>开始录音的时候，AudioRecord 需要初始化一个相关联的声音 buffer, 这个 buffer 主要是用来保存新的声音数据。这个 buffer 的大小，我们可以在对象构造期间去指定。它表明一个 AudioRecord 对象还没有被读取（同步）声音数据前能录多长的音(即一次可以录制的声音容量)。声音数据从音频硬件中被读出，数据大小不超过整个录音数据的大小（可以分多次读出），即每次读取初始化 buffer 容量的数据。</p>
+<p><strong>实现Android录音的流程为：</strong></p>
+<ol>
+<li>构造一个AudioRecord对象，其中最小录音缓存buffer大小可以通过getMinBufferSize方法得到。如果buffer容量过小，将导致对象构造的失败。</li>
+<li>初始化一个buffer，该buffer大于等于AudioRecord对象用于写声音数据的buffer大小。</li>
+<li>开始录音</li>
+<li>创建一个数据流，一边从AudioRecord中读取声音数据到初始化的buffer，一边将buffer中数据导入数据流。</li>
+<li>关闭数据流</li>
+<li>停止录音</li>
+</ol>
+<p>其中，构造 AudioRecord 对象，需要这么几个参数：</p>
+<ol>
+<li>音频源：一般可以使用麦克风作为采集音频的数据源。</li>
+<li>采样率：一秒内对声音数据的采样次数，采样率越高，音质越好。</li>
+<li>通道：单声道，双声道等。</li>
+<li>音频格式：一般选用 PCM 格式，即原始的音频样本。</li>
+<li>缓冲区大小：音频数据写入缓冲区的总数，通过 AudioRecord.getMinBufferSize 获取最小的缓冲区。</li>
+</ol>
+<p>注意，最后生成的音频文件是 PCM 格式的，也就是最原始的音频数据，它没有头信息，不能直接播放，必须转换成可识别的格式才行。这里我们把它转成 WAV 格式，在文件的数据开头加入 WAVE HEAD 即可。</p>
+<p><strong>用代码实践一下录音的过程</strong></p>
+<ol>
+<li>创建录音对象，指定具体的参数。</li>
+</ol>
+<pre><code>    public void createAudio(String fileName, int audioSource, int sampleRateInHz, int channelConfig, int audioFormat) throws IllegalStateException {
+        // 获得缓冲区字节大小
+        mBufferSizeInBytes = AudioRecord.getMinBufferSize(sampleRateInHz, channelConfig, audioFormat);
+        if (mBufferSizeInBytes &lt;= 0) {
+            throw new IllegalStateException(&quot;AudioRecord is not available &quot; + mBufferSizeInBytes);
+        }
+        mAudioRecord = new AudioRecord(audioSource, sampleRateInHz, channelConfig, audioFormat, mBufferSizeInBytes);
+        int state = mAudioRecord.getState();
+        Log.i(TAG, &quot;createAudio state:&quot; + state + &quot;, initialized:&quot; + (state == AudioRecord.STATE_INITIALIZED));
+        mFileName = fileName;
+        mStatus = Status.STATUS_READY;
+    }
+</code></pre>
+<ol start="2">
+<li>开始录音，不断读取 Buffer 中声音数据，并保存到文件。</li>
+</ol>
+<pre><code>    public void startRecord() throws IllegalStateException {
+        if (mStatus == Status.STATUS_NO_READY || mAudioRecord == null) {
+            throw new IllegalStateException(&quot;录音尚未初始化&quot;);
+        }
+        if (mStatus == Status.STATUS_START) {
+            throw new IllegalStateException(&quot;正在录音...&quot;);
+        }
+        Log.d(TAG, &quot;===startRecord===&quot;);
+        mAudioRecord.startRecording();
+
+        String currentFileName = FileUtils.getPcmFilePath(mContext, mFileName);
+        final String finalFileName = currentFileName;
+        //将录音状态设置成正在录音状态
+        mStatus = Status.STATUS_START;
+
+        //使用线程池管理线程
+        mExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                writeAudioDataToFile(finalFileName);
+            }
+        });
+    }
+    
+    private void writeAudioDataToFile() throws IOException {
+        String pcmFilePath = FileUtils.getPcmFilePath(mContext, mPcmFileName);
+        File file = new File(pcmFilePath);
+        if (file.exists()) {
+            file.delete();
+        }
+        OutputStream bos = null;
+        try {
+            bos = new BufferedOutputStream(new FileOutputStream(file));
+            byte[] audioData = new byte[mBufferSizeInBytes];
+            while (mStatus == Status.STATUS_START) {
+                int readSize = mAudioRecord.read(audioData, 0, mBufferSizeInBytes);
+                if (readSize &gt; 0) {
+                    try {
+                        bos.write(audioData, 0, readSize);
+                        if (mRecordStreamListener != null) {
+                            mRecordStreamListener.onRecording(audioData, 0, readSize);
+                        }
+                    } catch (IOException e) {
+                        Log.e(TAG, &quot;writeAudioDataToFile&quot;, e);
+                    }
+                } else {
+                    Log.w(TAG, &quot;writeAudioDataToFile readSize: &quot; + readSize);
+                }
+            }
+            bos.flush();
+            if (mRecordStreamListener != null) {
+                mRecordStreamListener.finishRecord();
+            }
+        } finally {
+            if (bos != null) {
+                bos.close();// 关闭写入流
+            }
+        }
+    }
+    
+        public interface RecordStreamListener {
+        /**
+         * 录音过程中
+         *
+         * @param bytes
+         * @param offset
+         * @param length
+         */
+        void onRecording(byte[] bytes, int offset, int length);
+
+        /**
+         * 录音完成
+         */
+        void finishRecord();
+    }
+
+</code></pre>
+<ol start="3">
+<li>停止录音，释放 AudioRecord</li>
+</ol>
+<pre><code>    public void stopRecord() throws IllegalStateException {
+        Log.d(TAG, &quot;===stopRecord===&quot;);
+        if (mStatus == Status.STATUS_NO_READY || mStatus == Status.STATUS_READY) {
+            throw new IllegalStateException(&quot;录音尚未开始&quot;);
+        } else {
+            mAudioRecord.stop();
+            mStatus = Status.STATUS_STOP;
+            release();
+        }
+    }
+    
+    public void release() {
+        Log.d(TAG, &quot;===release===&quot;);
+        if (mAudioRecord != null) {
+            mAudioRecord.release();
+            mAudioRecord = null;
+        }
+        mStatus = Status.STATUS_NO_READY;
+    }
+</code></pre>
+<p>PCM 转 WAV 的代码就不贴了，有需要的可以到 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/audiorecord">GitHub</a> 上查看。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://www.cnblogs.com/renhui/p/7457321.html">Android 音视频开发(二)：使用 AudioRecord 采集音频PCM并保存到文件</a></li>
+<li><a href="https://blog.csdn.net/imhxl/article/details/52190451">使用AudioRecord实现暂停录音功能</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-yin-shi-pin-zhi-shi-yong-surfaceview-hui-tu">
+                  <h3 class="post-title">
+                    Android 音视频之使用 SurfaceView 绘图
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 使用 OpenGL ES 绘制三角形 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 使用 OpenGL ES 绘制三角形</h2>
+            <div class="post-date">2019-05-02</div>
+            
+            <div class="post-content">
+              <h3 id="1-opengl-es-简介">1. OpenGL ES 简介</h3>
+<p>OpenGL 是一个跨平台的图形 API，为 3D 图形处理硬件制定了一个标准软件接口。OpenGL ES 是为嵌入式设备设计的 OpenGL 规范，Android 提供了对 OpenGL ES 的支持。</p>
+<ul>
+<li>OpenGL ES 1.0 和 1.1 能够被 Android 1.0 及以上版本支持</li>
+<li>OpenGL ES 2.0 能够被 Android 2.2 及更高版本支持</li>
+<li>OpenGL ES 3.0 能够被 Android 4.3 及更高版本支持</li>
+<li>OpenGL ES 3.1 能够被 Android 5.0 及以上版本支持</li>
+</ul>
+<p>Android 通过 Framework 接口和 NDK 支持 OpenGL 绘制，这里主要介绍一下 Framework 接口。</p>
+<p>在 Android Framework 里，我们可以通过两个基础类调用 OpenGL ES  API 从而创建和操作图形，它们是 GLSurfaceView 和 GLSurfaceView.Renderer。如果想在应用中使用 OpenGL，那么应该首先理解这两个类的实现。</p>
+<p>GLSurfaceView 是一个视图类，可以使用 OpenGL ES API 绘制和处理图形对象，就和 SurfaceView 的功能一样。创建 GLSurfaceView 的实例，并设置 Renderer，就可以使用了。</p>
+<p>不用于一般的视图，GLSurfaceView 自己创建了一个窗口，并在视图层次（view hierarchy）上穿了个「洞」，让底层的 OpenGL Surface 显示出来。它与常规视图（view）不同，没有动画或者变形特效，因为它是窗口（window）的一部分。</p>
+<p>GLSurfaceView.Renderer 是一个接口，定义了 GLSurfaceView 绘制图形所需的接口，实现该接口并附加到 GLSurfaceView 就可以了。有三个接口：</p>
+<ul>
+<li>onSurfaceCreated()：创建 GLSurfaceView 时，系统调用一次该方法。使用此方法执行只需要执行一次的操作，例如设置 OpenGL 环境参数或初始化 OpenGL 图形对象。</li>
+<li>onDrawFrame()：系统在每次重绘 GLSurfaceView 时调用该方法。使用此方法作为绘制（和重新绘制）图形对象的主要执行方法。</li>
+<li>onSurfaceChanged()：当 GLSurfaceView 的几何发生变化时，系统调用此方法，这些变化包括 GLSurfaceView 的大小或设备屏幕方向的变化。例如：设备从纵向变为横向时，系统调用此方法。我们应该使用此方法来响应 GLSurfaceView 容器的改变。</li>
+</ul>
+<h3 id="2-opengl-es-绘制流程">2. OpenGL ES 绘制流程</h3>
+<p>在 OpenGL ES 里，只能绘制点、直线和三角形。如果想要构建更复杂的图形，例如拱形，那就需要足够的点拟合这样的曲线。点和直线可以用于某些效果，但是只有三角形才能用来构建拥有复杂对象和纹理的场景。</p>
+<p>图形数据在 OpenGL 管道（pipeline）中传输，需要使用着色器（shader）的子例程，着色器告诉 GPU 如何绘制数据。一旦生成了最终颜色，OpenGL 就会把它们写到帧缓冲区（frame buffer），然后 Android 会把这个帧缓冲区显示到屏幕上。</p>
+<p>OpenGL 管道执行流程</p>
+<blockquote>
+<p>读取顶点数据 -&gt; 执行顶点着色器 -&gt; 组装图元 -&gt; 光栅化图元 -&gt; 执行片段着色器 -&gt; 写入帧缓冲区 -&gt; 显示在屏幕上</p>
+</blockquote>
+<h4 id="顶点着色器vertex-shader">顶点着色器（vertex shader）</h4>
+<p>一个顶点就是一个代表几何对象的拐角的点，这个点有很多附加属性；最重要的属性就是位置，它代表了这个顶点在空间中的定位。顶点着色器生成每个顶点的最终位置，针对每个顶点，它都会执行一次；一旦最终位置确定了，OpenGL 就可以把这些可见顶点的集合组装成点、直线和三角形。</p>
+<h4 id="片段着色器fragment-shader">片段着色器（fragment shader）</h4>
+<p>组成点、线或三角形的每个片段生成最终的颜色，针对每个片段，它都会执行一次；一个片段是一个小的、单一颜色的长方形区域，类似于计算机屏幕上的一个像素。片段着色器的目的就是告诉 GPU 每个片段的最终颜色是什么。</p>
+<h4 id="光栅化技术rasterization">光栅化技术（rasterization）</h4>
+<p>OpenGL 通过光栅化把每个点、直线以及三角形分解成大量的小片段，它们可以映射到移动设备显示屏的像素上，从而生成一副图像。这些片段类似于显示屏上的像素，每个都包含单一的纯色。</p>
+<h3 id="3-使用-opengl-es-绘制三角形">3. 使用 OpenGL ES 绘制三角形</h3>
+<p>在 AndroidManifest.xml 声明应用需要 OpenGL ES 2.0：</p>
+<pre><code class="language-xml">&lt;!-- Tell the system this app requires OpenGL ES 2.0. --&gt;
+&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; android:required=&quot;true&quot; /&gt;
+</code></pre>
+<p>检查设备是否支持 OpenGL ES 2.0：</p>
+<pre><code class="language-java">    public static boolean isSupportGL20(Context context) {
+        final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return false;
+        }
+        final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+        return configurationInfo.reqGlEsVersion &gt;= 0x20000;
+    }
+</code></pre>
+<p>初始化 GLSurfaceView，设置版本和 Renderer。</p>
+<pre><code class="language-java">        // Create an OpenGL ES 2.0 context
+        mGlSurfaceView.setEGLContextClientVersion(2);
+        GLSurfaceView.Renderer renderer = new TriangleRenderer();
+        // Set the Renderer for drawing on the GLSurfaceView
+        mGlSurfaceView.setRenderer(renderer);
+        // Render the view only when there is a change in the drawing data
+        mGlSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+</code></pre>
+<p>另外，GLSurfaceView 在单独的线程中进行绘制，所以在 Activity 的生命周期方法中，需要暂停和恢复运行渲染线程。如果需要在主线程和绘制线程通信，可以使用 GLSurfaceView 的 queueEvent 方法。</p>
+<pre><code class="language-java">    @Override
+    protected void onStart() {
+        super.onStart();
+        mGlSurfaceView.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGlSurfaceView.onPause();
+    }
+</code></pre>
+<p>实现 GLSurfaceView.Renderer 接口，主要通过 OpenGL 来清空屏幕、设置视口。</p>
+<ul>
+<li>
+<p>glClearColor 设置清空屏幕用到的颜色，参数是 Red、Green、Blue、Alpha，范围 [0, 1]。这里我们使用白色背景。</p>
+</li>
+<li>
+<p>glViewPort 设置视口的尺寸，告诉 OpenGL 可以用来渲染的 surface 大小。</p>
+</li>
+<li>
+<p>glClear 清空屏幕，擦除屏幕上的所有颜色，并用之前 glClearColor 定义的颜色填充整个屏幕。</p>
+</li>
+</ul>
+<p>最新的 GPU 使用特殊的渲染技术，清空屏幕可以节省帧拷贝浪费的时间，还可以帮助避免很多问题。</p>
+<pre><code class="language-java">    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        // set the background frame color
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        // initilize buffer, shader, program, handle...
+    }
+
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+        GLES20.glViewport(0, 0, width, height);
+        // calculate matrix...
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl) {
+        // redraw background color
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        // draw graphics ...
+    }
+</code></pre>
+<p>定义三角形，包括它的坐标和颜色，把数据传递给 OpenGL 管道。</p>
+<p>无论是 x 还是 y 坐标，OpenGL 都会把屏幕映射到 [-1, 1] 的范围内。不管屏幕时什么形状和大小，这个坐标范围都是一样的。如果想在屏幕上显示任何东西，就需要在这个范围内进行绘制。</p>
+<p>OpenGL 作为本地系统库直接运行在硬件上。所以需要把数据从 Java 堆复制到本地堆，我们使用 ByteBuffer 类。本地内存被本地环境存取，不受 Java 垃圾回收的控制。</p>
+<pre><code class="language-java">    // Set color with red, green, blue and alpha (opacity) values
+    private static final float[] COLORS = {0.8f, 0.5f, 0.3f, 1.0f};
+    // number of coordinates per vertex in this array
+    private static final int COORDS_PER_VERTEX = 2;
+    // coordinates in counterclockwise order:
+    private static final float[] COORDS = {
+            0, 0.6f, // top
+            -0.6f, -0.3f, // bottom left
+            0.6f, -0.3f, // bottom right
+    };
+
+    public static FloatBuffer createFloatBuffer(float[] coords) {
+        // Allocate a direct ByteBuffer, using 4 bytes per float, and copy coords into it.
+        ByteBuffer bb = ByteBuffer.allocateDirect(coords.length * SIZEOF_FLOAT);
+        bb.order(ByteOrder.nativeOrder());
+        FloatBuffer fb = bb.asFloatBuffer();
+        fb.put(coords);
+        fb.position(0);
+        return fb;
+    }
+</code></pre>
+<p>定义着色器，编译着色器，链接到程序上。</p>
+<p>着色器使用 GLSL 定义，它是 OpenGL 的着色语言，语法结构和 C 语言相似。顶点着色器决定每个顶点的最终位置，片段着色器决定每个片段最后的颜色。顶点和片段着色器一起合作生成屏幕上最终的图像。</p>
+<p>简单说，一个 OpenGL 程序就是把一个顶点着色器和一个片段着色器链接在一起变成单个对象。顶点着色器和片段着色器总是一起工作的。</p>
+<pre><code class="language-java">    private static final String VERTEX_SHADER =
+            &quot;uniform mat4 uMVPMatrix;&quot; +
+                    &quot;attribute vec4 aPosition;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_Position = uMVPMatrix * aPosition;&quot; +
+                    &quot;}&quot;;
+    private static final String FRAGMENT_SHADER =
+            &quot;precision mediump float;&quot; +
+                    &quot;uniform vec4 uColor;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_FragColor = uColor;&quot; +
+                    &quot;}&quot;;
+
+    // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
+    // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
+    public static int createShader(int type, String shaderCode) {
+        int shader = GLES20.glCreateShader(type);
+        GLES20.glShaderSource(shader, shaderCode);
+        // add the source code to the shader and compile it
+        GLES20.glCompileShader(shader);
+        int[] compileStatus = new int[1];
+        GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
+        if (compileStatus[0] == 0) {
+            Log.e(TAG, &quot;compile shader: &quot; + type + &quot;, error: &quot; + GLES20.glGetShaderInfoLog(shader));
+            GLES20.glDeleteShader(shader);
+            shader = 0;
+        }
+        return shader;
+    }
+
+    public static int createProgram(int vertexShader, int fragmentShader) {
+        if (vertexShader == 0 || fragmentShader == 0) {
+            Log.e(TAG, &quot;shader can't be 0!&quot;);
+        }
+        int program = GLES20.glCreateProgram();
+        checkGlError(&quot;glCreateProgram&quot;);
+        if (program == 0) {
+            Log.e(TAG, &quot;program can't be 0!&quot;);
+            return 0;
+        }
+        GLES20.glAttachShader(program, vertexShader);
+        checkGlError(&quot;glAttachShader&quot;);
+        GLES20.glAttachShader(program, fragmentShader);
+        checkGlError(&quot;glAttachShader&quot;);
+        GLES20.glLinkProgram(program);
+        int[] linkStatus = new int[1];
+        GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
+        if (linkStatus[0] != GLES20.GL_TRUE) {
+            Log.e(TAG, &quot;link program error: &quot; + GLES20.glGetProgramInfoLog(program));
+            GLES20.glDeleteProgram(program);
+            program = 0;
+        }
+        return program;
+    }
+</code></pre>
+<p>上面这些操作在在 onSurafeceCreated 方法中使用，并且我们要拿到句柄（handle，可以理解为 C 语言的指针）。这样在绘制的时候就可以给 OpenGL 传值了。</p>
+<pre><code class="language-java">        mVertexBuffer = GLESUtils.createFloatBuffer(COORDS);
+        int vertexShader = GLESUtils.createVertexShader(VERTEX_SHADER);
+        int fragmentShader = GLESUtils.createFragmentShader(FRAGMENT_SHADER);
+        mProgram = GLESUtils.createProgram(vertexShader, fragmentShader);
+        // get handle to fragment shader's uColor member
+        mColorHandle = GLES20.glGetUniformLocation(mProgram, &quot;uColor&quot;);
+        // get handle to vertex shader's aPosition member
+        mPositionHandle = GLES20.glGetAttribLocation(mProgram, &quot;aPosition&quot;);
+        // get handle to shape's transformation matrix
+        mMvpMatrixHandle = GLES20.glGetUniformLocation(mProgram, &quot;uMVPMatrix&quot;);
+</code></pre>
+<p>下面定义 MVP 矩阵，用来调整图像的位置，一般放在 onSurfaceChanged 方法中。</p>
+<ul>
+<li>Projection — 这个变换是基于 GLSurfaceView 的宽高来调整绘制对象的坐标。如果没有这个计算变换，绘制的形状会在不同显示窗口变形。这个投影变化通常只会在 GLSurfaceView 的比例被确定或者在渲染器的 onSurfaceChanged 方法中被计算。</li>
+<li>Camera View — 这个变换是基于虚拟的相机的位置来调整绘制对象坐标的。OpenGL ES 并没有定义一个真实的相机对象，而是提供一个实用方法，通过变换绘制对象的显示来模拟一个相机。相机视图变换可能只会在 GLSurfaceView 被确定时计算，或者基于用户操作或应用的功能来动态改变。</li>
+</ul>
+<pre><code class="language-java">        float ratio = (float) width / height;
+        // this projection matrix is applied to object coordinates in the onDrawFrame() method
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 2.5f, 6);
+        // Set the camera position (View matrix)
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0);
+        // Calculate the projection and view transformation
+        Matrix.multiplyMM(mMvpMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+</code></pre>
+<p>在 onDrawFrame 绘制每帧时，设置顶点数据和颜色数据，就能绘制出三角形了。</p>
+<pre><code class="language-java">        // Add program to OpenGL ES environment
+        GLES20.glUseProgram(mProgram);
+        // Enable a handle to the triangle vertices
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        // Prepare the triangle coordinate data
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+        // Set color for drawing the triangle
+        GLES20.glUniform4fv(mColorHandle, 1, COLORS, 0);
+        // Pass the projection and view transformation to the shader
+        GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
+        // Draw the triangle
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, COORDS.length / COORDS_PER_VERTEX);
+        // Disable vertex array
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glUseProgram(0);
+</code></pre>
+<p>运行看一下效果，一个中规中矩的三角形。上面的源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/opengl">GitHub</a> 上。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/device-2019-05-02-170309.png" alt="绘制效果"></p>
+<p>OpenGL ES 的知识面比较多，下面给出一些学习资料：</p>
+<ul>
+<li><a href="http://colin1994.github.io/2017/04/01/OpenGLES-Menu/">OpenGL ES， 初学者的自我总结</a></li>
+<li><a href="https://blog.piasy.com/2016/06/07/Open-gl-es-android-2-part-1/index.html">安卓 OpenGL ES 2.0 完全入门 </a></li>
+<li><a href="https://glumes.com/post/opengl/opengl-tutorial-share/">OpenGL ES 学习资源分享</a></li>
+<li><a href="http://www.rogerblog.cn/2016/07/18/OpenGL-serise-No1/">《OpenGL ES 应用开发实践指南》读书笔记</a></li>
+<li><a href="https://learnopengl-cn.readthedocs.io/zh/latest/">欢迎来到OpenGL的世界</a></li>
+<li><a href="http://geekfaner.com/shineengine/blog2_OpenGLESv2_1.html">OpenGL ES 2.0 知识串讲</a></li>
+<li><a href="https://blog.csdn.net/junzia/article/category/6462864/1">湖广午王的博客-OpenGLES</a></li>
+<li><a href="https://www.jianshu.com/p/4ff46176ccc0">Android OpenGL 学习资料</a></li>
+<li><a href="http://www.learnopengles.com/android-lesson-one-getting-started/">Learn OpenGL ES: Android lession</a></li>
+<li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/">OpenGL® ES 2.0 Reference Pages</a></li>
+<li><a href="https://developer.android.com/guide/topics/graphics/opengl">Android OpenGL ES</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/opengles" class="tag">
+                    OpengGL ES
+                  </a>
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-4-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 4 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

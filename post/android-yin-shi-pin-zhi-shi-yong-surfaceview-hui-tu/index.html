@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 音视频之使用 SurfaceView 绘图 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 音视频之使用 SurfaceView 绘图</h2>
+            <div class="post-date">2018-10-29</div>
+            
+            <div class="post-content">
+              <p>由于公司业务要用到音视频方面的知识，所以打算学习一下 Android 音视频开发。在网上搜索资料和教程，发现系统化的比较少，内容大多讲得比较零散。</p>
+<!-- more -->
+<p>Jhuster 的博客 <a href="http://blog.51cto.com/ticktick/1956269">Android 音视频开发入门指南</a> 中有些任务列表，我觉得是一份非常好的学习指南。那么，今天就先从 SurfaceView 的绘制开始。</p>
+<p>SurfaceView 是 Android 中一种比较特殊的视图，它与视图容器并不是在同一个视图层上，而绘制是在一个独立的线程中完成，不需要及时响应用户的输入，也不会造成响应的 ANR 问题。SurfaceView 一般用在游戏、视频、摄影等一些复杂 UI 且高效的图像的显示，这类的图像处理都需要开单独的线程来处理。</p>
+<p><strong>View 和 SurfaceView 的区别:</strong></p>
+<p>1 . View 适用于主动更新的情况，而 SurfaceView 则适用于被动更新的情况，比如频繁刷新界面。</p>
+<p>2 . View 在主线程中对页面进行刷新，而 SurfaceView 则开启一个子线程来对页面进行刷新。</p>
+<p>3 . View 在绘图时没有实现双缓冲机制，SurfaceView 在底层机制中就实现了双缓冲机制。</p>
+<p><strong>关键接口 Callback：</strong></p>
+<p>Callback 是 SurfaceHolder 内部的一个接口，
+接口中有以下三个方法</p>
+<ul>
+<li>public void surfaceCreated(SurfaceHolder holder)：Surface 第一次创建时被调用，例如 SurfaceView 从不可见状态到可见状态 。在这个方法被调用到 surfaceDestroyed 方法被调用之前，Surface 对象可以被操作。也就是说，在界面可见的情况下，可以对 SurfaceView 进行绘制。</li>
+<li>public void surfaceChanged(SurfaceHolder holder, int format, int width, int height)：Surface 大小和格式改变时会被调用，例如横竖屏切换时，如果需要对 Surface 的图像进行处理，就需要在这里实现。这个方法在 surfaceCreated 之后至少会被调用一次 。</li>
+<li>public void surfaceDestroyed(SurfaceHolder holder)：Surface 被销毁时被调用，例如 SurfaceView 从可见到不可见状态时。 在这个方法被调用过之后，不能够再对 Surface 对象进行任何操作，所以绘图线程不能再对 SurfaceView 进行操作。</li>
+</ul>
+<p><strong>SurfaceView 的使用方法：</strong></p>
+<ol>
+<li>实现 SurfaceHolder.Callback 接口</li>
+<li>在 SurfaceHolder.Callback 的 surfaceCreated 方法中开启一个线程进行图像的绘制</li>
+<li>在 SufaceHolder.Callback 的 surfaceDestroyed 方法中，结束绘制线程并调用 SurfaceHolder 的 removeCallbck 方法</li>
+<li>在绘制线程每帧开始之前，调用 lockCanvas 方法锁住画布进行绘图</li>
+<li>绘制完一帧的数据之后，调用 unlockCanvasAndPost 方法提交数据来显示图像</li>
+</ol>
+<p>下面是一个示例代码：</p>
+<pre><code>public class MySurfaceView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
+    private final ILogger logger = LoggerFactory.getLogger(MySurfaceView.class);
+    // 是否绘制
+    private volatile boolean mIsDrawing;
+    // SurfaceView 控制器
+    private SurfaceHolder mSurfaceHolder;
+    // 画笔
+    private Paint mPaint;
+    // 画布
+    private Canvas mCanvas;
+    // 独立的线程
+    private Thread mThread;
+    // 绘制的图像
+    private Bitmap mBitmap;
+
+    public MySurfaceView(Context context) {
+        super(context);
+        init();
+    }
+
+    public MySurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init();
+    }
+
+    public MySurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        mSurfaceHolder = getHolder();
+        // 注册回调事件
+        mSurfaceHolder.addCallback(this);
+
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setStyle(Paint.Style.STROKE);
+    }
+
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+        logger.debug(&quot;onSurfaceCreated&quot;);
+        mThread = new Thread(this, &quot;Renderer&quot;);
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+        logger.debug(&quot;onSurfaceChanged. format:{}, width:{}, height:{}&quot;, format, width, height);
+        // 加载图像，并开启线程
+        try {
+            mBitmap = BitmapUtils.decodeSampledBitmapFromStream(getContext().getAssets().open(&quot;template.jpg&quot;), width, height);
+        } catch (IOException e) {
+            logger.error(e);
+        }
+        mIsDrawing = true;
+        mThread.start();
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        logger.debug(&quot;onSurfaceDestroyed&quot;);
+        // 不再绘制，线程终止
+        mIsDrawing = false;
+        mThread.interrupt();
+    }
+
+    @Override
+    public void run() {
+        while (mIsDrawing) {
+            logger.debug(&quot;draw canvas&quot;);
+            // 锁定画布，获得画布对象
+            mCanvas = mSurfaceHolder.lockCanvas();
+            if (mCanvas != null) {
+                try {
+                    //使用画布做具体的绘制
+                    draw();
+                    // 线程休眠 100 ms
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    logger.error(e);
+                } finally {
+                    // 解锁画布，提交绘制，显示内容
+                    mSurfaceHolder.unlockCanvasAndPost(mCanvas);
+                }
+            }
+        }
+    }
+
+    private void draw() {
+        mCanvas.drawBitmap(mBitmap, 0, 0, mPaint);
+    }
+}
+</code></pre>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://www.jianshu.com/p/b037249e6d31">Android中的SurfaceView详解</a></li>
+<li><a href="https://tech.youzan.com/surfaceview-sourcecode/">Android SurfaceView 源码分析及使用</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/java-servlet-zong-jie">
+                  <h3 class="post-title">
+                    Java Servlet 总结
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

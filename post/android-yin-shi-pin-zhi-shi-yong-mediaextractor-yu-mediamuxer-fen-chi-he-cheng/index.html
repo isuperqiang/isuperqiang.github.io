@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 音视频之使用 MediaExtractor 与 MediaMuxer 分离合成 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 音视频之使用 MediaExtractor 与 MediaMuxer 分离合成</h2>
+            <div class="post-date">2018-11-06</div>
+            
+            <div class="post-content">
+              <p>一个音视频文件是由音频和视频组成的，Android 提供了 MediaExtractor 和 MediaMuxer 类，用来把音频或视频单独抽取出来，然后合成新的视频。</p>
+<!-- more -->
+<p>我们分别看一下 API 的使用，实现分离 MP4 视频文件，然后再合成分离的音视频功能。</p>
+<p>MediaExtractor 的使用主要有这么几步：</p>
+<ol>
+<li>设置数据源</li>
+<li>获取通道数，切换到想要的轨道</li>
+<li>循环读取每帧的样本数据</li>
+<li>完成后释放资源</li>
+</ol>
+<p>MediaMuxer 的使用和 MediaExtractor 类似：</p>
+<ol>
+<li>设置目标文件路径和音视频格式</li>
+<li>添加要合成的轨道，包括音轨和视轨</li>
+<li>开始合成，循环写入每帧样本数据</li>
+<li>完成后释放资源</li>
+</ol>
+<p>MediaFormat 封装了媒体数据（音频，视频，字幕）格式的信息，所有信息都以键值对形式表示。MediaFormat 中定义的 key 对于不同媒体数据并不是全部通用的，某些 key 只适用于特定媒体数据。</p>
+<p>通用 Keys</p>
+<pre><code>KEY_MIME 格式类型
+KEY_MAX_INPUT_SIZE 输出缓冲区的最大字节数
+KEY_BIT_RATE 比特率
+</code></pre>
+<p>Video Keys</p>
+<pre><code>KEY_WIDTH    视频宽度
+KEY_HEIGHT   视频高度
+KEY_DURATION  内容持续时间（以微妙为单位）
+KEY_CORLOR_FORMAT   视频内容颜色空间
+KEY_FRAME_RATE   视频帧率
+KEY_I_FRAME_INTERVAL   关键之间的时间间隔
+KEY_ROTATION  视频旋转顺时针角度 
+KEY_BITRATE     码率/比特率(画质和文件体积)
+KEY_BITRATE_MODE    比特率模式
+</code></pre>
+<p>Audio Keys</p>
+<pre><code>KEY_CHANNEL_COUNT   通道数
+KEY_SAMPLE_RATE   采样率  
+KEY_DURATION   内容持续时间（以微妙为单位
+</code></pre>
+<p>下面是个提取并合成视频的示例，MediaExtractor 和 MediaMuxer 一起使用，相当于把原视频的声音通道去掉，生成一个无声的视频文件。</p>
+<pre><code>    // 分离视频的视频轨，输入视频 input.mp4，输出视频 output_video.mp4
+    private void extractVideo() {
+        logger.info(&quot;extractVideo() start&quot;);
+        MediaExtractor mediaExtractor = new MediaExtractor();
+        MediaMuxer mediaMuxer = null;
+        try {
+            File fileDir = FileUtils.getFileDir(this);
+            // 设置视频源
+            mediaExtractor.setDataSource(new File(fileDir, VIDEO_SOURCE).getAbsolutePath());
+            // 轨道索引 ID
+            int videoIndex = -1;
+            // 视频轨道格式信息
+            MediaFormat mediaFormat = null;
+            // 数据源的轨道数（一般有视频，音频，字幕等）
+            int trackCount = mediaExtractor.getTrackCount();
+            // 循环轨道数，找到我们想要的视频轨
+            for (int i = 0; i &lt; trackCount; i++) {
+                mediaFormat = mediaExtractor.getTrackFormat(i);
+                String mimeType = mediaFormat.getString(MediaFormat.KEY_MIME);
+                // //找到要分离的视频轨
+                if (mimeType.startsWith(&quot;video/&quot;)) {
+                    videoIndex = i;
+                    break;
+                }
+            }
+            if (mediaFormat == null || videoIndex &lt; 0) {
+                return;
+            }
+
+            // 最大缓冲区字节数
+            int maxInputSize = mediaFormat.getInteger(MediaFormat.KEY_MAX_INPUT_SIZE);
+            // 格式类型
+            String mimeType = mediaFormat.getString(MediaFormat.KEY_MIME);
+            // 视频的比特率
+            int bitRate = mediaFormat.getInteger(MediaFormat.KEY_BIT_RATE);
+            // 视频宽度
+            int width = mediaFormat.getInteger(MediaFormat.KEY_WIDTH);
+            // 视频高度
+            int height = mediaFormat.getInteger(MediaFormat.KEY_HEIGHT);
+            // 内容持续时间（以微妙为单位）
+            long duration = mediaFormat.getLong(MediaFormat.KEY_DURATION);
+            // 视频的帧率
+            int frameRate = mediaFormat.getInteger(MediaFormat.KEY_FRAME_RATE);
+            // 视频内容颜色空间
+            int colorFormat = -1;
+            if (mediaFormat.containsKey(MediaFormat.KEY_COLOR_FORMAT)) {
+                mediaFormat.getInteger(MediaFormat.KEY_COLOR_FORMAT);
+            }
+            // 关键之间的时间间隔
+            int iFrameInterval = -1;
+            if (mediaFormat.containsKey(MediaFormat.KEY_I_FRAME_INTERVAL)) {
+                iFrameInterval = mediaFormat.getInteger(MediaFormat.KEY_I_FRAME_INTERVAL);
+            }
+            //  视频旋转顺时针角度
+            int rotation = -1;
+            if (mediaFormat.containsKey(MediaFormat.KEY_ROTATION)) {
+                rotation = mediaFormat.getInteger(MediaFormat.KEY_ROTATION);
+            }
+            // 比特率模式
+            int bitRateMode = -1;
+            if (mediaFormat.containsKey(MediaFormat.KEY_BITRATE_MODE)) {
+                bitRateMode = mediaFormat.getInteger(MediaFormat.KEY_BITRATE_MODE);
+            }
+
+            logger.info(&quot;mimeType:{}, maxInputSize:{}, bitRate:{}, width:{}, height:{}&quot; +
+                            &quot;, duration:{}ms, frameRate:{}, colorFormat:{}, iFrameInterval:{}&quot; +
+                            &quot;, rotation:{}, bitRateMode:{}&quot;, mimeType, maxInputSize, bitRate, width, height
+                    , duration / 1000, frameRate, colorFormat, iFrameInterval, rotation, bitRateMode);
+            //切换视频的轨道
+            mediaExtractor.selectTrack(videoIndex);
+
+            String outPath = new File(fileDir, OUTPUT_VIDEO).getAbsolutePath();
+            mediaMuxer = new MediaMuxer(outPath, MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4);
+            //将视频轨添加到 MediaMuxer，并返回新的轨道
+            int trackIndex = mediaMuxer.addTrack(mediaFormat);
+            ByteBuffer byteBuffer = ByteBuffer.allocate(maxInputSize);
+            MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+            // 开始合成
+            mediaMuxer.start();
+            while (true) {
+                // 检索当前编码的样本并将其存储在字节缓冲区中
+                int readSampleSize = mediaExtractor.readSampleData(byteBuffer, 0);
+                //  如果没有可获取的样本则退出循环
+                if (readSampleSize &lt; 0) {
+                    mediaExtractor.unselectTrack(videoIndex);
+                    break;
+                }
+                // 设置样本编码信息
+                bufferInfo.size = readSampleSize;
+                bufferInfo.offset = 0;
+                bufferInfo.flags = mediaExtractor.getSampleFlags();
+                bufferInfo.presentationTimeUs = mediaExtractor.getSampleTime();
+                //写入样本数据
+                mediaMuxer.writeSampleData(trackIndex, byteBuffer, bufferInfo);
+                //推进到下一个样本，类似快进
+                mediaExtractor.advance();
+            }
+
+            logger.info(&quot;finish extract video, path:{}&quot;, outPath);
+            Toast.makeText(this, &quot;分离视频完成&quot;, Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            logger.error(e);
+        } finally {
+            if (mediaMuxer != null) {
+                mediaMuxer.stop();
+                mediaMuxer.release();
+            }
+            mediaExtractor.release();
+        }
+    }
+</code></pre>
+<p>同样地，分离音频和合成音视频的过程和上面差不多，代码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/blob/master/app/src/main/java/com/richie/multimedialearning/muxerextract">GitHub</a> 上，欢迎参阅。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://blog.csdn.net/zhi184816/article/details/52514138">Android 视频分离和合成(MediaMuxer和MediaExtractor)</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1176432">Android用MediaExtractor和MediaMuxer合成音视频</a></li>
+<li><a href="https://mp.weixin.qq.com/s?timestamp=1556713288&amp;src=3&amp;ver=1&amp;signature=O*pikadNlafbj88qn-Qy4*TJlpfOJfe65DikvyxR6Q4lJEGfOAtxsI6eBie1XnGGLt6ON0aNdGWnw4E-Kbfqv6mZGJckaCioc-PmeZxygVUzu7*ec8CxORCd3WcX5bAgHbJ1AnIN1WTGLAj*v9lJwkJ9qmJm6SxmshqE9T*6a9M=">使用 MediaExtractor 及 MediaCodec 解码音视频</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-yin-shi-pin-zhi-shi-yong-camera-cai-ji-shi-pin">
+                  <h3 class="post-title">
+                    Android 音视频之使用 Camera 采集视频
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

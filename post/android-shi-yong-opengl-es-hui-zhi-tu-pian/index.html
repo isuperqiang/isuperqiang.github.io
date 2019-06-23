@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 使用 OpenGL ES 绘制图片 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 使用 OpenGL ES 绘制图片</h2>
+            <div class="post-date">2019-05-03</div>
+            
+            <div class="post-content">
+              <p>关于 OpenGL ES 的介绍，请先看上篇：<a href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian/index.html">Android 使用 OpenGL ES 绘制三角形</a>。</p>
+<h3 id="1-纹理介绍">1. 纹理介绍</h3>
+<p>使用 OpenGL ES 绘制简单的几何形状还不够，OpenGL 更多地是用来显示而纹理图像，比如本地图片、相机画面。简单说，纹理（texture）就是一个图像或照片，它们可以被加载进 OpenGL 中。</p>
+<p>OpenGL 中的纹理可以用来表示图像、照片等，每个二维的纹理都由许多小的纹理元素组成，它们是小块的数据，类似片段和像素。要使用纹理，最常用的方式是直接从一个图像文件加载数据。</p>
+<p>纹理不会被直接绘制，它们要被绑定到纹理单元，然后把这些纹理单元传递给着色器。纹理映射的基本思想就是：首先为图元中的每个顶点指定恰当的纹理坐标，然后通过纹理坐标在纹理图中可以确定选中的纹理区域，最后将选中纹理区域中的内容根据纹理坐标映射到指定的图元上。</p>
+<p>纹理的坐标系和顶点着色器的坐标系是不一样的。纹理坐标用浮点数来表示，范围 [0, 1]，左上角坐标为 (0.0, 0.0)，右上角坐标为 (1.0, 0.0)。注意：要将纹理坐标对应到正确的顶点上，才能使纹理正确地显示。</p>
+<h3 id="2-使用纹理显示图片">2. 使用纹理显示图片</h3>
+<p>定义顶点和纹理坐标，两者的顺序必须一一对应。</p>
+<pre><code class="language-java">    private static final int COORDS_PER_VERTEX = 2;
+    private static final int COORDS_PER_TEXTURE = 2;
+    private static final float[] VERTEX = {
+            1, 1,  // top right
+            -1, 1, // top left
+            1, -1, // bottom right
+            -1, -1,// bottom left
+    };
+    private static final float[] TEXTURE = {
+            1, 0,  // top right
+            0, 0,  // top left
+            1, 1,  // bottom right
+            0, 1,  // bottom left
+    };
+</code></pre>
+<p>定义着色器。</p>
+<pre><code class="language-java">    private static final String VERTEX_SHADER =
+            &quot;uniform mat4 uMVPMatrix;&quot; +
+                    &quot;attribute vec4 aPosition;&quot; +
+                    &quot;attribute vec2 aTexCoord;&quot; +
+                    &quot;varying vec2 vTexCoord;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_Position = uMVPMatrix * aPosition;&quot; +
+                    &quot;  vTexCoord = aTexCoord;&quot; +
+                    &quot;}&quot;;
+    private static final String FRAGMENT_SHADER =
+            &quot;precision mediump float;&quot; +
+                    &quot;uniform sampler2D uTextureUnit;&quot; +
+                    &quot;varying vec2 vTexCoord;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_FragColor = texture2D(uTextureUnit, vTexCoord);&quot; +
+                    &quot;}&quot;;
+</code></pre>
+<p>加载图片到 OpenGL 中。</p>
+<pre><code class="language-java">        // 加载图片并且保存在 OpenGL 纹理系统中
+        Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
+        mBitmapWidth = bitmap.getWidth();
+        mBitmapHeight = bitmap.getHeight();
+        int[] texture = new int[1];
+        // 生成纹理
+        GLES20.glGenTextures(1, texture, 0);
+        // 绑定纹理
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
+        // 激活纹理
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        // 设置缩小过滤为三线性过滤
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR);
+        // 设置放大过滤为双线性过滤
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        // 加载纹理到 OpenGL，读入 Bitmap 定义的位图数据，并把它复制到当前绑定的纹理对象
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        // 生成 MIP 贴图
+        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        // 把选定的纹理单元传给片段着色器
+        GLES20.glUniform1i(texUnitHandle, 0);
+</code></pre>
+<p>计算变换矩阵，采用 CenterInside 或者 CenterCrop 的方式显示。</p>
+<pre><code class="language-java">    public static float[] changeMvpMatrixInside(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
+        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
+        float[] mvp = new float[16];
+        Matrix.setIdentityM(mvp, 0);
+        Matrix.scaleM(mvp, 0, scale &gt; 1 ? (1F / scale) : 1F, scale &gt; 1 ? 1F : scale, 1F);
+        return mvp;
+    }
+
+    public static float[] changeMvpMatrixCrop(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
+        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
+        float[] mvp = new float[16];
+        Matrix.setIdentityM(mvp, 0);
+        Matrix.scaleM(mvp, 0, scale &gt; 1 ? 1F : (1F / scale), scale &gt; 1 ? scale : 1F, 1F);
+        return mvp;
+    }
+</code></pre>
+<p>显示图片。</p>
+<pre><code class="language-java">        GLES20.glUseProgram(mProgram);
+        GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
+        // 传入顶点坐标
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+        // 传入纹理坐标
+        GLES20.glEnableVertexAttribArray(mTexCoordHandle);
+        GLES20.glVertexAttribPointer(mTexCoordHandle, COORDS_PER_TEXTURE, GLES20.GL_FLOAT, false, 0, mTextureBuffer);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VERTEX.length / COORDS_PER_VERTEX);
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glDisableVertexAttribArray(mTexCoordHandle);
+        GLES20.glUseProgram(0);
+</code></pre>
+<p>源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/opengl">GitHub</a> 上。</p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a href="https://glumes.com/post/opengl/opengl-tutorial-texture/">OpenGL 学习系列---纹理</a></li>
+<li><a href="https://blog.csdn.net/junzia/article/details/52842816">Android OpenGLES2.0（八）——纹理贴图之显示图片</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/opengles" class="tag">
+                    OpengGL ES
+                  </a>
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-yin-shi-pin-zhi-shi-yong-mediacodec-bian-jie-ma-aac">
+                  <h3 class="post-title">
+                    Android 音视频之使用 MediaCodec 编解码 AAC
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

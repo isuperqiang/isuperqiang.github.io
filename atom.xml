@@ -1,195 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
-    <title>落英坠露的博客</title>
-    <updated>2019-06-23T03:24:31.381Z</updated>
+    <title>落英坠露</title>
+    <updated>2019-06-23T03:57:18.412Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
     <subtitle>技术让生活更美好</subtitle>
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
-    <rights>All rights reserved 2019, 落英坠露的博客</rights>
+    <rights>All rights reserved 2019, 落英坠露</rights>
     <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 2 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-2-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-2-qi">
+        <title type="html"><![CDATA[每周 ARTS 第 11 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-11-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-11-qi">
         </link>
-        <updated>2019-04-14T02:57:56.000Z</updated>
+        <updated>2019-06-16T03:38:22.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="35-搜索插入位置简单">35. 搜索插入位置（简单）</h3>
+<h3 id="263-丑数简单">263. 丑数（简单）</h3>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。你可以假设数组中无重复元素。</p>
+<p>编写一个程序判断给定的数是否为丑数。丑数就是只包含质因数 2, 3, 5 的正整数。</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code class="language-properties">输入: [1,3,5,6], 5
-输出: 2
-输入: [1,3,5,6], 7
-输出: 4
+<pre><code>示例：
+输入: 6
+输出: true
+解释: 6 = 2 × 3
 </code></pre>
 <h5 id="思路">思路：</h5>
-<blockquote>
 <ul>
-<li>解法一：因为是排序的数组，直接从头遍历，然后找到大于或者等于目标值的下标，就是结果。</li>
-<li>解法二：使用二分法查找，然后找到目标值或者左边界（low）。</li>
+<li>循环实现：循环去除 2、3、5，直到不能整除，如果余数是 1，那么就是丑数。</li>
+<li>递归实现：和循环一样，也是不停地除2、3、5。</li>
 </ul>
-</blockquote>
-<h5 id="解法">解法：</h5>
 <pre><code class="language-java">class Solution {
-    public int searchInsert(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
+    public boolean isUgly(int num) {
+        if (num &lt;= 0) {
+            return false;
+        } else if (num == 1) {
+            return true;
         }
-        for (int i = 0; i &lt; nums.length; i++) {
-            if (nums[i] &gt;= target) {
-                return i;
-            }
+        while (num % 2 == 0) {
+            num /= 2;
         }
-        return nums.length;
+        while (num % 3 == 0) {
+            num /= 3;
+        }
+        while (num % 5 == 0) {
+            num /= 5;
+        }
+        return num == 1;
     }
-
-    public int searchInsertByBinary(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
+  
+   private static boolean isUgly2(int num) {
+        if (num &lt;= 0) {
+            return false;
+        } else if (num == 1) {
+            return true;
         }
-        int min = 0;
-        int max = nums.length - 1;
-        while (min &lt;= max) {
-            int mid = (max + min) / 2;
-            if (nums[mid] &gt; target) {
-                max = mid - 1;
-            } else if (nums[mid] &lt; target) {
-                min = mid + 1;
-            } else {
-                return mid;
-            }
+        if (num % 2 == 0) {
+            return isUgly2(num / 2);
         }
-        return min;
+        if (num % 3 == 0) {
+            return isUgly2(num / 3);
+        }
+        if (num % 5 == 0) {
+            return isUgly2(num / 5);
+        }
+        return false;
     }
 }
 </code></pre>
 <h5 id="分析">分析：</h5>
+<p>循环和递归实现一样：</p>
 <ul>
-<li>时间复杂度：解法一 O(n)，解法二 O(logn)</li>
+<li>时间复杂度：O(logn)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
 <hr>
-<h3 id="69-x-的平方根简单">69. X 的平方根（简单）</h3>
+<h3 id="349-两个数组的交集简单">349.  两个数组的交集（简单）</h3>
 <h5 id="描述-2">描述：</h5>
 <blockquote>
-<p>实现 <code>int sqrt(int x)</code> 函数。计算并返回 <em>x</em> 的平方根，其中 <em>x</em> 是非负整数。</p>
-<p>由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。</p>
+<p>给定两个数组，编写一个函数来计算它们的交集。</p>
 </blockquote>
 <h5 id="示例-2">示例：</h5>
-<pre><code class="language-properties">输入: 4
-输出: 2
-输入: 8
-输出: 2
+<pre><code>输入: nums1 = [1,2,2,1], nums2 = [2,2]
+输出: [2]
 </code></pre>
+<h5 id="说明">说明：</h5>
+<ul>
+<li>输出结果中的每个元素一定是唯一的。</li>
+<li>我们可以不考虑输出结果的顺序。</li>
+</ul>
 <h5 id="思路-2">思路：</h5>
-<blockquote>
-<pre><code>牛顿法 https://en.wikipedia.org/wiki/Integer_square_root
-注意防止整形越界。
-</code></pre>
-</blockquote>
-<h5 id="解法-2">解法：</h5>
+<p>使用一个 Set 去除数组一重复元素，另一个 Set 保存两个数组的交集</p>
+<h5 id="解法">解法：</h5>
 <pre><code class="language-java">class Solution {
-    public int mySqrt(int x) {
-        if (x &lt;= 1) {
-            return x;
+    public int[] intersection(int[] nums1, int[] nums2) {
+        if (nums1 == null || nums2 == null) {
+            return new int[]{};
         }
-        int r = x / 2;
-        while (r &gt; x / r) {
-            r = (r + x / r) / 2;
+
+        Set&lt;Integer&gt; set1 = new HashSet&lt;&gt;(nums1.length);
+        for (int i : nums1) {
+            set1.add(i);
         }
-        return r;
+        Set&lt;Integer&gt; set2 = new HashSet&lt;&gt;(nums1.length);
+        for (int i : nums2) {
+            if (set1.contains(i)) {
+                set2.add(i);
+            }
+        }
+        int size = set2.size();
+        int[] ret = new int[size];
+        Iterator&lt;Integer&gt; iterator = set2.iterator();
+        for (int i = 0; i &lt; size; i++) {
+            ret[i] = iterator.next();
+        }
+        return ret;
     }
 }
 </code></pre>
 <h5 id="分析-2">分析：</h5>
 <ul>
-<li>时间复杂度：O(logn)</li>
-<li>空间复杂度：O(1)</li>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
 </ul>
 <h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/s/story/readability-as-usability-78c5a2a373cc">What is readable code?</a>  什么是可读的代码？</p>
-<p>代码创建了接口，但是代码本身也是一种接口。就像生活中的门可以打开、关闭一样，开发者写代码可以添加新功能、修复错误。忘记代码的位置很容易，所以代码应该是可搜索的，简短通用的名称可以作为默认值表示。</p>
-<p>可读的代码应当容易安全地编辑，前提是要理解代码的逻辑。当变量名称具有表现力时，代码更容易编辑。可读的代码一定可用，另外看起来也漂亮。</p>
-<p>作者从 UI 层面举了几个例子，View 的状态和代码层面的变量产生对应关系，如果让用户清晰理解操作意图，那么代码也要保证逻辑是一致的。</p>
+<p><a href="https://medium.com/free-code-camp/what-is-an-api-in-english-please-b880a3214a82">What is an API? In English, please.</a> 什么是 API？</p>
+<p>开发者都知道 API 是应用程序接口，作者对它有更广泛的认识。API 是服务方的一部分，它接收请求并发出响应。API 是向客户提供服务的一种方式，客户端访问 API 获取消息，比如 GitHub 的 API。在面向对象编程中，对象的 public 方法也可以看作是一种 API，用来与其他对象进行交互。</p>
 <h2 id="3-tip">3. Tip</h2>
-<p>读《码出高效：Java 开发手册》集合篇看到 fail-fast 有感，<a href="https://www.jianshu.com/p/6d87c36bad3e">Java集合的fail-fast机制</a></p>
+<p><a href="https://www.jianshu.com/p/43af9c156674">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
 <h2 id="4-share">4. Share</h2>
-<p><a href="https://mp.weixin.qq.com/s/FkrrBLoB2YZ45fIQed0dsw">马蜂窝张矗：我对技术团队绩效考核管理的几点思考</a></p>
-<p>技术人员绩效考核一般难以量化，不好的衡量标准有代码行数、Bug 数量等。要关注目标，而不是任务，目标可量化。不同级别的人员，考核的重点不同。按月或按季度进行评估，周期不宜太长。</p>
+<p>经典是经过时间筛选的，在这个浮躁的社会，多读经典是最省时间的选择。</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 1 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-1-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-1-qi">
+        <title type="html"><![CDATA[每周 ARTS 第 10 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi">
         </link>
-        <updated>2019-04-07T02:49:12.000Z</updated>
+        <updated>2019-06-09T03:37:47.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="13-罗马数字转整数简单">13. 罗马数字转整数（简单）</h3>
+<h3 id="226-翻转二叉树简单">226. 翻转二叉树（简单）</h3>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>罗马数字包含以下七种字符: <code>I</code>， <code>V</code>， <code>X</code>， <code>L</code>，<code>C</code>，<code>D</code> 和 <code>M</code>。</p>
-<pre><code class="language-properties">字符          数值
-I             1
-V             5
-X             10
-L             50
-C             100
-D             500
-M             1000
-</code></pre>
-<p>例如， 罗马数字 2 写做 <code>II</code> ，即为两个并列的 1。12 写做 <code>XII</code> ，即为 <code>X</code> + <code>II</code> 。 27 写做  <code>XXVII</code>, 即为 <code>XX</code> + <code>V</code> + <code>II</code> 。</p>
-<p>通常情况下，罗马数字中小的数字在大的数字的右边。但也存在特例，例如 4 不写做 <code>IIII</code>，而是 <code>IV</code>。数字 1 在数字 5 的左边，所表示的数等于大数 5 减小数 1 得到的数值 4 。同样地，数字 9 表示为 <code>IX</code>。这个特殊的规则只适用于以下六种情况：</p>
-<ul>
-<li><code>I</code> 可以放在 <code>V</code> (5) 和 <code>X</code> (10) 的左边，来表示 4 和 9。</li>
-<li><code>X</code> 可以放在 <code>L</code> (50) 和 <code>C</code> (100) 的左边，来表示 40 和 90。</li>
-<li><code>C</code> 可以放在 <code>D</code> (500) 和 <code>M</code> (1000) 的左边，来表示 400 和 900。</li>
-</ul>
-<p>给定一个罗马数字，将其转换成整数。输入确保在 1 到 3999 的范围内。</p>
+<p>翻转一棵二叉树</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code class="language-properties">输入: &quot;III&quot;
-输出: 3
-输入: &quot;IV&quot;
-输出: 4
+<pre><code>示例：
+输入:
+    4
+  2    7
+1  3  6  9
+输出:
+    4
+  7    2
+9  6  3  1
+</code></pre>
+<h5 id="思路">思路：</h5>
+<ul>
+<li>递归法：翻转一个二叉树，就是把根节点的左子树翻转一下，同样的把右子树翻转一下，再交换左右子树就可以了。</li>
+<li>迭代法：类似广度优先遍历的方式，使用队列存储尚未交换的节点，每次从队列取出一个结点，交互其左右子结点，直到队列为空。</li>
+</ul>
+<pre><code class="language-java">class Solution {
+    public TreeNode invertTreeRecursively(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        invertTreeRecursively(root.left);
+        invertTreeRecursively(root.right);
+        return root;
+    }
+
+    public TreeNode invertTreeIteratively(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+
+        LinkedList&lt;TreeNode&gt; list = new LinkedList&lt;&gt;();
+        list.add(root);
+        while (list.isEmpty()) {
+            TreeNode current = list.poll();
+            TreeNode temp = current.left;
+            current.left = current.right;
+            current.right = temp;
+
+            if (current.left != null) {
+                list.add(current.left);
+            }
+            if (current.right != null) {
+                list.add(current.right);
+            }
+        }
+        return root;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<p>递归和迭代法一样：</p>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<hr>
+<h3 id="326-3-的幂简单">326. 3 的幂（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个整数，写一个函数来判断它是否是 3 的幂次方。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code>输入: 27
+输出: true
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<ul>
+<li>解法一：累乘法</li>
+<li>解法二：3的幂次质因子只有3，而整数范围内的3的幂次最大是1162261467</li>
+</ul>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public boolean isPowerOfThree(int n) {
+        if (n &lt;= 0) {
+            return false;
+        }
+        if (n == 1) {
+            return true;
+        }
+        long m = 1;
+        while (m &lt; n) {
+            m *= 3;
+            if (m == n) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPowerOfThree2(int n) {
+        return n &gt; 0 &amp;&amp; 1162261467 % n == 0;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<p>解法一：</p>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<p>解法二：</p>
+<ul>
+<li>时间复杂度：O(1)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53">Goodbye, Object Oriented Programming</a> 再见，面向对象编程</p>
+<p>作者是个有着多年经验的老程序员，他毫不留情地指出了面向对象编程的问题，分别从封装、继承和多态这三大支柱来阐述。</p>
+<ul>
+<li>继承最大的好处就是复用。但是出现了「猴子香蕉丛林」问题，我只想要一根香蕉，得到的却是香蕉丛林。钻石问题，继承关系的结构图就像钻石一样，这样容易造成调用混乱。还有基类问题，子类不知道基类的实现，从而引发操作错误。解决办法就是用组合替代继承，原意是包含和委托。</li>
+<li>封装使得对象保证内部的变量受保护，然而它却带来了一下问题。引用问题，给构造方法传参时，对象存在多个应用，这样对象就不安全了。解决办法是对象深拷贝，但不是所有对象都支持克隆。</li>
+<li>面向对象编程不需要多态，它完全可以基于接口来实现。</li>
+</ul>
+<p>最后作者告别了面向对象编程，转向函数式编程。</p>
+<p>虽然作者举出这么多 OOP 的问题，但是面向对象的思想依然非常流行。软件开发没有银弹，能够实现功能、解决问题的思想都是值得采用的。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>日常的琐事都用软件记录，比如有道云笔记、滴答清单、LastPass。大脑是用来思考的，不是用来记东西的，它充当的更多是 CPU 的角色，而不是硬盘。所以，让大脑轻松一下，用工具记录吧。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/qodCngOPXGSaaBy2ULAgqg">关于线程和I/O模型的极简知识</a> 主要讲述了线程和 I/O 模型的演化历史，问题驱动模型的演化，每种模型都有各自的使用场景。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 9 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-9-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-9-qi">
+        </link>
+        <updated>2019-06-02T03:37:13.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="268-缺失数字简单">268. 缺失数字（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: [3,0,1]
+输出: 2
 </code></pre>
 <h5 id="思路">思路：</h5>
 <blockquote>
-<p>把罗马数字和整数建立映射，然后从左到右遍历字符串，对比前后的两个值。因为正常的罗马数字是位上的值递减的，当出现左值大于右值，就使用两者的差作为结果。</p>
+<ul>
+<li>解法一：用完整数组的元素之和减去当前数组的元素之和就可以了。</li>
+<li>解法二：异或操作，eg: b^a^b=a; 相同的数字互相抵消，剩下的数值就是结果</li>
+</ul>
 </blockquote>
 <h5 id="解法">解法：</h5>
 <pre><code class="language-java">class Solution {
-    public int romanToInt(String s) {
-        if (s == null || s.length() == 0) {
+    public int missingNumber1(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
+        int numSum = 0;
+        int allSum = nums.length;
+        for (int i = 0; i &lt; nums.length; i++) {
+            numSum += nums[i];
+            allSum += i;
+        }
+        return allSum - numSum;
+    }
 
-        Map&lt;Character, Integer&gt; romanIntMap = new HashMap&lt;&gt;(8);
-        romanIntMap.put('I', 1);
-        romanIntMap.put('V', 5);
-        romanIntMap.put('X', 10);
-        romanIntMap.put('L', 50);
-        romanIntMap.put('C', 100);
-        romanIntMap.put('D', 500);
-        romanIntMap.put('M', 1000);
-        int result = 0;
-        char[] chars = s.toCharArray();
-        int preValue = 0;
-        for (int i = 0; i &lt; chars.length; i++) {
-            int value = romanIntMap.get(chars[i]);
-            if(value &gt; preValue){
-                result -= preValue;
-                result += value - preValue;
-            } else {
-                result += value;
-            }
-            preValue = value;
+    public int missingNumber2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int result = nums.length;
+        for (int i = 0; i &lt; nums.length; i++) {
+            result ^= nums[i];
+            result ^= i;
         }
         return result;
     }
@@ -197,61 +326,324 @@ M             1000
 </code></pre>
 <h5 id="分析">分析：</h5>
 <ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(n)</li>
+<li>解法一和解法二一样：时间复杂度：O(n)，空间复杂度：O(1)</li>
 </ul>
 <hr>
-<h3 id="27-移除元素简单">27. 移除元素（简单）</h3>
+<h3 id="203-移除链表元素简单">203. 移除链表元素（简单）</h3>
 <h5 id="描述-2">描述：</h5>
 <blockquote>
-<p>给定一个数组 <em>nums</em> 和一个值 <em>val</em>，你需要<strong>原地</strong>移除所有数值等于 <em>val</em> 的元素，返回移除后数组的新长度。
-不要使用额外的数组空间，你必须在<strong>原地修改输入数组</strong>并在使用 O(1) 额外空间的条件下完成。
-元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
+<p>删除链表中等于给定值 val 的所有节点。</p>
 </blockquote>
 <h5 id="示例-2">示例：</h5>
-<pre><code>给定 nums = [3,2,2,3], val = 3,
-函数应该返回新的长度 2, 并且 nums 中的前两个元素均为 2。
-你不需要考虑数组中超出新长度后面的元素。
+<pre><code>输入: 1-&gt;2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6, val = 6
+输出: 1-&gt;2-&gt;3-&gt;4-&gt;5
 </code></pre>
 <h5 id="思路-2">思路：</h5>
 <blockquote>
 <ul>
-<li>解法一：题目要求原地修改，我想到的是在遍历数组的时候，如果当前元素和 val 相等，那么交换到后面的位置，最后的结果是
-要移除的元素都在数组右端，然后就得到新数组的长度和移除后的数组。</li>
-<li>解法二：使用快慢指针，在遍历数组（快指针）的时候，如果当前元素和 val 不等，那么把元素赋值给慢指针，慢指针向后移动，最后根据慢指针的位置，就可以得到新的长度和移除后的数组。</li>
+<li>解法一：首先检查头结点，如果结点值与val相等，那么把头指针后移；然后遍历链表，如果当前结点值与val相等，那么将前一个结点的指针指向后一个结点。</li>
+<li>解法二：递归。</li>
 </ul>
 </blockquote>
 <h5 id="解法-2">解法：</h5>
 <pre><code class="language-java">class Solution {
-    public int removeElement2(int[] nums, int val) {
-        if (nums == null) {
-            return 0;
+    public ListNode removeElements(ListNode head, int val) {
+        if (head == null) {
+            return null;
         }
-        int slowPointer = 0;
-        for (int i = 0; i &lt; nums.length; i++) {
-            if(nums[i] != val){
-                nums[slowPointer++] = nums[i];
-            }
+        while (head != null &amp;&amp; head.val == val) {
+            head = head.next;
         }
-        return slowPointer;
-    }
-  
-    public int removeElement1(int[] nums, int val) {
-        if (nums == null) {
-            return 0;
-        }
-        int valIndex = nums.length - 1;
-        int i = 0;
-        while (i &lt; nums.length) {
-            if (nums[i] == val &amp; i &lt;= valIndex) {
-                int temp = nums[i];
-                nums[i] = nums[valIndex];
-                nums[valIndex--] = temp;
+        ListNode curr = head;
+        ListNode prev = curr;
+        while (curr != null) {
+            if (curr.val == val) {
+                prev.next = curr.next;
             } else {
-                i++;
+                prev = curr;
+            }
+            curr = curr.next;
+        }
+        return head;
+    }
+
+    public ListNode removeElementsRecursive(ListNode head, int val) {
+        if (head == null) {
+            return null;
+        }
+        head.next = removeElementsRecursive(head.next, val);
+        return head.val == val ? head.next : head;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)，空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://hackernoon.com/50-data-structure-and-algorithms-interview-questions-for-programmers-b4b1ac61f5b0">50+ Data Structure and Algorithms Interview Questions for Programmers</a> 50个数据结构和算法面试题</p>
+<p>作者主要介绍了面试中常见的算法题，大多关于数组、链表、字符串、二叉树，还有其他等。</p>
+<ul>
+<li>数组是最基本的线性数据结构，使用连续的存储空间。随机访问元素的时间复杂度 O(1)，添加和移除元素的时间复杂度是 O(n)。常见的题目有：数组反转、数据排序等。</li>
+<li>链表也是一种线性数据结构，通过结点的指针连接，存储空间不连续。添加和移除元素的时间复杂度是 O(1)，查找元素的时间复杂度是 O(n)。解决链表问题不要忘记递归的思想。</li>
+<li>字符串的问题也很常见，String 本质上就是字符数组，可以采用基于数组的解法。</li>
+<li>树是一种有层次的数据结构，解决二叉树问题的关键是树的理论知识。比如：树的深度、大小、叶子结点，还有前序遍历、中序遍历、后序遍历。</li>
+<li>其他的问题，比如算法、设计、位运算、逻辑题等，</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>重新复习了 Gradle 构建的知识。Gradle 构建就是围绕 Project 和 Task 展开的，Project 可以理解要构建的模块，Task 则是要执行的任务。Gradle 构建要经历初始化、配置和执行的过程，Task 之间存在依赖关系，开发者可以自由配置 Task，灵活性非常好。另外，Groovy 是基于 JVM 的语言，可以和 Java 兼容，语法和 Python 类似，封装了很多常用的 API，特别适合写脚本。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://www.zhihu.com/question/312019918">作为 IT 行业的过来人，你有什么话想对后辈说的？</a></p>
+<p>从老一代 IT 人的经历中，得到一些发展和行为的启示。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 8 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-8-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-8-qi">
+        </link>
+        <updated>2019-05-26T03:36:25.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="101-对称二叉树简单">101. 对称二叉树（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个二叉树，检查它是否是镜像对称的。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
+         1
+       /   \
+      2     2
+     / \   /  \
+    3   4 4    3
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<ul>
+<li>递归法：如果同时满足下面的条件，两个树互为镜像：它们的两个根结点具有相同的值；每个树的右子树都与另一个树的左子树镜像对称。</li>
+<li>迭代法：类似广度优先遍历，但要把队列存的值 Double 一下。每次提取两个结点并比较它们的值。然后将两个结点的左右子结点按相反的顺序插入队列中。当队列为空时，或者我们检测到树不对称（即从队列中取出两个不相等的连续结点）时，算法结束。</li>
+</ul>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+      // 迭代法
+    public boolean isSymmetric2(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+
+        Queue&lt;TreeNode&gt; q = new LinkedList&lt;&gt;();
+        q.add(root);
+        q.add(root);
+        while (q.size() &gt; 0) {
+            TreeNode left = q.poll();
+            TreeNode right = q.poll();
+            if (left == null &amp;&amp; right == null) {
+                continue;
+            }
+            if (left == null || right == null) {
+                return false;
+            }
+            if (left.val != right.val) {
+                return false;
+            }
+            q.add(left.left);
+            q.add(right.right);
+            q.add(left.right);
+            q.add(right.left);
+        }
+        return true;
+    }
+
+    // 递归法
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isMirror(root.left, root.right);
+    }
+
+    private boolean isMirror(TreeNode left, TreeNode right) {
+        if (left == null &amp;&amp; right == null) {
+            return true;
+        }
+
+        if (left == null || right == null) {
+            return false;
+        }
+
+        if (left.val == right.val) {
+            return isMirror(left.left, right.right) &amp;&amp; isMirror(left.right, right.left);
+        }
+        return false;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>递归法：时间复杂度：O(n)，空间复杂度：O(n)</li>
+<li>迭代法：时间复杂度：O(n)，空间复杂度：O(n)</li>
+</ul>
+<hr>
+<h3 id="107-二叉树的层次遍历-ii简单">107. 二叉树的层次遍历 II（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code>例如，给定二叉树 [3,9,20,null,null,15,7],
+     3
+   /   \
+  9    20
+ / \
+15  7
+返回其自底向上的层次遍历为：
+[
+  [15,7],
+  [9,20],
+  [3]
+]
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<p>广度优先，逐层遍历。首先构建数据列表和下层结点列表，遍历当前层的结点列表，把数据添加到数据列表，并把每个结点的子结点添加到下层结点列表。遍历完成后，把数据列表放到结果列表的首部，然后把下层结点列表变成当前结点列表，继续遍历。</p>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public List&lt;List&lt;Integer&gt;&gt; levelOrderBottom(TreeNode root) {
+        if (root == null) {
+            return Collections.emptyList();
+        }
+
+        List&lt;List&lt;Integer&gt;&gt; result = new LinkedList&lt;&gt;();
+        List&lt;TreeNode&gt; currRowList = new LinkedList&lt;&gt;();
+        currRowList.add(root);
+        List&lt;TreeNode&gt; nextRowList;
+        List&lt;Integer&gt; valueList;
+        while (currRowList.size() &gt; 0) {
+            valueList = new LinkedList&lt;&gt;();
+            nextRowList = new LinkedList&lt;&gt;();
+            for (TreeNode treeNode : currRowList) {
+                valueList.add(treeNode.val);
+                if (treeNode.left != null) {
+                    nextRowList.add(treeNode.left);
+                }
+                if (treeNode.right != null) {
+                    nextRowList.add(treeNode.right);
+                }
+            }
+            result.add(0, valueList);
+            currRowList = nextRowList;
+        }
+        return result;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.freecodecamp.org/writing-a-killer-software-engineering-resume-b11c91ef699d">How to write a killer Software Engineering résumé</a> 软件工程师如何写出杀手级的简历</p>
+<p>作者是位面霸，他凭简历获得了 Google、Facebook、Amazon 等公司的面试机会。文章讲述了杀手级简历的特征，以及如何写出更好更高效的简历。</p>
+<p>如何写出杀手级的简历？这里有几点建议：</p>
+<ul>
+<li>一眼就要看到的信息：你是谁，联系方式，教育经历，工作经历，项目经历，专业技能。</li>
+<li>内容一两页就够了，排版格式简单明了。</li>
+<li>让 HR 省事、舒心，自然就给你机会。</li>
+<li>个人经历要和职位相关，按照最近时间排列。</li>
+<li>简历不是通用的，每个职位都要有不同的版本。</li>
+<li>描述工作成果：Accomplished [X] as measured by [Y] by doing [Z]。</li>
+<li>个人项目很重要，体现了对编程的热爱和追求。</li>
+<li>专业技能，精通、熟悉、了解 XXX。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>每个开发者都该有一套自己的代码工具箱，用来收集日常开发用到的工具类，为的是能够在项目中快速集成和使用， 从而缩短开发周期，提高编码效率，节约时间成本。我自己就整理了一套 Android 开发的常用代码库，有需要时直接拿来使用，简单省事。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/9ZU8aovjazSPdrQoNhIkqg">努力成为一名‘‘值得跟’’的Leader</a></p>
+<p>什么样的人才是一个好的 Leader？“<strong>值得跟</strong>”绝对是对一个 Leader 最高的赞扬。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 7 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-7-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-7-qi">
+        </link>
+        <updated>2019-05-19T03:35:42.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="141-环形链表简单">141. 环形链表（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个链表，判断链表中是否有环。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code class="language-properties">输入: [3,2,0,4,2]
+输出: true
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<p>使用快慢指针，慢指针每次移动一步，而快指针每次移动两步。如果存在环，那么两指针必定相遇。</p>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null &amp;&amp; fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
             }
         }
-        return valIndex + 1;
+        return false;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h3 id="172-阶乘后的零简单">172. 阶乘后的零（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个整数 <em>n</em>，返回 <em>n</em>! 结果尾数中零的数量。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code class="language-properties">输入: 5
+输出: 1
+解释: 5! = 120, 尾数中有 1 个
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<p>只有 2 * 5 末尾才有零，乘数中 2 的个数肯定比 5 多。n! 为递减阶乘，只要统计乘数里因子 5 的个数就行了。</p>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    // 递归法
+    public int trailingZeroes1(int n) {
+        if (n &lt; 5) {
+            return 0;
+        } else {
+            return n / 5 + trailingZeroes1(n / 5);
+        }
+    }
+
+    // 迭代法
+    public int trailingZeroes2(int n) {
+        int count = 0;
+        while (n &gt;= 5) {
+            count += n / 5;
+            n /= 5;
+        }
+        return count;
     }
 }
 </code></pre>
@@ -261,319 +653,867 @@ M             1000
 <li>空间复杂度：O(1)</li>
 </ul>
 <h2 id="2-review">2. Review</h2>
-<p>从 <a href="https://medium.com/">Medium</a> 上读到一篇文章：<a href="https://medium.com/@smashingmag/learning-to-code-by-writing-code-poems-cd29cd3ba320">Learning To Code By Writing Code Poems</a> 从写代码诗开始学习编程。</p>
-<p>作者编造了一个故事——相爱的两个比特，用人类可以理解的 JavaScript 代码写出来，其语法和人类语言有差异，让浏览器去执行。</p>
-<pre><code class="language-javascript">// Love at first sight
-const me = new Bit('blue');
-const you = new Bit('purple');
-
-if (me.getDistanceTo(you.position) &lt; 200) {
-  me.setFeelings({
-    inLove: true,
-  })
-}
-</code></pre>
-<p>一旦你把代码看作人类语言，而不是外星人发明的东西，学习编程就会变得容易。</p>
-<p>作者是个浪漫的程序员，写代码就像写诗一样，编程本来就该这么有趣，哈哈。</p>
+<p><a href="https://medium.freecodecamp.org/ace-your-first-year-as-a-junior-developer-with-this-advice-bbc68b6fe2d9">Ace your first year as a junior developer with this advice</a> 初级开发者赢得首年的建议</p>
+<p>文章主要从以下几个方面展开论述：</p>
+<ul>
+<li>知识有缺口不可怕，软件开发者就要不断学习。</li>
+<li>有问题是好事，要积极寻求帮助。</li>
+<li>代码审查是你的朋友，从中可以学到很多。</li>
+<li>把大任务拆解成小任务，写下步骤会更加清晰。</li>
+<li>保持简洁。三个步骤：走通、重构、优化。测试驱动开发（TDD）</li>
+<li>学习如何写整洁代码。平庸的程序员写出机器理解的代码，优秀的程序员写出人类可读的代码。</li>
+<li>你遇到的问题大部分都有答案，所以先去寻找答案吧。比如到 GitHub、StackOverflow 上。</li>
+<li>学会如何读代码。关注设计模式、方法类变量的命名、注释的使用、测试的使用。</li>
+</ul>
 <h2 id="3-tip">3. Tip</h2>
-<p>本周学习了 Java 线程间通信，简单总结了一下。<a href="https://www.jianshu.com/p/8d40ef55e301">Java线程间通信和协作的两种方式</a></p>
+<p>这周末学习了 Dagger2 依赖注入框架，在 Android 开发中经常被使用。原理是这样的，它在编译阶段通过注解处理器扫描代码中的注解，然后自动生成辅助代码，简化了依赖注入的步骤，而且不会对性能产生任何影响。</p>
 <h2 id="4-share">4. Share</h2>
-<p>有些事情因为难做而不想做，但是真正做起来的时候，却发现它没有预想的那么难，比如这个 ARTS 挑战。学习是逆人性的，成长的道路是不舒服的。要想成为大牛，必须得苦练呐。</p>
+<p><a href="https://mp.weixin.qq.com/s/M1E_UrkCQ3PNnGsyqpKc1A">从程序员到架构师 - 技能篇</a></p>
+<p>架构师只是功底深厚的程序员。程序员从初级、中级、高级再到架构师，是一个不断经验积累的过程。在程序员生涯中，除了技术实力以外，其它软实力也不容忽视。如：主动学习、积累经验、控制注意力、超越自我。</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Java Servlet 总结]]></title>
-        <id>https://isuperqiang.cn/post/java-servlet-zong-jie</id>
-        <link href="https://isuperqiang.cn/post/java-servlet-zong-jie">
+        <title type="html"><![CDATA[每周 ARTS 第 6 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-6-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-6-qi">
         </link>
-        <updated>2018-07-07T02:59:19.000Z</updated>
-        <summary type="html"><![CDATA[<p>Servlet 是 Java Web 开发的起点，几乎所有的 Java Web 框架都是基于 Servlet 的封装，其中最主要的就是 Servlet 和 Filter 接口。我重新学习了一遍 Servlet，对 Java Web 开发有了更深的理解。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>Servlet 是 Java Web 开发的起点，几乎所有的 Java Web 框架都是基于 Servlet 的封装，其中最主要的就是 Servlet 和 Filter 接口。我重新学习了一遍 Servlet，对 Java Web 开发有了更深的理解。</p>
-<!-- more -->
-<h4 id="1-servlet-是什么">1. Servlet 是什么</h4>
-<p>从 API 可以看出，Servlet 本质是一套接口（Interface）。那么接口的本质是什么？是规范、是协议，所以我们常说要面向接口编程，而不是面向实现。接口是连接 Servlet 和 Servlet 容器（Tomcat、Jetty 等）的关键。</p>
-<p>Servlet 接口定义了一套处理网络请求的规范，所有实现 Servlet 的类都需要实现它的五个方法，其中最主要的是两个生命周期方法 init 和 destroy，还有一个处理请求的 service 方法。也就是说，所有实现 Servlet 接口的类，或者说，所有想要处理网络请求的类，都需要回答这三个问题：</p>
-<ul>
-<li>你初始化时要做什么</li>
-<li>你销毁时要做什么</li>
-<li>你接收到请求时要做什么</li>
-</ul>
-<p>这是 Java EE 给的一种规范！就像阿西莫夫的机器人三大定律一样，是规范！</p>
-<p>看一下 Servlet 的接口定义，即 Servlet 和 Servlet 容器的规范。我们最关心的就是 service 方法，在这里处理请求。</p>
-<pre><code class="language-java">public interface Servlet {
-    void init(ServletConfig var1) throws ServletException;
-
-    ServletConfig getServletConfig();
-
-    void service(ServletRequest var1, ServletResponse var2) throws ServletException, IOException;
-
-    String getServletInfo();
-
-    void destroy();
-}
-</code></pre>
-<h4 id="2-servlet-如何工作">2. Servlet 如何工作</h4>
-<p>Servlet 想要工作离不开 Servlet 容器，比如我们最常用的 Tomcat。它监听了某个端口，http 请求过来后，容器根据 url 等信息，确定要将请求交给哪个 Servlet 去处理，然后调用 Servlet 的 service 方法，service 方法返回一个 response 对象，容器将 respose 对象解析之后封装成一个 http 响应返回客户端。</p>
-<p><img src="http://oj5p78bp3.bkt.clouddn.com/18-7-7/50339800.jpg" alt="Servlet 工作原理"></p>
-<h4 id="3-servlet-体系结构">3. Servlet 体系结构</h4>
-<p>Servlet 规范类有这么几个：</p>
-<ul>
-<li>Servlet</li>
-<li>ServletContext</li>
-<li>ServletConfig</li>
-<li>ServletRequest</li>
-<li>ServletResponse</li>
-</ul>
-<p>Servlet 运行模式是典型的「握手型」交互。举个例子：</p>
-<p>买早点的场景。找到一家早点铺（SerletContext 开始），看到牌面上写着可以加肉松（ServletConfig），就告诉老板我要加肉松的煎饼果子，拿出手机扫码支付了五块钱（ServletRequest）。老板娴熟地给我摊好，然后递给我（ServletResponse），我就美滋滋地离开了（ServletContext 结束）。</p>
-<p>引用开源中国红薯的一段话，<a href="https://www.oschina.net/question/12_52027?sort=default&amp;p=2">原文</a> 在这里。</p>
+        <updated>2019-05-12T03:34:58.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="160-相交链表简单">160. 相交链表（简单）</h3>
+<h5 id="描述">描述：</h5>
 <blockquote>
-<p>为什么我这么强调 HttpServletRequest 和 HttpServletResponse 这两个接口，因为 Web 开发是离不开 HTTP 协议的，而 <strong>Servlet 规范其实就是对 HTTP 协议做面向对象的封装</strong>，HTTP协议中的请求和响应就是对应了 HttpServletRequest 和 HttpServletResponse 这两个接口。</p>
-<p>你可以通过 HttpServletRequest 来获取所有请求相关的信息，包括 URI、Cookie、Header、请求参数等等，别无它路。因此当你使用某个框架时，你想获取 HTTP 请求的相关信息，只要拿到 HttpServletRequest 实例即可。而 HttpServletResponse接口是用来生产 HTTP 回应，包含 Cookie、Header 以及回应的内容等等。</p>
+<p>编写一个程序，找到两个单链表相交的起始节点。</p>
 </blockquote>
-<h4 id="4-servlet-实践">4. Servlet 实践</h4>
-<p>我们来写一个简单的 Servlet，在 doGet 方法打印所有请求的信息。</p>
-<pre><code>public class HelloWorld extends HttpServlet {
-
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        System.out.println(&quot;init helloworld: &quot; + config);
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println(&quot;********doGet********&quot;);
-        resp.setContentType(&quot;text/html;charset=UTF-8&quot;);
-        resp.setCharacterEncoding(&quot;UTF-8&quot;);
-
-        System.out.println(&quot;method: &quot; + req.getMethod());
-        System.out.println(&quot;charsetEncoding: &quot; + req.getCharacterEncoding());
-        System.out.println(&quot;contentType: &quot; + req.getContentType());
-        System.out.println(&quot;contentLength: &quot; + req.getContentLength());
-        System.out.println(&quot;requestUrl: &quot; + req.getRequestURL());
-        System.out.println(&quot;servletPath: &quot; + req.getServletPath());
-        System.out.println(&quot;contextPath: &quot; + req.getContextPath());
-        System.out.println(&quot;requestUri: &quot; + req.getRequestURI());
-        System.out.println(&quot;locale: &quot; + req.getLocale());
-        System.out.println(&quot;authType: &quot; + req.getAuthType());
-        System.out.println(&quot;scheme: &quot; + req.getScheme());
-        System.out.println(&quot;protocol: &quot; + req.getProtocol());
-        System.out.println(&quot;serverPort: &quot; + req.getServerPort());
-        System.out.println(&quot;remoteHost: &quot; + req.getRemoteHost());
-        System.out.println(&quot;remoteAddr: &quot; + req.getRemoteAddr());
-        System.out.println(&quot;remoteUser: &quot; + req.getRemoteUser());
-        System.out.println(&quot;requestedSessionId: &quot; + req.getRequestedSessionId());
-        System.out.println(&quot;pathInfo: &quot; + req.getPathInfo());
-        System.out.println(&quot;isSecure: &quot; + req.isSecure());
-        System.out.println(&quot;servletName: &quot; + req.getServerName());
-        System.out.println(&quot;pathTranslated: &quot; + req.getPathTranslated());
-
-        System.out.println(&quot;++headers++&quot;);
-        Enumeration headerNames = req.getHeaderNames();
-        while (headerNames.hasMoreElements()) {
-            String paramName = (String) headerNames.nextElement();
-            String paramValue = req.getHeader(paramName);
-            System.out.println(&quot;name: &quot; + paramName + &quot;, value: &quot; + paramValue);
+<h5 id="示例">示例：</h5>
+<pre><code class="language-properties">输入: 9-&gt;1-&gt;2-&gt;4, 3-&gt;2-&gt;4
+输出: 2
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<p>定义两个指针, 第一轮让到达末尾的节点指向另一个链表的头部, 最后如果两个指针相遇则为交点。两个指针移动了相同的距离, 有交点就结束, 无交点就各走了两条指针的长度。</p>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
         }
-        System.out.println(&quot;--headers--&quot;);
 
-        System.out.println(&quot;++parameters++&quot;);
-        Enumeration&lt;String&gt; parameterNames = req.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            String name = parameterNames.nextElement();
-            String value = req.getParameter(name);
-            System.out.println(&quot;name: &quot; + name + &quot;, value: &quot; + value);
+        ListNode pointA = headA;
+        ListNode pointB = headB;
+        while (pointA != pointB) {
+            pointA = pointA == null ? headB : pointA.next;
+            pointB = pointB == null ? headA : pointB.next;
+            if (pointA != null &amp;&amp; pointB != null &amp;&amp; pointA.val == pointB.val) {
+                break;
+            }
         }
-        System.out.println(&quot;--parameters--&quot;);
-
-        System.out.println(&quot;++attributes++&quot;);
-        Enumeration&lt;String&gt; attributeNames = req.getAttributeNames();
-        while (attributeNames.hasMoreElements()) {
-            String name = attributeNames.nextElement();
-            Object value = req.getAttribute(name);
-            System.out.println(&quot;name: &quot; + name + &quot;, value: &quot; + value);
-        }
-        System.out.println(&quot;--attributes--&quot;);
-
-        System.out.println(&quot;++cookies++&quot;);
-        Cookie[] cookies = req.getCookies();
-        for (Cookie cookie : cookies) {
-            System.out.println(&quot;name: &quot; + cookie.getName() + &quot;, value: &quot; + URLDecoder.decode(cookie.getValue(), &quot;utf-8&quot;));
-        }
-        System.out.println(&quot;--cookies--&quot;);
-
-        PrintWriter writer = resp.getWriter();
-        try {
-            writer.println(&quot;&lt;h1&gt;Hello world!&lt;/h1&gt;&quot;);
-            writer.flush();
-        } finally {
-            writer.close();
-        }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        System.out.println(&quot;--------doPost--------&quot;);
-        doGet(req, resp);
-    }
-    
-    @Override
-    public void destroy() {
-        super.destroy();
-        System.out.println(&quot;destroy helloworld&quot;);
+        return pointA;
     }
 }
 </code></pre>
-<p>在 web.xml 配置上面的 Servlet。</p>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot;
-         xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
-         xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd&quot;
-         version=&quot;4.0&quot;&gt;
-
-	&lt;servlet&gt;
-        &lt;servlet-name&gt;HelloWorld&lt;/servlet-name&gt;
-        &lt;servlet-class&gt;com.richie.servlet.HelloWorld&lt;/servlet-class&gt;
-    &lt;/servlet&gt;
-
-    &lt;servlet-mapping&gt;
-        &lt;servlet-name&gt;HelloWorld&lt;/servlet-name&gt;
-        &lt;url-pattern&gt;/helloworld&lt;/url-pattern&gt;
-    &lt;/servlet-mapping&gt;
-    
-&lt;/web-app&gt;
-</code></pre>
-<p>配置好 Tomcat，运行输出，然后使用 postman 发送 post 请求 http://localhost:8080/helloworld，并加上参数username=admin&amp;password=123。</p>
-<pre><code>--------doPost--------
-********doGet********
-method: POST
-charsetEncoding: null
-contentType: application/x-www-form-urlencoded
-contentLength: 23
-requestUrl: http://localhost:8080/helloworld
-servletPath: /helloworld
-contextPath: 
-requestUri: /helloworld
-locale: zh_CN
-authType: null
-scheme: http
-protocol: HTTP/1.1
-serverPort: 8080
-remoteHost: 0:0:0:0:0:0:0:1
-remoteAddr: 0:0:0:0:0:0:0:1
-remoteUser: null
-requestedSessionId: F17A359B0544082FC6A6C5F62E672E8A
-pathInfo: null
-isSecure: false
-servletName: localhost
-pathTranslated: null
-++headers++
-name: host, value: localhost:8080
-name: connection, value: keep-alive
-name: content-length, value: 23
-name: cache-control, value: max-age=0
-name: origin, value: http://localhost:8080
-name: upgrade-insecure-requests, value: 1
-name: content-type, value: application/x-www-form-urlencoded
-name: user-agent, value: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36
-name: accept, value: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
-name: referer, value: http://localhost:8080/
-name: accept-encoding, value: gzip, deflate, br
-name: accept-language, value: zh-CN,zh;q=0.9,en;q=0.8
-name: cookie, value: __utmz=111872281.1521468435.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); Idea-734b2b82=47daaaf7-bc69-41ca-9234-dffa6c217ef8; _ga=GA1.1.2085956305.1521468435; Webstorm-717d1cc9=b6b7f7ea-d8d3-4891-8e20-0dca54d5cbd2; __utmc=111872281; __utma=111872281.2085956305.1521468435.1529898141.1530148517.11; SESSION=12913786-3c46-421d-ac2c-02c9c29ae03d; JSESSIONID=F17A359B0544082FC6A6C5F62E672E8A
---headers--
-++parameters++
-name: username, value: admin
-name: password, value: 123
---parameters--
-++attributes++
---attributes--
-++cookies++
-name: __utmz, value: 111872281.1521468435.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)
-name: Idea-734b2b82, value: 47daaaf7-bc69-41ca-9234-dffa6c217ef8
-name: _ga, value: GA1.1.2085956305.1521468435
-name: Webstorm-717d1cc9, value: b6b7f7ea-d8d3-4891-8e20-0dca54d5cbd2
-name: __utmc, value: 111872281
-name: __utma, value: 111872281.2085956305.1521468435.1529898141.1530148517.11
-name: SESSION, value: 12913786-3c46-421d-ac2c-02c9c29ae03d
-name: JSESSIONID, value: F17A359B0544082FC6A6C5F62E672E8A
---cookies--
-</code></pre>
-<p>可以看出，http 请求的基本信息都能取到，每个方法都有它的含义，具体可以参考 <a href="http://www.runoob.com/servlet/servlet-client-request.html">菜鸟教程</a> 上的解释。</p>
-<h4 id="5-filter-过滤器">5. Filter 过滤器</h4>
-<p>Filter 和 Servlet 一样重要，它可以实现许多功能，比如敏感词过滤、用户验证等。它也是一个接口，和 Servlet 类似，有 init 和 destroy 方法，最重要的是 doFilter 方法。</p>
-<p>Filter 主要用于对用户请求进行预处理，也可以对 HttpServletResponse 进行后处理。使用 Filter 的完整流程：Filter 对用户请求进行预处理，接着将请求交给 Servlet 进行处理并生成响应，最后 Filter 再对服务器响应进行后处理。</p>
-<pre><code class="language-java">public interface Filter {
-    default void init(FilterConfig filterConfig) throws ServletException {
-    }
-
-    void doFilter(ServletRequest var1, ServletResponse var2, FilterChain var3) throws IOException, ServletException;
-
-    default void destroy() {
-    }
-}
-</code></pre>
-<p>除此之外，规范类还有 FilterChain、FilterConfig，Filter 使用了责任链的设计模式，传递的对象就 FilterChain。</p>
-<h4 id="6-filter-工作原理">6. Filter 工作原理</h4>
-<p>当我们写好 Filter，并配置对哪个 web 资源进行拦截后，web 服务器每次在调用 Servlet 的 service 方法之前， 都会先调用一下 filter 的 doFilter 方法。因此，在该方法内编写代码可达到如下目的：</p>
+<h5 id="分析">分析：</h5>
 <ul>
-<li>
-<p>调用目标资源之前，让一段代码执行。</p>
-</li>
-<li>
-<p>是否调用目标资源（即是否让用户访问 web 资源）。</p>
-</li>
-<li>
-<p>调用目标资源之后，让一段代码执行。</p>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h3 id="169-求众数简单">169. 求众数（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 n/2 的元素。你可以假设数组是非空的，并且给定的数组总是存在众数。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code class="language-properties">输入: [2,2,1,1,1,2,2]
+输出: 2
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<p>从第一个数开始 count=1，遇到相同的就加 1，遇到不同的就减 1。如果减到 0，就换个数开始计数，总能找到最多的那个。</p>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public int majorityElement(int[] nums) {
+        if (nums == null) {
+            return 0;
+        }
+
+        int count = 1;
+        int major = nums[0];
+        for (int i = 1; i &lt; nums.length; i++) {
+            if (major == nums[i]) {
+                count++;
+            } else {
+                if (--count == 0) {
+                    major = nums[i + 1];
+                }
+            }
+        }
+        return major;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.freecodecamp.org/a-software-engineering-survival-guide-fe3eafb47166">A Software Engineering survival guide</a> 软件工程师生存指南</p>
+<p>作者总结了软件工程师职业生涯前几年的经验：</p>
+<ul>
+<li>怎样充分准备面试</li>
+<li>工作中如何成长</li>
+<li>持续进步需要什么资源</li>
+</ul>
+<p>准备面试的几条意见：</p>
+<ul>
+<li>简历上列举的编程语言，至少能够完成 <code>FizzBuzz</code> 测试。</li>
+<li>基本的数据结构和算法，像链表、数组、树和排序。</li>
+<li>你选择的语言的特点，比如字符串为什么不可变，内存是如何管理的。</li>
+<li>面向对象编程的概念，比如类、对象和继承。</li>
+<li>学会总结你的经验，在简历上记叙下来。</li>
+<li>在 GitHub 上展示代码，或者参与开源项目。</li>
+<li>面试是双向的过程，也要面试你的面试官，比如提问几个问题：
+<ul>
+<li>你们是如何进行软件测试的</li>
+<li>你们用什么版本控制系统</li>
+<li>你们是如何处理技术债的</li>
+<li>...</li>
+</ul>
 </li>
 </ul>
-<p>web 服务器在调用 doFilter 方法时，会传递一个 FilterChain 对象进来，FilterChain 对象是 Filter 接口中最重要的一个对象，它也提供了一个 doFilter 方法，开发人员可以根据需求决定是否调用此方法。</p>
-<p><img src="http://oj5p78bp3.bkt.clouddn.com/18-7-7/87453110.jpg" alt="Filter原理"></p>
-<h4 id="7-filter-实践">7. Filter 实践</h4>
-<p>简单实现一个拦截器，打印它的生命周期。</p>
-<pre><code>public class LogFilter implements Filter {
-
-    @Override
-    public void init(FilterConfig filterConfig) {
-        System.out.println(&quot;init logFilter: &quot; + filterConfig);
-    }
-
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-        System.out.println(&quot;log doFilter pre&quot;);
-        // 一定要调用 filterChain 的 doFilter 方法，继续传递事件
-        filterChain.doFilter(servletRequest, servletResponse);
-        System.out.println(&quot;log doFilter after&quot;);
-    }
-
-    @Override
-    public void destroy() {
-        System.out.println(&quot;destroy logFilter&quot;);
+<p>工作中的几条建议：</p>
+<ul>
+<li>优秀的工业级代码是可读的、具有防御性的、经过优化的。</li>
+<li>大多数时间不是用来写新代码，而是 debug、读代码。</li>
+<li>debug 和读代码，熟悉基础代码和产品。</li>
+<li>组织你的想法，比如使用 TODO 列表、笔记、图表。</li>
+<li>好的库具备的特征：开源、宽松的许可（MIT、BSD等）、成熟、一直维护、其他公司或项目在用。</li>
+</ul>
+<p>持续提升的几条建议：在线课程、在线硕士学位、博客、大会。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近在读《软技能：代码之外的生存指南》，看到营销的章节。对于有才华的人来说，营销就是一个「乘数效应」。你的营销越好，你的才华才能表现得淋漓尽致。自我营销的正确的方式是为别人提供价值，塑造好自己的形象，打造引人注目的品牌。对于软件开发人员，推荐的是博客。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://open.leancloud.cn/git-commit-message/">Git Commit 日志风格指南</a></p>
+<p>这是 LeanCloud 技术团队的文章，主要讲了几点 Git 提交日志的规范。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 5 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-5-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-5-qi">
+        </link>
+        <updated>2019-05-04T03:34:10.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="83-删除排序链表中的重复元素简单">83. 删除排序链表中的重复元素（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code class="language-properties">输入: 1-&gt;1-&gt;2-&gt;3-&gt;3
+输出: 1-&gt;2-&gt;3
+</code></pre>
+<h5 id="思路">思路：</h5>
+<blockquote>
+<p>从头开始遍历链表，比较前后两个节点元素的值。如果相等就修改前置指针，不想等就继续往后移动。</p>
+</blockquote>
+<h5 id="解法">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public ListNode deleteDuplicates(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode lastNose = head;
+        ListNode currentNode = head;
+        while ((currentNode = currentNode.next) != null){
+            if(lastNose.val == currentNode.val){
+                lastNose.next = currentNode.next;
+            } else {
+                lastNose = currentNode;
+            }
+        }
+        return head;
     }
 }
 </code></pre>
-<p>然后配置 web.xml，一般把 filter 配置在所有的 servlet 前面，/* 表示匹配所有的请求。</p>
-<pre><code>    &lt;filter&gt;
-        &lt;filter-name&gt;LogFilter&lt;/filter-name&gt;
-        &lt;filter-class&gt;com.richie.servlet.LogFilter&lt;/filter-class&gt;
-    &lt;/filter&gt;
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h3 id="231-2-的幂简单">231. 2 的幂（简单）</h3>
+<h5 id="描述-2">描述：</h5>
+<blockquote>
+<p>给定一个整数，编写一个函数来判断它是否是 2 的幂次方。</p>
+</blockquote>
+<h5 id="示例-2">示例：</h5>
+<pre><code class="language-properties">输入: 16
+输出: true
+解释: 24 = 16
+</code></pre>
+<h5 id="思路-2">思路：</h5>
+<blockquote>
+<p>如果一个数是2的幂次，那么它的二进制表示一定只有一个1。比如8的二进制 00001000，现在把这个数减1，得到 00000111。发现低4位是按位取反，这时候（n&amp;n-1）的结果就一定是0。如果一个数不是2的幂次，那么它的二进制数里1的个数就大于1（0除外）。n 和 n-1 就不会出现左边都是0的现象了，n&amp;(n-1) 一定不是0。</p>
+</blockquote>
+<h5 id="解法-2">解法：</h5>
+<pre><code class="language-java">class Solution {
+    public boolean isPowerOfTwo(int n) {
+        if (n &lt;= 0) {
+            return false;
+        }
+        return (n &amp; (n - 1)) == 0;
+    }
+}
+</code></pre>
+<h5 id="分析-2">分析：</h5>
+<ul>
+<li>时间复杂度：O(1)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.freecodecamp.org/why-you-are-never-too-old-to-learn-java-or-any-programming-language-a62603e89448">Why you are never too old to learn Java (or any programming language)</a> 为什么任何时候学习 Java 都不算晚</p>
+<p>作者是位 Java 课程的讲师，文章的主旨是任何时候学习一项新技能都不算晚，比如 30 多岁学习编程。职业不是终身不变的，只要你愿意，就可以不断学习。学到老，学到老。</p>
+<p>作者阐述了学习 Java 的 5 个原因：</p>
+<ul>
+<li>学习新东西，可以活跃你的大脑，大脑总是越用越灵活。</li>
+<li>现在有许多在线课程和资料，没有人在乎你的年龄。</li>
+<li>年龄无关，想学新东西什么时候都不晚。</li>
+<li>学习 Java 就像学习其他技能一样。</li>
+<li>现在就是最好的时间，开始学习吧。</li>
+</ul>
+<p>这是作者针对国外的情况写的，从国内的环境来看，30多岁再学习编程，进入企业的优势非常小。明明是一门靠手艺吃饭的职业，非要变成靠体力消耗，程序员年轻化已经成为常态。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近在学习音视频编解码。简单来讲，编码就是压缩，解码就是解压。编码的目的是减小数据的体积，方便网络传输和本地存储。编码后的数据是不能直接使用的，必须先解码成原来的样子。就像 zip 压缩文件里面有张图片，我们用图片查看器是无法打开的，必须先解压文件，恢复图片原来的数据，这样才能查看。音视频编解码也是同样的道理。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/qGC08VgXc66t0WT7mgZxhA">写代码这条路，能走多远？工程师能力模型告诉你</a></p>
+<p>从能力习得速度和技能演进速度两个维度分析，程序员发生职业危机的可能性非常高。解决问题的三条出路：技术专家、管理岗、产品运营等。适合于走哪个路线，需要结合自己的性格来定。</p>
+<p>技术专家的能力模型，处于中心的是行为处事的准则，也就是正确的思想观念。其中最核心的观念就是要把职业生涯当作自己的事业，为自己而工作，把提升自身能力作为事业的目标。围绕着这一核心的还包括以结果导向、主动承担责任的观念和既精又专的技术、团队协作能力等</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Android 使用 OpenGL ES 绘制图片]]></title>
+        <id>https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian</id>
+        <link href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian">
+        </link>
+        <updated>2019-05-03T03:52:37.000Z</updated>
+        <content type="html"><![CDATA[<p>关于 OpenGL ES 的介绍，请先看上篇：<a href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian/index.html">Android 使用 OpenGL ES 绘制三角形</a>。</p>
+<h3 id="1-纹理介绍">1. 纹理介绍</h3>
+<p>使用 OpenGL ES 绘制简单的几何形状还不够，OpenGL 更多地是用来显示而纹理图像，比如本地图片、相机画面。简单说，纹理（texture）就是一个图像或照片，它们可以被加载进 OpenGL 中。</p>
+<p>OpenGL 中的纹理可以用来表示图像、照片等，每个二维的纹理都由许多小的纹理元素组成，它们是小块的数据，类似片段和像素。要使用纹理，最常用的方式是直接从一个图像文件加载数据。</p>
+<p>纹理不会被直接绘制，它们要被绑定到纹理单元，然后把这些纹理单元传递给着色器。纹理映射的基本思想就是：首先为图元中的每个顶点指定恰当的纹理坐标，然后通过纹理坐标在纹理图中可以确定选中的纹理区域，最后将选中纹理区域中的内容根据纹理坐标映射到指定的图元上。</p>
+<p>纹理的坐标系和顶点着色器的坐标系是不一样的。纹理坐标用浮点数来表示，范围 [0, 1]，左上角坐标为 (0.0, 0.0)，右上角坐标为 (1.0, 0.0)。注意：要将纹理坐标对应到正确的顶点上，才能使纹理正确地显示。</p>
+<h3 id="2-使用纹理显示图片">2. 使用纹理显示图片</h3>
+<p>定义顶点和纹理坐标，两者的顺序必须一一对应。</p>
+<pre><code class="language-java">    private static final int COORDS_PER_VERTEX = 2;
+    private static final int COORDS_PER_TEXTURE = 2;
+    private static final float[] VERTEX = {
+            1, 1,  // top right
+            -1, 1, // top left
+            1, -1, // bottom right
+            -1, -1,// bottom left
+    };
+    private static final float[] TEXTURE = {
+            1, 0,  // top right
+            0, 0,  // top left
+            1, 1,  // bottom right
+            0, 1,  // bottom left
+    };
+</code></pre>
+<p>定义着色器。</p>
+<pre><code class="language-java">    private static final String VERTEX_SHADER =
+            &quot;uniform mat4 uMVPMatrix;&quot; +
+                    &quot;attribute vec4 aPosition;&quot; +
+                    &quot;attribute vec2 aTexCoord;&quot; +
+                    &quot;varying vec2 vTexCoord;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_Position = uMVPMatrix * aPosition;&quot; +
+                    &quot;  vTexCoord = aTexCoord;&quot; +
+                    &quot;}&quot;;
+    private static final String FRAGMENT_SHADER =
+            &quot;precision mediump float;&quot; +
+                    &quot;uniform sampler2D uTextureUnit;&quot; +
+                    &quot;varying vec2 vTexCoord;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_FragColor = texture2D(uTextureUnit, vTexCoord);&quot; +
+                    &quot;}&quot;;
+</code></pre>
+<p>加载图片到 OpenGL 中。</p>
+<pre><code class="language-java">        // 加载图片并且保存在 OpenGL 纹理系统中
+        Bitmap bitmap = BitmapFactory.decodeFile(mImagePath);
+        mBitmapWidth = bitmap.getWidth();
+        mBitmapHeight = bitmap.getHeight();
+        int[] texture = new int[1];
+        // 生成纹理
+        GLES20.glGenTextures(1, texture, 0);
+        // 绑定纹理
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texture[0]);
+        // 激活纹理
+        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+        // 设置缩小过滤为三线性过滤
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR_MIPMAP_LINEAR);
+        // 设置放大过滤为双线性过滤
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        // 加载纹理到 OpenGL，读入 Bitmap 定义的位图数据，并把它复制到当前绑定的纹理对象
+        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
+        // 生成 MIP 贴图
+        GLES20.glGenerateMipmap(GLES20.GL_TEXTURE_2D);
+        // 把选定的纹理单元传给片段着色器
+        GLES20.glUniform1i(texUnitHandle, 0);
+</code></pre>
+<p>计算变换矩阵，采用 CenterInside 或者 CenterCrop 的方式显示。</p>
+<pre><code class="language-java">    public static float[] changeMvpMatrixInside(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
+        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
+        float[] mvp = new float[16];
+        Matrix.setIdentityM(mvp, 0);
+        Matrix.scaleM(mvp, 0, scale &gt; 1 ? (1F / scale) : 1F, scale &gt; 1 ? 1F : scale, 1F);
+        return mvp;
+    }
 
-    &lt;filter-mapping&gt;
-        &lt;filter-name&gt;LogFilter&lt;/filter-name&gt;
-        &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
-    &lt;/filter-mapping&gt;
+    public static float[] changeMvpMatrixCrop(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
+        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
+        float[] mvp = new float[16];
+        Matrix.setIdentityM(mvp, 0);
+        Matrix.scaleM(mvp, 0, scale &gt; 1 ? 1F : (1F / scale), scale &gt; 1 ? scale : 1F, 1F);
+        return mvp;
+    }
 </code></pre>
-<p>运行后输出，我们可以对请求和响应进行预处理和后处理，</p>
-<pre><code>log doFilter pre
-Servlet 处理的方法
-log doFilter after
+<p>显示图片。</p>
+<pre><code class="language-java">        GLES20.glUseProgram(mProgram);
+        GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
+        // 传入顶点坐标
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+        // 传入纹理坐标
+        GLES20.glEnableVertexAttribArray(mTexCoordHandle);
+        GLES20.glVertexAttribPointer(mTexCoordHandle, COORDS_PER_TEXTURE, GLES20.GL_FLOAT, false, 0, mTextureBuffer);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, VERTEX.length / COORDS_PER_VERTEX);
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glDisableVertexAttribArray(mTexCoordHandle);
+        GLES20.glUseProgram(0);
 </code></pre>
-<p>这篇文章详细阐释了 Filter 的有关内容，推荐看看 <a href="https://tianweili.github.io/2015/01/26/Java%E4%B8%AD%E7%9A%84Filter-%E8%BF%87%E6%BB%A4%E5%99%A8/">Java 中的 Filter 过滤器</a>。</p>
-<p>另外还有 Listener 监听器的内容，后面再写吧。</p>
-<p>多啰嗦几句。其实客户端和服务端的通信，本质上是一种 IO 操作。用户输入网址后（略去查询 DNS ），浏览器从某个端口发出数据包，里面有目标地址、请求参数等等（output）。然后经过网络一层层传递，跨越万水千山，到达服务器被 80 端口捕获到了（input），交给 Servlet 容器处理，根据请求信息拿到数据返回给客户端（output）。这是一对多的数据交换，如果请求数据的人多了，服务端的压力其实蛮大的。</p>
-<p>更细一点说，客户端和服务端的通信是一种进程间的通信。运行在 A 主机上的 A1 进程和运行在 B 主机上的 B1 进程进行通信，它是基于 Socket 的通信，端口是一个重要的标识。</p>
+<p>源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/opengl">GitHub</a> 上。</p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a href="https://glumes.com/post/opengl/opengl-tutorial-texture/">OpenGL 学习系列---纹理</a></li>
+<li><a href="https://blog.csdn.net/junzia/article/details/52842816">Android OpenGLES2.0（八）——纹理贴图之显示图片</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Android 音视频之使用 MediaCodec 编解码 AAC]]></title>
+        <id>https://isuperqiang.cn/post/android-yin-shi-pin-zhi-shi-yong-mediacodec-bian-jie-ma-aac</id>
+        <link href="https://isuperqiang.cn/post/android-yin-shi-pin-zhi-shi-yong-mediacodec-bian-jie-ma-aac">
+        </link>
+        <updated>2019-05-03T03:41:28.000Z</updated>
+        <summary type="html"><![CDATA[<p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
+<!-- more -->
+<h3 id="1-音频的基本概念">1. 音频的基本概念</h3>
+<p>在音频开发中，有些基本概念是需要了解的。</p>
+<ul>
+<li>采样率（SampleRate）：每秒采集声音的数量，它用赫兹（Hz）来表示。采样频率越高，音频质量越好。常用的音频采样频率有：8kHz、16kHz、44.1kHz、48kHz 等。</li>
+<li>声道数（Channel）：一般表示声音录制时的音源数量或回放时相应的扬声器数量。常用的是单声道（Mono）和双声道（Stereo）。</li>
+<li>采样精度（BitDepth）：每个采样点用多少数据量表示，它以位（Bit）为单位。位数越多，表示得就越精细，声音质量自然就越好，当然数据量也越大。常见的位宽是：8bit 或者 16bit。</li>
+<li>比特率（BitRate）：每秒音频占用的比特数量，单位是 bps（Bit Per Second），比特率越高，压缩比越小，声音质量越好，音频体积也越大。</li>
+</ul>
+<p>AAC 是应用非常广泛的音频压缩格式，Android 硬件编码天生支持 AAC。我们采集的原始 PCM 音频，一般不直接用来网络传输，而是经过编码器压缩成 AAC，这样就提高了传输效率，节省了网络带宽。</p>
+<p>简言之，编码就是压缩，解码就是解压。编码的目的是减小数据的体积，方便网络传输和本地存储。编码后的数据是不能直接使用的，必须先解码成原来的样子。就像 zip 压缩文件里面有张图片，我们用图片查看器是无法打开的，必须先解压文件，恢复图片原来的数据，这样才能查看。音视频编解码也是同样的道理。</p>
+<h3 id="2-mediacodec-介绍">2. MediaCodec 介绍</h3>
+<p>Android 在 API 16 后引入的音视频编解码 API，Android 应用层统一由 MediaCodec API 提供音视频编解码的功能，由参数配置来决定采用何种编解码算法、是否采用硬件编解码加速等。由于使用硬件编解码，兼容性有不少问题，据说 MediaCodec 坑比较多。</p>
+<p>MediaCodec 采用了基于环形缓冲区的「生产者-消费者」模型，异步处理数据。在 input 端，Client 是这个环形缓冲区「生产者」，MediaCodec 是「消费者」。在 output 端，MediaCodec 是这个环形缓冲区「生产者」，而 Client 则变成了「消费者」。</p>
+<p>工作流程是这样的：</p>
+<p>（1）Client 从 input 缓冲区队列申请 empty buffer [dequeueInputBuffer]</p>
+<p>（2）Client 把需要编解码的数据拷贝到 empty buffer，然后放入 input 缓冲区队列 [queueInputBuffer]</p>
+<p>（3）MediaCodec 从 input 缓冲区队列取一帧数据进行编解码处理</p>
+<p>（4）处理结束后，MediaCodec 将原始数据 buffer 置为 empty 后放回 input 缓冲区队列，将编解码后的数据放入到 output 缓冲区队列</p>
+<p>（5）Client 从 output 缓冲区队列申请编解码后的 buffer [dequeueOutputBuffer]</p>
+<p>（6）Client 对编解码后的 buffer 进行渲染/播放</p>
+<p>（7）渲染/播放完成后，Client 再将该 buffer 放回 output 缓冲区队列 [releaseOutputBuffer]</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/wKioL1cCSojSz4HdAAD0xxQxvwg230.png" alt="MediaCodeC"></p>
+<p>MediaCodec 基本使用流程：</p>
+<pre><code>- createEncoderByType/createDecoderByType
+- configure
+- start
+- while(true) {
+    - dequeueInputBuffer
+    - queueInputBuffer
+    - dequeueOutputBuffer
+    - releaseOutputBuffer
+}
+- stop
+- release
+</code></pre>
+<h3 id="3-实时采集音频并编码">3. 实时采集音频并编码</h3>
+<p>我们将使用 AudioRecord 和 MediaCodec 实现这个功能，关于 AudioRecord 的使用可以参考之前的文章：<a href="https://www.jianshu.com/p/e677d616fe57">Android音视频之使用AudioRecord采集音频</a>。</p>
+<p>为了保证兼容性，推荐的配置是 44.1kHz、单通道、16 位精度。首先创建并配置 AudioRecord 和 MediaCodec。</p>
+<pre><code class="language-java">    // 输入源 麦克风
+    private final static int AUDIO_SOURCE = MediaRecorder.AudioSource.MIC;
+    // 采样率 44.1kHz，所有设备都支持
+    private final static int SAMPLE_RATE = 44100;
+    // 通道 单声道，所有设备都支持
+    private final static int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+    // 精度 16 位，所有设备都支持
+    private final static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
+    // 通道数 单声道
+    private static final int CHANNEL_COUNT = 1;
+    // 比特率
+    private static final int BIT_RATE = 96000;
+
+public void createAudio() {
+        mBufferSizeInBytes = AudioRecord.getMinBufferSize(AudioEncoder.SAMPLE_RATE, AudioEncoder.CHANNEL_CONFIG, AudioEncoder.AUDIO_FORMAT);
+        if (mBufferSizeInBytes &lt;= 0) {
+            throw new RuntimeException(&quot;AudioRecord is not available, minBufferSize: &quot; + mBufferSizeInBytes);
+        }
+        Log.i(TAG, &quot;createAudioRecord minBufferSize: &quot; + mBufferSizeInBytes);
+
+        mAudioRecord = new AudioRecord(AudioEncoder.AUDIO_SOURCE, AudioEncoder.SAMPLE_RATE, AudioEncoder.CHANNEL_CONFIG, AudioEncoder.AUDIO_FORMAT, mBufferSizeInBytes);
+        int state = mAudioRecord.getState();
+        Log.i(TAG, &quot;createAudio state: &quot; + state + &quot;, initialized: &quot; + (state == AudioRecord.STATE_INITIALIZED));
+    }
+    
+        public void createMediaCodec() throws IOException {
+        MediaCodecInfo mediaCodecInfo = CodecUtils.selectCodec(MIMETYPE_AUDIO_AAC);
+        if (mediaCodecInfo == null) {
+            throw new RuntimeException(MIMETYPE_AUDIO_AAC + &quot; encoder is not available&quot;);
+        }
+        Log.i(TAG, &quot;createMediaCodec: mediaCodecInfo &quot; + mediaCodecInfo.getName());
+
+        MediaFormat format = MediaFormat.createAudioFormat(MIMETYPE_AUDIO_AAC, SAMPLE_RATE, CHANNEL_COUNT);
+        format.setInteger(MediaFormat.KEY_AAC_PROFILE, MediaCodecInfo.CodecProfileLevel.AACObjectLC);
+        format.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);
+
+        mMediaCodec = MediaCodec.createEncoderByType(MIMETYPE_AUDIO_AAC);
+        mMediaCodec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+    }
+</code></pre>
+<p>然后开始录音，得到原始音频数据，再编码为 AAC 格式。这个地方会阻塞调用的线程，而且编码比较耗时，一定要在主线程之外调用。</p>
+<pre><code class="language-java">   public void start(File outFile) throws IOException {
+        Log.d(TAG, &quot;start() called with: outFile = [&quot; + outFile + &quot;]&quot;);
+        mStopped = false;
+        FileOutputStream fos = new FileOutputStream(outFile);
+        mMediaCodec.start();
+        mAudioRecord.startRecording();
+        byte[] buffer = new byte[mBufferSizeInBytes];
+        ByteBuffer[] inputBuffers = mMediaCodec.getInputBuffers();
+        ByteBuffer[] outputBuffers = mMediaCodec.getOutputBuffers();
+        try {
+            while (!mStopped) {
+                int readSize = mAudioRecord.read(buffer, 0, mBufferSizeInBytes);
+                if (readSize &gt; 0) {
+                    int inputBufferIndex = mMediaCodec.dequeueInputBuffer(-1);
+                    if (inputBufferIndex &gt;= 0) {
+                        ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
+                        inputBuffer.clear();
+                        inputBuffer.put(buffer);
+                        inputBuffer.limit(buffer.length);
+                        mMediaCodec.queueInputBuffer(inputBufferIndex, 0, readSize, 0, 0);
+                    }
+
+                    MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+                    int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
+                    while (outputBufferIndex &gt;= 0) {
+                        ByteBuffer outputBuffer = outputBuffers[outputBufferIndex];
+                        outputBuffer.position(bufferInfo.offset);
+                        outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
+                        byte[] chunkAudio = new byte[bufferInfo.size + 7];// 7 is ADTS size
+                        addADTStoPacket(chunkAudio, chunkAudio.length);
+                        outputBuffer.get(chunkAudio, 7, bufferInfo.size);
+                        outputBuffer.position(bufferInfo.offset);
+                        fos.write(chunkAudio);
+                        mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
+                        outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
+                    }
+                } else {
+                    Log.w(TAG, &quot;read audio buffer error:&quot; + readSize);
+                    break;
+                }
+            }
+        } finally {
+            Log.i(TAG, &quot;released&quot;);
+            mAudioRecord.stop();
+            mAudioRecord.release();
+            mMediaCodec.stop();
+            mMediaCodec.release();
+            fos.close();
+        }
+    }
+
+</code></pre>
+<p>AAC 是一种压缩格式，可以直接使用播放器播放。为了实现流式播放，也就是做到边下边播，我们采用 ADTS 格式。给每帧加上 7 个字节的头信息。加上头信息就是为了告诉解码器，这帧音频长度、采样率、通道是多少，每帧都携带头信息，解码器随时都可以解码播放。我们这里采用单通道、44.1KHz 采样率的头信息配置。</p>
+<pre><code class="language-java">    private void addADTStoPacket(byte[] packet, int packetLen) {
+        int profile = 2;  //AAC LC
+        int freqIdx = 4;  //44.1KHz
+        int chanCfg = 1;  //CPE
+        // fill in ADTS data
+        packet[0] = (byte) 0xFF;
+        packet[1] = (byte) 0xF9;
+        packet[2] = (byte) (((profile - 1) &lt;&lt; 6) + (freqIdx &lt;&lt; 2) + (chanCfg &gt;&gt; 2));
+        packet[3] = (byte) (((chanCfg &amp; 3) &lt;&lt; 6) + (packetLen &gt;&gt; 11));
+        packet[4] = (byte) ((packetLen &amp; 0x7FF) &gt;&gt; 3);
+        packet[5] = (byte) (((packetLen &amp; 7) &lt;&lt; 5) + 0x1F);
+        packet[6] = (byte) 0xFC;
+    }
+</code></pre>
+<h3 id="4-aac-解码">4. AAC 解码</h3>
+<p>我们可以利用 MediaExtractor 和 MediaCodec 来提取编码后的音频数据，并解压成音频源数据。</p>
+<pre><code class="language-java">    /**
+     * AAC 格式解码成 PCM 数据
+     *
+     * @param aacFile
+     * @param pcmFile
+     * @throws IOException
+     */
+    public static void decodeAacToPcm(File aacFile, File pcmFile) throws IOException {
+        MediaExtractor extractor = new MediaExtractor();
+        extractor.setDataSource(aacFile.getAbsolutePath());
+        MediaFormat mediaFormat = null;
+        for (int i = 0; i &lt; extractor.getTrackCount(); i++) {
+            MediaFormat format = extractor.getTrackFormat(i);
+            String mime = format.getString(MediaFormat.KEY_MIME);
+            if (mime.startsWith(&quot;audio/&quot;)) {
+                extractor.selectTrack(i);
+                mediaFormat = format;
+                break;
+            }
+        }
+        if (mediaFormat == null) {
+            Log.e(TAG, &quot;Invalid file with audio track.&quot;);
+            extractor.release();
+            return;
+        }
+
+        FileOutputStream fosDecoder = new FileOutputStream(pcmFile);
+        String mediaMime = mediaFormat.getString(MediaFormat.KEY_MIME);
+        Log.i(TAG, &quot;decodeAacToPcm: mimeType: &quot; + mediaMime);
+        MediaCodec codec = MediaCodec.createDecoderByType(mediaMime);
+        codec.configure(mediaFormat, null, null, 0);
+        codec.start();
+        ByteBuffer[] codecInputBuffers = codec.getInputBuffers();
+        ByteBuffer[] codecOutputBuffers = codec.getOutputBuffers();
+        final long kTimeOutUs = 10_000;
+        MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
+        boolean sawInputEOS = false;
+        boolean sawOutputEOS = false;
+
+        try {
+            while (!sawOutputEOS) {
+                if (!sawInputEOS) {
+                    int inputBufIndex = codec.dequeueInputBuffer(kTimeOutUs);
+                    if (inputBufIndex &gt;= 0) {
+                        ByteBuffer dstBuf = codecInputBuffers[inputBufIndex];
+                        int sampleSize = extractor.readSampleData(dstBuf, 0);
+                        if (sampleSize &lt; 0) {
+                            Log.i(TAG, &quot;saw input EOS.&quot;);
+                            sawInputEOS = true;
+                            codec.queueInputBuffer(inputBufIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
+                        } else {
+                            codec.queueInputBuffer(inputBufIndex, 0, sampleSize, extractor.getSampleTime(), 0);
+                            extractor.advance();
+                        }
+                    }
+                }
+
+                int outputBufferIndex = codec.dequeueOutputBuffer(info, kTimeOutUs);
+                if (outputBufferIndex &gt;= 0) {
+                    // Simply ignore codec config buffers.
+                    if ((info.flags &amp; MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != 0) {
+                        Log.i(TAG, &quot;audio encoder: codec config buffer&quot;);
+                        codec.releaseOutputBuffer(outputBufferIndex, false);
+                        continue;
+                    }
+
+                    if (info.size != 0) {
+                        ByteBuffer outBuf = codecOutputBuffers[outputBufferIndex];
+                        outBuf.position(info.offset);
+                        outBuf.limit(info.offset + info.size);
+                        byte[] data = new byte[info.size];
+                        outBuf.get(data);
+                        fosDecoder.write(data);
+                    }
+
+                    codec.releaseOutputBuffer(outputBufferIndex, false);
+                    if ((info.flags &amp; MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+                        Log.i(TAG, &quot;saw output EOS.&quot;);
+                        sawOutputEOS = true;
+                    }
+                } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                    codecOutputBuffers = codec.getOutputBuffers();
+                    Log.i(TAG, &quot;output buffers have changed.&quot;);
+                } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                    MediaFormat oformat = codec.getOutputFormat();
+                    Log.i(TAG, &quot;output format has changed to &quot; + oformat);
+                }
+            }
+        } finally {
+            Log.i(TAG, &quot;decodeAacToPcm finish&quot;);
+            codec.stop();
+            codec.release();
+            extractor.release();
+            fosDecoder.close();
+        }
+    }
+</code></pre>
+<p>源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/mediacodec">GitHub</a>上，欢迎交流。</p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a href="https://blog.51cto.com/ticktick/1760191">Android音频开发（5）：音频数据的编解码</a></li>
+<li><a href="http://lastwarmth.win/2016/10/22/live-audio/">【Android音视频开发】- 实时采集音频并编码</a></li>
+<li><a href="https://yedaxia.github.io/Android-MediaExtractor-And-MediaCodec/">MediaExtractor和MediaCodec实现音频编解码和混音</a></li>
+<li><a href="https://blog.csdn.net/KokJuis/article/details/72781835">android音频采集，MediaCodec实时PCM转AAC</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Android 使用 OpenGL ES 绘制三角形]]></title>
+        <id>https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-san-jiao-xing</id>
+        <link href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-san-jiao-xing">
+        </link>
+        <updated>2019-05-02T03:53:47.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-opengl-es-简介">1. OpenGL ES 简介</h3>
+<p>OpenGL 是一个跨平台的图形 API，为 3D 图形处理硬件制定了一个标准软件接口。OpenGL ES 是为嵌入式设备设计的 OpenGL 规范，Android 提供了对 OpenGL ES 的支持。</p>
+<ul>
+<li>OpenGL ES 1.0 和 1.1 能够被 Android 1.0 及以上版本支持</li>
+<li>OpenGL ES 2.0 能够被 Android 2.2 及更高版本支持</li>
+<li>OpenGL ES 3.0 能够被 Android 4.3 及更高版本支持</li>
+<li>OpenGL ES 3.1 能够被 Android 5.0 及以上版本支持</li>
+</ul>
+<p>Android 通过 Framework 接口和 NDK 支持 OpenGL 绘制，这里主要介绍一下 Framework 接口。</p>
+<p>在 Android Framework 里，我们可以通过两个基础类调用 OpenGL ES  API 从而创建和操作图形，它们是 GLSurfaceView 和 GLSurfaceView.Renderer。如果想在应用中使用 OpenGL，那么应该首先理解这两个类的实现。</p>
+<p>GLSurfaceView 是一个视图类，可以使用 OpenGL ES API 绘制和处理图形对象，就和 SurfaceView 的功能一样。创建 GLSurfaceView 的实例，并设置 Renderer，就可以使用了。</p>
+<p>不用于一般的视图，GLSurfaceView 自己创建了一个窗口，并在视图层次（view hierarchy）上穿了个「洞」，让底层的 OpenGL Surface 显示出来。它与常规视图（view）不同，没有动画或者变形特效，因为它是窗口（window）的一部分。</p>
+<p>GLSurfaceView.Renderer 是一个接口，定义了 GLSurfaceView 绘制图形所需的接口，实现该接口并附加到 GLSurfaceView 就可以了。有三个接口：</p>
+<ul>
+<li>onSurfaceCreated()：创建 GLSurfaceView 时，系统调用一次该方法。使用此方法执行只需要执行一次的操作，例如设置 OpenGL 环境参数或初始化 OpenGL 图形对象。</li>
+<li>onDrawFrame()：系统在每次重绘 GLSurfaceView 时调用该方法。使用此方法作为绘制（和重新绘制）图形对象的主要执行方法。</li>
+<li>onSurfaceChanged()：当 GLSurfaceView 的几何发生变化时，系统调用此方法，这些变化包括 GLSurfaceView 的大小或设备屏幕方向的变化。例如：设备从纵向变为横向时，系统调用此方法。我们应该使用此方法来响应 GLSurfaceView 容器的改变。</li>
+</ul>
+<h3 id="2-opengl-es-绘制流程">2. OpenGL ES 绘制流程</h3>
+<p>在 OpenGL ES 里，只能绘制点、直线和三角形。如果想要构建更复杂的图形，例如拱形，那就需要足够的点拟合这样的曲线。点和直线可以用于某些效果，但是只有三角形才能用来构建拥有复杂对象和纹理的场景。</p>
+<p>图形数据在 OpenGL 管道（pipeline）中传输，需要使用着色器（shader）的子例程，着色器告诉 GPU 如何绘制数据。一旦生成了最终颜色，OpenGL 就会把它们写到帧缓冲区（frame buffer），然后 Android 会把这个帧缓冲区显示到屏幕上。</p>
+<p>OpenGL 管道执行流程</p>
+<blockquote>
+<p>读取顶点数据 -&gt; 执行顶点着色器 -&gt; 组装图元 -&gt; 光栅化图元 -&gt; 执行片段着色器 -&gt; 写入帧缓冲区 -&gt; 显示在屏幕上</p>
+</blockquote>
+<h4 id="顶点着色器vertex-shader">顶点着色器（vertex shader）</h4>
+<p>一个顶点就是一个代表几何对象的拐角的点，这个点有很多附加属性；最重要的属性就是位置，它代表了这个顶点在空间中的定位。顶点着色器生成每个顶点的最终位置，针对每个顶点，它都会执行一次；一旦最终位置确定了，OpenGL 就可以把这些可见顶点的集合组装成点、直线和三角形。</p>
+<h4 id="片段着色器fragment-shader">片段着色器（fragment shader）</h4>
+<p>组成点、线或三角形的每个片段生成最终的颜色，针对每个片段，它都会执行一次；一个片段是一个小的、单一颜色的长方形区域，类似于计算机屏幕上的一个像素。片段着色器的目的就是告诉 GPU 每个片段的最终颜色是什么。</p>
+<h4 id="光栅化技术rasterization">光栅化技术（rasterization）</h4>
+<p>OpenGL 通过光栅化把每个点、直线以及三角形分解成大量的小片段，它们可以映射到移动设备显示屏的像素上，从而生成一副图像。这些片段类似于显示屏上的像素，每个都包含单一的纯色。</p>
+<h3 id="3-使用-opengl-es-绘制三角形">3. 使用 OpenGL ES 绘制三角形</h3>
+<p>在 AndroidManifest.xml 声明应用需要 OpenGL ES 2.0：</p>
+<pre><code class="language-xml">&lt;!-- Tell the system this app requires OpenGL ES 2.0. --&gt;
+&lt;uses-feature android:glEsVersion=&quot;0x00020000&quot; android:required=&quot;true&quot; /&gt;
+</code></pre>
+<p>检查设备是否支持 OpenGL ES 2.0：</p>
+<pre><code class="language-java">    public static boolean isSupportGL20(Context context) {
+        final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return false;
+        }
+        final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
+        return configurationInfo.reqGlEsVersion &gt;= 0x20000;
+    }
+</code></pre>
+<p>初始化 GLSurfaceView，设置版本和 Renderer。</p>
+<pre><code class="language-java">        // Create an OpenGL ES 2.0 context
+        mGlSurfaceView.setEGLContextClientVersion(2);
+        GLSurfaceView.Renderer renderer = new TriangleRenderer();
+        // Set the Renderer for drawing on the GLSurfaceView
+        mGlSurfaceView.setRenderer(renderer);
+        // Render the view only when there is a change in the drawing data
+        mGlSurfaceView.setRenderMode(GLSurfaceView.RENDERMODE_WHEN_DIRTY);
+</code></pre>
+<p>另外，GLSurfaceView 在单独的线程中进行绘制，所以在 Activity 的生命周期方法中，需要暂停和恢复运行渲染线程。如果需要在主线程和绘制线程通信，可以使用 GLSurfaceView 的 queueEvent 方法。</p>
+<pre><code class="language-java">    @Override
+    protected void onStart() {
+        super.onStart();
+        mGlSurfaceView.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mGlSurfaceView.onPause();
+    }
+</code></pre>
+<p>实现 GLSurfaceView.Renderer 接口，主要通过 OpenGL 来清空屏幕、设置视口。</p>
+<ul>
+<li>
+<p>glClearColor 设置清空屏幕用到的颜色，参数是 Red、Green、Blue、Alpha，范围 [0, 1]。这里我们使用白色背景。</p>
+</li>
+<li>
+<p>glViewPort 设置视口的尺寸，告诉 OpenGL 可以用来渲染的 surface 大小。</p>
+</li>
+<li>
+<p>glClear 清空屏幕，擦除屏幕上的所有颜色，并用之前 glClearColor 定义的颜色填充整个屏幕。</p>
+</li>
+</ul>
+<p>最新的 GPU 使用特殊的渲染技术，清空屏幕可以节省帧拷贝浪费的时间，还可以帮助避免很多问题。</p>
+<pre><code class="language-java">    @Override
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+        // set the background frame color
+        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        // initilize buffer, shader, program, handle...
+    }
+
+    @Override
+    public void onSurfaceChanged(GL10 gl, int width, int height) {
+        GLES20.glViewport(0, 0, width, height);
+        // calculate matrix...
+    }
+
+    @Override
+    public void onDrawFrame(GL10 gl) {
+        // redraw background color
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        // draw graphics ...
+    }
+</code></pre>
+<p>定义三角形，包括它的坐标和颜色，把数据传递给 OpenGL 管道。</p>
+<p>无论是 x 还是 y 坐标，OpenGL 都会把屏幕映射到 [-1, 1] 的范围内。不管屏幕时什么形状和大小，这个坐标范围都是一样的。如果想在屏幕上显示任何东西，就需要在这个范围内进行绘制。</p>
+<p>OpenGL 作为本地系统库直接运行在硬件上。所以需要把数据从 Java 堆复制到本地堆，我们使用 ByteBuffer 类。本地内存被本地环境存取，不受 Java 垃圾回收的控制。</p>
+<pre><code class="language-java">    // Set color with red, green, blue and alpha (opacity) values
+    private static final float[] COLORS = {0.8f, 0.5f, 0.3f, 1.0f};
+    // number of coordinates per vertex in this array
+    private static final int COORDS_PER_VERTEX = 2;
+    // coordinates in counterclockwise order:
+    private static final float[] COORDS = {
+            0, 0.6f, // top
+            -0.6f, -0.3f, // bottom left
+            0.6f, -0.3f, // bottom right
+    };
+
+    public static FloatBuffer createFloatBuffer(float[] coords) {
+        // Allocate a direct ByteBuffer, using 4 bytes per float, and copy coords into it.
+        ByteBuffer bb = ByteBuffer.allocateDirect(coords.length * SIZEOF_FLOAT);
+        bb.order(ByteOrder.nativeOrder());
+        FloatBuffer fb = bb.asFloatBuffer();
+        fb.put(coords);
+        fb.position(0);
+        return fb;
+    }
+</code></pre>
+<p>定义着色器，编译着色器，链接到程序上。</p>
+<p>着色器使用 GLSL 定义，它是 OpenGL 的着色语言，语法结构和 C 语言相似。顶点着色器决定每个顶点的最终位置，片段着色器决定每个片段最后的颜色。顶点和片段着色器一起合作生成屏幕上最终的图像。</p>
+<p>简单说，一个 OpenGL 程序就是把一个顶点着色器和一个片段着色器链接在一起变成单个对象。顶点着色器和片段着色器总是一起工作的。</p>
+<pre><code class="language-java">    private static final String VERTEX_SHADER =
+            &quot;uniform mat4 uMVPMatrix;&quot; +
+                    &quot;attribute vec4 aPosition;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_Position = uMVPMatrix * aPosition;&quot; +
+                    &quot;}&quot;;
+    private static final String FRAGMENT_SHADER =
+            &quot;precision mediump float;&quot; +
+                    &quot;uniform vec4 uColor;&quot; +
+                    &quot;void main() {&quot; +
+                    &quot;  gl_FragColor = uColor;&quot; +
+                    &quot;}&quot;;
+
+    // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
+    // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
+    public static int createShader(int type, String shaderCode) {
+        int shader = GLES20.glCreateShader(type);
+        GLES20.glShaderSource(shader, shaderCode);
+        // add the source code to the shader and compile it
+        GLES20.glCompileShader(shader);
+        int[] compileStatus = new int[1];
+        GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
+        if (compileStatus[0] == 0) {
+            Log.e(TAG, &quot;compile shader: &quot; + type + &quot;, error: &quot; + GLES20.glGetShaderInfoLog(shader));
+            GLES20.glDeleteShader(shader);
+            shader = 0;
+        }
+        return shader;
+    }
+
+    public static int createProgram(int vertexShader, int fragmentShader) {
+        if (vertexShader == 0 || fragmentShader == 0) {
+            Log.e(TAG, &quot;shader can't be 0!&quot;);
+        }
+        int program = GLES20.glCreateProgram();
+        checkGlError(&quot;glCreateProgram&quot;);
+        if (program == 0) {
+            Log.e(TAG, &quot;program can't be 0!&quot;);
+            return 0;
+        }
+        GLES20.glAttachShader(program, vertexShader);
+        checkGlError(&quot;glAttachShader&quot;);
+        GLES20.glAttachShader(program, fragmentShader);
+        checkGlError(&quot;glAttachShader&quot;);
+        GLES20.glLinkProgram(program);
+        int[] linkStatus = new int[1];
+        GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
+        if (linkStatus[0] != GLES20.GL_TRUE) {
+            Log.e(TAG, &quot;link program error: &quot; + GLES20.glGetProgramInfoLog(program));
+            GLES20.glDeleteProgram(program);
+            program = 0;
+        }
+        return program;
+    }
+</code></pre>
+<p>上面这些操作在在 onSurafeceCreated 方法中使用，并且我们要拿到句柄（handle，可以理解为 C 语言的指针）。这样在绘制的时候就可以给 OpenGL 传值了。</p>
+<pre><code class="language-java">        mVertexBuffer = GLESUtils.createFloatBuffer(COORDS);
+        int vertexShader = GLESUtils.createVertexShader(VERTEX_SHADER);
+        int fragmentShader = GLESUtils.createFragmentShader(FRAGMENT_SHADER);
+        mProgram = GLESUtils.createProgram(vertexShader, fragmentShader);
+        // get handle to fragment shader's uColor member
+        mColorHandle = GLES20.glGetUniformLocation(mProgram, &quot;uColor&quot;);
+        // get handle to vertex shader's aPosition member
+        mPositionHandle = GLES20.glGetAttribLocation(mProgram, &quot;aPosition&quot;);
+        // get handle to shape's transformation matrix
+        mMvpMatrixHandle = GLES20.glGetUniformLocation(mProgram, &quot;uMVPMatrix&quot;);
+</code></pre>
+<p>下面定义 MVP 矩阵，用来调整图像的位置，一般放在 onSurfaceChanged 方法中。</p>
+<ul>
+<li>Projection — 这个变换是基于 GLSurfaceView 的宽高来调整绘制对象的坐标。如果没有这个计算变换，绘制的形状会在不同显示窗口变形。这个投影变化通常只会在 GLSurfaceView 的比例被确定或者在渲染器的 onSurfaceChanged 方法中被计算。</li>
+<li>Camera View — 这个变换是基于虚拟的相机的位置来调整绘制对象坐标的。OpenGL ES 并没有定义一个真实的相机对象，而是提供一个实用方法，通过变换绘制对象的显示来模拟一个相机。相机视图变换可能只会在 GLSurfaceView 被确定时计算，或者基于用户操作或应用的功能来动态改变。</li>
+</ul>
+<pre><code class="language-java">        float ratio = (float) width / height;
+        // this projection matrix is applied to object coordinates in the onDrawFrame() method
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 2.5f, 6);
+        // Set the camera position (View matrix)
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0);
+        // Calculate the projection and view transformation
+        Matrix.multiplyMM(mMvpMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+</code></pre>
+<p>在 onDrawFrame 绘制每帧时，设置顶点数据和颜色数据，就能绘制出三角形了。</p>
+<pre><code class="language-java">        // Add program to OpenGL ES environment
+        GLES20.glUseProgram(mProgram);
+        // Enable a handle to the triangle vertices
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        // Prepare the triangle coordinate data
+        GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false, 0, mVertexBuffer);
+        // Set color for drawing the triangle
+        GLES20.glUniform4fv(mColorHandle, 1, COLORS, 0);
+        // Pass the projection and view transformation to the shader
+        GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
+        // Draw the triangle
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, COORDS.length / COORDS_PER_VERTEX);
+        // Disable vertex array
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glUseProgram(0);
+</code></pre>
+<p>运行看一下效果，一个中规中矩的三角形。上面的源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/opengl">GitHub</a> 上。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/device-2019-05-02-170309.png" alt="绘制效果"></p>
+<p>OpenGL ES 的知识面比较多，下面给出一些学习资料：</p>
+<ul>
+<li><a href="http://colin1994.github.io/2017/04/01/OpenGLES-Menu/">OpenGL ES， 初学者的自我总结</a></li>
+<li><a href="https://blog.piasy.com/2016/06/07/Open-gl-es-android-2-part-1/index.html">安卓 OpenGL ES 2.0 完全入门 </a></li>
+<li><a href="https://glumes.com/post/opengl/opengl-tutorial-share/">OpenGL ES 学习资源分享</a></li>
+<li><a href="http://www.rogerblog.cn/2016/07/18/OpenGL-serise-No1/">《OpenGL ES 应用开发实践指南》读书笔记</a></li>
+<li><a href="https://learnopengl-cn.readthedocs.io/zh/latest/">欢迎来到OpenGL的世界</a></li>
+<li><a href="http://geekfaner.com/shineengine/blog2_OpenGLESv2_1.html">OpenGL ES 2.0 知识串讲</a></li>
+<li><a href="https://blog.csdn.net/junzia/article/category/6462864/1">湖广午王的博客-OpenGLES</a></li>
+<li><a href="https://www.jianshu.com/p/4ff46176ccc0">Android OpenGL 学习资料</a></li>
+<li><a href="http://www.learnopengles.com/android-lesson-one-getting-started/">Learn OpenGL ES: Android lession</a></li>
+<li><a href="https://www.khronos.org/registry/OpenGL-Refpages/es2.0/">OpenGL® ES 2.0 Reference Pages</a></li>
+<li><a href="https://developer.android.com/guide/topics/graphics/opengl">Android OpenGL ES</a></li>
+</ul>
 ]]></content>
     </entry>
 </feed>

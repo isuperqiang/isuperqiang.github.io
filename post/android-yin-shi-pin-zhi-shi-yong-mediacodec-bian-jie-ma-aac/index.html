@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 音视频之使用 MediaCodec 编解码 AAC | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 音视频之使用 MediaCodec 编解码 AAC</h2>
+            <div class="post-date">2019-05-03</div>
+            
+            <div class="post-content">
+              <p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
+<!-- more -->
+<h3 id="1-音频的基本概念">1. 音频的基本概念</h3>
+<p>在音频开发中，有些基本概念是需要了解的。</p>
+<ul>
+<li>采样率（SampleRate）：每秒采集声音的数量，它用赫兹（Hz）来表示。采样频率越高，音频质量越好。常用的音频采样频率有：8kHz、16kHz、44.1kHz、48kHz 等。</li>
+<li>声道数（Channel）：一般表示声音录制时的音源数量或回放时相应的扬声器数量。常用的是单声道（Mono）和双声道（Stereo）。</li>
+<li>采样精度（BitDepth）：每个采样点用多少数据量表示，它以位（Bit）为单位。位数越多，表示得就越精细，声音质量自然就越好，当然数据量也越大。常见的位宽是：8bit 或者 16bit。</li>
+<li>比特率（BitRate）：每秒音频占用的比特数量，单位是 bps（Bit Per Second），比特率越高，压缩比越小，声音质量越好，音频体积也越大。</li>
+</ul>
+<p>AAC 是应用非常广泛的音频压缩格式，Android 硬件编码天生支持 AAC。我们采集的原始 PCM 音频，一般不直接用来网络传输，而是经过编码器压缩成 AAC，这样就提高了传输效率，节省了网络带宽。</p>
+<p>简言之，编码就是压缩，解码就是解压。编码的目的是减小数据的体积，方便网络传输和本地存储。编码后的数据是不能直接使用的，必须先解码成原来的样子。就像 zip 压缩文件里面有张图片，我们用图片查看器是无法打开的，必须先解压文件，恢复图片原来的数据，这样才能查看。音视频编解码也是同样的道理。</p>
+<h3 id="2-mediacodec-介绍">2. MediaCodec 介绍</h3>
+<p>Android 在 API 16 后引入的音视频编解码 API，Android 应用层统一由 MediaCodec API 提供音视频编解码的功能，由参数配置来决定采用何种编解码算法、是否采用硬件编解码加速等。由于使用硬件编解码，兼容性有不少问题，据说 MediaCodec 坑比较多。</p>
+<p>MediaCodec 采用了基于环形缓冲区的「生产者-消费者」模型，异步处理数据。在 input 端，Client 是这个环形缓冲区「生产者」，MediaCodec 是「消费者」。在 output 端，MediaCodec 是这个环形缓冲区「生产者」，而 Client 则变成了「消费者」。</p>
+<p>工作流程是这样的：</p>
+<p>（1）Client 从 input 缓冲区队列申请 empty buffer [dequeueInputBuffer]</p>
+<p>（2）Client 把需要编解码的数据拷贝到 empty buffer，然后放入 input 缓冲区队列 [queueInputBuffer]</p>
+<p>（3）MediaCodec 从 input 缓冲区队列取一帧数据进行编解码处理</p>
+<p>（4）处理结束后，MediaCodec 将原始数据 buffer 置为 empty 后放回 input 缓冲区队列，将编解码后的数据放入到 output 缓冲区队列</p>
+<p>（5）Client 从 output 缓冲区队列申请编解码后的 buffer [dequeueOutputBuffer]</p>
+<p>（6）Client 对编解码后的 buffer 进行渲染/播放</p>
+<p>（7）渲染/播放完成后，Client 再将该 buffer 放回 output 缓冲区队列 [releaseOutputBuffer]</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/wKioL1cCSojSz4HdAAD0xxQxvwg230.png" alt="MediaCodeC"></p>
+<p>MediaCodec 基本使用流程：</p>
+<pre><code>- createEncoderByType/createDecoderByType
+- configure
+- start
+- while(true) {
+    - dequeueInputBuffer
+    - queueInputBuffer
+    - dequeueOutputBuffer
+    - releaseOutputBuffer
+}
+- stop
+- release
+</code></pre>
+<h3 id="3-实时采集音频并编码">3. 实时采集音频并编码</h3>
+<p>我们将使用 AudioRecord 和 MediaCodec 实现这个功能，关于 AudioRecord 的使用可以参考之前的文章：<a href="https://www.jianshu.com/p/e677d616fe57">Android音视频之使用AudioRecord采集音频</a>。</p>
+<p>为了保证兼容性，推荐的配置是 44.1kHz、单通道、16 位精度。首先创建并配置 AudioRecord 和 MediaCodec。</p>
+<pre><code class="language-java">    // 输入源 麦克风
+    private final static int AUDIO_SOURCE = MediaRecorder.AudioSource.MIC;
+    // 采样率 44.1kHz，所有设备都支持
+    private final static int SAMPLE_RATE = 44100;
+    // 通道 单声道，所有设备都支持
+    private final static int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
+    // 精度 16 位，所有设备都支持
+    private final static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
+    // 通道数 单声道
+    private static final int CHANNEL_COUNT = 1;
+    // 比特率
+    private static final int BIT_RATE = 96000;
+
+public void createAudio() {
+        mBufferSizeInBytes = AudioRecord.getMinBufferSize(AudioEncoder.SAMPLE_RATE, AudioEncoder.CHANNEL_CONFIG, AudioEncoder.AUDIO_FORMAT);
+        if (mBufferSizeInBytes &lt;= 0) {
+            throw new RuntimeException(&quot;AudioRecord is not available, minBufferSize: &quot; + mBufferSizeInBytes);
+        }
+        Log.i(TAG, &quot;createAudioRecord minBufferSize: &quot; + mBufferSizeInBytes);
+
+        mAudioRecord = new AudioRecord(AudioEncoder.AUDIO_SOURCE, AudioEncoder.SAMPLE_RATE, AudioEncoder.CHANNEL_CONFIG, AudioEncoder.AUDIO_FORMAT, mBufferSizeInBytes);
+        int state = mAudioRecord.getState();
+        Log.i(TAG, &quot;createAudio state: &quot; + state + &quot;, initialized: &quot; + (state == AudioRecord.STATE_INITIALIZED));
+    }
+    
+        public void createMediaCodec() throws IOException {
+        MediaCodecInfo mediaCodecInfo = CodecUtils.selectCodec(MIMETYPE_AUDIO_AAC);
+        if (mediaCodecInfo == null) {
+            throw new RuntimeException(MIMETYPE_AUDIO_AAC + &quot; encoder is not available&quot;);
+        }
+        Log.i(TAG, &quot;createMediaCodec: mediaCodecInfo &quot; + mediaCodecInfo.getName());
+
+        MediaFormat format = MediaFormat.createAudioFormat(MIMETYPE_AUDIO_AAC, SAMPLE_RATE, CHANNEL_COUNT);
+        format.setInteger(MediaFormat.KEY_AAC_PROFILE, MediaCodecInfo.CodecProfileLevel.AACObjectLC);
+        format.setInteger(MediaFormat.KEY_BIT_RATE, BIT_RATE);
+
+        mMediaCodec = MediaCodec.createEncoderByType(MIMETYPE_AUDIO_AAC);
+        mMediaCodec.configure(format, null, null, MediaCodec.CONFIGURE_FLAG_ENCODE);
+    }
+</code></pre>
+<p>然后开始录音，得到原始音频数据，再编码为 AAC 格式。这个地方会阻塞调用的线程，而且编码比较耗时，一定要在主线程之外调用。</p>
+<pre><code class="language-java">   public void start(File outFile) throws IOException {
+        Log.d(TAG, &quot;start() called with: outFile = [&quot; + outFile + &quot;]&quot;);
+        mStopped = false;
+        FileOutputStream fos = new FileOutputStream(outFile);
+        mMediaCodec.start();
+        mAudioRecord.startRecording();
+        byte[] buffer = new byte[mBufferSizeInBytes];
+        ByteBuffer[] inputBuffers = mMediaCodec.getInputBuffers();
+        ByteBuffer[] outputBuffers = mMediaCodec.getOutputBuffers();
+        try {
+            while (!mStopped) {
+                int readSize = mAudioRecord.read(buffer, 0, mBufferSizeInBytes);
+                if (readSize &gt; 0) {
+                    int inputBufferIndex = mMediaCodec.dequeueInputBuffer(-1);
+                    if (inputBufferIndex &gt;= 0) {
+                        ByteBuffer inputBuffer = inputBuffers[inputBufferIndex];
+                        inputBuffer.clear();
+                        inputBuffer.put(buffer);
+                        inputBuffer.limit(buffer.length);
+                        mMediaCodec.queueInputBuffer(inputBufferIndex, 0, readSize, 0, 0);
+                    }
+
+                    MediaCodec.BufferInfo bufferInfo = new MediaCodec.BufferInfo();
+                    int outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
+                    while (outputBufferIndex &gt;= 0) {
+                        ByteBuffer outputBuffer = outputBuffers[outputBufferIndex];
+                        outputBuffer.position(bufferInfo.offset);
+                        outputBuffer.limit(bufferInfo.offset + bufferInfo.size);
+                        byte[] chunkAudio = new byte[bufferInfo.size + 7];// 7 is ADTS size
+                        addADTStoPacket(chunkAudio, chunkAudio.length);
+                        outputBuffer.get(chunkAudio, 7, bufferInfo.size);
+                        outputBuffer.position(bufferInfo.offset);
+                        fos.write(chunkAudio);
+                        mMediaCodec.releaseOutputBuffer(outputBufferIndex, false);
+                        outputBufferIndex = mMediaCodec.dequeueOutputBuffer(bufferInfo, 0);
+                    }
+                } else {
+                    Log.w(TAG, &quot;read audio buffer error:&quot; + readSize);
+                    break;
+                }
+            }
+        } finally {
+            Log.i(TAG, &quot;released&quot;);
+            mAudioRecord.stop();
+            mAudioRecord.release();
+            mMediaCodec.stop();
+            mMediaCodec.release();
+            fos.close();
+        }
+    }
+
+</code></pre>
+<p>AAC 是一种压缩格式，可以直接使用播放器播放。为了实现流式播放，也就是做到边下边播，我们采用 ADTS 格式。给每帧加上 7 个字节的头信息。加上头信息就是为了告诉解码器，这帧音频长度、采样率、通道是多少，每帧都携带头信息，解码器随时都可以解码播放。我们这里采用单通道、44.1KHz 采样率的头信息配置。</p>
+<pre><code class="language-java">    private void addADTStoPacket(byte[] packet, int packetLen) {
+        int profile = 2;  //AAC LC
+        int freqIdx = 4;  //44.1KHz
+        int chanCfg = 1;  //CPE
+        // fill in ADTS data
+        packet[0] = (byte) 0xFF;
+        packet[1] = (byte) 0xF9;
+        packet[2] = (byte) (((profile - 1) &lt;&lt; 6) + (freqIdx &lt;&lt; 2) + (chanCfg &gt;&gt; 2));
+        packet[3] = (byte) (((chanCfg &amp; 3) &lt;&lt; 6) + (packetLen &gt;&gt; 11));
+        packet[4] = (byte) ((packetLen &amp; 0x7FF) &gt;&gt; 3);
+        packet[5] = (byte) (((packetLen &amp; 7) &lt;&lt; 5) + 0x1F);
+        packet[6] = (byte) 0xFC;
+    }
+</code></pre>
+<h3 id="4-aac-解码">4. AAC 解码</h3>
+<p>我们可以利用 MediaExtractor 和 MediaCodec 来提取编码后的音频数据，并解压成音频源数据。</p>
+<pre><code class="language-java">    /**
+     * AAC 格式解码成 PCM 数据
+     *
+     * @param aacFile
+     * @param pcmFile
+     * @throws IOException
+     */
+    public static void decodeAacToPcm(File aacFile, File pcmFile) throws IOException {
+        MediaExtractor extractor = new MediaExtractor();
+        extractor.setDataSource(aacFile.getAbsolutePath());
+        MediaFormat mediaFormat = null;
+        for (int i = 0; i &lt; extractor.getTrackCount(); i++) {
+            MediaFormat format = extractor.getTrackFormat(i);
+            String mime = format.getString(MediaFormat.KEY_MIME);
+            if (mime.startsWith(&quot;audio/&quot;)) {
+                extractor.selectTrack(i);
+                mediaFormat = format;
+                break;
+            }
+        }
+        if (mediaFormat == null) {
+            Log.e(TAG, &quot;Invalid file with audio track.&quot;);
+            extractor.release();
+            return;
+        }
+
+        FileOutputStream fosDecoder = new FileOutputStream(pcmFile);
+        String mediaMime = mediaFormat.getString(MediaFormat.KEY_MIME);
+        Log.i(TAG, &quot;decodeAacToPcm: mimeType: &quot; + mediaMime);
+        MediaCodec codec = MediaCodec.createDecoderByType(mediaMime);
+        codec.configure(mediaFormat, null, null, 0);
+        codec.start();
+        ByteBuffer[] codecInputBuffers = codec.getInputBuffers();
+        ByteBuffer[] codecOutputBuffers = codec.getOutputBuffers();
+        final long kTimeOutUs = 10_000;
+        MediaCodec.BufferInfo info = new MediaCodec.BufferInfo();
+        boolean sawInputEOS = false;
+        boolean sawOutputEOS = false;
+
+        try {
+            while (!sawOutputEOS) {
+                if (!sawInputEOS) {
+                    int inputBufIndex = codec.dequeueInputBuffer(kTimeOutUs);
+                    if (inputBufIndex &gt;= 0) {
+                        ByteBuffer dstBuf = codecInputBuffers[inputBufIndex];
+                        int sampleSize = extractor.readSampleData(dstBuf, 0);
+                        if (sampleSize &lt; 0) {
+                            Log.i(TAG, &quot;saw input EOS.&quot;);
+                            sawInputEOS = true;
+                            codec.queueInputBuffer(inputBufIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM);
+                        } else {
+                            codec.queueInputBuffer(inputBufIndex, 0, sampleSize, extractor.getSampleTime(), 0);
+                            extractor.advance();
+                        }
+                    }
+                }
+
+                int outputBufferIndex = codec.dequeueOutputBuffer(info, kTimeOutUs);
+                if (outputBufferIndex &gt;= 0) {
+                    // Simply ignore codec config buffers.
+                    if ((info.flags &amp; MediaCodec.BUFFER_FLAG_CODEC_CONFIG) != 0) {
+                        Log.i(TAG, &quot;audio encoder: codec config buffer&quot;);
+                        codec.releaseOutputBuffer(outputBufferIndex, false);
+                        continue;
+                    }
+
+                    if (info.size != 0) {
+                        ByteBuffer outBuf = codecOutputBuffers[outputBufferIndex];
+                        outBuf.position(info.offset);
+                        outBuf.limit(info.offset + info.size);
+                        byte[] data = new byte[info.size];
+                        outBuf.get(data);
+                        fosDecoder.write(data);
+                    }
+
+                    codec.releaseOutputBuffer(outputBufferIndex, false);
+                    if ((info.flags &amp; MediaCodec.BUFFER_FLAG_END_OF_STREAM) != 0) {
+                        Log.i(TAG, &quot;saw output EOS.&quot;);
+                        sawOutputEOS = true;
+                    }
+                } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_BUFFERS_CHANGED) {
+                    codecOutputBuffers = codec.getOutputBuffers();
+                    Log.i(TAG, &quot;output buffers have changed.&quot;);
+                } else if (outputBufferIndex == MediaCodec.INFO_OUTPUT_FORMAT_CHANGED) {
+                    MediaFormat oformat = codec.getOutputFormat();
+                    Log.i(TAG, &quot;output format has changed to &quot; + oformat);
+                }
+            }
+        } finally {
+            Log.i(TAG, &quot;decodeAacToPcm finish&quot;);
+            codec.stop();
+            codec.release();
+            extractor.release();
+            fosDecoder.close();
+        }
+    }
+</code></pre>
+<p>源码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/mediacodec">GitHub</a>上，欢迎交流。</p>
+<p><strong>参考资料：</strong></p>
+<ul>
+<li><a href="https://blog.51cto.com/ticktick/1760191">Android音频开发（5）：音频数据的编解码</a></li>
+<li><a href="http://lastwarmth.win/2016/10/22/live-audio/">【Android音视频开发】- 实时采集音频并编码</a></li>
+<li><a href="https://yedaxia.github.io/Android-MediaExtractor-And-MediaCodec/">MediaExtractor和MediaCodec实现音频编解码和混音</a></li>
+<li><a href="https://blog.csdn.net/KokJuis/article/details/72781835">android音频采集，MediaCodec实时PCM转AAC</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-san-jiao-xing">
+                  <h3 class="post-title">
+                    Android 使用 OpenGL ES 绘制三角形
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

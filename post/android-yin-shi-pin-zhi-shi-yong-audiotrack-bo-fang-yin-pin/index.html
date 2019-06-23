@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 音视频之使用 AudioTrack 播放音频 | 落英坠露</title>
+<meta name="description" content="技术让生活更美好">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1561262236362">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1561262236362" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://weibo.com/SilenceLiu93" target="_blank">
+            <i class="fab fa-weibo"></i>
+          </a>
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      技术让生活更美好
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 音视频之使用 AudioTrack 播放音频</h2>
+            <div class="post-date">2018-10-31</div>
+            
+            <div class="post-content">
+              <p>说到在 Android 平台上播放音频，我们最先想到的是 MediaPlayer，系统 API 对其做了比较全面的封装，开发者用少量的代码就能实现播放功能。</p>
+<!-- more -->
+<p>MediaPlayer 可以播放多种格式的声音文件，例如 MP3，AAC，WAV，OGG，MIDI 等，而 AudioTrack 只能播放 PCM 数据流。</p>
+<p>实际上，MediaPlayer 在播放音频时，在 Framework 层还是会创建 AudioTrack，把解码后的 PCM 数流传递给 AudioTrack，最后由 AudioFlinger 进行混音，把音频传递给硬件播放出来。利用 AudioTrack 播放只是跳过 Mediaplayer 的解码部分而已。如果是实时的音频数据，那么只能用 AudioTrack 进行播放。</p>
+<p>AudioTrack 有两种数据加载模式（MODE_STREAM 和 MODE_STATIC）， 对应着两种完全不同的使用场景。</p>
+<ul>
+<li>MODE_STREAM：在这种模式下，通过 write 一次次把音频数据写到 AudioTrack 中。这和平时通过 write 调用往文件中写数据类似，但这种方式每次都需要把数据从用户提供的 Buffer 中拷贝到 AudioTrack 内部的 Buffer 中，在一定程度上会使引起延时。为解决这一问题，AudioTrack 就引入了第二种模式。</li>
+<li>MODE_STATIC：在这种模式下，只需要在 play 之前通过一次 write 调用，把所有数据传递到 AudioTrack 中的内部缓冲区，后续就不必再传递数据了。这种模式适用于像铃声这种内存占用较小、延时要求较高的文件。但它也有一个缺点，就是一次 write 的数据不能太多，否则系统无法分配足够的内存来存储全部数据。</li>
+</ul>
+<p>在 AudioTrack 构造函数中，会接触到 AudioManager.STREAM_MUSIC 这个参数。它的含义与 Android 系统对音频流的管理和分类有关。Android 将系统的声音分为好几种流类型，下面是几个常见的：</p>
+<ul>
+<li>STREAM_ALARM：警告声</li>
+<li>STREAM_MUSIC：音乐声，例如 music 等</li>
+<li>STREAM_RING：铃声</li>
+<li>STREAM_SYSTEM：系统声音，例如低电提示音，锁屏音等</li>
+<li>STREAM_VOICE_CALL：通话声</li>
+</ul>
+<p>注意：上面这些类型的划分和音频数据本身并没有关系。例如 MUSIC 和 RING 类型都可以是某首 MP3 歌曲。另外，声音流类型的选择没有固定的标准，例如，铃声预览中的铃声可以设置为 MUSIC 类型。音频流类型的划分和 Audio 系统对音频的管理策略有关。</p>
+<p><strong>我们用代码实践一下播放的流程</strong></p>
+<ol>
+<li>创建播放对象，参数和 AudioRecord 有相似之处。</li>
+</ol>
+<pre><code>    public void createAudioTrack(String filePath) throws IllegalStateException{
+        mFilePath = filePath;
+        mBufferSizeInBytes = AudioTrack.getMinBufferSize(SAMPLE_RATE, CHANNEL, AUDIO_FORMAT);
+        if (mBufferSizeInBytes &lt;= 0) {
+            throw new IllegalStateException(&quot;AudioTrack is not available &quot; + mBufferSizeInBytes);
+        }
+        if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) {
+            mAudioTrack = new AudioTrack.Builder()
+                    .setAudioAttributes(new AudioAttributes.Builder()
+                            .setUsage(AudioAttributes.USAGE_MEDIA)
+                            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                            .setLegacyStreamType(AudioManager.STREAM_MUSIC)
+                            .build())
+                    .setAudioFormat(new AudioFormat.Builder()
+                            .setEncoding(AUDIO_FORMAT)
+                            .setSampleRate(SAMPLE_RATE)
+                            .setChannelMask(CHANNEL)
+                            .build())
+                    .setTransferMode(AudioTrack.MODE_STREAM)
+                    .setBufferSizeInBytes(mBufferSizeInBytes)
+                    .build();
+        } else {
+            mAudioTrack = new AudioTrack(AudioManager.STREAM_MUSIC, SAMPLE_RATE, CHANNEL, AUDIO_FORMAT,
+                    mBufferSizeInBytes, AudioTrack.MODE_STREAM);
+        }
+        mStatus = Status.STATUS_READY;
+    }
+</code></pre>
+<ol start="2">
+<li>开始播放，不断从文件中读数据，然后向 Buffer 里面写数据。</li>
+</ol>
+<pre><code>    public void start() throws IllegalStateException {
+        if (mStatus == Status.STATUS_NO_READY || mAudioTrack == null) {
+            throw new IllegalStateException(&quot;播放器尚未初始化&quot;);
+        }
+        if (mStatus == Status.STATUS_START) {
+            throw new IllegalStateException(&quot;正在播放...&quot;);
+        }
+        Log.d(TAG, &quot;===start===&quot;);
+        mExecutorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    playAudioData();
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage());
+                    mMainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mContext, &quot;播放出错&quot;, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+        mStatus = Status.STATUS_START;
+    }
+
+    private void playAudioData() throws IOException {
+        DataInputStream dis = null;
+        try {
+            mMainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, &quot;播放开始&quot;, Toast.LENGTH_SHORT).show();
+                }
+            });
+            FileInputStream fis = new FileInputStream(mFilePath);
+            dis = new DataInputStream(new BufferedInputStream(fis));
+            byte[] bytes = new byte[mBufferSizeInBytes];
+            int len;
+            mAudioTrack.play();
+            while ((len = dis.read(bytes)) != -1 &amp;&amp; mStatus == Status.STATUS_START) {
+                mAudioTrack.write(bytes, 0, len);
+            }
+            mMainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(mContext, &quot;播放结束&quot;, Toast.LENGTH_SHORT).show();
+                }
+            });
+        } finally {
+            if (dis != null) {
+                dis.close();
+            }
+        }
+    }
+</code></pre>
+<ol start="3">
+<li>停止播放，释放资源。</li>
+</ol>
+<pre><code>    public void stop() throws IllegalStateException {
+        Log.d(TAG, &quot;===stop===&quot;);
+        if (mStatus == Status.STATUS_NO_READY || mStatus == Status.STATUS_READY) {
+            throw new IllegalStateException(&quot;播放尚未开始&quot;);
+        } else {
+            mAudioTrack.stop();
+            mStatus = Status.STATUS_STOP;
+            release();
+        }
+    }
+
+    public void release() {
+        Log.d(TAG, &quot;==release===&quot;);
+        if (mAudioTrack != null) {
+            mAudioTrack.release();
+            mAudioTrack = null;
+        }
+        mStatus = Status.STATUS_NO_READY;
+    }
+</code></pre>
+<p>具体代码在 <a href="https://github.com/isuperqiang/MultiMediaLearning/tree/master/app/src/main/java/com/richie/multimedialearning/audiotrack">GitHub</a> 上面，有需要的朋友可以参考一下。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://www.cnblogs.com/renhui/p/7463287.html">Android 音视频开发(三)：使用 AudioTrack 播放PCM音频</a></li>
+<li><a href="https://blog.csdn.net/bzlj2912009596/article/details/76101035">android音频系统之AudioTrack的使用</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/android-yin-shi-pin-zhi-shi-yong-audiorecord-cai-ji-yin-pin">
+                  <h3 class="post-title">
+                    Android 音视频之使用 AudioRecord 采集音频
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

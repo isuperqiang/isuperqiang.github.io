@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 2 期 | 落英坠露</title>
+<title>每周 ARTS 第 10 期 | 落英坠露</title>
 <meta name="description" content="技术让生活更美好">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -110,116 +110,140 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 2 期</h2>
-            <div class="post-date">2019-04-14</div>
+            <h2 class="post-title">每周 ARTS 第 10 期</h2>
+            <div class="post-date">2019-06-09</div>
             
             <div class="post-content">
               <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="35-搜索插入位置简单">35. 搜索插入位置（简单）</h3>
+<h3 id="226-翻转二叉树简单">226. 翻转二叉树（简单）</h3>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。你可以假设数组中无重复元素。</p>
+<p>翻转一棵二叉树</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code class="language-properties">输入: [1,3,5,6], 5
-输出: 2
-输入: [1,3,5,6], 7
-输出: 4
+<pre><code>示例：
+输入:
+    4
+  2    7
+1  3  6  9
+输出:
+    4
+  7    2
+9  6  3  1
 </code></pre>
 <h5 id="思路">思路：</h5>
-<blockquote>
 <ul>
-<li>解法一：因为是排序的数组，直接从头遍历，然后找到大于或者等于目标值的下标，就是结果。</li>
-<li>解法二：使用二分法查找，然后找到目标值或者左边界（low）。</li>
+<li>递归法：翻转一个二叉树，就是把根节点的左子树翻转一下，同样的把右子树翻转一下，再交换左右子树就可以了。</li>
+<li>迭代法：类似广度优先遍历的方式，使用队列存储尚未交换的节点，每次从队列取出一个结点，交互其左右子结点，直到队列为空。</li>
 </ul>
-</blockquote>
-<h5 id="解法">解法：</h5>
 <pre><code class="language-java">class Solution {
-    public int searchInsert(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
+    public TreeNode invertTreeRecursively(TreeNode root) {
+        if (root == null) {
+            return null;
         }
-        for (int i = 0; i &lt; nums.length; i++) {
-            if (nums[i] &gt;= target) {
-                return i;
-            }
-        }
-        return nums.length;
+
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        invertTreeRecursively(root.left);
+        invertTreeRecursively(root.right);
+        return root;
     }
 
-    public int searchInsertByBinary(int[] nums, int target) {
-        if (nums == null || nums.length == 0) {
-            return 0;
+    public TreeNode invertTreeIteratively(TreeNode root) {
+        if (root == null) {
+            return null;
         }
-        int min = 0;
-        int max = nums.length - 1;
-        while (min &lt;= max) {
-            int mid = (max + min) / 2;
-            if (nums[mid] &gt; target) {
-                max = mid - 1;
-            } else if (nums[mid] &lt; target) {
-                min = mid + 1;
-            } else {
-                return mid;
+
+        LinkedList&lt;TreeNode&gt; list = new LinkedList&lt;&gt;();
+        list.add(root);
+        while (list.isEmpty()) {
+            TreeNode current = list.poll();
+            TreeNode temp = current.left;
+            current.left = current.right;
+            current.right = temp;
+
+            if (current.left != null) {
+                list.add(current.left);
+            }
+            if (current.right != null) {
+                list.add(current.right);
             }
         }
-        return min;
+        return root;
     }
 }
 </code></pre>
 <h5 id="分析">分析：</h5>
+<p>递归和迭代法一样：</p>
 <ul>
-<li>时间复杂度：解法一 O(n)，解法二 O(logn)</li>
-<li>空间复杂度：O(1)</li>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
 </ul>
 <hr>
-<h3 id="69-x-的平方根简单">69. X 的平方根（简单）</h3>
+<h3 id="326-3-的幂简单">326. 3 的幂（简单）</h3>
 <h5 id="描述-2">描述：</h5>
 <blockquote>
-<p>实现 <code>int sqrt(int x)</code> 函数。计算并返回 <em>x</em> 的平方根，其中 <em>x</em> 是非负整数。</p>
-<p>由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。</p>
+<p>给定一个整数，写一个函数来判断它是否是 3 的幂次方。</p>
 </blockquote>
 <h5 id="示例-2">示例：</h5>
-<pre><code class="language-properties">输入: 4
-输出: 2
-输入: 8
-输出: 2
+<pre><code>输入: 27
+输出: true
 </code></pre>
 <h5 id="思路-2">思路：</h5>
-<blockquote>
-<pre><code>牛顿法 https://en.wikipedia.org/wiki/Integer_square_root
-注意防止整形越界。
-</code></pre>
-</blockquote>
-<h5 id="解法-2">解法：</h5>
+<ul>
+<li>解法一：累乘法</li>
+<li>解法二：3的幂次质因子只有3，而整数范围内的3的幂次最大是1162261467</li>
+</ul>
+<h5 id="解法">解法：</h5>
 <pre><code class="language-java">class Solution {
-    public int mySqrt(int x) {
-        if (x &lt;= 1) {
-            return x;
+    public boolean isPowerOfThree(int n) {
+        if (n &lt;= 0) {
+            return false;
         }
-        int r = x / 2;
-        while (r &gt; x / r) {
-            r = (r + x / r) / 2;
+        if (n == 1) {
+            return true;
         }
-        return r;
+        long m = 1;
+        while (m &lt; n) {
+            m *= 3;
+            if (m == n) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPowerOfThree2(int n) {
+        return n &gt; 0 &amp;&amp; 1162261467 % n == 0;
     }
 }
 </code></pre>
 <h5 id="分析-2">分析：</h5>
+<p>解法一：</p>
 <ul>
-<li>时间复杂度：O(logn)</li>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<p>解法二：</p>
+<ul>
+<li>时间复杂度：O(1)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
 <h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/s/story/readability-as-usability-78c5a2a373cc">What is readable code?</a>  什么是可读的代码？</p>
-<p>代码创建了接口，但是代码本身也是一种接口。就像生活中的门可以打开、关闭一样，开发者写代码可以添加新功能、修复错误。忘记代码的位置很容易，所以代码应该是可搜索的，简短通用的名称可以作为默认值表示。</p>
-<p>可读的代码应当容易安全地编辑，前提是要理解代码的逻辑。当变量名称具有表现力时，代码更容易编辑。可读的代码一定可用，另外看起来也漂亮。</p>
-<p>作者从 UI 层面举了几个例子，View 的状态和代码层面的变量产生对应关系，如果让用户清晰理解操作意图，那么代码也要保证逻辑是一致的。</p>
+<p><a href="https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53">Goodbye, Object Oriented Programming</a> 再见，面向对象编程</p>
+<p>作者是个有着多年经验的老程序员，他毫不留情地指出了面向对象编程的问题，分别从封装、继承和多态这三大支柱来阐述。</p>
+<ul>
+<li>继承最大的好处就是复用。但是出现了「猴子香蕉丛林」问题，我只想要一根香蕉，得到的却是香蕉丛林。钻石问题，继承关系的结构图就像钻石一样，这样容易造成调用混乱。还有基类问题，子类不知道基类的实现，从而引发操作错误。解决办法就是用组合替代继承，原意是包含和委托。</li>
+<li>封装使得对象保证内部的变量受保护，然而它却带来了一下问题。引用问题，给构造方法传参时，对象存在多个应用，这样对象就不安全了。解决办法是对象深拷贝，但不是所有对象都支持克隆。</li>
+<li>面向对象编程不需要多态，它完全可以基于接口来实现。</li>
+</ul>
+<p>最后作者告别了面向对象编程，转向函数式编程。</p>
+<p>虽然作者举出这么多 OOP 的问题，但是面向对象的思想依然非常流行。软件开发没有银弹，能够实现功能、解决问题的思想都是值得采用的。</p>
 <h2 id="3-tip">3. Tip</h2>
-<p>读《码出高效：Java 开发手册》集合篇看到 fail-fast 有感，<a href="https://www.jianshu.com/p/6d87c36bad3e">Java集合的fail-fast机制</a></p>
+<p>日常的琐事都用软件记录，比如有道云笔记、滴答清单、LastPass。大脑是用来思考的，不是用来记东西的，它充当的更多是 CPU 的角色，而不是硬盘。所以，让大脑轻松一下，用工具记录吧。</p>
 <h2 id="4-share">4. Share</h2>
-<p><a href="https://mp.weixin.qq.com/s/FkrrBLoB2YZ45fIQed0dsw">马蜂窝张矗：我对技术团队绩效考核管理的几点思考</a></p>
-<p>技术人员绩效考核一般难以量化，不好的衡量标准有代码行数、Bug 数量等。要关注目标，而不是任务，目标可量化。不同级别的人员，考核的重点不同。按月或按季度进行评估，周期不宜太长。</p>
+<p><a href="https://mp.weixin.qq.com/s/qodCngOPXGSaaBy2ULAgqg">关于线程和I/O模型的极简知识</a> 主要讲述了线程和 I/O 模型的演化历史，问题驱动模型的演化，每种模型都有各自的使用场景。</p>
 
             </div>
             
@@ -234,9 +258,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-1-qi">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-9-qi">
                   <h3 class="post-title">
-                    每周 ARTS 第 1 期
+                    每周 ARTS 第 9 期
                   </h3>
                 </a>
               </div>
