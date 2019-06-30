@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>从零开始编号的数组 | 落英坠露</title>
+<title>每周 ARTS 第 13 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,51 +115,82 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">从零开始编号的数组</h2>
-            <div class="post-date">2019-04-17</div>
+            <h2 class="post-title">每周 ARTS 第 13 期</h2>
+            <div class="post-date">2019-06-30</div>
             
             <div class="post-content">
-              <h3 id="1-如何实现随机访问">1. 如何实现随机访问</h3>
-<p>数组（Array）是一种<strong>线性表</strong>数据结构。它用一组<strong>连续的内存空间</strong>，来存储一组<strong>具有相同类型的数据</strong>。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190417-220939@2x.jpg" alt="数组"></p>
-<p>两个关键点：线性表、连续的内存空间和相同类型的数据</p>
-<p>线性表就是数据排成像一条线一样的结构。每个线性表上的数据最多只有前和后两个方向。除了数组，链表、队列、栈等也是线性表结构。而与它相对立的是非线性表，比如二叉树、堆、图等。在非线性表中，数据之间并不是简单的前后关系。</p>
-<p>连续的内存空间和相同类型的数据。正是因为这两个限制，数组才有了一个堪称「杀手锏」的特性：「随机访问」。但是，这两个限制也让数组的很多操作变得非常低效，比如要想在数组中删除、插入一个数据，为了保证连续性，就需要做大量的数据搬移工作。</p>
-<p>根据下标随机访问数组元素的时间复杂度为 O(1)。随机访问和查找不一样，即便是排好序的数组，用二分查找，时间复杂度也是 O(logn)。随机访问有个寻址公式：</p>
-<pre><code>a[i]_address = base_address + i * data_type_size
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="242-有效的字母异位词简单">242. 有效的字母异位词（简单）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: s = &quot;anagram&quot;, t = &quot;nagaram&quot;
+输出: true
 </code></pre>
-<p>其中 data_type_size 表示数组中每个元素的大小，base_address 是内存块的首地址。</p>
-<p>从数组存储的内存模型上来看，「下标」最确切的定义应该是「偏移量」，a[0] 就是偏移为 0 的位置，也就是首地址。</p>
-<h3 id="2-低效的插入和删除">2. 低效的插入和删除</h3>
-<p>插入和删除需要移动数据，时间复杂度都是 O(n)。</p>
-<p>例外情况：</p>
-<ol>
-<li>当数组中存储的元素不要求有序时，如果要插入到第 k 个位置，那么把该位置的数据放到数组末尾，新元素放到第 k 位。比如原数组：[a, b, c, d]，把 x 插入到第 2 位，数组变为 [a, x, c, d, b]。</li>
-<li>删除元素时，标记被删除的数据，并不会真正地搬移数据，当数组没有更多的空间时，触发一次真正删除操作，这样就大大减少了数据移动。这其实就是 JVM 标记清除垃圾回收算法的核心思想。</li>
-</ol>
-<h3 id="3-警惕数组访问越界">3. 警惕数组访问越界</h3>
-<p>Java 语言会做数据越界检查，而 C 语言不会。数组越界时一般都会出现莫名其妙的逻辑错误，debug 的难度非常的大。所以写代码的时候一定要警惕数组越界。</p>
-<h3 id="4-容器能否完全代替数组">4. 容器能否完全代替数组</h3>
-<p>ArrayList 最大的优势就是可以<strong>将很多数组操作的细节封装起来</strong>，<strong>支持动态扩容</strong>。</p>
-<p>每次存储空间不够的时候，ArrayList 会将空间自动扩容为原来的 1.5 倍大小。扩容操作比较耗时，涉及内存申请和数据搬移。所以，如果事先能确定需要存储的数据大小，最好在<strong>创建 ArrayList 的时候事先指定数据大小</strong>。</p>
-<pre><code class="language-java">        ArrayList&lt;String&gt; a = new ArrayList&lt;&gt;(666); // 推荐
-        ArrayList&lt;String&gt; b = new ArrayList&lt;&gt;(); // 不推荐
+<h5 id="思路">思路：</h5>
+<p>统计 s 中每个字母出现的次数，遍历 t 中的字母减去相应的次数。如果次数小于 0，那么认为是 false。</p>
+<pre><code class="language-java">class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s == null || t == null || s.length() != t.length()) {
+            return false;
+        }
+
+        int[] counter = new int[26];
+        for (int i = 0, size = s.length(); i &lt; size; i++) {
+            counter[s.charAt(i) - 'a']++;
+        }
+        for (int i = 0, size = t.length(); i &lt; size; i++) {
+            char c = t.charAt(i);
+            counter[c - 'a']--;
+            if (counter[c - 'a'] &lt; 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
 </code></pre>
-<p>更适合用数组的场景：</p>
-<ol>
-<li>ArrayList 无法存储基本类型，比如 int，需要封装为 Integer 类，而装箱、拆箱则有一定的性能消耗，所以如果特别关注性能，或者想使用基本类型，就可以选用数组。</li>
-<li>如果数据大小事先已知，并且对数据的操作非常简单，用不到 ArrayList 提供的大部分方法，也可以直接使用数组。</li>
-<li>当表示多维数组时，用数组往往会更加直观。比如 Object[][] array；而用容器的话则需要这样定义：ArrayList<ArrayList> array。</li>
-</ol>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/devtrailsio/how-to-become-a-better-software-developer-dd16072c974e">How to Become a Better Software Developer</a> 如何成为更好的软件开发者</p>
+<p>作者分享了一些提升技能和高效工作的方法，这里简单列举几条：</p>
+<ul>
+<li>从端到端理解流程。程序员不要低头写代码，应该关注软件开发的其他方面，比如产品、设计、测试等。</li>
+<li>理解客户的需求。客户不懂技术，我们要赢得客户的信任，多站在客户的角度考虑。</li>
+<li>为工作选择正确的工具。不要限制自己思维，要提出不同的方案。尝试新事物时，要注意到安全性。</li>
+<li>站在巨人的肩膀上。不要重复造轮子，但是可以通过重新实现来学习。</li>
+<li>关心自己如何工作。提升个人和团队的研发效能，比如完善的工作流程、项目计划等。</li>
+<li>专注于基础。IT 行业瞬息万变，新框架层出不穷，唯有基础知识是一成不变的。</li>
+<li>其他的经验：积极分享知识，不要指责自己和他人，不要做刺头。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近在读《Java并发编程实战》，里面讲了一些线程安全的技巧和概念，比如原子性、可见性、不可变对象。线程安全的核心在于对共享和可变的对象进行访问控制，采用同步机制（synchronized），同步的代码块保持精细。不可变对象一定是线程安全的，比如 String。加锁机制可以确保可见性和原子性，而 volatile 只能保证可见性。</p>
+<h2 id="4-share">4. Share</h2>
+<p>19 年过半，我发现有些目标做到一半就停止了，执行力还需要提高。计划-执行-坚持。</p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
+                    ARTS
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-2-qi">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi">
                   <h3 class="post-title">
-                    每周 ARTS 第 2 期
+                    每周 ARTS 第 12 期
                   </h3>
                 </a>
               </div>

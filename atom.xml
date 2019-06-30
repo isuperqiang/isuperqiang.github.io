@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-06-25T23:23:39.310Z</updated>
+    <updated>2019-06-30T11:50:50.840Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,69 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 13 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-13-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-13-qi">
+        </link>
+        <updated>2019-06-30T11:50:17.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="242-有效的字母异位词简单">242. 有效的字母异位词（简单）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: s = &quot;anagram&quot;, t = &quot;nagaram&quot;
+输出: true
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>统计 s 中每个字母出现的次数，遍历 t 中的字母减去相应的次数。如果次数小于 0，那么认为是 false。</p>
+<pre><code class="language-java">class Solution {
+    public boolean isAnagram(String s, String t) {
+        if (s == null || t == null || s.length() != t.length()) {
+            return false;
+        }
+
+        int[] counter = new int[26];
+        for (int i = 0, size = s.length(); i &lt; size; i++) {
+            counter[s.charAt(i) - 'a']++;
+        }
+        for (int i = 0, size = t.length(); i &lt; size; i++) {
+            char c = t.charAt(i);
+            counter[c - 'a']--;
+            if (counter[c - 'a'] &lt; 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<hr>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/devtrailsio/how-to-become-a-better-software-developer-dd16072c974e">How to Become a Better Software Developer</a> 如何成为更好的软件开发者</p>
+<p>作者分享了一些提升技能和高效工作的方法，这里简单列举几条：</p>
+<ul>
+<li>从端到端理解流程。程序员不要低头写代码，应该关注软件开发的其他方面，比如产品、设计、测试等。</li>
+<li>理解客户的需求。客户不懂技术，我们要赢得客户的信任，多站在客户的角度考虑。</li>
+<li>为工作选择正确的工具。不要限制自己思维，要提出不同的方案。尝试新事物时，要注意到安全性。</li>
+<li>站在巨人的肩膀上。不要重复造轮子，但是可以通过重新实现来学习。</li>
+<li>关心自己如何工作。提升个人和团队的研发效能，比如完善的工作流程、项目计划等。</li>
+<li>专注于基础。IT 行业瞬息万变，新框架层出不穷，唯有基础知识是一成不变的。</li>
+<li>其他的经验：积极分享知识，不要指责自己和他人，不要做刺头。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近在读《Java并发编程实战》，里面讲了一些线程安全的技巧和概念，比如原子性、可见性、不可变对象。线程安全的核心在于对共享和可变的对象进行访问控制，采用同步机制（synchronized），同步的代码块保持精细。不可变对象一定是线程安全的，比如 String。加锁机制可以确保可见性和原子性，而 volatile 只能保证可见性。</p>
+<h2 id="4-share">4. Share</h2>
+<p>19 年过半，我发现有些目标做到一半就停止了，执行力还需要提高。计划-执行-坚持。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 12 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi</id>
@@ -966,76 +1029,6 @@ f1 and f2 are equal using BigDecimal
 <h2 id="4-share">4. Share</h2>
 <p><a href="https://mp.weixin.qq.com/s/M1E_UrkCQ3PNnGsyqpKc1A">从程序员到架构师 - 技能篇</a></p>
 <p>架构师只是功底深厚的程序员。程序员从初级、中级、高级再到架构师，是一个不断经验积累的过程。在程序员生涯中，除了技术实力以外，其它软实力也不容忽视。如：主动学习、积累经验、控制注意力、超越自我。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[散列表（中）：如何打造一个工业级的散列表]]></title>
-        <id>https://isuperqiang.cn/post/san-lie-biao-zhong-ru-he-da-zao-yi-ge-gong-ye-ji-de-san-lie-biao</id>
-        <link href="https://isuperqiang.cn/post/san-lie-biao-zhong-ru-he-da-zao-yi-ge-gong-ye-ji-de-san-lie-biao">
-        </link>
-        <updated>2019-05-12T09:12:10.000Z</updated>
-        <content type="html"><![CDATA[<p>工业级的散列表应该具有哪些特性？</p>
-<ul>
-<li>支持快速的查询、插入、删除操作；</li>
-<li>内存占用合理，不能浪费过多的内存空间；</li>
-<li>性能稳定，极端情况下，散列表的性能也不会退化到无法接受的情况。</li>
-</ul>
-<p>如何实现这样一个散列表呢？我会从这三个方面来考虑设计思路：</p>
-<ul>
-<li>设计一个合适的散列函数；</li>
-<li>定义装载因子阈值，并且设计动态扩容策略；</li>
-<li>选择合适的散列冲突解决方法。</li>
-</ul>
-<h3 id="1-如何设计散列函数">1. 如何设计散列函数</h3>
-<p>首先，散列函数的设计不能太复杂。否则会消耗很多计算时间，影响散列表的性能。其次，散列函数生成的值要尽可能随机并且均匀分布，这样才能避免或者最小化散列冲突。</p>
-<p>常见的散列函数设计方法：直接寻址法、平方取中法、折叠法、随机数法等。</p>
-<h3 id="2-如何根据装载因子动态扩容">2. 如何根据装载因子动态扩容</h3>
-<h4 id="1-设置装载因子阈值">1. 设置装载因子阈值</h4>
-<p>针对散列表，当装载因子过大时，我们可以进行动态扩容，重新申请一个更大的散列表，将数据搬移到这个新散列表中，还需要通过散列函数重新计算每个数据的存储位置。对于支持动态扩容的散列表，插入数据的时间复杂度使用摊还分析法是 O(1)。</p>
-<p>装载因子阈值的设置要权衡时间、空间复杂度。如果内存空间不紧张，对执行效率要求很高，可以降低负载因子的阈值；相反，如果内存空间紧张，对执行效率要求又不高，可以增加负载因子的值，甚至可以大于 1。</p>
-<h4 id="2-避免低效扩容">2. 避免低效扩容</h4>
-<p><strong>分批扩容</strong></p>
-<p>为了解决一次性扩容耗时过多的情况，可以将扩容操作穿插在插入操作的过程中，分批完成。</p>
-<p>分批扩容的插入操作：当有新数据要插入时，将数据插入新散列表，并且从老散列表中取出一个数据放入新散列表。每次插入都重复上面的过程。</p>
-<p>分批扩容的查询操作：先查找新散列表，如果没有找到，再查找老散列表。</p>
-<p>通过均摊的方式，任何情况下，插入一个数据的时间复杂度都是O(1)。</p>
-<h3 id="3-如何选择冲突解决方法">3. 如何选择冲突解决方法</h3>
-<p>开放寻址法和链表法在实际的软件开发中都非常常用。比如，Java 中 <code>LinkedHashMap</code> 就采用了链表法解决冲突，<code>ThreadLocalMap</code> 是通过线性探测的开放寻址法来解决冲突。</p>
-<h4 id="开放寻址法">开放寻址法</h4>
-<p><strong>优点：</strong></p>
-<ul>
-<li>散列表中的数据都存储在数组中，可以有效地利用 CPU 缓存加快查询速度。</li>
-<li>没有指针，序列化起来比较简单。</li>
-</ul>
-<p><strong>缺点：</strong></p>
-<ul>
-<li>删除数据的时候比较麻烦，需要特殊标记已经删除的数据。</li>
-<li>数据存储在一个数组中，比起链表法，冲突的代价更高。</li>
-<li>装载因子的上限不能太大，比链表法更浪费内存空间。</li>
-</ul>
-<p><strong>结论：</strong>
-当数据量比较小、装载因子小的时候，适合采用开放寻址法。这也是 Java 中的 <code>ThreadLocalMap</code> 使用开放寻址法解决散列冲突的原因。</p>
-<h4 id="链表法">链表法</h4>
-<p><strong>优点：</strong></p>
-<ul>
-<li>链表法对内存的利用率比开放寻址法要高。</li>
-<li>链表法比起开放寻址法，对大装载因子的容忍度更高。</li>
-</ul>
-<p><strong>缺点：</strong></p>
-<ul>
-<li>对于比较小的对象的存储，是比较消耗内存的。</li>
-<li>对 CPU 缓存是不友好的，对执行效率有一定的影响。</li>
-</ul>
-<p><strong>结论：</strong>
-基于链表的散列冲突处理方法比较适合存储大对象、大数据量的散列表，而且，比起开放寻址法，它更加灵活，支持更多的优化策略，比如用红黑树代替链表。</p>
-<h3 id="4-工业级散列表举例分析">4. 工业级散列表举例分析</h3>
-<p>Java 中的 <code>HashMap</code>。</p>
-<ul>
-<li>默认初始大小 16</li>
-<li>默认最大装载因子 0.75，扩容到原来的两倍</li>
-<li>链表法解决冲突，JDK1.8 后引入红黑树</li>
-<li>散列函数 <code>(h ^ (h &gt;&gt;&gt; 16)) &amp; (capitity -1);</code></li>
-</ul>
 ]]></content>
     </entry>
 </feed>
