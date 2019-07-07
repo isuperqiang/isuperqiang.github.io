@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 5 期 | 落英坠露</title>
+<title>每周 ARTS 第 14 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,96 +115,72 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 5 期</h2>
-            <div class="post-date">2019-05-04</div>
+            <h2 class="post-title">每周 ARTS 第 14 期</h2>
+            <div class="post-date">2019-07-07</div>
             
             <div class="post-content">
               <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="83-删除排序链表中的重复元素简单">83. 删除排序链表中的重复元素（简单）</h3>
+<h3 id="78-子集中等">78. 子集（中等）</h3>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。</p>
+<p>给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。解集不能包含重复的子集。</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code class="language-properties">输入: 1-&gt;1-&gt;2-&gt;3-&gt;3
-输出: 1-&gt;2-&gt;3
+<pre><code>输入: nums = [1,2,3]
+输出:
+[
+  [3],
+  [1],
+  [2],
+  [1,2,3],
+  [1,3],
+  [2,3],
+  [1,2],
+  []
+]
 </code></pre>
 <h5 id="思路">思路：</h5>
-<blockquote>
-<p>从头开始遍历链表，比较前后两个节点元素的值。如果相等就修改前置指针，不想等就继续往后移动。</p>
-</blockquote>
-<h5 id="解法">解法：</h5>
+<p>利用二进制与位运算：
+数组中的每个元素，都有两个状态：在子数组中和不在子数组中。所有状态的组合就是所有的子数组。
+遍历 000 到 111，也就是 0 到 7，判断每个比特位是否为 1，如果是 1，那么将对应数字加入子数组。</p>
 <pre><code class="language-java">class Solution {
-    public ListNode deleteDuplicates(ListNode head) {
-        if (head == null) {
-            return null;
+    public List&lt;List&lt;Integer&gt;&gt; subsets(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return Collections.emptyList();
         }
-        ListNode lastNose = head;
-        ListNode currentNode = head;
-        while ((currentNode = currentNode.next) != null){
-            if(lastNose.val == currentNode.val){
-                lastNose.next = currentNode.next;
-            } else {
-                lastNose = currentNode;
+
+        List&lt;Integer&gt; subList;
+        int resultLength = 1 &lt;&lt; nums.length;
+        List&lt;List&lt;Integer&gt;&gt; resultList = new ArrayList&lt;&gt;(resultLength);
+        for (int i = 0, numsLength = nums.length; i &lt; resultLength; i++) {
+            subList = new ArrayList&lt;&gt;(numsLength);
+            for (int j = 0; j &lt; numsLength; j++) {
+                if ((i &gt;&gt; j &amp; 1) == 1) {
+                    subList.add(nums[j]);
+                }
             }
+            resultList.add(subList);
         }
-        return head;
+        return resultList;
     }
 }
 </code></pre>
 <h5 id="分析">分析：</h5>
 <ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
+<li>时间复杂度：O(n^2)</li>
+<li>空间复杂度：O(n)</li>
 </ul>
 <hr>
-<h3 id="231-2-的幂简单">231. 2 的幂（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>给定一个整数，编写一个函数来判断它是否是 2 的幂次方。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code class="language-properties">输入: 16
-输出: true
-解释: 24 = 16
-</code></pre>
-<h5 id="思路-2">思路：</h5>
-<blockquote>
-<p>如果一个数是2的幂次，那么它的二进制表示一定只有一个1。比如8的二进制 00001000，现在把这个数减1，得到 00000111。发现低4位是按位取反，这时候（n&amp;n-1）的结果就一定是0。如果一个数不是2的幂次，那么它的二进制数里1的个数就大于1（0除外）。n 和 n-1 就不会出现左边都是0的现象了，n&amp;(n-1) 一定不是0。</p>
-</blockquote>
-<h5 id="解法-2">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public boolean isPowerOfTwo(int n) {
-        if (n &lt;= 0) {
-            return false;
-        }
-        return (n &amp; (n - 1)) == 0;
-    }
-}
-</code></pre>
-<h5 id="分析-2">分析：</h5>
-<ul>
-<li>时间复杂度：O(1)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
 <h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.freecodecamp.org/why-you-are-never-too-old-to-learn-java-or-any-programming-language-a62603e89448">Why you are never too old to learn Java (or any programming language)</a> 为什么任何时候学习 Java 都不算晚</p>
-<p>作者是位 Java 课程的讲师，文章的主旨是任何时候学习一项新技能都不算晚，比如 30 多岁学习编程。职业不是终身不变的，只要你愿意，就可以不断学习。学到老，学到老。</p>
-<p>作者阐述了学习 Java 的 5 个原因：</p>
-<ul>
-<li>学习新东西，可以活跃你的大脑，大脑总是越用越灵活。</li>
-<li>现在有许多在线课程和资料，没有人在乎你的年龄。</li>
-<li>年龄无关，想学新东西什么时候都不晚。</li>
-<li>学习 Java 就像学习其他技能一样。</li>
-<li>现在就是最好的时间，开始学习吧。</li>
-</ul>
-<p>这是作者针对国外的情况写的，从国内的环境来看，30多岁再学习编程，进入企业的优势非常小。明明是一门靠手艺吃饭的职业，非要变成靠体力消耗，程序员年轻化已经成为常态。</p>
+<p><a href="https://blog.usejournal.com/what-i-learned-in-my-first-two-years-as-a-software-engineer-4e374fdcf0fd">What I Learned in My First Two Years as a Software Engineer</a> 在我做软件工程师的前两年里学到了什么</p>
+<p>作者讲了两个故事。</p>
+<p>第一个故事，读大学时导师布置任务，完成好的学生会被分到一组，完成差的学生要么努力挤进好学生队伍，要么放弃，好学生不会帮助差学生，导师奖励做得好的学生。然而进入公司后，如果再采用这种原则，同事之间不免发生矛盾。完成任务不是唯一的事情，与同事的关系和硬技能同样重要。</p>
+<p>第二个故事，作者在结对编程时遇到了 Bob，Bob 经常对项目提出问题，帮助作者解决潜在的 bug，此时无招胜有招，因此作者非常佩服 Bob。优秀的问题解决者在给出方案之前，会提出很多问题，用论证影响团队的成员，表现出领导力。</p>
+<p>最后，作者总结了一些教训。处理好与同事的关系，编程不比家庭、友谊、健康重要，尽可能做最好的工程师。</p>
 <h2 id="3-tip">3. Tip</h2>
-<p>最近在学习音视频编解码。简单来讲，编码就是压缩，解码就是解压。编码的目的是减小数据的体积，方便网络传输和本地存储。编码后的数据是不能直接使用的，必须先解码成原来的样子。就像 zip 压缩文件里面有张图片，我们用图片查看器是无法打开的，必须先解压文件，恢复图片原来的数据，这样才能查看。音视频编解码也是同样的道理。</p>
+<p>《Java并发编程实战》中讲到单例设计模式的几种线程安全的实现方式：延迟初始化、提前初始化、延迟初始化占位类和双重检查锁。其中，双重检查锁的实例变量要声明为 volatile 才有效，作者称其为糟糕的实现，不如静态的占位类优雅。</p>
 <h2 id="4-share">4. Share</h2>
-<p><a href="https://mp.weixin.qq.com/s/qGC08VgXc66t0WT7mgZxhA">写代码这条路，能走多远？工程师能力模型告诉你</a></p>
-<p>从能力习得速度和技能演进速度两个维度分析，程序员发生职业危机的可能性非常高。解决问题的三条出路：技术专家、管理岗、产品运营等。适合于走哪个路线，需要结合自己的性格来定。</p>
-<p>技术专家的能力模型，处于中心的是行为处事的准则，也就是正确的思想观念。其中最核心的观念就是要把职业生涯当作自己的事业，为自己而工作，把提升自身能力作为事业的目标。围绕着这一核心的还包括以结果导向、主动承担责任的观念和既精又专的技术、团队协作能力等</p>
+<p>近期在优化项目代码，发现在渲染每帧图像的时候，存在大量无用的对象创建。这么来看，Android 屏幕的刷新速率是 60 FPS，高密集地创建对象导致堆空间占满，造成频繁的垃圾回收，不利于程序的性能。我们要避免这种操作，做一个环保的程序员。</p>
 
             </div>
             
@@ -219,9 +195,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/android-shi-yong-opengl-es-hui-zhi-tu-pian">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-13-qi">
                   <h3 class="post-title">
-                    Android 使用 OpenGL ES 绘制图片
+                    每周 ARTS 第 13 期
                   </h3>
                 </a>
               </div>
