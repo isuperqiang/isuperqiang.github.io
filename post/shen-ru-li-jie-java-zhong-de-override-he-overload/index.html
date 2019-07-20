@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>深入理解 Java 中的 override 和 overload | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">深入理解 Java 中的 override 和 overload</h2>
+            <div class="post-date">2019-07-20</div>
+            
+            <div class="post-content">
+              <p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
+<!-- more -->
+<h3 id="1-override">1. override</h3>
+<p>override 出现在继承关系中，子类覆写父类的实例方法，为它提供专门的实现。举个例子：</p>
+<pre><code class="language-java">public class Animal {
+    public void bark() {
+        System.out.println(&quot;动物叫声&quot;);
+    }
+}
+
+public class Cat extends Animal {
+    @Override
+    public void bark() {
+        System.out.println(&quot;喵喵&quot;);
+    }
+}
+
+    public static void main(String[] args) {
+        // 向上转型
+				Animal cat = new Cat();
+        cat.bark(); // 打印 喵喵
+    }
+</code></pre>
+<p>override 的绑定发生在运行期，属于动态绑定，由实例对象决定调用哪个方法，动态绑定是多态性得以实现的重要因素。这里有几点需要注意的地方：</p>
+<ul>
+<li>子类的方法访问权限只能相同或变大。比如父类方法是 protected，子类可以是 public，不能是 private。</li>
+<li>抛出异常和返回值只能变小，它们能够转型成父类对象。比如父类方法返回值 Number，子类可以返回 Integer，不能返回 Object。</li>
+<li>方法签名必须完全相同。方法签名包括方法名称和参数列表，是 JVM 标识方法的唯一索引，不包括返回值，其中参数列表分为类型和个数。</li>
+<li>覆写方法必须要加上 <code>@Override</code> 注解，为了使编译器自动检查覆写是否满足规则。</li>
+</ul>
+<p>覆写只能用于类的不被 final 和 private 修饰的实例方法，不能用于静态方法，如果父类和子类中存在同名的静态方法，那么两者都可以被正常调用。</p>
+<h3 id="2-overload">2. overload</h3>
+<p>overload 出现在同一个类中，多个方法具有相同名字、不同的参数。举个例子：</p>
+<pre><code class="language-java">public class Cat {
+    public void bark() {
+        System.out.println(&quot;喵喵&quot;);
+    }
+
+    public void bark(int num) {
+        for (int i = 1; i &lt;= num; i++) {
+            System.out.println(&quot;第 &quot; + i + &quot; 声喵喵&quot;);
+        }
+    }
+}
+</code></pre>
+<p>overload 的绑定发生在编译期，属于静态绑定，由方法签名决定调用哪个方法。需要注意的是，方法签名包括方法名称、参数类型和个数，不包括返回值。</p>
+<p>当重载的方法参数比较复杂时，JVM 选择合适的目标方法的顺序如下：</p>
+<ul>
+<li>精确匹配</li>
+<li>如果是基本数据类型，自动转换成更大表示范围的基本类型</li>
+<li>通过自动拆箱与装箱</li>
+<li>通过子类向上转型继承路线依次匹配</li>
+<li>通过可变参数匹配</li>
+</ul>
+<p>下面通过例子说明。</p>
+<ol>
+<li>基本数据类型优先于包装数据类型。</li>
+</ol>
+<pre><code class="language-java">    public void mo(int a) {
+        System.out.println(&quot;primary int type&quot;);
+    }
+
+    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+
+    Cat cat = new Cat();
+    cat.mo(1); // 打印 primary int type
+</code></pre>
+<ol start="2">
+<li>更大范围的基本数据类型优先于包装数据类型。</li>
+</ol>
+<pre><code class="language-java">    public void mo(long a) {
+        System.out.println(&quot;primary long type&quot;);
+    }
+
+    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+    
+    Cat cat = new Cat();
+    cat.mo(1); // 打印 primary long type
+</code></pre>
+<ol start="3">
+<li>null 可以匹配任何类对象，从最底层子类依次向上查找。</li>
+</ol>
+<pre><code class="language-java">    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+
+    public void mo(Object a) {
+        System.out.println(&quot;object type&quot;);
+    }
+
+//  如果包含 String 参数，那么编译器不知道匹配哪个，直接报错。
+//  public void mo(String s) {
+//      System.out.println(&quot;string type&quot;);
+//  }
+
+    Cat cat = new Cat();
+    cat.mo(null); // 打印 wrapper int type
+</code></pre>
+<ol start="4">
+<li>自动装箱和拆箱优先于可变参数。</li>
+</ol>
+<pre><code class="language-java">    public void mo(Integer a, Integer b){
+        System.out.println(&quot;double wrapper int type&quot;);
+    }
+
+    public void mo(int... a) {
+        System.out.println(&quot;primary int array type&quot;);
+    }
+    
+    Cat cat = new Cat();
+    cat.mo(1, 2); // 打印 double wrapper int type
+</code></pre>
+<p>...</p>
+<p>重载的参数类型应该简洁些，这样才能提高代码的可读性。</p>
+<h3 id="3-总结">3. 总结</h3>
+<p>override 和 overload 有很多不同之处：</p>
+<ul>
+<li>override 属于动态绑定，在运行期通过实例对象决定调用的方法；overload 属于静态绑定，在编译期通过方法签名决定调用的方法。</li>
+<li>override 基于继承关系，需要父类和子类参与；overload 出现在同一个类中，通过方法签名区分。</li>
+<li>static、final、private 方法不能被 override，但是可以被 overload。</li>
+<li>override 关注方法返回值，overload 不关注返回值。</li>
+<li>override 的方法参数必须一样，overload 的方法参数必须不同。</li>
+<li>overload 的性能比 override 更好些，应为它是静态绑定。</li>
+</ul>
+<p><strong>参考：</strong></p>
+<ul>
+<li>《码出高效：Java开发手册》</li>
+<li><a href="https://stackoverflow.com/questions/19017258/static-vs-dynamic-binding-in-java">Static Vs. Dynamic Binding in Java</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/java" class="tag">
+                    Java
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-15-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 15 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>

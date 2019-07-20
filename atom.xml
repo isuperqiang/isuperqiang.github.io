@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-07-14T12:11:25.612Z</updated>
+    <updated>2019-07-20T03:27:07.213Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,149 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解 Java 中的 override 和 overload]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload">
+        </link>
+        <updated>2019-07-20T03:25:13.000Z</updated>
+        <summary type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
+<!-- more -->
+<h3 id="1-override">1. override</h3>
+<p>override 出现在继承关系中，子类覆写父类的实例方法，为它提供专门的实现。举个例子：</p>
+<pre><code class="language-java">public class Animal {
+    public void bark() {
+        System.out.println(&quot;动物叫声&quot;);
+    }
+}
+
+public class Cat extends Animal {
+    @Override
+    public void bark() {
+        System.out.println(&quot;喵喵&quot;);
+    }
+}
+
+    public static void main(String[] args) {
+        // 向上转型
+				Animal cat = new Cat();
+        cat.bark(); // 打印 喵喵
+    }
+</code></pre>
+<p>override 的绑定发生在运行期，属于动态绑定，由实例对象决定调用哪个方法，动态绑定是多态性得以实现的重要因素。这里有几点需要注意的地方：</p>
+<ul>
+<li>子类的方法访问权限只能相同或变大。比如父类方法是 protected，子类可以是 public，不能是 private。</li>
+<li>抛出异常和返回值只能变小，它们能够转型成父类对象。比如父类方法返回值 Number，子类可以返回 Integer，不能返回 Object。</li>
+<li>方法签名必须完全相同。方法签名包括方法名称和参数列表，是 JVM 标识方法的唯一索引，不包括返回值，其中参数列表分为类型和个数。</li>
+<li>覆写方法必须要加上 <code>@Override</code> 注解，为了使编译器自动检查覆写是否满足规则。</li>
+</ul>
+<p>覆写只能用于类的不被 final 和 private 修饰的实例方法，不能用于静态方法，如果父类和子类中存在同名的静态方法，那么两者都可以被正常调用。</p>
+<h3 id="2-overload">2. overload</h3>
+<p>overload 出现在同一个类中，多个方法具有相同名字、不同的参数。举个例子：</p>
+<pre><code class="language-java">public class Cat {
+    public void bark() {
+        System.out.println(&quot;喵喵&quot;);
+    }
+
+    public void bark(int num) {
+        for (int i = 1; i &lt;= num; i++) {
+            System.out.println(&quot;第 &quot; + i + &quot; 声喵喵&quot;);
+        }
+    }
+}
+</code></pre>
+<p>overload 的绑定发生在编译期，属于静态绑定，由方法签名决定调用哪个方法。需要注意的是，方法签名包括方法名称、参数类型和个数，不包括返回值。</p>
+<p>当重载的方法参数比较复杂时，JVM 选择合适的目标方法的顺序如下：</p>
+<ul>
+<li>精确匹配</li>
+<li>如果是基本数据类型，自动转换成更大表示范围的基本类型</li>
+<li>通过自动拆箱与装箱</li>
+<li>通过子类向上转型继承路线依次匹配</li>
+<li>通过可变参数匹配</li>
+</ul>
+<p>下面通过例子说明。</p>
+<ol>
+<li>基本数据类型优先于包装数据类型。</li>
+</ol>
+<pre><code class="language-java">    public void mo(int a) {
+        System.out.println(&quot;primary int type&quot;);
+    }
+
+    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+
+    Cat cat = new Cat();
+    cat.mo(1); // 打印 primary int type
+</code></pre>
+<ol start="2">
+<li>更大范围的基本数据类型优先于包装数据类型。</li>
+</ol>
+<pre><code class="language-java">    public void mo(long a) {
+        System.out.println(&quot;primary long type&quot;);
+    }
+
+    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+    
+    Cat cat = new Cat();
+    cat.mo(1); // 打印 primary long type
+</code></pre>
+<ol start="3">
+<li>null 可以匹配任何类对象，从最底层子类依次向上查找。</li>
+</ol>
+<pre><code class="language-java">    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+
+    public void mo(Object a) {
+        System.out.println(&quot;object type&quot;);
+    }
+
+//  如果包含 String 参数，那么编译器不知道匹配哪个，直接报错。
+//  public void mo(String s) {
+//      System.out.println(&quot;string type&quot;);
+//  }
+
+    Cat cat = new Cat();
+    cat.mo(null); // 打印 wrapper int type
+</code></pre>
+<ol start="4">
+<li>自动装箱和拆箱优先于可变参数。</li>
+</ol>
+<pre><code class="language-java">    public void mo(Integer a, Integer b){
+        System.out.println(&quot;double wrapper int type&quot;);
+    }
+
+    public void mo(int... a) {
+        System.out.println(&quot;primary int array type&quot;);
+    }
+    
+    Cat cat = new Cat();
+    cat.mo(1, 2); // 打印 double wrapper int type
+</code></pre>
+<p>...</p>
+<p>重载的参数类型应该简洁些，这样才能提高代码的可读性。</p>
+<h3 id="3-总结">3. 总结</h3>
+<p>override 和 overload 有很多不同之处：</p>
+<ul>
+<li>override 属于动态绑定，在运行期通过实例对象决定调用的方法；overload 属于静态绑定，在编译期通过方法签名决定调用的方法。</li>
+<li>override 基于继承关系，需要父类和子类参与；overload 出现在同一个类中，通过方法签名区分。</li>
+<li>static、final、private 方法不能被 override，但是可以被 overload。</li>
+<li>override 关注方法返回值，overload 不关注返回值。</li>
+<li>override 的方法参数必须一样，overload 的方法参数必须不同。</li>
+<li>overload 的性能比 override 更好些，应为它是静态绑定。</li>
+</ul>
+<p><strong>参考：</strong></p>
+<ul>
+<li>《码出高效：Java开发手册》</li>
+<li><a href="https://stackoverflow.com/questions/19017258/static-vs-dynamic-binding-in-java">Static Vs. Dynamic Binding in Java</a></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 15 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-15-qi</id>
@@ -877,174 +1020,6 @@ f1 and f2 are equal using BigDecimal
 <h2 id="4-share">4. Share</h2>
 <p><a href="https://www.zhihu.com/question/312019918">作为 IT 行业的过来人，你有什么话想对后辈说的？</a></p>
 <p>从老一代 IT 人的经历中，得到一些发展和行为的启示。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 8 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-8-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-8-qi">
-        </link>
-        <updated>2019-05-26T03:36:25.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="101-对称二叉树简单">101. 对称二叉树（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个二叉树，检查它是否是镜像对称的。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
-         1
-       /   \
-      2     2
-     / \   /  \
-    3   4 4    3
-</code></pre>
-<h5 id="思路">思路：</h5>
-<blockquote>
-<ul>
-<li>递归法：如果同时满足下面的条件，两个树互为镜像：它们的两个根结点具有相同的值；每个树的右子树都与另一个树的左子树镜像对称。</li>
-<li>迭代法：类似广度优先遍历，但要把队列存的值 Double 一下。每次提取两个结点并比较它们的值。然后将两个结点的左右子结点按相反的顺序插入队列中。当队列为空时，或者我们检测到树不对称（即从队列中取出两个不相等的连续结点）时，算法结束。</li>
-</ul>
-</blockquote>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-      // 迭代法
-    public boolean isSymmetric2(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-
-        Queue&lt;TreeNode&gt; q = new LinkedList&lt;&gt;();
-        q.add(root);
-        q.add(root);
-        while (q.size() &gt; 0) {
-            TreeNode left = q.poll();
-            TreeNode right = q.poll();
-            if (left == null &amp;&amp; right == null) {
-                continue;
-            }
-            if (left == null || right == null) {
-                return false;
-            }
-            if (left.val != right.val) {
-                return false;
-            }
-            q.add(left.left);
-            q.add(right.right);
-            q.add(left.right);
-            q.add(right.left);
-        }
-        return true;
-    }
-
-    // 递归法
-    public boolean isSymmetric(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        return isMirror(root.left, root.right);
-    }
-
-    private boolean isMirror(TreeNode left, TreeNode right) {
-        if (left == null &amp;&amp; right == null) {
-            return true;
-        }
-
-        if (left == null || right == null) {
-            return false;
-        }
-
-        if (left.val == right.val) {
-            return isMirror(left.left, right.right) &amp;&amp; isMirror(left.right, right.left);
-        }
-        return false;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>递归法：时间复杂度：O(n)，空间复杂度：O(n)</li>
-<li>迭代法：时间复杂度：O(n)，空间复杂度：O(n)</li>
-</ul>
-<hr>
-<h3 id="107-二叉树的层次遍历-ii简单">107. 二叉树的层次遍历 II（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>给定一个二叉树，返回其节点值自底向上的层次遍历。 （即按从叶子节点所在层到根节点所在的层，逐层从左向右遍历）</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>例如，给定二叉树 [3,9,20,null,null,15,7],
-     3
-   /   \
-  9    20
- / \
-15  7
-返回其自底向上的层次遍历为：
-[
-  [15,7],
-  [9,20],
-  [3]
-]
-</code></pre>
-<h5 id="思路-2">思路：</h5>
-<blockquote>
-<p>广度优先，逐层遍历。首先构建数据列表和下层结点列表，遍历当前层的结点列表，把数据添加到数据列表，并把每个结点的子结点添加到下层结点列表。遍历完成后，把数据列表放到结果列表的首部，然后把下层结点列表变成当前结点列表，继续遍历。</p>
-</blockquote>
-<h5 id="解法-2">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public List&lt;List&lt;Integer&gt;&gt; levelOrderBottom(TreeNode root) {
-        if (root == null) {
-            return Collections.emptyList();
-        }
-
-        List&lt;List&lt;Integer&gt;&gt; result = new LinkedList&lt;&gt;();
-        List&lt;TreeNode&gt; currRowList = new LinkedList&lt;&gt;();
-        currRowList.add(root);
-        List&lt;TreeNode&gt; nextRowList;
-        List&lt;Integer&gt; valueList;
-        while (currRowList.size() &gt; 0) {
-            valueList = new LinkedList&lt;&gt;();
-            nextRowList = new LinkedList&lt;&gt;();
-            for (TreeNode treeNode : currRowList) {
-                valueList.add(treeNode.val);
-                if (treeNode.left != null) {
-                    nextRowList.add(treeNode.left);
-                }
-                if (treeNode.right != null) {
-                    nextRowList.add(treeNode.right);
-                }
-            }
-            result.add(0, valueList);
-            currRowList = nextRowList;
-        }
-        return result;
-    }
-}
-</code></pre>
-<h5 id="分析-2">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(n)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.freecodecamp.org/writing-a-killer-software-engineering-resume-b11c91ef699d">How to write a killer Software Engineering résumé</a> 软件工程师如何写出杀手级的简历</p>
-<p>作者是位面霸，他凭简历获得了 Google、Facebook、Amazon 等公司的面试机会。文章讲述了杀手级简历的特征，以及如何写出更好更高效的简历。</p>
-<p>如何写出杀手级的简历？这里有几点建议：</p>
-<ul>
-<li>一眼就要看到的信息：你是谁，联系方式，教育经历，工作经历，项目经历，专业技能。</li>
-<li>内容一两页就够了，排版格式简单明了。</li>
-<li>让 HR 省事、舒心，自然就给你机会。</li>
-<li>个人经历要和职位相关，按照最近时间排列。</li>
-<li>简历不是通用的，每个职位都要有不同的版本。</li>
-<li>描述工作成果：Accomplished [X] as measured by [Y] by doing [Z]。</li>
-<li>个人项目很重要，体现了对编程的热爱和追求。</li>
-<li>专业技能，精通、熟悉、了解 XXX。</li>
-</ul>
-<h2 id="3-tip">3. Tip</h2>
-<p>每个开发者都该有一套自己的代码工具箱，用来收集日常开发用到的工具类，为的是能够在项目中快速集成和使用， 从而缩短开发周期，提高编码效率，节约时间成本。我自己就整理了一套 Android 开发的常用代码库，有需要时直接拿来使用，简单省事。</p>
-<h2 id="4-share">4. Share</h2>
-<p><a href="https://mp.weixin.qq.com/s/9ZU8aovjazSPdrQoNhIkqg">努力成为一名‘‘值得跟’’的Leader</a></p>
-<p>什么样的人才是一个好的 Leader？“<strong>值得跟</strong>”绝对是对一个 Leader 最高的赞扬。</p>
 ]]></content>
     </entry>
 </feed>
