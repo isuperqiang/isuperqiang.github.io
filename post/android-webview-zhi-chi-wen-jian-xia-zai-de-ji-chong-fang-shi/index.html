@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -127,7 +127,7 @@
 <li>使用系统的下载服务</li>
 <li>自定义下载任务</li>
 </ul>
-<p>有了思路就好办了，下面介绍具体实现。
+<p>有了思路就好办了，下面介绍具体实现。<br>
 要想让 WebView 支持下载，需要给 WebView 设置下载监听器 <code>setDownloadListener</code>，DownloadListener 里面只有一个方法 onDownloadStart，每当有文件需要下载时，该方法就会被回调，下载的 URL 通过方法参数传递，我们可以在这里处理下载事件。</p>
 <pre><code>mWebView.setDownloadListener(new DownloadListener() {
     @Override
@@ -179,7 +179,7 @@
         log.debug(&quot;downloadId:{}&quot;, downloadId);
     }
 </code></pre>
-<p>这样我们就添加了一项下载任务，然后就静静等待系统下载完成吧。还要注意一点，别忘了添加读写外置存储权限和网络权限哦~
+<p>这样我们就添加了一项下载任务，然后就静静等待系统下载完成吧。还要注意一点，别忘了添加读写外置存储权限和网络权限哦~<br>
 那怎么知道文件下载成功呢？系统在下载完成后会发送一条广播，里面有任务 ID，告诉调用者任务完成，通过 DownloadManager 获取到文件信息就可以进一步处理。</p>
 <pre><code>    private class DownloadCompleteReceiver extends BroadcastReceiver {
 

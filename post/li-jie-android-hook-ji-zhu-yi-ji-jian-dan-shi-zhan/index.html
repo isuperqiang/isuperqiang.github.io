@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -137,7 +137,7 @@
 <ul>
 <li><a href="repo.xposed.info/module/de.robv.android.xposed.installer">Xposed</a></li>
 </ul>
-<p>通过替换 /system/bin/app_process 程序控制 Zygote 进程，使得 app_process 在启动过程中会加载 XposedBridge.jar 这个 Jar 包，从而完成对 Zygote 进程及其创建的 Dalvik 虚拟机的劫持。
+<p>通过替换 /system/bin/app_process 程序控制 Zygote 进程，使得 app_process 在启动过程中会加载 XposedBridge.jar 这个 Jar 包，从而完成对 Zygote 进程及其创建的 Dalvik 虚拟机的劫持。<br>
 Xposed 在开机的时候完成对所有的 Hook Function 的劫持，在原 Function 执行的前后加上自定义代码。</p>
 <ul>
 <li>
@@ -146,7 +146,7 @@ Xposed 在开机的时候完成对所有的 Hook Function 的劫持，在原 Fun
 </li>
 <li>
 <p><a href="https://github.com/asLody/legend">Legend</a></p>
-<p>Legend 是 Android 免 Root 环境下的一个 Apk Hook 框架，该框架代码设计简洁，通用性高，适合逆向工程时一些 Hook 场景。大部分的功能都放到了 Java 层，这样的兼容性就非常好。
+<p>Legend 是 Android 免 Root 环境下的一个 Apk Hook 框架，该框架代码设计简洁，通用性高，适合逆向工程时一些 Hook 场景。大部分的功能都放到了 Java 层，这样的兼容性就非常好。<br>
 原理是这样的，直接构造出新旧方法对应的虚拟机数据结构，然后替换信息写到内存中即可。</p>
 </li>
 </ul>

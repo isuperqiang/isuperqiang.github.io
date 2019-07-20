@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -147,7 +147,7 @@
 <p>但是在使用了完整的 android.jar 后，发现竟然不会报错了，代码可以通过编译，终于可以愉快地使用想要的方法了 O(∩_∩)O~</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1820210-6e28d1545f1b1205.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="can resolve addAssetPath"></p>
 <p>这种方式对于个人开发来说没有问题，你把 android.jar 替换掉就好了，但是如果面对团队开发，就非常痛苦了 %&gt;_&lt;%，每个人都要替换 SDK 的 android.jar，代价和风险可想而知。那么有没有好的解决办法，既可以让工程编译通过，又能够免去多人替换 jar 的成本呢？答案是有的。</p>
-<p>Studio 默认引用的是 SDK 下面的 android.jar，那我们把它的引用改成完整的 jar 的路径不就行了么？
+<p>Studio 默认引用的是 SDK 下面的 android.jar，那我们把它的引用改成完整的 jar 的路径不就行了么？<br>
 我们把完整的 android.jar 放在工程 libs 目录下，也就是平时依赖 jar 的地方，然后在工程 build.gradle 配置的 dependencies 里，以 provided 的方式引用 android.jar。因为每个工程模块依赖 android.jar 的类型就是 provided，这样不会把 android.jar 打包到应用中，运行环境中存在 framework.jar，应用直接就可以使用。</p>
 <pre><code>dependencies {
      // compile fileTree(include: ['*.jar'], dir: 'libs')  这行一定要去掉，当然为 android.jar 换个目录也行

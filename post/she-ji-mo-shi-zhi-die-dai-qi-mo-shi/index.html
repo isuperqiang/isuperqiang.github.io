@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -126,19 +126,19 @@
 <h3 id="3-结构">3. 结构</h3>
 <ul>
 <li>
-<p>抽象容器
+<p>抽象容器<br>
 一般是一个接口，提供一个 iterator() 方法，例如 Java 中的 Collection 接口。</p>
 </li>
 <li>
-<p>具体容器
+<p>具体容器<br>
 就是抽象容器的具体实现类，比如 List 接口的实现有序列表 ArrayList，List 接口的链表实现 LinkList，Set 接口的哈希列表的实现 HashSet 等。</p>
 </li>
 <li>
-<p>抽象迭代器
+<p>抽象迭代器<br>
 定义遍历元素所需要的方法，一般会有两个方法：取得下一个元素的方法 next()，判断是否遍历结束的方法 hasNext()，移出当前对象的方法 remove()。</p>
 </li>
 <li>
-<p>具体迭代器
+<p>具体迭代器<br>
 实现迭代器接口中定义的方法，完成集合的迭代。</p>
 </li>
 </ul>
@@ -247,13 +247,13 @@
     }
 </code></pre>
 <h3 id="5-优缺点">5. 优缺点</h3>
-<p><strong>1. 优点</strong>
+<p><strong>1. 优点</strong><br>
 迭代器简化了遍历一个聚合对象的方式，在同一个聚合上可以有多个遍历。在迭代器模式中，增加新的聚合类和迭代器类都很方便，无须修改原有代码。</p>
-<p><strong>2. 缺点</strong>
+<p><strong>2. 缺点</strong><br>
 由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。</p>
-<p><strong>3. 使用场景</strong>
+<p><strong>3. 使用场景</strong><br>
 迭代器模式是与集合共存的。一般来说，我们只要实现一个集合，就需要同时提供这个集合的迭代器，就像 Java 中的 Collection、Set、Map 等，这些集合都有自己的迭代器。假如我们要实现一个这样的新容器，当然也需要引入迭代器模式，给我们的容器添加一个迭代器。</p>
-<p><strong>参考文章：</strong>
+<p><strong>参考文章：</strong><br>
 <a href="https://blog.csdn.net/zhengzhb/article/details/7610745">迭代器模式</a></p>
 
             </div>

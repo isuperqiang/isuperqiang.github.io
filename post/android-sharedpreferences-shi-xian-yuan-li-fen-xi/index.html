@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -138,8 +138,8 @@
 </code></pre>
 <p>这里不讨论 API 的使用方法，主要是从源码角度分析 SharedPreferences （以下简称 SP） 的实现方式。</p>
 <h3 id="1-初始化">1. 初始化</h3>
-<p>首先我们使用 context 的 getSharedPreferences 方法获取 SP 实例，它是一个接口对象。
-<code>SharedPreferences testSp = getSharedPreferences(&quot;test_sp&quot;, Context.MODE_PRIVATE);</code>
+<p>首先我们使用 context 的 getSharedPreferences 方法获取 SP 实例，它是一个接口对象。<br>
+<code>SharedPreferences testSp = getSharedPreferences(&quot;test_sp&quot;, Context.MODE_PRIVATE);</code><br>
 Context 是一个抽象类，其核心实现类是 ContextImpl ，找到里面的 getSharedPreferences 方法。</p>
 <pre><code class="language-java">    @Override
     public SharedPreferences getSharedPreferences(String name, int mode) {
@@ -294,7 +294,7 @@ private void awaitLoadedLocked() {
 </code></pre>
 <p>首先取得 SharedPreferencesImpl 对象锁，然后同步等待从磁盘加载数据完成，最后返回数据。这里有个问题，如果单个 SP 存储的内容过多，导致我们使用 getXXX 方法的时候阻塞，特别是在主线程调用的时候，所以建议在单个 SP 中尽量少地保存数据，虽然操作时间是毫秒级别的，用户基本上感觉不到。</p>
 <h3 id="3-写数据">3. 写数据</h3>
-<p>SP 写入数据的操作是通过 Editor 完成的，它也是一个接口，实现类是 EditorImpl，是 SharedPreferencesImpl 的内部类。
+<p>SP 写入数据的操作是通过 Editor 完成的，它也是一个接口，实现类是 EditorImpl，是 SharedPreferencesImpl 的内部类。<br>
 通过 SP 的 edit 方法获取 Editor 实例，等到加载完毕直接返回一个 EditorImpl 对象。</p>
 <pre><code class="language-java">public Editor edit() {
       // TODO: remove the need to call awaitLoadedLocked() when

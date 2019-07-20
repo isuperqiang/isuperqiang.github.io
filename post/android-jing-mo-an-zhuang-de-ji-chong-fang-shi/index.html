@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -268,7 +268,7 @@
 <h3 id="3-使用辅助功能进行安装">3. 使用辅助功能进行安装</h3>
 <p>现在大多数应用采取的是这种办法，让用户主动打开辅助功能，然后模拟点击用户操作，进行自动安装。核心就是 AccessibilityService，我们来实现这一功能。</p>
 <ol>
-<li>创建 AccessibilityService 配置文件
+<li>创建 AccessibilityService 配置文件<br>
 在 res 目录下创建 xml 目录，然后在 xml 目录下创建 accessibility_service_config.xml 文件，内容如下</li>
 </ol>
 <pre><code>&lt;accessibility-service xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
@@ -280,11 +280,11 @@
                        android:packageNames=&quot;com.android.packageinstaller&quot;
     /&gt;
 </code></pre>
-<p>accessibilityEventTypes: 指定我们在监听窗口中可以模拟哪些事件，typeAllMask 表示所有的事件都能模拟。
-accessibilityFeedbackType: 指定无障碍服务的反馈方式。
-canRetrieveWindowContent: 指定是否允许我们的程序读取窗口中的节点和内容，当然是 true。
-description: 当用户手动配置服务时，显示给用户看的说明信息。
-packageNames: 指定要监听哪个应用程序下的窗口活动，这里写 com.android.packageinstaller 表示监听 Android 系统的安装界面。
+<p>accessibilityEventTypes: 指定我们在监听窗口中可以模拟哪些事件，typeAllMask 表示所有的事件都能模拟。<br>
+accessibilityFeedbackType: 指定无障碍服务的反馈方式。<br>
+canRetrieveWindowContent: 指定是否允许我们的程序读取窗口中的节点和内容，当然是 true。<br>
+description: 当用户手动配置服务时，显示给用户看的说明信息。<br>
+packageNames: 指定要监听哪个应用程序下的窗口活动，这里写 com.android.packageinstaller 表示监听 Android 系统的安装界面。<br>
 配置里面描述的内容</p>
 <pre><code>&lt;resources&gt;  
     &lt;string name=&quot;app_name&quot;&gt;InstallTest&lt;/string&gt;  
@@ -292,7 +292,7 @@ packageNames: 指定要监听哪个应用程序下的窗口活动，这里写 co
 &lt;/resources&gt;  
 </code></pre>
 <ol start="2">
-<li>创建 AccessibilityService 服务
+<li>创建 AccessibilityService 服务<br>
 创建一个类继承自 AccessibilityService ，然后重写 onAccessibilityEvent 方法。</li>
 </ol>
 <pre><code class="language-java">public class MyAccessibilityService extends AccessibilityService {
@@ -345,7 +345,7 @@ packageNames: 指定要监听哪个应用程序下的窗口活动，这里写 co
     }
 }
 </code></pre>
-<p>当进入安装界面就会回调 onAccessibilityEvent() 这个方法，我们只处理 TYPE_WINDOW_CONTENT_CHANGED 和 TYPE_WINDOW_STATE_CHANGED 两个事件。为了防止重复处理事件，用 map 来过滤事件，然后递归遍历节点，找到「安装」、「完成」、「缺点」的按钮就模拟点击。由于安装界面需要用户看完权限才出现按钮，所以遇到 ScrollView 的时候就模拟滚动，直到出现安装按钮。
+<p>当进入安装界面就会回调 onAccessibilityEvent() 这个方法，我们只处理 TYPE_WINDOW_CONTENT_CHANGED 和 TYPE_WINDOW_STATE_CHANGED 两个事件。为了防止重复处理事件，用 map 来过滤事件，然后递归遍历节点，找到「安装」、「完成」、「缺点」的按钮就模拟点击。由于安装界面需要用户看完权限才出现按钮，所以遇到 ScrollView 的时候就模拟滚动，直到出现安装按钮。<br>
 3. 在 AndroidManifest 中配置服务</p>
 <pre><code>        &lt;service
             android:name=&quot;.MyAccessibilityService&quot;
@@ -361,9 +361,9 @@ packageNames: 指定要监听哪个应用程序下的窗口活动，这里写 co
                 /&gt;
         &lt;/service&gt;
 </code></pre>
-<p>android:label：这个就是用户看到的无障碍服务的名称。
-android:permission: 需要用到 BIND_ACCESSIBILITY_SERVICE 这个权限。
-action: android.accessibilityservice.AccessibilityService 有了这个 action，用户才能在设置里面看到我们的服务，否则用户无法开启我们的 AccessibilityService，也就不能进到 MyAccessibilityService 里面了。
+<p>android:label：这个就是用户看到的无障碍服务的名称。<br>
+android:permission: 需要用到 BIND_ACCESSIBILITY_SERVICE 这个权限。<br>
+action: android.accessibilityservice.AccessibilityService 有了这个 action，用户才能在设置里面看到我们的服务，否则用户无法开启我们的 AccessibilityService，也就不能进到 MyAccessibilityService 里面了。<br>
 4. 调用智能安装代码</p>
 <pre><code class="language-java">    private void smartInstall() {
         Uri uri = Uri.fromFile(new File(&quot;/sdcard/test.apk&quot;));
@@ -373,13 +373,13 @@ action: android.accessibilityservice.AccessibilityService 有了这个 action，
     }
 </code></pre>
 <ol start="5">
-<li>手动配置智能安装服务
+<li>手动配置智能安装服务<br>
 跳转辅助功能的配置界面，引导用户开启智能安装服务。</li>
 </ol>
 <pre><code>Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
 startActivity(intent);
 </code></pre>
-<p>结论：智能安装是一种妥协的方案，在没有 Root 和安装权限的情况下，确实解放了用户的拇指。看看市面上的应用，大部分都采用了这种方法。应用市场使用智能安装可以理解，视频浏览器工具一类不相干的应用也要开启？我真是呵呵了。
+<p>结论：智能安装是一种妥协的方案，在没有 Root 和安装权限的情况下，确实解放了用户的拇指。看看市面上的应用，大部分都采用了这种方法。应用市场使用智能安装可以理解，视频浏览器工具一类不相干的应用也要开启？我真是呵呵了。<br>
 <img src="http://upload-images.jianshu.io/upload_images/1820210-2bbeca30caf8da6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="带有智能安装的应用"></p>
 <p>目前静默安装的方法就这么多，欢迎大家留言交流~</p>
 <p><strong>参考文章：</strong></p>

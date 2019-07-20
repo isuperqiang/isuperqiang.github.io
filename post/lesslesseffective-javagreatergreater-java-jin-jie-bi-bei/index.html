@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -121,7 +121,7 @@
             <div class="post-content">
               <p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
 <!-- more -->
-<p>两年前读过此书，当时自身技术水平并不算高，对于其中的原则不求甚解。现在重温以前的笔记，加上这两年的编程经验，竟然有种豁然开朗的感觉。
+<p>两年前读过此书，当时自身技术水平并不算高，对于其中的原则不求甚解。现在重温以前的笔记，加上这两年的编程经验，竟然有种豁然开朗的感觉。<br>
 「书读百遍，其义自见。」古人说得有道理啊。</p>
 <p>这里简单介绍几条开发中经常用到的技巧，比如 Builder、对象方法、接口定义等。</p>
 <h3 id="1-存在多个构造参数时考虑使用构建器builder">1. 存在多个构造参数时，考虑使用构建器（Builder）</h3>
@@ -135,7 +135,7 @@
 <p>优先使用基本数据类型而不是装箱数据类型，因为基本类型占用更少的内存空间，对于移动端来说，内存优化是一个永恒的话题。</p>
 <h3 id="4-覆盖-equals-时总要覆盖-hashcode始终覆盖-tostring">4. 覆盖 equals 时总要覆盖 hashCode，始终覆盖 toString</h3>
 <p>对于一般的 Java Bean 对象，我都会重写其 toString 方法， 这样在打印日志的时候，就能看见它的内部数据，这点非常有用。</p>
-<p>对于需要作为 HashMap 的键的对象，一定要重写 hashCode 和 equals 方法，这样有利于散列表均匀分布，提升查找的性能。
+<p>对于需要作为 HashMap 的键的对象，一定要重写 hashCode 和 equals 方法，这样有利于散列表均匀分布，提升查找的性能。<br>
 另外，两个对象 equals 相等，hashCode 必须相等；hashCode 相等，equals不一定相等。这个很好理解，equals 保证 HashMap 键的唯一性；hashCode 相等表示两个对象放在 HashMap 数组的同一个位置上。</p>
 <p>提示：现在的 IDE 实在是太傻瓜式了，可以一键生成 toString, equals 和 hashCode 方法，这时候有什么理由不重写呢。</p>
 <h3 id="5-接口优于抽象类">5. 接口优于抽象类</h3>

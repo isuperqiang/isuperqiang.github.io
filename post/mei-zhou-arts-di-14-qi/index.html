@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -140,8 +140,8 @@
 ]
 </code></pre>
 <h5 id="思路">思路：</h5>
-<p>利用二进制与位运算：
-数组中的每个元素，都有两个状态：在子数组中和不在子数组中。所有状态的组合就是所有的子数组。
+<p>利用二进制与位运算：<br>
+数组中的每个元素，都有两个状态：在子数组中和不在子数组中。所有状态的组合就是所有的子数组。<br>
 遍历 000 到 111，也就是 0 到 7，判断每个比特位是否为 1，如果是 1，那么将对应数字加入子数组。</p>
 <pre><code class="language-java">class Solution {
     public List&lt;List&lt;Integer&gt;&gt; subsets(int[] nums) {

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -124,15 +124,15 @@
 <p>简单工厂模式包含如下角色：</p>
 <ul>
 <li>
-<p>Factory：工厂角色
+<p>Factory：工厂角色<br>
 工厂角色负责实现创建所有实例的内部逻辑。</p>
 </li>
 <li>
-<p>Product：抽象产品角色
+<p>Product：抽象产品角色<br>
 抽象产品角色是所创建的所有对象的父类，负责描述所有实例所共有的公共接口。</p>
 </li>
 <li>
-<p>ConcreteProduct：具体产品角色
+<p>ConcreteProduct：具体产品角色<br>
 具体产品角色是创建目标，所有创建的对象都充当这个角色的某个具体类的实例。</p>
 </li>
 </ul>
@@ -200,19 +200,19 @@ public class SimplePizzaFactory {
 <p>工厂方法模式包含如下角色：</p>
 <ul>
 <li>
-<p>Product：抽象产品
+<p>Product：抽象产品<br>
 抽象产品定义产品的接口，是工厂方法模式所创建对象的超类型，即产品对象的共同父类或接口。</p>
 </li>
 <li>
-<p>ConcreteProduct：具体产品
+<p>ConcreteProduct：具体产品<br>
 具体产品实现了抽象产品接口，某种类型的具体产品由专门的具体工厂创建，它们之间往往一一对应。</p>
 </li>
 <li>
-<p>Factory：抽象工厂
+<p>Factory：抽象工厂<br>
 抽象工厂中声明了工厂方法，用于返回一个产品，它是工厂方法模式的核心，任何在模式中创建对象的工厂类都必须实现该接口。</p>
 </li>
 <li>
-<p>ConcreteFactory：具体工厂
+<p>ConcreteFactory：具体工厂<br>
 具体工厂是抽象工厂类的子类，实现了抽象工厂中定义的工厂方法，并可由客户调用，返回一个具体产品类的实例。</p>
 </li>
 </ul>
@@ -262,19 +262,19 @@ public class GreekPizzaStore extends PizzaStore {
 <p>抽象工厂模式包含如下角色：</p>
 <ul>
 <li>
-<p>AbstractFactory：抽象工厂
+<p>AbstractFactory：抽象工厂<br>
 抽象工厂用于声明生成抽象产品的方法。</p>
 </li>
 <li>
-<p>ConcreteFactory：具体工厂
+<p>ConcreteFactory：具体工厂<br>
 具体工厂实现了抽象工厂声明的方法，生成一组具体产品，这些产品构成了一个产品族，每个产品都位于某个产品等级结构中。</p>
 </li>
 <li>
-<p>AbstractProduct：抽象产品
+<p>AbstractProduct：抽象产品<br>
 抽象产品为每种产品声明接口，在抽象产品中定义了产品的抽象业务方法。</p>
 </li>
 <li>
-<p>Product：具体产品
+<p>Product：具体产品<br>
 具体产品定义具体工厂生产的具体产品对象，实现抽象产品接口中定义的业务方法。</p>
 </li>
 </ul>

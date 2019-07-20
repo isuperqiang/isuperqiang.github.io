@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -158,7 +158,7 @@
 <li>数据存储在一个数组中，比起链表法，冲突的代价更高。</li>
 <li>装载因子的上限不能太大，比链表法更浪费内存空间。</li>
 </ul>
-<p><strong>结论：</strong>
+<p><strong>结论：</strong><br>
 当数据量比较小、装载因子小的时候，适合采用开放寻址法。这也是 Java 中的 <code>ThreadLocalMap</code> 使用开放寻址法解决散列冲突的原因。</p>
 <h4 id="链表法">链表法</h4>
 <p><strong>优点：</strong></p>
@@ -171,7 +171,7 @@
 <li>对于比较小的对象的存储，是比较消耗内存的。</li>
 <li>对 CPU 缓存是不友好的，对执行效率有一定的影响。</li>
 </ul>
-<p><strong>结论：</strong>
+<p><strong>结论：</strong><br>
 基于链表的散列冲突处理方法比较适合存储大对象、大数据量的散列表，而且，比起开放寻址法，它更加灵活，支持更多的优化策略，比如用红黑树代替链表。</p>
 <h3 id="4-工业级散列表举例分析">4. 工业级散列表举例分析</h3>
 <p>Java 中的 <code>HashMap</code>。</p>

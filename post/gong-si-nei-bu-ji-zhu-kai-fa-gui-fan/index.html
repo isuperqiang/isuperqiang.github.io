@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -142,7 +142,7 @@
 <p>类命名规则：类名必须使用驼峰规则，即<strong>首字母必须大写</strong>。如果为词组，则每个单词的首字母也必须要大写，类名必须使用名词或名词词组，要求类名简单，不允许出现无意义的单词。对于 Android 框架内的类名，需要加上<strong>具体组件</strong>的名称。</p>
 <p>例如：</p>
 <blockquote>
-<p>class BookMarkAdd extends Activity                   错误
+<p>class BookMarkAdd extends Activity                   错误<br>
 class BookMarkAddActivity extends Activity	正确</p>
 </blockquote>
 <p>其他与 Android 框架组件无关的类，遵循 Java 类命名规范。</p>
@@ -153,7 +153,7 @@ class BookMarkAddActivity extends Activity	正确</p>
 <p>public String getBookName()</p>
 </blockquote>
 <h4 id="14-方法参数命名">1.4  方法参数命名</h4>
-<p>参数名字不允许使用 arg、arg0、arg1 等等没有任何意义的命名，最好选择<strong>见名知意</strong>的参数名。
+<p>参数名字不允许使用 arg、arg0、arg1 等等没有任何意义的命名，最好选择<strong>见名知意</strong>的参数名。<br>
 例如：</p>
 <blockquote>
 <p>public static Bitmap scaleBitmap(Bitmap bitmap, int width, int height, boolean isRecycle)</p>
@@ -162,7 +162,7 @@ class BookMarkAddActivity extends Activity	正确</p>
 <p>命名规则：变量命名也必须使用<strong>驼峰规则</strong>，但是首字母必须小写，变量名尽可能的使用名词或名词词组。同样要求简单易懂，不允许出现无意义的单词。</p>
 <p>例如：</p>
 <blockquote>
-<p>String bookName;	       正确
+<p>String bookName;	       正确<br>
 String bookNameString;    错误</p>
 </blockquote>
 <h4 id="16-成员变量命名">1.6  成员变量命名</h4>
@@ -186,7 +186,7 @@ String bookNameString;    错误</p>
 <p>规则：大 -&gt; 小  layout <em>&lt;&gt;</em> 功能描述（尖括号里可以根据具体情况命名）</p>
 <p>例如：</p>
 <blockquote>
-<p>layout_fragment_about_vlife.xml	正确
+<p>layout_fragment_about_vlife.xml	正确<br>
 list_book.xml		错误</p>
 </blockquote>
 <p>另外：如果是作为一个封装通用部分的 layout 文件需要加入前缀 “inc”，除了自身可以作为独立页面的情况。</p>
@@ -197,7 +197,7 @@ list_book.xml		错误</p>
 <p>命名规则：layout 中所使用的 id 必须以<strong>全部单词小写</strong>，单词间以<strong>下划线</strong>分割，并且使用<strong>名词或名词词组</strong>，并且要求能够通过 id 直接理解当前组件要实现的功能。</p>
 <p>例如：某 TextView,</p>
 <blockquote>
-<p>@+id/textbookname          错误
+<p>@+id/textbookname          错误<br>
 @+id/book_name_show    正确</p>
 </blockquote>
 <h4 id="114-资源命名">1.14 资源命名</h4>
@@ -213,7 +213,7 @@ list_book.xml		错误</p>
 </ul>
 <h3 id="第二原则-注释要详细明白">第二原则  注释要详细明白</h3>
 <h4 id="21-注释模版">2.1  注释模版</h4>
-<p>不管文件、类还是方法，注释的时候必须有作者、时间、简单描述。（Override 方法除外）
+<p>不管文件、类还是方法，注释的时候必须有作者、时间、简单描述。（Override 方法除外）<br>
 例如：</p>
 <pre><code class="language-java">/**
  * @author 作者 &lt;br/&gt;
@@ -266,7 +266,7 @@ list_book.xml		错误</p>
 <li>synchronize 的锁对象尽量使用自定义对象</li>
 </ol>
 </li>
-<li>减少循环的使用。
+<li>减少循环的使用。<br>
 Java 这个语言平时效率还凑合，但是循环的效率特别低。所以尽量减少自己在循环里面干事情。尤其是系统已经提供了 addAll 类似接口，底层用的本地 C 执行的，比自己实现效率要高，优先使用系统的接口。</li>
 <li>在 if 判断中，如果需要判断多个条件。按照最容易判断的、概率最大的优先进行判断的规则，减少系统的判断次数。</li>
 </ul>

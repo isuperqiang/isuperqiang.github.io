@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -128,7 +128,7 @@
 <p>2 . View 在主线程中对页面进行刷新，而 SurfaceView 则开启一个子线程来对页面进行刷新。</p>
 <p>3 . View 在绘图时没有实现双缓冲机制，SurfaceView 在底层机制中就实现了双缓冲机制。</p>
 <p><strong>关键接口 Callback：</strong></p>
-<p>Callback 是 SurfaceHolder 内部的一个接口，
+<p>Callback 是 SurfaceHolder 内部的一个接口，<br>
 接口中有以下三个方法</p>
 <ul>
 <li>public void surfaceCreated(SurfaceHolder holder)：Surface 第一次创建时被调用，例如 SurfaceView 从不可见状态到可见状态 。在这个方法被调用到 surfaceDestroyed 方法被调用之前，Surface 对象可以被操作。也就是说，在界面可见的情况下，可以对 SurfaceView 进行绘制。</li>

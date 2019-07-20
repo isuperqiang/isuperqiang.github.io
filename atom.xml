@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-07-20T03:27:07.213Z</updated>
+    <updated>2019-07-20T10:36:32.984Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,98 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 16 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-16-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-16-qi">
+        </link>
+        <updated>2019-07-20T10:26:43.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="152-乘积最大子序列中等">152. 乘积最大子序列（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个整数数组 nums ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: [2,3,-2,4]
+输出: 6
+解释: 子数组 [2,3] 有最大乘积 6。
+</code></pre>
+<h5 id="思路">思路：</h5>
+<ul>
+<li>解法一：暴力解法，遍历数组，逐个求出连续子序列的乘积，和当前最大值比较，找到最大值。</li>
+<li>解法二：动态规划，遍历数组，计算当前最大值，并不断更新。当前最大乘积 max，当前最小乘积 min。由于存在负数，会导致最大的变成最小的，最小的变成最大的。所以分两种情况讨论：
+<ul>
+<li>nums[i] &gt; 0 时，max = Max(max * nums[i], nums[i]); min = Min(min * num[i], num[i]);</li>
+<li>nums[i] &lt; 0 时，max = Max(min * nums[i], nums[i]); min = Min(max * num[i], num[i]);</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-java">class Solution {
+    public int maxProduct1(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int max = nums[0];
+        int temp;
+        for (int i = 0; i &lt; nums.length; i++) {
+            temp = nums[i];
+            if (temp &gt; max) {
+                max = temp;
+            }
+            for (int j = i + 1; j &lt; nums.length; j++) {
+                temp *= nums[j];
+                if (temp &gt; max) {
+                    max = temp;
+                }
+            }
+        }
+        return max;
+    }
+
+    public int maxProduct2(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int ret = nums[0];
+        int min = nums[0];
+        int max = nums[0];
+        for (int i = 1; i &lt; nums.length; i++) {
+            if (nums[i] &lt; 0) {
+                int temp = min;
+                min = max;
+                max = temp;
+            }
+            max = Math.max(max * nums[i], nums[i]);
+            min = Math.min(min * nums[i], nums[i]);
+            ret = Math.max(ret, max);
+        }
+        return ret;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：
+<ul>
+<li>解法一：O(n^2)</li>
+<li>解法二：O(n)</li>
+</ul>
+</li>
+<li>空间复杂度都是 O(1)</li>
+</ul>
+<hr>
+<h2 id="2-review">2. Review</h2>
+<p><a href="http://tutorials.jenkov.com/java-concurrency/java-memory-model.html">Java Memory  Model</a> 主要讲述了 Java 内存模型、硬件内存架构和两者之间的差异。</p>
+<p>Java 内存模型把内存分为线程栈和堆。每个线程都有各自的线程栈，线程栈内部包含方法调用信息和方法内局部变量，它不能被其他线程访问。线程栈存储的局部变量，包括「基本数据类型和引用变量」的拷贝，而引用的对象存储在堆中。堆用来存储应用创建的对象，不管是局部对象还是成员对象，不论是哪个线程创建的。</p>
+<p>硬件内存架构包含 CPU 寄存器、高速缓存和 RAM 主存，按照前面的顺序，读写速度越来越慢，容量越来越大。当 CPU 读取数据时，会把数据缓存在寄存器和高速缓存中。当 CPU 写回数据时，会把数据从寄存器和高速缓存刷新到 RAM。</p>
+<p>Java 内存模型和硬件模型架构不同，通常线程栈和堆在 RAM 中，但有时也会在寄存器和高速缓存中。当变量存储在计算机的不同位置时，就会引发两个主要问题：多线程读写变量的可见性和竞态条件。使用 volatile 可以解决可见性问题，synchronized 可以解决竞态条件。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>刷题的时候看到了 override 和 overload，结合前段时间读过的《码出高效：Java开发手册》中的内容，重新梳理了一下知识点：<a href="https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">深入理解 Java 中的 override 和 overload</a>。</p>
+<h2 id="4-share">4. Share</h2>
+<p>多学一些东西总没有错，所谓「技多不压身」。别人不懂的你能做，别人现学现查，你信手拈来，别人浮于表面，你深入原理。这都是机会，是优势，机会总是留给有准备的人。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深入理解 Java 中的 override 和 overload]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload</id>
@@ -279,8 +371,8 @@ public class Cat extends Animal {
 ]
 </code></pre>
 <h5 id="思路">思路：</h5>
-<p>利用二进制与位运算：
-数组中的每个元素，都有两个状态：在子数组中和不在子数组中。所有状态的组合就是所有的子数组。
+<p>利用二进制与位运算：<br>
+数组中的每个元素，都有两个状态：在子数组中和不在子数组中。所有状态的组合就是所有的子数组。<br>
 遍历 000 到 111，也就是 0 到 7，判断每个比特位是否为 1，如果是 1，那么将对应数字加入子数组。</p>
 <pre><code class="language-java">class Solution {
     public List&lt;List&lt;Integer&gt;&gt; subsets(int[] nums) {
@@ -896,130 +988,6 @@ f1 and f2 are equal using BigDecimal
 <p>NIO 是非阻塞 I/O，将 I/O 以事件的方式通知，可以减少线程切换的开销。NIO 的最大作用不是减少读取文件的耗时，而是最大化提升应用整体的 CPU 利用率。</p>
 <p>另外，非常推荐 Square 的 <a href="https://github.com/square/okio">Okio</a>，它支持同步和异步 I/O，也做了比较多的优化。</p>
 <p>I/O 优化对提升应用的体验非常有用，希望上面所讲的内容对你有帮助。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 9 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-9-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-9-qi">
-        </link>
-        <updated>2019-06-02T03:37:13.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="268-缺失数字简单">268. 缺失数字（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: [3,0,1]
-输出: 2
-</code></pre>
-<h5 id="思路">思路：</h5>
-<blockquote>
-<ul>
-<li>解法一：用完整数组的元素之和减去当前数组的元素之和就可以了。</li>
-<li>解法二：异或操作，eg: b^a^b=a; 相同的数字互相抵消，剩下的数值就是结果</li>
-</ul>
-</blockquote>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public int missingNumber1(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int numSum = 0;
-        int allSum = nums.length;
-        for (int i = 0; i &lt; nums.length; i++) {
-            numSum += nums[i];
-            allSum += i;
-        }
-        return allSum - numSum;
-    }
-
-    public int missingNumber2(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int result = nums.length;
-        for (int i = 0; i &lt; nums.length; i++) {
-            result ^= nums[i];
-            result ^= i;
-        }
-        return result;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>解法一和解法二一样：时间复杂度：O(n)，空间复杂度：O(1)</li>
-</ul>
-<hr>
-<h3 id="203-移除链表元素简单">203. 移除链表元素（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>删除链表中等于给定值 val 的所有节点。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>输入: 1-&gt;2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6, val = 6
-输出: 1-&gt;2-&gt;3-&gt;4-&gt;5
-</code></pre>
-<h5 id="思路-2">思路：</h5>
-<blockquote>
-<ul>
-<li>解法一：首先检查头结点，如果结点值与val相等，那么把头指针后移；然后遍历链表，如果当前结点值与val相等，那么将前一个结点的指针指向后一个结点。</li>
-<li>解法二：递归。</li>
-</ul>
-</blockquote>
-<h5 id="解法-2">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public ListNode removeElements(ListNode head, int val) {
-        if (head == null) {
-            return null;
-        }
-        while (head != null &amp;&amp; head.val == val) {
-            head = head.next;
-        }
-        ListNode curr = head;
-        ListNode prev = curr;
-        while (curr != null) {
-            if (curr.val == val) {
-                prev.next = curr.next;
-            } else {
-                prev = curr;
-            }
-            curr = curr.next;
-        }
-        return head;
-    }
-
-    public ListNode removeElementsRecursive(ListNode head, int val) {
-        if (head == null) {
-            return null;
-        }
-        head.next = removeElementsRecursive(head.next, val);
-        return head.val == val ? head.next : head;
-    }
-}
-</code></pre>
-<h5 id="分析-2">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)，空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://hackernoon.com/50-data-structure-and-algorithms-interview-questions-for-programmers-b4b1ac61f5b0">50+ Data Structure and Algorithms Interview Questions for Programmers</a> 50个数据结构和算法面试题</p>
-<p>作者主要介绍了面试中常见的算法题，大多关于数组、链表、字符串、二叉树，还有其他等。</p>
-<ul>
-<li>数组是最基本的线性数据结构，使用连续的存储空间。随机访问元素的时间复杂度 O(1)，添加和移除元素的时间复杂度是 O(n)。常见的题目有：数组反转、数据排序等。</li>
-<li>链表也是一种线性数据结构，通过结点的指针连接，存储空间不连续。添加和移除元素的时间复杂度是 O(1)，查找元素的时间复杂度是 O(n)。解决链表问题不要忘记递归的思想。</li>
-<li>字符串的问题也很常见，String 本质上就是字符数组，可以采用基于数组的解法。</li>
-<li>树是一种有层次的数据结构，解决二叉树问题的关键是树的理论知识。比如：树的深度、大小、叶子结点，还有前序遍历、中序遍历、后序遍历。</li>
-<li>其他的问题，比如算法、设计、位运算、逻辑题等，</li>
-</ul>
-<h2 id="3-tip">3. Tip</h2>
-<p>重新复习了 Gradle 构建的知识。Gradle 构建就是围绕 Project 和 Task 展开的，Project 可以理解要构建的模块，Task 则是要执行的任务。Gradle 构建要经历初始化、配置和执行的过程，Task 之间存在依赖关系，开发者可以自由配置 Task，灵活性非常好。另外，Groovy 是基于 JVM 的语言，可以和 Java 兼容，语法和 Python 类似，封装了很多常用的 API，特别适合写脚本。</p>
-<h2 id="4-share">4. Share</h2>
-<p><a href="https://www.zhihu.com/question/312019918">作为 IT 行业的过来人，你有什么话想对后辈说的？</a></p>
-<p>从老一代 IT 人的经历中，得到一些发展和行为的启示。</p>
 ]]></content>
     </entry>
 </feed>

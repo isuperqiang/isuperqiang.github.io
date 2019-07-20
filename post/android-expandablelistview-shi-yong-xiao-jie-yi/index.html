@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -120,9 +120,9 @@
             
             <div class="post-content">
               <p>ExpandableListView 是什么？</p>
-<p><strong><a href="https://developer.android.com/reference/android/widget/ExpandableListView.html">官方</a>给出的解释是：</strong>
+<p><strong><a href="https://developer.android.com/reference/android/widget/ExpandableListView.html">官方</a>给出的解释是：</strong><br>
 A view that shows items in a vertically scrolling two-level list. This differs from the ListView by allowing two levels: groups which can individually be expanded to show its children. The items come from the ExpandableListAdapter associated with this view.</p>
-<p><strong>简单翻译一下就是：</strong>
+<p><strong>简单翻译一下就是：</strong><br>
 一种用于垂直滚动展示两级列表的视图，和 ListView 的不同之处就是它可以展示两级列表，分组可以单独展开显示子选项。这些选项的数据是通过 ExpandableListAdapter 关联的。</p>
 <p>这个 ExpandableListAdapter 又是什么呢？和 ListView 使用的 BaseAdapter 差不多，都是用来给 View 提供数据、 实例化子布局的。实际使用的时候实现这个接口就可以了。</p>
 <p>了解了这么多，我们来亲自实战一下。</p>
@@ -146,7 +146,7 @@ A view that shows items in a vertically scrolling two-level list. This differs f
     };
 </code></pre>
 <ol start="3">
-<li>定义分组的视图和子选项的视图，这里就用最简单的 TextView，显示文字数据就可以了。
+<li>定义分组的视图和子选项的视图，这里就用最简单的 TextView，显示文字数据就可以了。<br>
 下面是分组的视图，因为分组项左边要显示 Indicator 的缘故，所以这里加上了给 TextView 加上了内边距。子选项的视图也是一个 TextView，比较简单就不贴代码了。</li>
 </ol>
 <pre><code>&lt;TextView
@@ -260,7 +260,7 @@ A view that shows items in a vertically scrolling two-level list. This differs f
 <li>setOnChildClickListener</li>
 <li>setOnGroupClickListener</li>
 <li>setOnGroupCollapseListener</li>
-<li>setOnGroupExpandListener
+<li>setOnGroupExpandListener<br>
 通过方法名我们就能知道各自的用途，它们分别设置单击子选项、单击分组项、分组合并、分组展开的监听器。</li>
 </ul>
 <pre><code>//        设置分组项的点击监听事件

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -204,8 +204,8 @@ M             1000
 <h3 id="27-移除元素简单">27. 移除元素（简单）</h3>
 <h5 id="描述-2">描述：</h5>
 <blockquote>
-<p>给定一个数组 <em>nums</em> 和一个值 <em>val</em>，你需要<strong>原地</strong>移除所有数值等于 <em>val</em> 的元素，返回移除后数组的新长度。
-不要使用额外的数组空间，你必须在<strong>原地修改输入数组</strong>并在使用 O(1) 额外空间的条件下完成。
+<p>给定一个数组 <em>nums</em> 和一个值 <em>val</em>，你需要<strong>原地</strong>移除所有数值等于 <em>val</em> 的元素，返回移除后数组的新长度。<br>
+不要使用额外的数组空间，你必须在<strong>原地修改输入数组</strong>并在使用 O(1) 额外空间的条件下完成。<br>
 元素的顺序可以改变。你不需要考虑数组中超出新长度后面的元素。</p>
 </blockquote>
 <h5 id="示例-2">示例：</h5>
@@ -216,7 +216,7 @@ M             1000
 <h5 id="思路-2">思路：</h5>
 <blockquote>
 <ul>
-<li>解法一：题目要求原地修改，我想到的是在遍历数组的时候，如果当前元素和 val 相等，那么交换到后面的位置，最后的结果是
+<li>解法一：题目要求原地修改，我想到的是在遍历数组的时候，如果当前元素和 val 相等，那么交换到后面的位置，最后的结果是<br>
 要移除的元素都在数组右端，然后就得到新数组的长度和移除后的数组。</li>
 <li>解法二：使用快慢指针，在遍历数组（快指针）的时候，如果当前元素和 val 不等，那么把元素赋值给慢指针，慢指针向后移动，最后根据慢指针的位置，就可以得到新的长度和移除后的数组。</li>
 </ul>

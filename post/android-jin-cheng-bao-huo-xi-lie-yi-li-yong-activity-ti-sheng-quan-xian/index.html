@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -155,7 +155,7 @@ window.setAttributes(attributes);
     android:theme=&quot;@android:style/Theme.Translucent&quot;    
     android:configChanges=&quot;keyboardHidden|orientation|screenSize&quot; /&gt;
 </code></pre>
-<p><strong>3.</strong> 处理触摸和销毁事件
+<p><strong>3.</strong> 处理触摸和销毁事件<br>
 因为 Activity 是在锁屏的时候启动的，所以在用户点亮屏幕后，它是绝对不能存在的。我们要在 Activity 的生命周期里做些处理。为了稳妥起见，对 Activity 的触摸事件我们也要处理，直接销毁 Activity 就可以了。</p>
 <pre><code>@Override
 protected void onResume() {    

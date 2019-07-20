@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563593223465">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1563618934550">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1563593223465" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1563618934550" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -122,7 +122,7 @@
               <p>最近换了一台新电脑，重新安装了 AS、JDK 等开发软件。重新配置的过程繁琐，不断地踩坑试错，可算是配置好了，记录下一些常用设置，软件环境是 macOS :)</p>
 <!-- more -->
 <h3 id="1-android-studio">1. Android Studio</h3>
-<p>从<a href="https://developer.android.com/studio/index.html?hl=zh-cn">官网</a>下载安装后，根据电脑的硬件配置，适当修改 AS 的配置参数，可以加快启动和编译的速度。
+<p>从<a href="https://developer.android.com/studio/index.html?hl=zh-cn">官网</a>下载安装后，根据电脑的硬件配置，适当修改 AS 的配置参数，可以加快启动和编译的速度。<br>
 在 /Applications/AndroidStudio.app/Contents/bin 目录下有两个配置文件：</p>
 <ul>
 <li>studio.vmoptions：自定义 Studio Java 虚拟机 (JVM) 的选项，如堆内存和缓存大小。</li>
@@ -135,9 +135,9 @@
 -XX:ReservedCodeCacheSize=512m
 -XX:+UseCompressedOops
 </code></pre>
-<p>-Xms：JVM 起始分配的堆内存
--Xmx：JVM 允许分配的最大堆内存
--XX:MaxPermSize：JVM 最大允许分配的非堆内存
+<p>-Xms：JVM 起始分配的堆内存<br>
+-Xmx：JVM 允许分配的最大堆内存<br>
+-XX:MaxPermSize：JVM 最大允许分配的非堆内存<br>
 -XX:ReservedCodeCacheSize：JIT 编译后的最大代码缓存</p>
 <p>这几个参数的值当然是越大越好，当然还要根据自己的硬件来修改，现在做开发的都是 8G 内存起，上面的配置就比较合适。</p>
 <p>第二处改动是打开 idea.properties 文件，在最后追加一行 <code>disable.android.first.run=true</code>，表示首次启动时禁止运行检查，一定要在首次启动之前配置，要不然可能会卡在启动界面。</p>
@@ -172,8 +172,8 @@ org.gradle.parallel=true
 # http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:configuration_on_demand
 org.gradle.configureondemand=true
 </code></pre>
-<p>主要的优化方面是开启守护进程、并行模式、孵化模式（只构建相关的项目）、设置 JVM
-参数（最大堆内存、最大非堆内存）等。
+<p>主要的优化方面是开启守护进程、并行模式、孵化模式（只构建相关的项目）、设置 JVM<br>
+参数（最大堆内存、最大非堆内存）等。<br>
 在 AS 设置里面，开启离线模式，使用本地 gradle 文件，这样会不需要联网，速度会快很多。如图：</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/1820210-b718709b1c3aaad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS 构建配置"></p>
 <h3 id="3-as-其他设置">3. AS 其他设置</h3>
@@ -182,7 +182,7 @@ org.gradle.configureondemand=true
 <p>禁用不必要的插件，如：Firebase 系列、Google 系列、hg4idea、CVS、YAML 等，这样可以减少资源占用，加快启动速度。</p>
 </li>
 <li>
-<p>由于你懂的原因，访问 Google 的时候会中断，对于开发来说很不友好。当然国内的 Android SDK 的服务器也有，一般是科研机构、大公司提供，这些都是备用手段。我使用 SS 的 HTTP 代理，主机和端口号如图。完成后点击下方的 check connection，如果能访问 Google，那么恭喜你通关。
+<p>由于你懂的原因，访问 Google 的时候会中断，对于开发来说很不友好。当然国内的 Android SDK 的服务器也有，一般是科研机构、大公司提供，这些都是备用手段。我使用 SS 的 HTTP 代理，主机和端口号如图。完成后点击下方的 check connection，如果能访问 Google，那么恭喜你通关。<br>
 <img src="http://upload-images.jianshu.io/upload_images/1820210-bcc48a4e2e1380cc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="proxy"></p>
 </li>
 <li>
