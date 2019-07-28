@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-07-28T11:38:33.774Z</updated>
+    <updated>2019-07-28T11:41:37.138Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -201,14 +201,13 @@
 <li>一个搜索多个关键词 <code>OR</code>，比如：巧克力 OR 白巧克力</li>
 <li>搜索一系列数字 <code>..</code>，比如：41..43</li>
 <li>保持简单，比如：附近的披萨店</li>
-<li>逐渐添加搜索词，比如：</li>
-</ol>
+<li>逐渐添加搜索词，比如：
 <ul>
 <li>首先尝试：工作面试</li>
 <li>其次尝试：准备工作面试</li>
 <li>再次尝试：如何准备工作面试</li>
 </ul>
-<ol start="13">
+</li>
 <li>使用网站会用的词汇，比如：“我头疼”可以换成“头痛缓解”</li>
 <li>只用重要的词汇，比如：
 <ul>
