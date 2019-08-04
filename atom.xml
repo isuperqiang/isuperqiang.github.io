@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-07-28T11:41:37.138Z</updated>
+    <updated>2019-08-04T09:48:11.261Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,68 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 18 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-18-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-18-qi">
+        </link>
+        <updated>2019-08-04T09:41:25.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="110-平衡二叉树简单">110. 平衡二叉树（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个二叉树，判断它是否是高度平衡的二叉树。<br>
+本题中，一棵高度平衡二叉树定义为：<br>
+一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>给定二叉树 [3,9,20,null,null,15,7]
+    3
+   / \
+  9  20
+    /  \
+   15   7
+ 返回 true
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>平衡二叉树的条件：</p>
+<ul>
+<li>左子树是平衡二叉树</li>
+<li>右子树是平衡二叉树</li>
+<li>左右子树的高度差的绝对值不超过 1</li>
+</ul>
+<p>深度优先遍历，递归求解树的高度。终止条件是不满足上述三个条件之一，二叉树的最大深度可以参考第 114 题。</p>
+<pre><code class="language-java">class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return height(root) != -1;
+    }
+    
+    private int height(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = height(root.left);
+        int rightHeight = height(root.right);
+        if (leftHeight == -1 || rightHeight == -1 
+                || Math.abs(leftHeight - rightHeight) &gt; 1) {
+            return -1;
+        }
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners">Basic Linux Commands for Beginners</a> 为新手准备的 Linux 命令</p>
+<p>Linux 是免费、开源的操作系统内核，你可以修改 Linux 上的任何东西，并用自己的名字重新发布，比如 Ubuntu、Debian、Red Hat 等版本。</p>
+<p>Linux 主要应用于服务器上，世界上 90% 的服务器都运行 Linux 系统，因为它安全、快速并且免费。Android 手机占据智能机的 80%，它也是基于 Linux 内核。大多数的病毒出现在 Windows 上，而不是 Linux。</p>
+<p>shell 是一个程序，它接收用户的命令，并传递给系统执行，然后显示结果。Linux 有个命令行界面，是 shell 的主要交互部分。</p>
+<p>接下来，作者列举了一些基本的命令：cd/ls/pwd/mkdir/rm/touch/man/cp/mv/cat/sudo/echo/df/vi/tar/apt-get/chmod/ping 等。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p><a href="https://github.com/robbyrussell/oh-my-zsh">oh my zsh</a> 非常强大的 shell，拥有丰富的插件和主题，只支持 macOS 和 Linux。不愧是终极 Shell，提高 10x 效率没问题。有时候一成不变挺悲哀的，尝试折腾一下才有乐趣。Have a try, you will enjoy it.</p>
+<h2 id="4-share">4. Share</h2>
+<p>程序员应该学习 Linux，理解设计理想，熟悉常用命令。对于高手来说，一个 Terminal 就够了。在 macOs 或 Linux 下开发，比 Windows 省心多了。首先没有字符编码的问题，其次 Unix-like 平台上有非常多的开发工具，程序员用了绝对爱不释手。另外，Unix-like 平台上的软件不像 Windows 系统上那样流氓，而且不容易感染病毒。值得庆幸的是，Windows 10 内置了 Linux，我们可以下载 Ubuntu 体验。虽然是阉割版，但用来学习够用了。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 17 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-17-qi</id>
@@ -186,7 +248,6 @@
         }
     }
 </code></pre>
-<hr>
 <h2 id="2-review">2. Review</h2>
 <p><a href="https://www.lifehack.org/articles/technology/20-tips-use-google-search-efficiently.html">20 Google Search Tips to Use Google More Efficiently</a> 用好谷歌搜索的 20 条技巧</p>
 <ol>
@@ -309,7 +370,6 @@
 </li>
 <li>空间复杂度都是 O(1)</li>
 </ul>
-<hr>
 <h2 id="2-review">2. Review</h2>
 <p><a href="http://tutorials.jenkov.com/java-concurrency/java-memory-model.html">Java Memory  Model</a> 主要讲述了 Java 内存模型、硬件内存架构和两者之间的差异。</p>
 <p>Java 内存模型把内存分为线程栈和堆。每个线程都有各自的线程栈，线程栈内部包含方法调用信息和方法内局部变量，它不能被其他线程访问。线程栈存储的局部变量，包括「基本数据类型和引用变量」的拷贝，而引用的对象存储在堆中。堆用来存储应用创建的对象，不管是局部对象还是成员对象，不论是哪个线程创建的。</p>
@@ -516,7 +576,6 @@ public class Cat extends Animal {
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
-<hr>
 <h2 id="2-review">2. Review</h2>
 <p><a href="https://medium.com/@rhamedy/key-habits-and-things-i-wish-i-knew-earlier-as-a-developer-43c9466a0407">Key habits and things I wish I knew earlier as a developer</a> 作为开发者，我希望尽早知道的习惯和事情</p>
 <p>作者总结了开发者应该尽早熟知的东西，比如习惯、技能、观念等。</p>
@@ -620,7 +679,6 @@ public class Cat extends Animal {
 <li>时间复杂度：O(n^2)</li>
 <li>空间复杂度：O(n)</li>
 </ul>
-<hr>
 <h2 id="2-review">2. Review</h2>
 <p><a href="https://blog.usejournal.com/what-i-learned-in-my-first-two-years-as-a-software-engineer-4e374fdcf0fd">What I Learned in My First Two Years as a Software Engineer</a> 在我做软件工程师的前两年里学到了什么</p>
 <p>作者讲了两个故事。</p>
@@ -677,7 +735,6 @@ public class Cat extends Animal {
 <li>时间复杂度：O(n)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
-<hr>
 <h2 id="2-review">2. Review</h2>
 <p><a href="https://medium.com/devtrailsio/how-to-become-a-better-software-developer-dd16072c974e">How to Become a Better Software Developer</a> 如何成为更好的软件开发者</p>
 <p>作者分享了一些提升技能和高效工作的方法，这里简单列举几条：</p>
@@ -745,7 +802,6 @@ public class Cat extends Animal {
 <li>时间复杂度：O(logn)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
-<hr>
 <h2 id="2-review">2. Review</h2>
 <p><a href="https://medium.com/javascript-scene/tdd-changed-my-life-5af0ce099f80">TDD Changed My Life</a> TDD 改变了我的人生</p>
 <p>TDD 是测试驱动开发，先写测试用例，再写实现代码。作者讲了一个切身的经历，debug 到奔溃也没有发现问题。如果提前写好单元测试，就能及早发现这个 bug。软件开发就是模块的组装，单元测试针对某个功能，每个部件都通过验证，那么整个系统也得到保证。</p>
@@ -929,7 +985,6 @@ f1 and f2 are equal using BigDecimal
 <li>时间复杂度：O(logn)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
-<hr>
 <h3 id="349-两个数组的交集简单">349.  两个数组的交集（简单）</h3>
 <h5 id="描述-2">描述：</h5>
 <blockquote>
@@ -985,144 +1040,6 @@ f1 and f2 are equal using BigDecimal
 <p><a href="https://isuperqiang.cn/post/android-io-na-xie-shi-er/">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
 <h2 id="4-share">4. Share</h2>
 <p>经典是经过时间筛选的，在这个浮躁的社会，多读经典是最省时间的选择。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 10 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi">
-        </link>
-        <updated>2019-06-09T03:37:47.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="226-翻转二叉树简单">226. 翻转二叉树（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>翻转一棵二叉树</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>示例：
-输入:
-    4
-  2    7
-1  3  6  9
-输出:
-    4
-  7    2
-9  6  3  1
-</code></pre>
-<h5 id="思路">思路：</h5>
-<ul>
-<li>递归法：翻转一个二叉树，就是把根节点的左子树翻转一下，同样的把右子树翻转一下，再交换左右子树就可以了。</li>
-<li>迭代法：类似广度优先遍历的方式，使用队列存储尚未交换的节点，每次从队列取出一个结点，交互其左右子结点，直到队列为空。</li>
-</ul>
-<pre><code class="language-java">class Solution {
-    public TreeNode invertTreeRecursively(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
-
-        TreeNode temp = root.left;
-        root.left = root.right;
-        root.right = temp;
-        invertTreeRecursively(root.left);
-        invertTreeRecursively(root.right);
-        return root;
-    }
-
-    public TreeNode invertTreeIteratively(TreeNode root) {
-        if (root == null) {
-            return null;
-        }
-
-        LinkedList&lt;TreeNode&gt; list = new LinkedList&lt;&gt;();
-        list.add(root);
-        while (list.isEmpty()) {
-            TreeNode current = list.poll();
-            TreeNode temp = current.left;
-            current.left = current.right;
-            current.right = temp;
-
-            if (current.left != null) {
-                list.add(current.left);
-            }
-            if (current.right != null) {
-                list.add(current.right);
-            }
-        }
-        return root;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<p>递归和迭代法一样：</p>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(n)</li>
-</ul>
-<hr>
-<h3 id="326-3-的幂简单">326. 3 的幂（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>给定一个整数，写一个函数来判断它是否是 3 的幂次方。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>输入: 27
-输出: true
-</code></pre>
-<h5 id="思路-2">思路：</h5>
-<ul>
-<li>解法一：累乘法</li>
-<li>解法二：3的幂次质因子只有3，而整数范围内的3的幂次最大是1162261467</li>
-</ul>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public boolean isPowerOfThree(int n) {
-        if (n &lt;= 0) {
-            return false;
-        }
-        if (n == 1) {
-            return true;
-        }
-        long m = 1;
-        while (m &lt; n) {
-            m *= 3;
-            if (m == n) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isPowerOfThree2(int n) {
-        return n &gt; 0 &amp;&amp; 1162261467 % n == 0;
-    }
-}
-</code></pre>
-<h5 id="分析-2">分析：</h5>
-<p>解法一：</p>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<p>解法二：</p>
-<ul>
-<li>时间复杂度：O(1)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/@cscalfani/goodbye-object-oriented-programming-a59cda4c0e53">Goodbye, Object Oriented Programming</a> 再见，面向对象编程</p>
-<p>作者是个有着多年经验的老程序员，他毫不留情地指出了面向对象编程的问题，分别从封装、继承和多态这三大支柱来阐述。</p>
-<ul>
-<li>继承最大的好处就是复用。但是出现了「猴子香蕉丛林」问题，我只想要一根香蕉，得到的却是香蕉丛林。钻石问题，继承关系的结构图就像钻石一样，这样容易造成调用混乱。还有基类问题，子类不知道基类的实现，从而引发操作错误。解决办法就是用组合替代继承，原意是包含和委托。</li>
-<li>封装使得对象保证内部的变量受保护，然而它却带来了一下问题。引用问题，给构造方法传参时，对象存在多个应用，这样对象就不安全了。解决办法是对象深拷贝，但不是所有对象都支持克隆。</li>
-<li>面向对象编程不需要多态，它完全可以基于接口来实现。</li>
-</ul>
-<p>最后作者告别了面向对象编程，转向函数式编程。</p>
-<p>虽然作者举出这么多 OOP 的问题，但是面向对象的思想依然非常流行。软件开发没有银弹，能够实现功能、解决问题的思想都是值得采用的。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>日常的琐事都用软件记录，比如有道云笔记、滴答清单、LastPass。大脑是用来思考的，不是用来记东西的，它充当的更多是 CPU 的角色，而不是硬盘。所以，让大脑轻松一下，用工具记录吧。</p>
-<h2 id="4-share">4. Share</h2>
-<p><a href="https://mp.weixin.qq.com/s/qodCngOPXGSaaBy2ULAgqg">关于线程和I/O模型的极简知识</a> 主要讲述了线程和 I/O 模型的演化历史，问题驱动模型的演化，每种模型都有各自的使用场景。</p>
 ]]></content>
     </entry>
 </feed>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>在南方的冬夜里，奉上几点编程建议 | 落英坠露</title>
+<title>每周 ARTS 第 18 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,35 +115,71 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">在南方的冬夜里，奉上几点编程建议</h2>
-            <div class="post-date">2018-12-16</div>
+            <h2 class="post-title">每周 ARTS 第 18 期</h2>
+            <div class="post-date">2019-08-04</div>
             
             <div class="post-content">
-              <p>今年的冬天格外冷，经济寒潮导致许多互联网企业裁员，尽管公关一再掩饰，但是大家心知肚明，所有人都瑟瑟发抖。就算有幸留下来，年终奖也大幅缩水。上午还在写 Bug，下午就被告知走人。这不是段子，而是一些程序员的真实遭遇。</p>
-<p>身处凛冽寒冬，该怎么度过呢？当然不能轻易跳槽，离职就意味着失业。如果碰上被辞退，那就多争取点补偿吧。努力提升自己，来年春天继续绽放。不畏严寒，稳中求进，提升技能，就这几条比较中肯的建议。</p>
-<p>周末回顾了一下编程上遇到的问题，发现有很多需要改进的地方，这里简单列举几条。</p>
-<h3 id="1-建立通用的代码仓库">1. 建立通用的代码仓库</h3>
-<p>应用层的开发，不管是前端、后端还是移动端，功能的实现都是围绕需求来的。不管需求怎么变，有些基础的、公用的部分是不变的，比如网络请求、读写缓存等。</p>
-<p>对于这些不变的部分，有必要做个抽取和整合，封装成独立的公共模块，加入自己的代码仓库（repository）。这样以后就可以快速地开发，遇到问题也不用重新搜索，节省了开发交付的时间。</p>
-<h3 id="2-引入版本控制系统">2. 引入版本控制系统</h3>
-<p>版本控制（Version Control）在编程中的一个概念，扩展到能够编辑的文件也一样。比如用 Word 写论文，改来改去发现还是之前的版本好，如何找回之前的版本呢？这时候轮到版本控制系统（VCS）大展身手了。</p>
-<p>程序员主要利用 Git 和 SVN 来实现版本控制。Git 是分布式的，任何克隆到本地的工程都保留完整的提交历史，就算有人把代码从中央仓库删除，依然可以从其他人那里找回历史记录。</p>
-<p>SVN 是中心化的，所有的修改历史都由中央仓库记录，一旦服务器宕机就查不到了。所以现在大多数公司都使用 Git，内网服务器搭建 GitLab 是最常用的方式。</p>
-<p>除了程序员，比如文案编辑这类群体，也要懂点版本控制的概念。近几年非常流行在线笔记，比如腾讯文档、有道云笔记等，它们都附带历史版本的功能，方便随时查看过往记录的内容。</p>
-<p>另外，如果想为本地文件引入版本控制，可以考虑坚果云、亿方云这样的网盘，客户端时刻监控文件夹，一旦发生改动，网盘立马同步，并且记录历史，从不担心数据丢失的问题。</p>
-<h3 id="3-不要重复造轮子">3. 不要重复造轮子</h3>
-<p>这是程序员老生常谈的话题了，奉行「拿来主义」并没有错。这几天在做一块儿功能，之前没有接触过，界面交互非常复杂。我低估了它的实现难度，一边思考一边计算，大半天也没有结果。</p>
-<p>后来老大提醒我，可以到网上找找有没有开源的库，拿过来改一改。突然我就有种拨开云雾见青天的感觉，必须承认大脑在持续工作的时候会发生短路，导致把简单的问题复杂化。</p>
-<p>如果完全由自己实现，工作量大不说，里面的坑也多。使用开源库就简单多了，读读 Wiki 文档，修修补补就能实现想要的效果。两种方案，立判高下。</p>
-<p>站在巨人的肩膀上，让我们看得更远，同样地，借用别人的轮子会让我们走得更顺畅。开源让开发更美好，也是编程发展的主流。</p>
-<p>一点小感悟，就说这么多，愿温暖与感动常在。</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="110-平衡二叉树简单">110. 平衡二叉树（简单）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个二叉树，判断它是否是高度平衡的二叉树。<br>
+本题中，一棵高度平衡二叉树定义为：<br>
+一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>给定二叉树 [3,9,20,null,null,15,7]
+    3
+   / \
+  9  20
+    /  \
+   15   7
+ 返回 true
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>平衡二叉树的条件：</p>
+<ul>
+<li>左子树是平衡二叉树</li>
+<li>右子树是平衡二叉树</li>
+<li>左右子树的高度差的绝对值不超过 1</li>
+</ul>
+<p>深度优先遍历，递归求解树的高度。终止条件是不满足上述三个条件之一，二叉树的最大深度可以参考第 114 题。</p>
+<pre><code class="language-java">class Solution {
+    public boolean isBalanced(TreeNode root) {
+        return height(root) != -1;
+    }
+    
+    private int height(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int leftHeight = height(root.left);
+        int rightHeight = height(root.right);
+        if (leftHeight == -1 || rightHeight == -1 
+                || Math.abs(leftHeight - rightHeight) &gt; 1) {
+            return -1;
+        }
+        return Math.max(leftHeight, rightHeight) + 1;
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://maker.pro/linux/tutorial/basic-linux-commands-for-beginners">Basic Linux Commands for Beginners</a> 为新手准备的 Linux 命令</p>
+<p>Linux 是免费、开源的操作系统内核，你可以修改 Linux 上的任何东西，并用自己的名字重新发布，比如 Ubuntu、Debian、Red Hat 等版本。</p>
+<p>Linux 主要应用于服务器上，世界上 90% 的服务器都运行 Linux 系统，因为它安全、快速并且免费。Android 手机占据智能机的 80%，它也是基于 Linux 内核。大多数的病毒出现在 Windows 上，而不是 Linux。</p>
+<p>shell 是一个程序，它接收用户的命令，并传递给系统执行，然后显示结果。Linux 有个命令行界面，是 shell 的主要交互部分。</p>
+<p>接下来，作者列举了一些基本的命令：cd/ls/pwd/mkdir/rm/touch/man/cp/mv/cat/sudo/echo/df/vi/tar/apt-get/chmod/ping 等。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p><a href="https://github.com/robbyrussell/oh-my-zsh">oh my zsh</a> 非常强大的 shell，拥有丰富的插件和主题，只支持 macOS 和 Linux。不愧是终极 Shell，提高 10x 效率没问题。有时候一成不变挺悲哀的，尝试折腾一下才有乐趣。Have a try, you will enjoy it.</p>
+<h2 id="4-share">4. Share</h2>
+<p>程序员应该学习 Linux，理解设计理想，熟悉常用命令。对于高手来说，一个 Terminal 就够了。在 macOs 或 Linux 下开发，比 Windows 省心多了。首先没有字符编码的问题，其次 Unix-like 平台上有非常多的开发工具，程序员用了绝对爱不释手。另外，Unix-like 平台上的软件不像 Windows 系统上那样流氓，而且不容易感染病毒。值得庆幸的是，Windows 10 内置了 Linux，我们可以下载 Ubuntu 体验。虽然是阉割版，但用来学习够用了。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/tech-quality" class="tag">
-                    技术素养
+                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -151,9 +187,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/xie-gei-25-sui-de-zi-ji">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-17-qi">
                   <h3 class="post-title">
-                    写给 25 岁的自己
+                    每周 ARTS 第 17 期
                   </h3>
                 </a>
               </div>
