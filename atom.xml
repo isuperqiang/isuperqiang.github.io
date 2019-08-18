@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-08-11T14:58:00.835Z</updated>
+    <updated>2019-08-18T14:19:49.787Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,183 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 20 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-20-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-20-qi">
+        </link>
+        <updated>2019-08-18T14:16:54.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="1116-打印零与奇偶数中等">1116. 打印零与奇偶数（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>有这样一个类 ZeroEvenOdd，相同的一个 ZeroEvenOdd 类实例将会传递给三个不同的线程：</p>
+<ul>
+<li>
+<p>线程 A 将调用 zero()，它只输出 0 。</p>
+</li>
+<li>
+<p>线程 B 将调用 even()，它只输出偶数。</p>
+</li>
+<li>
+<p>线程 C 将调用 odd()，它只输出奇数。</p>
+</li>
+</ul>
+<p>每个线程都有一个 printNumber 方法来输出一个整数。请修改给出的代码以输出整数序列 010203040506... ，其中序列的长度必须为 2n。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入：n = 2
+输出：&quot;0102&quot;
+说明：三条线程异步执行，其中一个调用 zero()，另一个线程调用 even()，最后一个线程调用odd()。正确的输出为 &quot;0102&quot;。
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>线程同步问题，可以使用锁或者信号量解决。</p>
+<ul>
+<li>解法一：Lock 和 Condition</li>
+</ul>
+<pre><code class="language-java">    private static class ZeroEvenOdd1 {
+        private final Lock lock = new ReentrantLock();
+        private final Condition evenCondition = lock.newCondition();
+        private final Condition oddCondition = lock.newCondition();
+        private final Condition zeroCondition = lock.newCondition();
+        private int n;
+        private int current = 1;
+        // 0 refers zero, 1 refers odd, 2 refers even
+        private int state = 0;
+
+        public ZeroEvenOdd1(int n) {
+            this.n = n;
+        }
+
+        // printNumber.accept(x) outputs &quot;x&quot;, where x is an integer.
+        public void zero(IntConsumer printNumber) throws InterruptedException {
+            lock.lock();
+            try {
+                while (current &lt;= n) {
+                    if (state != 0) {
+                        zeroCondition.await();
+                    }
+                    printNumber.accept(0);
+                    if ((current &amp; 1) == 0) {
+                        state = 2;
+                        evenCondition.signal();
+                    } else {
+                        state = 1;
+                        oddCondition.signal();
+                    }
+                    zeroCondition.await();
+                }
+                oddCondition.signal();
+                evenCondition.signal();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        // 偶数
+        public void even(IntConsumer printNumber) throws InterruptedException {
+            lock.lock();
+            try {
+                while (current &lt;= n) {
+                    if (state != 2) {
+                        evenCondition.await();
+                    } else {
+                        printNumber.accept(current++);
+                        state = 0;
+                        zeroCondition.signal();
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        // 奇数
+        public void odd(IntConsumer printNumber) throws InterruptedException {
+            lock.lock();
+            try {
+                while (current &lt;= n) {
+                    if (state != 1) {
+                        oddCondition.await();
+                    } else {
+                        printNumber.accept(current++);
+                        state = 0;
+                        zeroCondition.signal();
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+</code></pre>
+<ul>
+<li>解法二：Semaphore</li>
+</ul>
+<pre><code class="language-java">    private static class ZeroEvenOdd2 {
+        private final Semaphore zeroSemaphore = new Semaphore(1);
+        private final Semaphore evenSemaphore = new Semaphore(0);
+        private final Semaphore oddSemaphore = new Semaphore(0);
+        private int n;
+
+        public ZeroEvenOdd2(int n) {
+            this.n = n;
+        }
+
+        // printNumber.accept(x) outputs &quot;x&quot;, where x is an integer.
+        public void zero(IntConsumer printNumber) throws InterruptedException {
+            for (int i = 1; i &lt;= n; i++) {
+                zeroSemaphore.acquire();
+                printNumber.accept(0);
+                if ((i &amp; 1) == 0) {
+                    evenSemaphore.release();
+                } else {
+                    oddSemaphore.release();
+                }
+            }
+        }
+
+        public void even(IntConsumer printNumber) throws InterruptedException {
+            for (int i = 2; i &lt;= n; i += 2) {
+                evenSemaphore.acquire();
+                printNumber.accept(i);
+                zeroSemaphore.release();
+            }
+        }
+
+        public void odd(IntConsumer printNumber) throws InterruptedException {
+            for (int i = 1; i &lt;= n; i += 2) {
+                oddSemaphore.acquire();
+                printNumber.accept(i);
+                zeroSemaphore.release();
+            }
+        }
+    }
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/free-code-camp/follow-these-simple-rules-and-youll-become-a-git-and-github-master-e1045057468f">Follow these simple rules and you’ll become a Git and GitHub master</a> 遵循这些规范，你就会成为 Git 大师。</p>
+<p>作者提出了三条建议：</p>
+<ul>
+<li>为每个新项目创建 Git 仓库</li>
+<li>为每个新需求创建新分支</li>
+<li>使用 pull request 合并代码到 master 分支</li>
+</ul>
+<p>点评：Git 是非常强大的版本控制工具，每个程序员都该熟练掌握。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>《高效阅读法》（levarage reading）讲了许多不一样的读书方法。读书不一定要从头开始完整读一遍，只读对自己有用的、感兴趣的地方，无关紧要的内容一律跳过，设定读书的时间限制，比如两小时读完，这样读书速度就提升了一大截。仅仅读了还不够，要运用到生活中，读以致用。 最有效的投资就是自我投资，读书是最好的自我投资。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/o4CfgIcPibG_QxrsZ4x7sA">技术人如何通过了解业务，获取晋升机会？</a></p>
+<p>阿里技术专家的一篇分享，对于技术和业务讲得非常中肯。下面是作者的几个观点：</p>
+<ul>
+<li>业务先赢是技术第一要务。技术人员首要任务是先把业务支持好，在这个前提下，再来讲技术沉淀和技术红利。</li>
+<li>理解业务有助于你做技术决策去驱动业务，有助于你对资源的优先级做判断，而且还有助于提升你的研发效能。</li>
+<li>理解业务更多是理解了运营决策背后的原因，理解了网站各个角色的诉求和痛点，理解了自己做的产品和项目对业务的价值和影响。</li>
+<li>技术人的三大支柱：业务理解、项目管理和专业技术。一个不理解业务的研发，和流水线的工人是没有很大的区别的。</li>
+<li>技术人员不一定要去这么深入理解业务或者成果出在业务上，对技术很感兴趣的同学而且有抓手的同学，就安心地去专研技术并取得结果就好，注意要取得结果，不能是说不清楚的东西。</li>
+<li>对于技术上没有鲜明特色的同学，或者有技术深度但是暂时想不到什么技术挖掘点的同学，不妨去多看看业务，寻找技术驱动业务的机会。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 19 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-19-qi</id>
@@ -901,113 +1078,6 @@ public class Cat extends Animal {
 <p><a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">Java 比较浮点数的正确方式</a> 重新认识了浮点数，解决了以前踩过的坑。</p>
 <h2 id="4-share">4. Share</h2>
 <p>一本书不读完，坚决不碰下一本。最近读书一直虎头蛇尾，看到一半就停下来看其他的。碎片化的生活，耐心越来越稀缺，我想静下心来，踏踏实实做下去。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Java 比较浮点数的正确方式]]></title>
-        <id>https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi</id>
-        <link href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi">
-        </link>
-        <updated>2019-06-23T04:02:17.000Z</updated>
-        <summary type="html"><![CDATA[<p>今天在读《Java开发手册》时，看到浮点数的等值判断问题「浮点数的基本数据类型不能用 <code>==</code> 比较，包装数据类型不能用 <code>equals</code> 比较」。以前开发时也遇到过浮点数的坑，所以就想一探究竟。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>今天在读《Java开发手册》时，看到浮点数的等值判断问题「浮点数的基本数据类型不能用 <code>==</code> 比较，包装数据类型不能用 <code>equals</code> 比较」。以前开发时也遇到过浮点数的坑，所以就想一探究竟。</p>
-<!-- more -->
-<h3 id="1-浮点数表示">1. 浮点数表示</h3>
-<p>在计算机系统理论中，浮点数采用 IEEE 754 标准表示，编码方式是符号+阶码+尾数，如图：</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1820210-61af804d90504fc0.webp" alt="浮点数表示"></p>
-<p>比如 float 类型占用 32 位，单精度浮点表示法：</p>
-<ul>
-<li>符号位（sign）占用 1 位，用来表示正负数，0 表示正数，1 表示负数</li>
-<li>指数位（exponent）占用 8 位，用来表示指数，实际要加上偏移量</li>
-<li>小数位（fraction）占用 23 位，用来表示小数，不足位数补 0</li>
-</ul>
-<p>从这里可以看出，指数位决定了大小范围，小数位决定了计算精度。当十进制数值转换为二进制科学表达式后，得到的尾数位数是有可能很长甚至是无限长。所以当使用浮点格式来存储数字的时候，实际存储的尾数是被截取或执行舍入后的近似值。这就解释了浮点数计算不准确的问题，因为近似值和原值是有差异的。</p>
-<p>更详细的介绍可以查阅 <a href="https://www.zhihu.com/question/46432979/answer/221485161">java浮点类型float和double的主要区别，它们的小数精度范围大小是多少？ - Boss呱呱的回答 - 知乎</a>。</p>
-<h3 id="2-比较浮点数的方式">2. 比较浮点数的方式</h3>
-<p>让我们来验证一下比较浮点数的几种方式。</p>
-<h4 id="1-操作符">1. <code>==</code> 操作符</h4>
-<p>比较两个浮点数，一个从零开始加 11 次 0.1，另一个用 0.1 乘以 11 计算。然后用 <code>==</code> 比较大小。</p>
-<pre><code class="language-java">    private void compareByOperator() {
-        float f1 = 0.0f;
-        for (int i = 0; i &lt; 11; i++) {
-            f1 += 0.1f;
-        }
-
-        float f2 = 0.1f * 11;
-
-        System.out.println(&quot;f1 = &quot; + f1);
-        System.out.println(&quot;f2 = &quot; + f2);
-
-        if (f1 == f2) {
-            System.out.println(&quot;f1 and f2 are equal using operator ==&quot;);
-        } else {
-            System.out.println(&quot;f1 and f2 are not equal using operator ==&quot;);
-        }
-    }
-</code></pre>
-<p>运行输出：</p>
-<pre><code>f1 = 1.1000001
-f2 = 1.1
-f1 and f2 are not equal
-</code></pre>
-<p>可以看到，两个浮点数不相等，所以通过 <code>==</code> 来比较浮点数是不可靠的。</p>
-<h4 id="2-误差范围">2. 误差范围</h4>
-<p>指定一个误差范围，两个浮点数的差值在范围之内，则认为是相等的。使用 <code>Math.abs()</code> 计算差值，然后和阈值比较。</p>
-<pre><code class="language-java">    private void compareByThreshold() {
-        final float THRESHOLD = 0.000001;
-        float f1 = 0.0f;
-        for (int i = 0; i &lt; 11; i++) {
-            f1 += 0.1f;
-        }
-
-        float f2 = 0.1f * 11;
-
-        System.out.println(&quot;f1 = &quot; + f1);
-        System.out.println(&quot;f2 = &quot; + f2);
-
-        if (Math.abs(f1 - f2) &lt; THRESHOLD) {
-            System.out.println(&quot;f1 and f2 are equal using threshold&quot;);
-        } else {
-            System.out.println(&quot;f1 and f2 are not equal using threshold&quot;);
-        }
-    }
-</code></pre>
-<p>运行输出：</p>
-<pre><code>f1 = 1.1000001
-f2 = 1.1
-f1 and f2 are equal using threshold
-</code></pre>
-<h4 id="3-使用-bigdecimal">3. 使用 <code>BigDecimal</code></h4>
-<p><code>BigDecimal</code> 是不可变的，能够精确地表示十进制数字。需要注意的是，创建 <code>BigDecimal</code> 对象时，要使用参数为 <code>String</code> 的构造方法，不要使用构造参数为 <code>double</code> 的，如果非要使用 <code>double</code> 创建，一定要用 <code>valueOf</code> 静态方法，防止丢失精度。然后调用 <code>compareTo</code> 方法比较即可。</p>
-<pre><code class="language-java">    private void compareByBigDecimal() {
-        BigDecimal f1 = new BigDecimal(&quot;0.0&quot;);
-        BigDecimal pointOne = new BigDecimal(&quot;0.1&quot;);
-        for (int i = 0; i &lt; 11; i++) {
-            f1 = f1.add(pointOne);
-        }
-
-        BigDecimal f2 = new BigDecimal(&quot;0.1&quot;);
-        BigDecimal eleven = new BigDecimal(&quot;11&quot;);
-        f2 = f2.multiply(eleven);
-
-        System.out.println(&quot;f1 = &quot; + f1);
-        System.out.println(&quot;f2 = &quot; + f2);
-
-        if (f1.compareTo(f2) == 0) {
-            System.out.println(&quot;f1 and f2 are equal using BigDecimal&quot;);
-        } else {
-            System.out.println(&quot;f1 and f2 are not equal using BigDecimal&quot;);
-        }
-    }
-</code></pre>
-<p>运行输出：</p>
-<pre><code>f1 = 1.1
-f2 = 1.1
-f1 and f2 are equal using BigDecimal
-</code></pre>
-<h3 id="3-结论">3. 结论</h3>
-<p>使用 <code>==</code> 比较浮点数不准确，可以采用误差范围近似相等，或者 <code>BigDecimal</code> 计算比较。</p>
 ]]></content>
     </entry>
 </feed>

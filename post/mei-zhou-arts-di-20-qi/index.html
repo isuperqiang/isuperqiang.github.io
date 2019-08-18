@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>每周 ARTS 第 20 期 | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1566137950816">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1566137950816" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">每周 ARTS 第 20 期</h2>
+            <div class="post-date">2019-08-18</div>
+            
+            <div class="post-content">
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="1116-打印零与奇偶数中等">1116. 打印零与奇偶数（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>有这样一个类 ZeroEvenOdd，相同的一个 ZeroEvenOdd 类实例将会传递给三个不同的线程：</p>
+<ul>
+<li>
+<p>线程 A 将调用 zero()，它只输出 0 。</p>
+</li>
+<li>
+<p>线程 B 将调用 even()，它只输出偶数。</p>
+</li>
+<li>
+<p>线程 C 将调用 odd()，它只输出奇数。</p>
+</li>
+</ul>
+<p>每个线程都有一个 printNumber 方法来输出一个整数。请修改给出的代码以输出整数序列 010203040506... ，其中序列的长度必须为 2n。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入：n = 2
+输出：&quot;0102&quot;
+说明：三条线程异步执行，其中一个调用 zero()，另一个线程调用 even()，最后一个线程调用odd()。正确的输出为 &quot;0102&quot;。
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>线程同步问题，可以使用锁或者信号量解决。</p>
+<ul>
+<li>解法一：Lock 和 Condition</li>
+</ul>
+<pre><code class="language-java">    private static class ZeroEvenOdd1 {
+        private final Lock lock = new ReentrantLock();
+        private final Condition evenCondition = lock.newCondition();
+        private final Condition oddCondition = lock.newCondition();
+        private final Condition zeroCondition = lock.newCondition();
+        private int n;
+        private int current = 1;
+        // 0 refers zero, 1 refers odd, 2 refers even
+        private int state = 0;
+
+        public ZeroEvenOdd1(int n) {
+            this.n = n;
+        }
+
+        // printNumber.accept(x) outputs &quot;x&quot;, where x is an integer.
+        public void zero(IntConsumer printNumber) throws InterruptedException {
+            lock.lock();
+            try {
+                while (current &lt;= n) {
+                    if (state != 0) {
+                        zeroCondition.await();
+                    }
+                    printNumber.accept(0);
+                    if ((current &amp; 1) == 0) {
+                        state = 2;
+                        evenCondition.signal();
+                    } else {
+                        state = 1;
+                        oddCondition.signal();
+                    }
+                    zeroCondition.await();
+                }
+                oddCondition.signal();
+                evenCondition.signal();
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        // 偶数
+        public void even(IntConsumer printNumber) throws InterruptedException {
+            lock.lock();
+            try {
+                while (current &lt;= n) {
+                    if (state != 2) {
+                        evenCondition.await();
+                    } else {
+                        printNumber.accept(current++);
+                        state = 0;
+                        zeroCondition.signal();
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+
+        // 奇数
+        public void odd(IntConsumer printNumber) throws InterruptedException {
+            lock.lock();
+            try {
+                while (current &lt;= n) {
+                    if (state != 1) {
+                        oddCondition.await();
+                    } else {
+                        printNumber.accept(current++);
+                        state = 0;
+                        zeroCondition.signal();
+                    }
+                }
+            } finally {
+                lock.unlock();
+            }
+        }
+    }
+</code></pre>
+<ul>
+<li>解法二：Semaphore</li>
+</ul>
+<pre><code class="language-java">    private static class ZeroEvenOdd2 {
+        private final Semaphore zeroSemaphore = new Semaphore(1);
+        private final Semaphore evenSemaphore = new Semaphore(0);
+        private final Semaphore oddSemaphore = new Semaphore(0);
+        private int n;
+
+        public ZeroEvenOdd2(int n) {
+            this.n = n;
+        }
+
+        // printNumber.accept(x) outputs &quot;x&quot;, where x is an integer.
+        public void zero(IntConsumer printNumber) throws InterruptedException {
+            for (int i = 1; i &lt;= n; i++) {
+                zeroSemaphore.acquire();
+                printNumber.accept(0);
+                if ((i &amp; 1) == 0) {
+                    evenSemaphore.release();
+                } else {
+                    oddSemaphore.release();
+                }
+            }
+        }
+
+        public void even(IntConsumer printNumber) throws InterruptedException {
+            for (int i = 2; i &lt;= n; i += 2) {
+                evenSemaphore.acquire();
+                printNumber.accept(i);
+                zeroSemaphore.release();
+            }
+        }
+
+        public void odd(IntConsumer printNumber) throws InterruptedException {
+            for (int i = 1; i &lt;= n; i += 2) {
+                oddSemaphore.acquire();
+                printNumber.accept(i);
+                zeroSemaphore.release();
+            }
+        }
+    }
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/free-code-camp/follow-these-simple-rules-and-youll-become-a-git-and-github-master-e1045057468f">Follow these simple rules and you’ll become a Git and GitHub master</a> 遵循这些规范，你就会成为 Git 大师。</p>
+<p>作者提出了三条建议：</p>
+<ul>
+<li>为每个新项目创建 Git 仓库</li>
+<li>为每个新需求创建新分支</li>
+<li>使用 pull request 合并代码到 master 分支</li>
+</ul>
+<p>点评：Git 是非常强大的版本控制工具，每个程序员都该熟练掌握。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>《高效阅读法》（levarage reading）讲了许多不一样的读书方法。读书不一定要从头开始完整读一遍，只读对自己有用的、感兴趣的地方，无关紧要的内容一律跳过，设定读书的时间限制，比如两小时读完，这样读书速度就提升了一大截。仅仅读了还不够，要运用到生活中，读以致用。 最有效的投资就是自我投资，读书是最好的自我投资。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/o4CfgIcPibG_QxrsZ4x7sA">技术人如何通过了解业务，获取晋升机会？</a></p>
+<p>阿里技术专家的一篇分享，对于技术和业务讲得非常中肯。下面是作者的几个观点：</p>
+<ul>
+<li>业务先赢是技术第一要务。技术人员首要任务是先把业务支持好，在这个前提下，再来讲技术沉淀和技术红利。</li>
+<li>理解业务有助于你做技术决策去驱动业务，有助于你对资源的优先级做判断，而且还有助于提升你的研发效能。</li>
+<li>理解业务更多是理解了运营决策背后的原因，理解了网站各个角色的诉求和痛点，理解了自己做的产品和项目对业务的价值和影响。</li>
+<li>技术人的三大支柱：业务理解、项目管理和专业技术。一个不理解业务的研发，和流水线的工人是没有很大的区别的。</li>
+<li>技术人员不一定要去这么深入理解业务或者成果出在业务上，对技术很感兴趣的同学而且有抓手的同学，就安心地去专研技术并取得结果就好，注意要取得结果，不能是说不清楚的东西。</li>
+<li>对于技术上没有鲜明特色的同学，或者有技术深度但是暂时想不到什么技术挖掘点的同学，不妨去多看看业务，寻找技术驱动业务的机会。</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
+                    ARTS
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-19-qi">
+                  <h3 class="post-title">
+                    每周 ARTS 第 19 期
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
