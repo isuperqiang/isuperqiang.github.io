@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1566137950816">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1566732356254">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1566137950816" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1566732356254" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -130,8 +130,8 @@
 </ul>
 <p>这里是我的配置：</p>
 <pre><code>-Xms1024m
--Xmx2048m
--XX:MaxPermSize=768m
+-Xmx4096m
+-XX:MaxPermSize=1024m
 -XX:ReservedCodeCacheSize=512m
 -XX:+UseCompressedOops
 </code></pre>
@@ -140,37 +140,13 @@
 -XX:MaxPermSize：JVM 最大允许分配的非堆内存<br>
 -XX:ReservedCodeCacheSize：JIT 编译后的最大代码缓存</p>
 <p>这几个参数的值当然是越大越好，当然还要根据自己的硬件来修改，现在做开发的都是 8G 内存起，上面的配置就比较合适。</p>
-<p>第二处改动是打开 idea.properties 文件，在最后追加一行 <code>disable.android.first.run=true</code>，表示首次启动时禁止运行检查，一定要在首次启动之前配置，要不然可能会卡在启动界面。</p>
 <h3 id="2-gradle">2. Gradle</h3>
 <p>如果不采取一些特殊手段，<a href="https://gradle.org/install/">Gradle</a> 的下载非常缓慢，建议还是手动下载，然后配置到 AS 中。在 /Users/用户名/.gradle 文件夹下新建一个文件：<code>gradle.properties</code>，然后把下面的配置添加进去。</p>
-<pre><code># Project-wide Gradle settings.
-
-# IDE (e.g. Android Studio) users:
-# Settings specified in this file will override any Gradle settings
-# configured through the IDE.
-
-# For more details on how to configure your build environment visit
-# http://www.gradle.org/docs/current/userguide/build_environment.html
-
-# The Gradle daemon aims to improve the startup and execution time of Gradle.
-# When set to true the Gradle daemon is to run the build.
-# TODO: disable daemon on CI, since builds should be clean and reliable on servers
+<pre><code>org.gradle.jvmargs=-Xmx4096m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
 org.gradle.daemon=true
-
-# Specifies the JVM arguments used for the daemon process.
-# The setting is particularly useful for tweaking memory settings.
-# Default value: -Xmx1024m -XX:MaxPermSize=256m
-org.gradle.jvmargs=-Xmx2048m -XX:MaxPermSize=768m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
-
-# When configured, Gradle will run in incubating parallel mode.
-# This option should only be used with decoupled projects. More details, visit
-# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:decoupled_projects
-org.gradle.parallel=true
-
-# Enables new incubating mode that makes Gradle selective when configuring projects. 
-# Only relevant projects are configured which results in faster builds for large multi-projects.
-# http://www.gradle.org/docs/current/userguide/multi_project_builds.html#sec:configuration_on_demand
 org.gradle.configureondemand=true
+org.gradle.parallel=true
+org.gradle.caching=true
 </code></pre>
 <p>主要的优化方面是开启守护进程、并行模式、孵化模式（只构建相关的项目）、设置 JVM<br>
 参数（最大堆内存、最大非堆内存）等。<br>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-08-18T14:19:49.787Z</updated>
+    <updated>2019-08-25T11:27:14.072Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,82 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 21 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-21-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-21-qi">
+        </link>
+        <updated>2019-08-25T11:25:36.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="24-两两交换链表中的节点中等">24. 两两交换链表中的节点（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。<br>
+你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.
+</code></pre>
+<h5 id="思路">思路：</h5>
+<ul>
+<li>迭代法：从 head 开始遍历，改变相邻节点和它们前后节点之间的关系。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode curr = head;
+        ListNode result = head.next;
+        ListNode next;
+        ListNode prev = null;
+        while (curr != null &amp;&amp; (next = curr.next) != null) {
+            ListNode temp = next.next;
+            next.next = curr;
+            curr.next = temp;
+            if (prev != null) {
+                prev.next = next;
+            }
+            prev = curr;
+            curr = temp;
+        }
+        return result;
+    }
+}
+</code></pre>
+<ul>
+<li>递归法：先处理最后两个或一个节点，然后再从后往前处理每一对节点。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode next = head.next;
+        head.next = swapPairs(next.next);
+        next.next = head;
+        return next;
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/free-code-camp/how-to-use-git-efficiently-54320a236369">How to use Git efficiently</a> 如何高效地使用 Git</p>
+<p>作者通过一个开发场景，讲解了 Git workflow 的使用技巧。在多人协作的开发过程中，分支是重要的代码管理手段。</p>
+<p>分支主要分为三种：master、release/、feature/xxx。master 是主分支，它存放的是生产代码的拷贝，任何人都不允许在 master 分支提交代码。release 是发布分支，它从 master 分支创建，可以存在多个并行分支 release/xxx，多个项目在同一个 code base 中时，release 分支可以保证项目并行。feature 是需求分支，它通常从 release 分支创建。每个需求都可以创建新的分支，每个开发者在不同的分支上进行功能开发。然后通过 PR 把代码合并到 release 分支。</p>
+<p>通过 pull request，feature 分支的代码合并到 release 分支，主管可以在合并前进行 code review。如果发生合并冲突，解决办法有两种：处理 PR 的主管解决；开发者从 release 分支 pull 最新代码合并到 feature 分支并解决冲突。</p>
+<p>项目完成后，release 分支的代码合并到 master 分支，然后发布产品。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近在维护代码的过程中，发现很多地方写得不够好，重复的代码太多，代码结构有些混乱。有时间我就重构，每个点都仔细推敲，引入经典的设计模式，本着可读性和可维护性好的原则，其他人接手也容易，clean code 原则一定要牢记心间呐。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://www.yuque.com/zenany/up/high_productivity_work">高效工作</a> 来自语雀精选</p>
+<p>作者从两方面列举了高效工作的做法。</p>
+<ul>
+<li>增加有效工作时间</li>
+<li>提高单位时间的产能</li>
+</ul>
+<p>高效能的三个要素：<strong>时间、能量和注意力</strong>。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 20 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-20-qi</id>
@@ -1020,64 +1096,6 @@ public class Cat extends Animal {
 <p>最近在读《Java并发编程实战》，里面讲了一些线程安全的技巧和概念，比如原子性、可见性、不可变对象。线程安全的核心在于对共享和可变的对象进行访问控制，采用同步机制（synchronized），同步的代码块保持精细。不可变对象一定是线程安全的，比如 String。加锁机制可以确保可见性和原子性，而 volatile 只能保证可见性。</p>
 <h2 id="4-share">4. Share</h2>
 <p>19 年过半，我发现有些目标做到一半就停止了，执行力还需要提高。计划-执行-坚持。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 12 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi">
-        </link>
-        <updated>2019-06-23T13:53:36.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="108-将有序数组转换为二叉搜索树简单">108. 将有序数组转换为二叉搜索树（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。本题中，一个高度平衡二叉树是指一个二叉树每个节点的左右两个子树的高度差的绝对值不超过 1。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>给定有序数组: [-10,-3,0,5,9],
-一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
-
-      0
-     / \
-   -3   9
-   /   /
- -10  5
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p>以数组的中间元素为根节点，将数组分为左右两部分，用递归的方法对两个子数组分别构建左右子树。</p>
-<pre><code class="language-java">class Solution {
-    public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return null;
-        }
-        return toBst(nums, 0, nums.length - 1);
-    }
-
-    private TreeNode toBst(int[] nums, int l, int r) {
-        if (l &gt; r) {
-            return null;
-        }
-        int mid = l + (r - l) / 2;
-        TreeNode root = new TreeNode(nums[mid]);
-        root.left = toBst(nums, l, mid - 1);
-        root.right = toBst(nums, mid + 1, r);
-        return root;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：O(logn)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/javascript-scene/tdd-changed-my-life-5af0ce099f80">TDD Changed My Life</a> TDD 改变了我的人生</p>
-<p>TDD 是测试驱动开发，先写测试用例，再写实现代码。作者讲了一个切身的经历，debug 到奔溃也没有发现问题。如果提前写好单元测试，就能及早发现这个 bug。软件开发就是模块的组装，单元测试针对某个功能，每个部件都通过验证，那么整个系统也得到保证。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p><a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">Java 比较浮点数的正确方式</a> 重新认识了浮点数，解决了以前踩过的坑。</p>
-<h2 id="4-share">4. Share</h2>
-<p>一本书不读完，坚决不碰下一本。最近读书一直虎头蛇尾，看到一半就停下来看其他的。碎片化的生活，耐心越来越稀缺，我想静下心来，踏踏实实做下去。</p>
 ]]></content>
     </entry>
 </feed>
