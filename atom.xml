@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-08-25T11:27:14.072Z</updated>
+    <updated>2019-08-28T14:15:00.887Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,59 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之计算机系统漫游]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you">
+        </link>
+        <updated>2019-08-28T14:11:37.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="信息就是位上下文">信息就是位+上下文</h3>
+<p>计算机系统中的所有信息——包括磁盘文件、内存中的数据以及网络上传送的数据，都是由一串比特序列表示。区分不同数据对象的唯一方法是我们读到这些数据时的上下文。比如在不同的上下文中，一个同样的字节序列可能表示一个整数、字符串或者机器指令。</p>
+<p>这让我想起以前遇到的一个问题。当时用 NDK 开发，错把数组的 JVM 地址直接传递给了 Native，然后程序就运行失败了。同样的内存地址，也就是一段字节序列，在 JVM 和 Native 中的解释不一样，说明信息脱离上下文就没有意义了，传递信息时不能忽略上下文。</p>
+<h3 id="程序被编译执行">程序被编译执行</h3>
+<p>下面是用 C 语言实现 hello 程序，它是一种人类可读的文本表示，但是计算机只认由 0 和 1 组成的机器指令，C 语句需要被转化为机器语言指令，打包成可执行目标程序，以二进制的磁盘文件形式存放。</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main() {
+    printf(&quot;Hello world\n&quot;);
+    return 0;
+}
+</code></pre>
+<p>在 Unix 系统上，从源文件到目标文件的转化是由编译器驱动程序完成的。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075112.jpg" alt="编译系统"></p>
+<p>为什么要编译才能执行呢？因为 C 语言是高级程序设计语言，计算机无法理解 C 的语句呗。像 Python 这样的脚本语言，源代码需要边解释边执行，这又是另外一种思路，本质上都是翻译为机器代码。</p>
+<h3 id="系统的硬件组成">系统的硬件组成</h3>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075221.jpg" alt="系统硬件组成"></p>
+<ol>
+<li>总线：贯穿整个系统的一组电子管道。在各个部件间传送定长的字节块，也就是字 word。字长是一个基本的系统参数，要么是 4 个字节（32位），要么是 8 个字节（64位）。</li>
+<li>IO 设备：系统与外部世界的联系通道，通过控制器或适配器与 IO 总线相连。</li>
+<li>主存：临时存储设备，在处理器执行程序时，用来存放程序和程序处理的数据。</li>
+<li>处理器：CPU，解释或执行存储在主存中指令的引擎。处理器的核心是一个大小为一个字的寄存器，称为程序计数器（PC）。在任何时刻，PC 都指向主存中的某条机器语言指令。</li>
+</ol>
+<p>上面的组成图也可以用<strong>冯·诺依曼体系结构</strong>解释。处理器负责运算和控制，主存负责存储数据和指令，IO 设备负责输入和输出。</p>
+<h3 id="存储设备的层次结构">存储设备的层次结构</h3>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075353.jpg" alt="存储器层次结构"></p>
+<p>存储器层次结构的主要思想是上层的存储器作为下层存储器的高速缓存。</p>
+<p>为什么要分层呢？因为读写速度不匹配呗。越靠近 CPU，读写速度越快，当然价格也更高。现在硬件设计的原则是用空间换时间，买电子设备还是选内存大的，因为<strong>时间比空间更值钱</strong>。</p>
+<h3 id="操作系统管理硬件">操作系统管理硬件</h3>
+<p>操作系统有两个基本功能：</p>
+<ol>
+<li>防止硬件被失控的应用程序滥用</li>
+<li>向应用程序提供简单一致的机制来控制复杂的低级硬件设备</li>
+</ol>
+<p>操作系统通过几个抽象概念来实现这两个功能，进程、虚拟内存和文件。文件是对 IO 设备的抽象表示，虚拟内存是对主存和磁盘 IO 设备的抽象表示，进程是对处理器、内存和 IO 设备的抽象表示。虚拟机是对整个计算机的抽象，包括操作系统、处理器和程序。指令集架构是对处理器的抽象。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075700.jpg" alt="计算机系统的抽象"></p>
+<p>这里讲的抽象就非常耐人寻味，它简化了系统实现的复杂性。比如，文件操作包括打开、读取、写入和关闭，IO 设备包括本地磁盘、网络存储等。对文件操作都可以抽象出统一的接口，由不同的 IO 设备实现。</p>
+<h3 id="进程和线程">进程和线程</h3>
+<p>进程是操作系统对一个正在运行的程序的一种抽象。处理器通过在进程间切换的机制（上下文切换）实现并行。</p>
+<p>操作系统保持跟踪进程运行所需的所有状态信息，这种状态就是上下文，包括 PC 和寄存器文件的当前值以及主存的内容。上下文切换就是保存当前进程的上下文，恢复新进程的上下文，然后将控制权传递到新进程。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075513.jpg" alt="进程上下文切换"></p>
+<p>从一个进程到另一个进程的切换是由操作系统的内核管理的，内核是操作系统代码常驻主存的部分。它不是一个独立的进程，而是系统管理全部进程所用代码和数据结构的集合。</p>
+<p>一个进程实际上由多个线程的组成，每个线程都运行在进程的上下文中，并共享同样的代码和数据。</p>
+<p>所以有这样的说法：进程是资源分配的基本单位，线程是任务调度的基本单位。</p>
+<p>计算机系统漫游让我们从整体上认识了系统的结构和组成，算是为接下来的学习开了个好头。好的开端是成功的一半。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 21 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-21-qi</id>
@@ -1034,68 +1087,6 @@ public class Cat extends Animal {
 <p>《Java并发编程实战》中讲到单例设计模式的几种线程安全的实现方式：延迟初始化、提前初始化、延迟初始化占位类和双重检查锁。其中，双重检查锁的实例变量要声明为 volatile 才有效，作者称其为糟糕的实现，不如静态的占位类优雅。</p>
 <h2 id="4-share">4. Share</h2>
 <p>近期在优化项目代码，发现在渲染每帧图像的时候，存在大量无用的对象创建。这么来看，Android 屏幕的刷新速率是 60 FPS，高密集地创建对象导致堆空间占满，造成频繁的垃圾回收，不利于程序的性能。我们要避免这种操作，做一个环保的程序员。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 13 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-13-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-13-qi">
-        </link>
-        <updated>2019-06-30T11:50:17.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="242-有效的字母异位词简单">242. 有效的字母异位词（简单）</h4>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: s = &quot;anagram&quot;, t = &quot;nagaram&quot;
-输出: true
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p>统计 s 中每个字母出现的次数，遍历 t 中的字母减去相应的次数。如果次数小于 0，那么认为是 false。</p>
-<pre><code class="language-java">class Solution {
-    public boolean isAnagram(String s, String t) {
-        if (s == null || t == null || s.length() != t.length()) {
-            return false;
-        }
-
-        int[] counter = new int[26];
-        for (int i = 0, size = s.length(); i &lt; size; i++) {
-            counter[s.charAt(i) - 'a']++;
-        }
-        for (int i = 0, size = t.length(); i &lt; size; i++) {
-            char c = t.charAt(i);
-            counter[c - 'a']--;
-            if (counter[c - 'a'] &lt; 0) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/devtrailsio/how-to-become-a-better-software-developer-dd16072c974e">How to Become a Better Software Developer</a> 如何成为更好的软件开发者</p>
-<p>作者分享了一些提升技能和高效工作的方法，这里简单列举几条：</p>
-<ul>
-<li>从端到端理解流程。程序员不要低头写代码，应该关注软件开发的其他方面，比如产品、设计、测试等。</li>
-<li>理解客户的需求。客户不懂技术，我们要赢得客户的信任，多站在客户的角度考虑。</li>
-<li>为工作选择正确的工具。不要限制自己思维，要提出不同的方案。尝试新事物时，要注意到安全性。</li>
-<li>站在巨人的肩膀上。不要重复造轮子，但是可以通过重新实现来学习。</li>
-<li>关心自己如何工作。提升个人和团队的研发效能，比如完善的工作流程、项目计划等。</li>
-<li>专注于基础。IT 行业瞬息万变，新框架层出不穷，唯有基础知识是一成不变的。</li>
-<li>其他的经验：积极分享知识，不要指责自己和他人，不要做刺头。</li>
-</ul>
-<h2 id="3-tip">3. Tip</h2>
-<p>最近在读《Java并发编程实战》，里面讲了一些线程安全的技巧和概念，比如原子性、可见性、不可变对象。线程安全的核心在于对共享和可变的对象进行访问控制，采用同步机制（synchronized），同步的代码块保持精细。不可变对象一定是线程安全的，比如 String。加锁机制可以确保可见性和原子性，而 volatile 只能保证可见性。</p>
-<h2 id="4-share">4. Share</h2>
-<p>19 年过半，我发现有些目标做到一半就停止了，执行力还需要提高。计划-执行-坚持。</p>
 ]]></content>
     </entry>
 </feed>
