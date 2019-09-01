@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>设计模式之适配器模式 | 落英坠露</title>
+<title>每周 ARTS 第 22 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,105 +115,100 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">设计模式之适配器模式</h2>
-            <div class="post-date">2018-03-18</div>
+            <h2 class="post-title">每周 ARTS 第 22 期</h2>
+            <div class="post-date">2019-09-01</div>
             
             <div class="post-content">
-              <h3 id="1-定义">1.  定义</h3>
-<p>将一个接口转换成客户希望的另一个接口，使接口不兼容的类可以一起工作，其别名为包装器。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。</p>
-<p>适配器模式分为类适配器模式和对象适配器模式，由于Java 不支持多重继承，提倡多用组合少用继承，所以本文主要介绍对象适配器。</p>
-<h3 id="2-作用">2. 作用</h3>
-<p>简言之就是接口转换，比如日常生活中，iPhone 使用 Lightning 接口充电，Android 手机使用 MicroUsb 接口。如果我们想用带 MicroUsb 接口的线给 iPhone 充电怎么办？自然是找个转接头，让电流从 MicroUsb 接口流向 Lightning 接口。这样，转接头就是个适配器，让本来不能一起使用的 MicroUsb 接口和 iPhone 可以友好相处啦。</p>
-<h3 id="3-结构">3. 结构</h3>
-<p>适配器模式包含如下角色：</p>
-<ul>
-<li>Target：目标抽象类</li>
-<li>Adapter：适配器类</li>
-<li>Adaptee：适配者类</li>
-<li>Client：客户类</li>
-</ul>
-<h3 id="4-实现">4. 实现</h3>
-<p><img src="http://upload-images.jianshu.io/upload_images/1820210-3b980002c42859d8..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
-<ol>
-<li>
-<p>目标抽象类，就是 iPhone 要使用的 Lightning 接口。</p>
-<pre><code class="language-java">public interface ILightningInterface {
-    /**
-     * 充电
-     */
-    void charge();
-}
-</code></pre>
-</li>
-<li>
-<p>适配器类，转接头把 MicroUsb 接口转换为 Lightning 接口。</p>
-<pre><code class="language-java">public class InterfaceAdapter implements ILightningInterface {
-    private MicroUsbInterface microUsbInterface;
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="15-三数之和中等">15. 三数之和（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
 
-    public InterfaceAdapter(MicroUsbInterface microUsbInterface) {
-        this.microUsbInterface = microUsbInterface;
+满足要求的三元组集合为：
+[
+  [-1, 0, 1],
+  [-1, -1, 2]
+]
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p><strong>双指针法</strong></p>
+<p>首先对数组进行排序，然后固定一个数 nums[i]，使用左右指针分别指向 nums[i] 后面的两端。计算三个数的和 sum，判断 sum 是否满足为 0。如果满足则添加进结果集，否则左右指针交替向中间移动。同时注意去重。</p>
+<pre><code class="language-java">class Sulution {
+    public List&lt;List&lt;Integer&gt;&gt; threeSum(int[] nums) {
+        if (nums == null || nums.length &lt; 3) {
+            return Collections.emptyList();
+        }
+        Arrays.sort(nums);
+        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
+        int length = nums.length;
+        for (int i = 0; i &lt; length; i++) {
+            if (nums[i] &gt; 0) {
+                break;
+            }
+            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) {
+                continue;
+            }
+            int l = i + 1, r = length - 1;
+            while (l &lt; r) {
+                int s = nums[i] + nums[l] + nums[r];
+                if (s == 0) {
+                    while (l &lt; r &amp;&amp; nums[l] == nums[l + 1]) {
+                        l++;
+                    }
+                    while (l &lt; r &amp;&amp; nums[r] == nums[r - 1]) {
+                        r--;
+                    }
+                    result.add(Arrays.asList(nums[i], nums[l], nums[r]));
+                    l++;
+                    r--;
+                } else if (s &gt; 0) {
+                    r--;
+                } else {
+                    l++;
+                }
+            }
+        }
+        return result;
     }
 
-    @Override
-    public void charge() {
-        microUsbInterface.charge();
-    }
 }
 </code></pre>
-</li>
-<li>
-<p>适配者类，要适配的 MicroUsb 接口。</p>
-<pre><code class="language-java">public class MicroUsbInterface {
-
-    public void charge() {
-        System.out.println(&quot;charge with MicroUsb&quot;);
-    }
-}
-</code></pre>
-</li>
-<li>
-<p>客户类，有了转接头，iPhone 也可以使用 MicroUsb 线充电啦。</p>
-<pre><code class="language-java">public class AdapterTest {
-
-    public static void main(String[] args) {
-        // 直接使用 Lightning 充电口
-        ILightningInterface lightningInterface = new LightningInterface();
-        lightningInterface.charge();
-
-        // 使用转接头把 MicroUsb 接口转换为 Lightning 接口
-        MicroUsbInterface microUsbInterface = new MicroUsbInterface();
-        ILightningInterface interfaceAdapter = new InterfaceAdapter(microUsbInterface);
-        interfaceAdapter.charge();
-    }
-}
-</code></pre>
-</li>
-</ol>
-<h3 id="5-优缺点">5. 优缺点</h3>
-<p><strong>1. 优点：</strong></p>
+<h5 id="分析">分析：</h5>
 <ul>
-<li>将目标类和适配者类解耦，增加了类的透明性和复用性；</li>
-<li>系统的灵活性和扩展性都非常好，更换适配器或者增加新的适配器都非常方便，符合「开闭原则」。</li>
+<li>时间复杂度：O(n^2)</li>
+<li>空间复杂度：O(1)</li>
 </ul>
-<p><strong>2. 缺点：</strong></p>
-<p>过多地使用适配器，会让系统非常零乱，不易整体进行把握。比如，明明看到调用的是 A 接口，其实内部被适配成了 B 接口的实现，一个系统如果太多出现这种情况，无异于一场灾难。</p>
-<p><strong>3. 使用场景：</strong></p>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/@maladdinsayed/advanced-techniques-and-ideas-for-better-coding-skills-d632e9f9675">Advanced Coding Skills, Techniques, and Ideas</a></p>
+<p>作者列举了一些编程的技巧。</p>
 <ul>
-<li>系统需要使用现有的类，而这些类的接口不符合系统的需要；</li>
-<li>想要建立一个可以重复使用的类，用于与一些彼此之间没有太大关联的类一起工作。</li>
+<li>重构可以帮助我们写出整洁的代码，可读可维护可重用。</li>
+<li>不要重构生产环境中没有经过单元测试的代码，要想重构，先单元测试。</li>
+<li>从代码的最深处开始重构，最深处只关注单一的逻辑，这使得重构更加容易。</li>
+<li>使你的方法变得短小，通过把它们拆分成更小的方法。</li>
+<li>if 语句后面总是跟着 {}，即使只有一行。</li>
+<li>不要使用魔法值，因为它的可读性太差了，可以抽取出变量或者常量。</li>
+<li>如果没有必要，不要使用 else 语句，比如 if 语句中有 return 时，语句块外不需要 else。</li>
+<li>为你的方法、变量和测试选择有意义的命名。</li>
+<li>使用你的编程语言的最大能力，这样会省力，增强代码的健壮性。</li>
+<li>……</li>
 </ul>
-<p><strong>参考资料：</strong></p>
-<ul>
-<li><a href="http://design-patterns.readthedocs.io/zh_CN/latest/structural_patterns/adapter.html">适配器模式</a></li>
-<li><a href="http://www.hollischuang.com/archives/1524">适配器模式</a></li>
-</ul>
+<p>代码经验都要靠积累，推荐阿里巴巴的<a href="https://github.com/alibaba/p3c">代码规约</a>。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近在读<a href="https://book.douban.com/subject/1230413/">《深入理解计算机系统》</a>，又称 CSAPP，真是神书！读完第一章，对计算机系统有了新的认识——<a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you/">深入理解计算机系统之计算机系统漫游</a>。</p>
+<h2 id="4-share">4. Share</h2>
+<p>说一说如何选书。写书是一件正式的活动，作者都会认真对待。但是作者的经验水平不一样，产出的内容质量也参差不齐。对于追热点的、空洞无物的、作者资历尚浅的图书，一般不值得阅读。辨别的方式是看豆瓣评分，经过时间筛选过的经典，最值得阅读。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/design-pattern" class="tag">
-                    设计模式
+                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -221,9 +216,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/she-ji-mo-shi-zhi-ming-ling-mo-shi">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you">
                   <h3 class="post-title">
-                    设计模式之命令模式
+                    深入理解计算机系统之计算机系统漫游
                   </h3>
                 </a>
               </div>
