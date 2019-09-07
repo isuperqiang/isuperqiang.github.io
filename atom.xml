@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-09-07T14:23:39.898Z</updated>
+    <updated>2019-09-07T14:27:39.606Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -71,7 +71,7 @@
 <p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907215430.png" alt="重要的数字"></p>
 <p>其中，U 表示最无符号编码，T 表示补码编码。</p>
 <p>有符号数到无符号数的隐式类型转换导致某些非直观的行为，避免这类错误的一种方法是绝不使用无符号数。</p>
-<p>总结一下：</p>
+<p><strong>总结一下：</strong></p>
 <ul>
 <li>计算机用二进制表示信息，我们把计算机的二进制用十六进制表示是更友好的升华。</li>
 <li>字节的排序方式有两种：大端法和小端法，区别是高位在前还是在后。</li>
