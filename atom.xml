@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-09-01T12:48:02.561Z</updated>
+    <updated>2019-09-07T14:23:39.898Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,77 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之信息的表示和处理]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi">
+        </link>
+        <updated>2019-09-07T14:14:10.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-信息存储">1. 信息存储</h3>
+<p>计算机使用字节作为最小的内存寻址单位，1 个字节等于 8 位。机器级程序将内存视为一个非常大的字节数组，称为虚拟内存。内存的每个字节都用唯一的数字来标识，称为它的地址。所有可能地址的集合称为虚拟地址空间。这个地址空间只是一个展现给机器级程序的概念性映像。</p>
+<p>我们一般不直接使用 0 和 1 表示信息，那样的话数据太长了，而且可读性不好。通常把四个二进制当作一组，也就是十六进制表示字节，以 0x 或 0X 开头的数字代表十六进制的值，两个十六进制的值就是一个字节。比如：01011100 等价于 5C。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907220057.png" alt="十六进制表示法"></p>
+<p>字节用十六进制表示后，下面该确定它的顺序了。内存地址是递增的，是按照人类的习惯，高位在前低位在后，还是相反呢？</p>
+<p>字节的排列方式有两种：</p>
+<ul>
+<li>大端法（big endian）：最高有效字节在前</li>
+<li>小端法（little endian）：最低有效字节在前</li>
+</ul>
+<p>举个例子：0x01234567</p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>0x100</th>
+<th>0x101</th>
+<th>0x102</th>
+<th>0x103</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大端法</td>
+<td>01</td>
+<td>23</td>
+<td>45</td>
+<td>67</td>
+</tr>
+<tr>
+<td>小端法</td>
+<td>67</td>
+<td>45</td>
+<td>23</td>
+<td>01</td>
+</tr>
+</tbody>
+</table>
+<p>选择何种字节顺序，并没有技术上的优劣之分，只要坚持使用同一种规则。</p>
+<p>参数 12345 的十六进制表示为 0x00003039，下面是在不同系统上测试的结果。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190903092905.png" alt="不同数据值的字节表示"></p>
+<p>从上图可以看出，Linux 32、Windows 和 Linux 64 采用小端法表示，Sun 采用大端法表示。</p>
+<h3 id="2-整数表示">2. 整数表示</h3>
+<p>C 语言的整数分为无符号数和有符号数，而 Java 只有有符号数。</p>
+<p>无符号数的所有位都表示值，对于 w 位长度的无符号数，它的取值范围是 0 - 2^w-1，编码表示是唯一的。举个例子：</p>
+<blockquote>
+<p>1011 = 1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 1 * 2^0 = 11</p>
+</blockquote>
+<p>有符号数采用补码表示，最高位是符号位，其中 1 代表负数，0 代表正数。对于 w 位长度的无符号数，它的取值范围是 -2^(w-1) - 2^(w-1)，编码表示是唯一的。举个例子：</p>
+<blockquote>
+<p>1011 = -1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 1 * 2^0 = -5</p>
+</blockquote>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907215430.png" alt="重要的数字"></p>
+<p>其中，U 表示最无符号编码，T 表示补码编码。</p>
+<p>有符号数到无符号数的隐式类型转换导致某些非直观的行为，避免这类错误的一种方法是绝不使用无符号数。</p>
+<p>总结一下：</p>
+<ul>
+<li>计算机用二进制表示信息，我们把计算机的二进制用十六进制表示是更友好的升华。</li>
+<li>字节的排序方式有两种：大端法和小端法，区别是高位在前还是在后。</li>
+<li>无符号数的所有位表示值。</li>
+<li>有符号数采用补码表示，最高位是符号位。</li>
+<li>无符号数和有符号数之间的转换容易出错，尽量避免使用无符号数。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 22 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-22-qi</id>
@@ -1011,104 +1082,6 @@ public class Cat extends Animal {
 <li>《码出高效：Java开发手册》</li>
 <li><a href="https://stackoverflow.com/questions/19017258/static-vs-dynamic-binding-in-java">Static Vs. Dynamic Binding in Java</a></li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 15 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-15-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-15-qi">
-        </link>
-        <updated>2019-07-14T12:05:07.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="287-寻找重复数中等">287. 寻找重复数（中等）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个包含 n + 1 个整数的数组 nums，其数字都在 1 到 n 之间（包括 1 和 n），可知至少存在一个重复的整数。假设只有一个重复的整数，找出这个重复的数。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: [1,3,4,2,2]
-输出: 2
-</code></pre>
-<h5 id="说明">说明：</h5>
-<ul>
-<li>不能更改原数组（假设数组是只读的）。</li>
-<li>只能使用额外的 O(1) 的空间。</li>
-<li>时间复杂度小于 O(n2) 。</li>
-<li>数组中只有一个重复的数字，但它可能不止重复出现一次。</li>
-</ul>
-<h5 id="思路">思路：</h5>
-<p>数组元素在 [0, n] 之间，可以作为数组索引使用。先通过快慢指针找到相交点，然后两个指针分别从零位置和相交点一起向前遍历，直到找出相同的值。</p>
-<pre><code class="language-java">class Solution {
-    public int findDuplicate(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return -1;
-        }
-
-        int fast = nums[0];
-        int slow = nums[0];
-        do {
-            slow = nums[slow];
-            fast = nums[nums[fast]];
-        } while (fast != slow);
-
-        slow = nums[0];
-        while (fast != slow) {
-            slow = nums[slow];
-            fast = nums[fast];
-        }
-        return fast;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/@rhamedy/key-habits-and-things-i-wish-i-knew-earlier-as-a-developer-43c9466a0407">Key habits and things I wish I knew earlier as a developer</a> 作为开发者，我希望尽早知道的习惯和事情</p>
-<p>作者总结了开发者应该尽早熟知的东西，比如习惯、技能、观念等。</p>
-<ul>
-<li>有效地使用搜索引擎</li>
-<li>使用现代化的 IDE 提高生产力</li>
-<li>学习 Linux</li>
-<li>学习 Git</li>
-<li>自我学习，跟随技术潮流</li>
-<li>至少精通一门编程语言</li>
-<li>聚焦简约</li>
-<li>加入团体或者论坛</li>
-<li>建立你的个人档案</li>
-<li>提问，提问，提问</li>
-<li>写代码前先在纸上比划</li>
-<li>遵守技术规范，先写测试用例</li>
-<li>在日常中解决难题和挑战</li>
-<li>开始白板编程</li>
-<li>高效地管理时间</li>
-<li>保护个人隐私</li>
-<li>跟随激励你的个人和组织</li>
-<li>参加技术活动</li>
-<li>拥抱错误消息</li>
-<li>选择正确类型的公司作为事业</li>
-<li>建立一套工作方案，不断迭代使其完美</li>
-<li>对自己 SEO</li>
-</ul>
-<p>下面几点需要注意：</p>
-<ul>
-<li>不轻言放弃</li>
-<li>不拷贝工程代码</li>
-<li>不要推迟</li>
-<li>不要忽略其他学科</li>
-<li>不要沉迷社交网络</li>
-<li>不是失去希望</li>
-</ul>
-<h2 id="3-tip">3. Tip</h2>
-<p><a href="https://brew.sh/">Homebrew</a> 真是 Mac 上的神器，软件开发包都可以通过命令安装，自动配置环境变量，brew cask 还可以安装 GUI 应用程序。brew 在手，软件我有。</p>
-<h2 id="4-share">4. Share</h2>
-<p>公司 Q2 季度考核，根据实际情况，自评打了高分，我觉得是对的。caoz 有篇文章：<a href="https://mp.weixin.qq.com/s/0emM3IyruRxhBzMVPpeTpQ">你矜持，你活该</a> 讲过。</p>
-<p>职场不要太矜持，合作沟通的时候姿态低一些，争取权益的时候胆子大一些。</p>
-<p>创业不能太矜持， 宣传营销的时候，该吹牛的时候敢吹牛，不要怕丢脸。业务合作的时候，该低姿态的时候低姿态，不要老端着。</p>
-<p>有些技术人才我知道的，在企业不是很顺心，有些权益期待但没有落实，又觉得老板一直对自己不错，总觉得不好意思提要求，其实该争取的要争取，人家稍微温情两句，自己就开始自责了，哪那么多戏。</p>
-<p>你矜持，你端着，你失去好机会，你权益无保障，你自废武功，你男/女神被人追跑了，你活该。</p>
 ]]></content>
     </entry>
 </feed>
