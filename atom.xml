@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-09-07T14:27:39.606Z</updated>
+    <updated>2019-09-10T00:50:48.311Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -11,7 +11,97 @@
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
     <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之信息的表示和处理]]></title>
+        <title type="html"><![CDATA[每周 ARTS 第 23 期]]></title>
+        <id>https://isuperqiang.cn/post/me</id>
+        <link href="https://isuperqiang.cn/post/me">
+        </link>
+        <updated>2019-09-10T00:45:53.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="62-不同路径中等">62. 不同路径（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。<br>
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。<br>
+问总共有多少条不同的路径？</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: m = 3, n = 2
+输出: 3
+解释:
+从左上角开始，总共有 3 条路径可以到达右下角。
+1. 向右 -&gt; 向右 -&gt; 向下
+2. 向右 -&gt; 向下 -&gt; 向右
+3. 向下 -&gt; 向右 -&gt; 向右
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p><strong>动态规划</strong></p>
+<p>令 dp[i][j] 是到达 i, j 最多路径。<br>
+动态方程：dp[i][j] = dp[i-1][j] + dp[i][j-1]<br>
+注意，对于第一行 dp[0][j]，或者第一列 dp[i][0]，由于都是在边界，所以只能为 1。</p>
+<pre><code class="language-java">class Sulution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i &lt; m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i &lt; n; i++) {
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i &lt; m; i++) {
+            for (int j = 1; j &lt; n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(m*n)</li>
+<li>空间复杂度：O(m*n)</li>
+</ul>
+<h5 id="优化">优化：</h5>
+<p>使用一维数组记录变量，空间复杂度降为 O(n)。</p>
+<pre><code class="language-java">class Sulution {
+    public int uniquePaths(int m, int n) {
+        int[] sum = new int[n];
+        Arrays.fill(sum, 1);
+        for (int i = 1; i &lt; m; i++) {
+            for (int j = 1; j &lt; n; j++) {
+                sum[j] += sum[j - 1];
+            }
+        }
+        return sum[n - 1];
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/s/story/reflections-on-clean-code-8c9b683277ca">What is clean code?</a> 什么是整洁的代码？</p>
+<p>作者从《Clean Code》这本书说起，它被认为是程序员的必读书，作者概括了三个关键概念：</p>
+<ul>
+<li>技术手艺很重要。代码不仅要正常工作，而且要让其他人长期受益。拙劣的代码在边缘磨损的速度比你想象的要快得多。</li>
+<li>今天的额外努力会减轻明天痛苦。一开始写出好代码并经常重构，日后就会节省的时间和金钱。</li>
+<li>你的代码不是你自己的。对作者来说，过于聪明的技巧、黑客和编程手法只是有趣的。对他人友好的代码才是可取的。</li>
+</ul>
+<p>那究竟什么是 Clean Code 呢？作者给出了自己的观点：</p>
+<ul>
+<li>整洁代码是简洁的。不是算法或系统的复杂性，而是实现上的简约。</li>
+<li>整洁代码是可读的。代码规约有助于写出可读性好的代码。</li>
+<li>整洁代码是经过深思熟虑的。假定未来有代码使用者，一看到你的代码就懂。</li>
+<li>整洁代码是经过测试的。没人写得出完美的代码，经过测试的代码是整洁的。</li>
+<li>整洁代码是经过实践的。要一直写整洁代码，不断练习来提高技能。</li>
+<li>整洁代码是经常被重构的。尽可能多地重构，不要担心出问题。</li>
+<li>整洁代码符合 SOLID 原则。确保你的代码灵活、可维护、长久。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>读到<a href="https://book.douban.com/subject/1230413/">《深入理解计算机系统》</a> 第二章 <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi/">深入理解计算机系统之信息的表示和处理</a>，了解了整数的表示和信息存储方法。理论知识有用么？当然有用。整形溢出是编程中经常遇到的问题，知道整数的表示方式后，会尽量规避溢出的错误。比如二分法中的取中数，<code>mid = (low + high) / 2</code> 就潜在溢出的风险，而 <code>mid = low + (high - low) /2</code>则不会，这样的程序更健壮。</p>
+<h2 id="4-share">4. Share</h2>
+<p>都说 deadline 是第一生产力，但是也不要总拖到最后，这时往往会因为做得太快而导致质量下降。日常有规划地进行，一步一个脚印，这样才能走得更远。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之信息的表示和处理（一）]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi</id>
         <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi">
         </link>
@@ -939,149 +1029,6 @@ int main() {
 <p>刷题的时候看到了 override 和 overload，结合前段时间读过的《码出高效：Java开发手册》中的内容，重新梳理了一下知识点：<a href="https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">深入理解 Java 中的 override 和 overload</a>。</p>
 <h2 id="4-share">4. Share</h2>
 <p>多学一些东西总没有错，所谓「技多不压身」。别人不懂的你能做，别人现学现查，你信手拈来，别人浮于表面，你深入原理。这都是机会，是优势，机会总是留给有准备的人。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解 Java 中的 override 和 overload]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload">
-        </link>
-        <updated>2019-07-20T03:25:13.000Z</updated>
-        <summary type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
-<!-- more -->
-<h3 id="1-override">1. override</h3>
-<p>override 出现在继承关系中，子类覆写父类的实例方法，为它提供专门的实现。举个例子：</p>
-<pre><code class="language-java">public class Animal {
-    public void bark() {
-        System.out.println(&quot;动物叫声&quot;);
-    }
-}
-
-public class Cat extends Animal {
-    @Override
-    public void bark() {
-        System.out.println(&quot;喵喵&quot;);
-    }
-}
-
-    public static void main(String[] args) {
-        // 向上转型
-				Animal cat = new Cat();
-        cat.bark(); // 打印 喵喵
-    }
-</code></pre>
-<p>override 的绑定发生在运行期，属于动态绑定，由实例对象决定调用哪个方法，动态绑定是多态性得以实现的重要因素。这里有几点需要注意的地方：</p>
-<ul>
-<li>子类的方法访问权限只能相同或变大。比如父类方法是 protected，子类可以是 public，不能是 private。</li>
-<li>抛出异常和返回值只能变小，它们能够转型成父类对象。比如父类方法返回值 Number，子类可以返回 Integer，不能返回 Object。</li>
-<li>方法签名必须完全相同。方法签名包括方法名称和参数列表，是 JVM 标识方法的唯一索引，不包括返回值，其中参数列表分为类型和个数。</li>
-<li>覆写方法必须要加上 <code>@Override</code> 注解，为了使编译器自动检查覆写是否满足规则。</li>
-</ul>
-<p>覆写只能用于类的不被 final 和 private 修饰的实例方法，不能用于静态方法，如果父类和子类中存在同名的静态方法，那么两者都可以被正常调用。</p>
-<h3 id="2-overload">2. overload</h3>
-<p>overload 出现在同一个类中，多个方法具有相同名字、不同的参数。举个例子：</p>
-<pre><code class="language-java">public class Cat {
-    public void bark() {
-        System.out.println(&quot;喵喵&quot;);
-    }
-
-    public void bark(int num) {
-        for (int i = 1; i &lt;= num; i++) {
-            System.out.println(&quot;第 &quot; + i + &quot; 声喵喵&quot;);
-        }
-    }
-}
-</code></pre>
-<p>overload 的绑定发生在编译期，属于静态绑定，由方法签名决定调用哪个方法。需要注意的是，方法签名包括方法名称、参数类型和个数，不包括返回值。</p>
-<p>当重载的方法参数比较复杂时，JVM 选择合适的目标方法的顺序如下：</p>
-<ul>
-<li>精确匹配</li>
-<li>如果是基本数据类型，自动转换成更大表示范围的基本类型</li>
-<li>通过自动拆箱与装箱</li>
-<li>通过子类向上转型继承路线依次匹配</li>
-<li>通过可变参数匹配</li>
-</ul>
-<p>下面通过例子说明。</p>
-<ol>
-<li>基本数据类型优先于包装数据类型。</li>
-</ol>
-<pre><code class="language-java">    public void mo(int a) {
-        System.out.println(&quot;primary int type&quot;);
-    }
-
-    public void mo(Integer a) {
-        System.out.println(&quot;wrapper int type&quot;);
-    }
-
-    Cat cat = new Cat();
-    cat.mo(1); // 打印 primary int type
-</code></pre>
-<ol start="2">
-<li>更大范围的基本数据类型优先于包装数据类型。</li>
-</ol>
-<pre><code class="language-java">    public void mo(long a) {
-        System.out.println(&quot;primary long type&quot;);
-    }
-
-    public void mo(Integer a) {
-        System.out.println(&quot;wrapper int type&quot;);
-    }
-    
-    Cat cat = new Cat();
-    cat.mo(1); // 打印 primary long type
-</code></pre>
-<ol start="3">
-<li>null 可以匹配任何类对象，从最底层子类依次向上查找。</li>
-</ol>
-<pre><code class="language-java">    public void mo(Integer a) {
-        System.out.println(&quot;wrapper int type&quot;);
-    }
-
-    public void mo(Object a) {
-        System.out.println(&quot;object type&quot;);
-    }
-
-//  如果包含 String 参数，那么编译器不知道匹配哪个，直接报错。
-//  public void mo(String s) {
-//      System.out.println(&quot;string type&quot;);
-//  }
-
-    Cat cat = new Cat();
-    cat.mo(null); // 打印 wrapper int type
-</code></pre>
-<ol start="4">
-<li>自动装箱和拆箱优先于可变参数。</li>
-</ol>
-<pre><code class="language-java">    public void mo(Integer a, Integer b){
-        System.out.println(&quot;double wrapper int type&quot;);
-    }
-
-    public void mo(int... a) {
-        System.out.println(&quot;primary int array type&quot;);
-    }
-    
-    Cat cat = new Cat();
-    cat.mo(1, 2); // 打印 double wrapper int type
-</code></pre>
-<p>...</p>
-<p>重载的参数类型应该简洁些，这样才能提高代码的可读性。</p>
-<h3 id="3-总结">3. 总结</h3>
-<p>override 和 overload 有很多不同之处：</p>
-<ul>
-<li>override 属于动态绑定，在运行期通过实例对象决定调用的方法；overload 属于静态绑定，在编译期通过方法签名决定调用的方法。</li>
-<li>override 基于继承关系，需要父类和子类参与；overload 出现在同一个类中，通过方法签名区分。</li>
-<li>static、final、private 方法不能被 override，但是可以被 overload。</li>
-<li>override 关注方法返回值，overload 不关注返回值。</li>
-<li>override 的方法参数必须一样，overload 的方法参数必须不同。</li>
-<li>overload 的性能比 override 更好些，应为它是静态绑定。</li>
-</ul>
-<p><strong>参考：</strong></p>
-<ul>
-<li>《码出高效：Java开发手册》</li>
-<li><a href="https://stackoverflow.com/questions/19017258/static-vs-dynamic-binding-in-java">Static Vs. Dynamic Binding in Java</a></li>
-</ul>
 ]]></content>
     </entry>
 </feed>

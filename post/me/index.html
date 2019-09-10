@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 11 期 | 落英坠露</title>
+<title>每周 ARTS 第 23 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,126 +115,92 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 11 期</h2>
-            <div class="post-date">2019-06-16</div>
+            <h2 class="post-title">每周 ARTS 第 23 期</h2>
+            <div class="post-date">2019-09-10</div>
             
             <div class="post-content">
               <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="263-丑数简单">263. 丑数（简单）</h3>
+<h3 id="62-不同路径中等">62. 不同路径（中等）</h3>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>编写一个程序判断给定的数是否为丑数。丑数就是只包含质因数 2, 3, 5 的正整数。</p>
+<p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。<br>
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。<br>
+问总共有多少条不同的路径？</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code>示例：
-输入: 6
-输出: true
-解释: 6 = 2 × 3
+<pre><code>输入: m = 3, n = 2
+输出: 3
+解释:
+从左上角开始，总共有 3 条路径可以到达右下角。
+1. 向右 -&gt; 向右 -&gt; 向下
+2. 向右 -&gt; 向下 -&gt; 向右
+3. 向下 -&gt; 向右 -&gt; 向右
 </code></pre>
 <h5 id="思路">思路：</h5>
-<ul>
-<li>循环实现：循环去除 2、3、5，直到不能整除，如果余数是 1，那么就是丑数。</li>
-<li>递归实现：和循环一样，也是不停地除2、3、5。</li>
-</ul>
-<pre><code class="language-java">class Solution {
-    public boolean isUgly(int num) {
-        if (num &lt;= 0) {
-            return false;
-        } else if (num == 1) {
-            return true;
+<p><strong>动态规划</strong></p>
+<p>令 dp[i][j] 是到达 i, j 最多路径。<br>
+动态方程：dp[i][j] = dp[i-1][j] + dp[i][j-1]<br>
+注意，对于第一行 dp[0][j]，或者第一列 dp[i][0]，由于都是在边界，所以只能为 1。</p>
+<pre><code class="language-java">class Sulution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i &lt; m; i++) {
+            dp[i][0] = 1;
         }
-        while (num % 2 == 0) {
-            num /= 2;
+        for (int i = 0; i &lt; n; i++) {
+            dp[0][i] = 1;
         }
-        while (num % 3 == 0) {
-            num /= 3;
+        for (int i = 1; i &lt; m; i++) {
+            for (int j = 1; j &lt; n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
         }
-        while (num % 5 == 0) {
-            num /= 5;
-        }
-        return num == 1;
-    }
-  
-   private static boolean isUgly2(int num) {
-        if (num &lt;= 0) {
-            return false;
-        } else if (num == 1) {
-            return true;
-        }
-        if (num % 2 == 0) {
-            return isUgly2(num / 2);
-        }
-        if (num % 3 == 0) {
-            return isUgly2(num / 3);
-        }
-        if (num % 5 == 0) {
-            return isUgly2(num / 5);
-        }
-        return false;
+        return dp[m - 1][n - 1];
     }
 }
 </code></pre>
 <h5 id="分析">分析：</h5>
-<p>循环和递归实现一样：</p>
 <ul>
-<li>时间复杂度：O(logn)</li>
-<li>空间复杂度：O(1)</li>
+<li>时间复杂度：O(m*n)</li>
+<li>空间复杂度：O(m*n)</li>
 </ul>
-<h3 id="349-两个数组的交集简单">349.  两个数组的交集（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>给定两个数组，编写一个函数来计算它们的交集。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>输入: nums1 = [1,2,2,1], nums2 = [2,2]
-输出: [2]
-</code></pre>
-<h5 id="说明">说明：</h5>
-<ul>
-<li>输出结果中的每个元素一定是唯一的。</li>
-<li>我们可以不考虑输出结果的顺序。</li>
-</ul>
-<h5 id="思路-2">思路：</h5>
-<p>使用一个 Set 去除数组一重复元素，另一个 Set 保存两个数组的交集</p>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public int[] intersection(int[] nums1, int[] nums2) {
-        if (nums1 == null || nums2 == null) {
-            return new int[]{};
-        }
-
-        Set&lt;Integer&gt; set1 = new HashSet&lt;&gt;(nums1.length);
-        for (int i : nums1) {
-            set1.add(i);
-        }
-        Set&lt;Integer&gt; set2 = new HashSet&lt;&gt;(nums1.length);
-        for (int i : nums2) {
-            if (set1.contains(i)) {
-                set2.add(i);
+<h5 id="优化">优化：</h5>
+<p>使用一维数组记录变量，空间复杂度降为 O(n)。</p>
+<pre><code class="language-java">class Sulution {
+    public int uniquePaths(int m, int n) {
+        int[] sum = new int[n];
+        Arrays.fill(sum, 1);
+        for (int i = 1; i &lt; m; i++) {
+            for (int j = 1; j &lt; n; j++) {
+                sum[j] += sum[j - 1];
             }
         }
-        int size = set2.size();
-        int[] ret = new int[size];
-        Iterator&lt;Integer&gt; iterator = set2.iterator();
-        for (int i = 0; i &lt; size; i++) {
-            ret[i] = iterator.next();
-        }
-        return ret;
+        return sum[n - 1];
     }
 }
 </code></pre>
-<h5 id="分析-2">分析：</h5>
-<ul>
-<li>时间复杂度：O(n)</li>
-<li>空间复杂度：O(n)</li>
-</ul>
 <h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/free-code-camp/what-is-an-api-in-english-please-b880a3214a82">What is an API? In English, please.</a> 什么是 API？</p>
-<p>开发者都知道 API 是应用程序接口，作者对它有更广泛的认识。API 是服务方的一部分，它接收请求并发出响应。API 是向客户提供服务的一种方式，客户端访问 API 获取消息，比如 GitHub 的 API。在面向对象编程中，对象的 public 方法也可以看作是一种 API，用来与其他对象进行交互。</p>
+<p><a href="https://medium.com/s/story/reflections-on-clean-code-8c9b683277ca">What is clean code?</a> 什么是整洁的代码？</p>
+<p>作者从《Clean Code》这本书说起，它被认为是程序员的必读书，作者概括了三个关键概念：</p>
+<ul>
+<li>技术手艺很重要。代码不仅要正常工作，而且要让其他人长期受益。拙劣的代码在边缘磨损的速度比你想象的要快得多。</li>
+<li>今天的额外努力会减轻明天痛苦。一开始写出好代码并经常重构，日后就会节省的时间和金钱。</li>
+<li>你的代码不是你自己的。对作者来说，过于聪明的技巧、黑客和编程手法只是有趣的。对他人友好的代码才是可取的。</li>
+</ul>
+<p>那究竟什么是 Clean Code 呢？作者给出了自己的观点：</p>
+<ul>
+<li>整洁代码是简洁的。不是算法或系统的复杂性，而是实现上的简约。</li>
+<li>整洁代码是可读的。代码规约有助于写出可读性好的代码。</li>
+<li>整洁代码是经过深思熟虑的。假定未来有代码使用者，一看到你的代码就懂。</li>
+<li>整洁代码是经过测试的。没人写得出完美的代码，经过测试的代码是整洁的。</li>
+<li>整洁代码是经过实践的。要一直写整洁代码，不断练习来提高技能。</li>
+<li>整洁代码是经常被重构的。尽可能多地重构，不要担心出问题。</li>
+<li>整洁代码符合 SOLID 原则。确保你的代码灵活、可维护、长久。</li>
+</ul>
 <h2 id="3-tip">3. Tip</h2>
-<p><a href="https://isuperqiang.cn/post/android-io-na-xie-shi-er/">Android I/O 那些事儿</a> 总结了 Android 系统的 I/O 知识，对它有了更深层次的了解。</p>
+<p>读到<a href="https://book.douban.com/subject/1230413/">《深入理解计算机系统》</a> 第二章 <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi/">深入理解计算机系统之信息的表示和处理</a>，了解了整数的表示和信息存储方法。理论知识有用么？当然有用。整形溢出是编程中经常遇到的问题，知道整数的表示方式后，会尽量规避溢出的错误。比如二分法中的取中数，<code>mid = (low + high) / 2</code> 就潜在溢出的风险，而 <code>mid = low + (high - low) /2</code>则不会，这样的程序更健壮。</p>
 <h2 id="4-share">4. Share</h2>
-<p>经典是经过时间筛选的，在这个浮躁的社会，多读经典是最省时间的选择。</p>
+<p>都说 deadline 是第一生产力，但是也不要总拖到最后，这时往往会因为做得太快而导致质量下降。日常有规划地进行，一步一个脚印，这样才能走得更远。</p>
 
             </div>
             
@@ -249,9 +215,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-10-qi">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi">
                   <h3 class="post-title">
-                    每周 ARTS 第 10 期
+                    深入理解计算机系统之信息的表示和处理（一）
                   </h3>
                 </a>
               </div>
