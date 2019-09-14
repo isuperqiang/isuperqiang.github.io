@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-09-10T00:58:46.495Z</updated>
+    <updated>2019-09-14T13:51:58.474Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,52 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之信息的表示和处理（二）]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xin-xi-de-biao-shi-he-chu-li-er</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xin-xi-de-biao-shi-he-chu-li-er">
+        </link>
+        <updated>2019-09-14T13:39:12.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-整数运算">1. 整数运算</h3>
+<h4 id="11-加法">1.1 加法</h4>
+<p><strong>无符号加法：</strong> 考虑两个非负整数 x 和 y，满足 0&lt;=x, y&lt;2^w。当  x+y &gt;= 2^w 时，和发生溢出。 溢出情况就是该和减去 2^w 的结果。</p>
+<p><strong>补码加法：</strong> 当 x+y 小于 -2^(w-1) 时，发生负溢出；当它大于 2^(w-1) 时，发生正溢出。负溢出导致和增加 2^w，正溢出导致和减少 2^w。</p>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/TIM%E6%88%AA%E5%9B%BE20190908192533.png" alt="补码加法的溢出"></p>
+<h4 id="12-乘法">1.2 乘法</h4>
+<p>在大多数机器上，整数乘法指令非常慢，需要 10 个或者更多的时钟周期，然而加法、减法和位运算只需要 1 个时钟周期。</p>
+<p>左移一个整数等价于执行与 2 的幂相等的乘法。</p>
+<p>由于整数乘法比移位和加法的代价要大得多，许多 C 语言编译器使用移位和加法运算的组合代替乘以常数因子的乘法。例如，表达式 x * 14，利用 14 = 2^3 + 2^2 + 2^1，编译器会将乘法重写为 (X &lt;&lt; 3) + (X &lt;&lt; 2) + (X &lt;&lt; 1)。</p>
+<h4 id="13-除法">1.3 除法</h4>
+<p>在大多数机器上，整数除法要比整数乘法更慢，需要 30 个或者更多的时钟周期。</p>
+<p>除以 2 的幂可以用右移（算术右移）运算来实现。</p>
+<p>不能用除以 2 的幂的除法来表示除以任意常数的除法。</p>
+<h3 id="2-浮点数">2. 浮点数</h3>
+<h4 id="21-二进制小数">2.1 二进制小数</h4>
+<p>小数的二进制表示法只能表示被写成 x*2^y 的数，其他数值只能近似表示。例如数字 1/5 可以用十进制小数 0.2 精确表示。但是，并不能把它准确地表示为二进制小数，我们只能近似地表示它，增加二进制表示的长度可以提高表示的精度。</p>
+<h4 id="22-ieee-浮点表示">2.2 IEEE 浮点表示</h4>
+<p>IEEE 754 浮点标准使用 V = (-1)^s * M * 2^E 来表示一个数：</p>
+<ul>
+<li>符号 s：s 决定数值是负数(s=1)还是正数(s=0)</li>
+<li>尾数 M：是个二进制小数，范围是 1-2-ε 或者 0-1-ε</li>
+<li>阶码 E：E 的作用是对浮点数加权，这个权重是 2 的 E 次幂</li>
+</ul>
+<p>将浮点数的位表示划分为三个字段，分别对这些值进行编码：</p>
+<ul>
+<li>一个单独对符号位 s 编码符号 s</li>
+<li>k 位对阶码字段 exp 编码阶码 E</li>
+<li>n 位对小数字段 frac 编码尾数 M</li>
+</ul>
+<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190914192853.png" alt="标准浮点格式"></p>
+<p>浮点数只能近似表示实数运算，它采用向偶数舍入的方式。需要注意的是，浮点数运算不具备结合性和分配性。</p>
+<p><strong>总结一下：</strong></p>
+<ul>
+<li>整数运算溢出会导致结果异常，编程时要格外注意整数的范围。</li>
+<li>通过左移和右移来进行整数乘除运算比算术运算要高效。</li>
+<li>浮点数采用 IEEE 754 标准表示，编码方式是符号、阶码和尾数。</li>
+<li>浮点数是近似表示的，它的运算不精确，之前总结过<a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">Java 比较浮点数的正确方式</a>。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 23 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-23-qi</id>
@@ -938,97 +984,6 @@ int main() {
 <p>推荐一个静态博客写作客户端 <a href="https://github.com/getgridea/gridea">Gridea</a>，使用它可以方便地管理文章，进行分类、打标签等，一键同步到 GitHub，提供了多套主题，支持配置域名和评论功能，Windows、Mac 、Linux 全平台支持。我的<a href="https://isuperqiang.cn/">博客</a>托管在 GitHub 上，以前使用 <a href="https://hexo.io/zh-cn/">Hexo</a> 发布，但是没有本地管理功能，想修改文章非常麻烦。现在用 Gridea 发布，果然优雅了不少啊。</p>
 <h2 id="4-share">4. Share</h2>
 <p>程序员一般不喜欢写文档，遇到问题时又骂别人不写文档。在我看来，文档和代码一样重要，开源库的 API 文档写得清晰明了，开发者使用时也省心。最怕的是，过了一段时间，自己的代码都捋不清了。所以，尽可能多些文档吧，为了自己也为了接盘侠 :)</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 16 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-16-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-16-qi">
-        </link>
-        <updated>2019-07-20T10:26:43.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="152-乘积最大子序列中等">152. 乘积最大子序列（中等）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个整数数组 nums ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: [2,3,-2,4]
-输出: 6
-解释: 子数组 [2,3] 有最大乘积 6。
-</code></pre>
-<h5 id="思路">思路：</h5>
-<ul>
-<li>解法一：暴力解法，遍历数组，逐个求出连续子序列的乘积，和当前最大值比较，找到最大值。</li>
-<li>解法二：动态规划，遍历数组，计算当前最大值，并不断更新。当前最大乘积 max，当前最小乘积 min。由于存在负数，会导致最大的变成最小的，最小的变成最大的。所以分两种情况讨论：
-<ul>
-<li>nums[i] &gt; 0 时，max = Max(max * nums[i], nums[i]); min = Min(min * num[i], num[i]);</li>
-<li>nums[i] &lt; 0 时，max = Max(min * nums[i], nums[i]); min = Min(max * num[i], num[i]);</li>
-</ul>
-</li>
-</ul>
-<pre><code class="language-java">class Solution {
-    public int maxProduct1(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int max = nums[0];
-        int temp;
-        for (int i = 0; i &lt; nums.length; i++) {
-            temp = nums[i];
-            if (temp &gt; max) {
-                max = temp;
-            }
-            for (int j = i + 1; j &lt; nums.length; j++) {
-                temp *= nums[j];
-                if (temp &gt; max) {
-                    max = temp;
-                }
-            }
-        }
-        return max;
-    }
-
-    public int maxProduct2(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int ret = nums[0];
-        int min = nums[0];
-        int max = nums[0];
-        for (int i = 1; i &lt; nums.length; i++) {
-            if (nums[i] &lt; 0) {
-                int temp = min;
-                min = max;
-                max = temp;
-            }
-            max = Math.max(max * nums[i], nums[i]);
-            min = Math.min(min * nums[i], nums[i]);
-            ret = Math.max(ret, max);
-        }
-        return ret;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：
-<ul>
-<li>解法一：O(n^2)</li>
-<li>解法二：O(n)</li>
-</ul>
-</li>
-<li>空间复杂度都是 O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="http://tutorials.jenkov.com/java-concurrency/java-memory-model.html">Java Memory  Model</a> 主要讲述了 Java 内存模型、硬件内存架构和两者之间的差异。</p>
-<p>Java 内存模型把内存分为线程栈和堆。每个线程都有各自的线程栈，线程栈内部包含方法调用信息和方法内局部变量，它不能被其他线程访问。线程栈存储的局部变量，包括「基本数据类型和引用变量」的拷贝，而引用的对象存储在堆中。堆用来存储应用创建的对象，不管是局部对象还是成员对象，不论是哪个线程创建的。</p>
-<p>硬件内存架构包含 CPU 寄存器、高速缓存和 RAM 主存，按照前面的顺序，读写速度越来越慢，容量越来越大。当 CPU 读取数据时，会把数据缓存在寄存器和高速缓存中。当 CPU 写回数据时，会把数据从寄存器和高速缓存刷新到 RAM。</p>
-<p>Java 内存模型和硬件模型架构不同，通常线程栈和堆在 RAM 中，但有时也会在寄存器和高速缓存中。当变量存储在计算机的不同位置时，就会引发两个主要问题：多线程读写变量的可见性和竞态条件。使用 volatile 可以解决可见性问题，synchronized 可以解决竞态条件。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>刷题的时候看到了 override 和 overload，结合前段时间读过的《码出高效：Java开发手册》中的内容，重新梳理了一下知识点：<a href="https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">深入理解 Java 中的 override 和 overload</a>。</p>
-<h2 id="4-share">4. Share</h2>
-<p>多学一些东西总没有错，所谓「技多不压身」。别人不懂的你能做，别人现学现查，你信手拈来，别人浮于表面，你深入原理。这都是机会，是优势，机会总是留给有准备的人。</p>
 ]]></content>
     </entry>
 </feed>
