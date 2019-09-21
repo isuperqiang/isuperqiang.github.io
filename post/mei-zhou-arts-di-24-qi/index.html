@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>提高工作效率的法宝神器 | 落英坠露</title>
+<title>每周 ARTS 第 24 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,42 +115,68 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">提高工作效率的法宝神器</h2>
-            <div class="post-date">2018-08-12</div>
+            <h2 class="post-title">每周 ARTS 第 24 期</h2>
+            <div class="post-date">2019-09-14</div>
             
             <div class="post-content">
-              <p>工作效率，一般指工作产出与投入之比，通俗地讲就是在进行某任务时，取得的成绩与所用时间、精力、金钱等的比值。简单说，效率高就是又好又快，二者缺一不可。</p>
-<p>在工作中，总会看到有些人完不成任务，每天加班到深夜，一副忙忙碌碌的样子。活儿多可以向上级反映，效率低可就要自己解决了。工作高效完成后，省下来的时间是自己的，可以继续学习，提升自己的技能。</p>
-<p>我见到过一些问题：从磁盘查找文件还要一个个翻，发过来的文本文件存在乱码，之前复制过的东西还要再次复制，通讯录意外丢失到处要手机号，各个网站都设置一样的密码，对弹窗广告无可奈何，文档出问题打不开……</p>
-<p>看起来都是小事，却最容易被忽视，当习惯了这种定势，很难再去改变。出了问题再修复总归不好，为何不考虑提前预防呢？比如经常备份重要资料，不安装来源不明的软件，正在编辑的文档随时保存等等。</p>
-<p><strong>工欲善其事，必先利其器。</strong> 工作效率的提升离不开工具的选用，推荐一些 Windows 上的优质软件吧，一定会帮助你提升工作的效率。讲真的，这些软件我都用过，谁让咱是爱折腾的少数派呢。</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="22-生成括号中等">22. 生成括号（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>例如，给出 n = 3，生成结果为：
+[
+  &quot;((()))&quot;,
+  &quot;(()())&quot;,
+  &quot;(())()&quot;,
+  &quot;()(())&quot;,
+  &quot;()()()&quot;
+]
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p><strong>动态规划</strong></p>
+<p>生成 N 对括号，必然有 N 个左括号和 N 个右括号，左括号的数量大于等于右括号。要确定 N 对，首先确定 N-1 对，利用递归求解。</p>
+<p>left 记录左括号的数量，right 记录右括号的数量，当左右括号的数量相等时，记录结果，结束递归。</p>
+<pre><code class="language-java">class Sulution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i &lt; m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i &lt; n; i++) {
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i &lt; m; i++) {
+            for (int j = 1; j &lt; n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
 <ul>
-<li>全局搜索：Listary、Everything</li>
-<li>云笔记：印象笔记、有道云笔记</li>
-<li>网盘：坚果云、腾讯微云</li>
-<li>浏览器：Chrome、Firefox</li>
-<li>资源管理器：Clover</li>
-<li>文本编辑器：Notepad++、Sublime</li>
-<li>剪贴板管理器：Ditto</li>
-<li>PDF 阅读器：文电通PDF阅读器、福昕阅读器</li>
-<li>邮件客户端：Foxmail、网易邮箱大师</li>
-<li>杀毒软件：火绒安全、Avast</li>
-<li>下载器：迅雷极速版</li>
-<li>空格预览：Seer、QuickLook</li>
-<li>思维导图：XMind</li>
-<li>终端：Cmder</li>
-<li>清洁器：CCleaner</li>
-<li>护眼工具：f.lux</li>
-<li>截图工具：Snipaste、ShareX</li>
-<li>压缩工具：7-Zip、Bandizip</li>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
 </ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://blog.codinghorror.com/the-two-types-of-programmers/">The Two Types of Programmers</a> 两种程序员</p>
+<p>在软件开发领域，有两种程序员：20% 的开拓者，他们对技术痴迷，紧跟最新趋势。还有 80% 的普通人，编程对于他们只是工作，工作之外不关心代码。这两类人群有着巨大的鸿沟，如果要改变软件开发的现状，就要在这两类人群之间建立连接。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p><a href="https://mp.weixin.qq.com/s/QMhMSJ95Kl0tdE-jb1Jvgw">花椒移动端基础框架架构</a> 这篇文章总结了移动端的架构，对移动应用架构设计有参考价值。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/XXSkDygqm2RY8YqmJCyJWw">总结几点“上不得台面”的技术领导经验</a></p>
+<p>在我看来，身为技术领导，对技术的敬畏、诚实谦和、尊重客观、力求平等，应当是始终不变的坚持。但是，在坚韧的骨骼之外，让身段变柔软一点，总不是坏事。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/toolkit" class="tag">
-                    软件工具
+                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -158,9 +184,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/nian-zhong-android-mian-shi-zong-jie">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xin-xi-de-biao-shi-he-chu-li-er">
                   <h3 class="post-title">
-                    2018 年中杭州 Android 面试总结
+                    深入理解计算机系统之信息的表示和处理（二）
                   </h3>
                 </a>
               </div>

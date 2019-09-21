@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-09-14T13:51:58.474Z</updated>
+    <updated>2019-09-21T15:20:43.694Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,65 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 24 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-24-qi</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-24-qi">
+        </link>
+        <updated>2019-09-14T15:17:25.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="22-生成括号中等">22. 生成括号（中等）</h3>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给出 n 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且有效的括号组合。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>例如，给出 n = 3，生成结果为：
+[
+  &quot;((()))&quot;,
+  &quot;(()())&quot;,
+  &quot;(())()&quot;,
+  &quot;()(())&quot;,
+  &quot;()()()&quot;
+]
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p><strong>动态规划</strong></p>
+<p>生成 N 对括号，必然有 N 个左括号和 N 个右括号，左括号的数量大于等于右括号。要确定 N 对，首先确定 N-1 对，利用递归求解。</p>
+<p>left 记录左括号的数量，right 记录右括号的数量，当左右括号的数量相等时，记录结果，结束递归。</p>
+<pre><code class="language-java">class Sulution {
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n];
+        for (int i = 0; i &lt; m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int i = 0; i &lt; n; i++) {
+            dp[0][i] = 1;
+        }
+        for (int i = 1; i &lt; m; i++) {
+            for (int j = 1; j &lt; n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(n)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://blog.codinghorror.com/the-two-types-of-programmers/">The Two Types of Programmers</a> 两种程序员</p>
+<p>在软件开发领域，有两种程序员：20% 的开拓者，他们对技术痴迷，紧跟最新趋势。还有 80% 的普通人，编程对于他们只是工作，工作之外不关心代码。这两类人群有着巨大的鸿沟，如果要改变软件开发的现状，就要在这两类人群之间建立连接。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p><a href="https://mp.weixin.qq.com/s/QMhMSJ95Kl0tdE-jb1Jvgw">花椒移动端基础框架架构</a> 这篇文章总结了移动端的架构，对移动应用架构设计有参考价值。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/XXSkDygqm2RY8YqmJCyJWw">总结几点“上不得台面”的技术领导经验</a></p>
+<p>在我看来，身为技术领导，对技术的敬畏、诚实谦和、尊重客观、力求平等，应当是始终不变的坚持。但是，在坚韧的骨骼之外，让身段变柔软一点，总不是坏事。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之信息的表示和处理（二）]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xin-xi-de-biao-shi-he-chu-li-er</id>
@@ -766,224 +825,6 @@ int main() {
 <p><a href="https://github.com/robbyrussell/oh-my-zsh">oh my zsh</a> 非常强大的 shell，拥有丰富的插件和主题，只支持 macOS 和 Linux。不愧是终极 Shell，提高 10x 效率没问题。有时候一成不变挺悲哀的，尝试折腾一下才有乐趣。Have a try, you will enjoy it.</p>
 <h2 id="4-share">4. Share</h2>
 <p>程序员应该学习 Linux，理解设计理想，熟悉常用命令。对于高手来说，一个 Terminal 就够了。在 macOs 或 Linux 下开发，比 Windows 省心多了。首先没有字符编码的问题，其次 Unix-like 平台上有非常多的开发工具，程序员用了绝对爱不释手。另外，Unix-like 平台上的软件不像 Windows 系统上那样流氓，而且不容易感染病毒。值得庆幸的是，Windows 10 内置了 Linux，我们可以下载 Ubuntu 体验。虽然是阉割版，但用来学习够用了。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 17 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-17-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-17-qi">
-        </link>
-        <updated>2019-07-28T11:37:11.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="1114-按序打印简单">1114. 按序打印（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>三个不同的线程将会共用一个 Foo 实例，它们会被异步启动。</p>
-<ul>
-<li>
-<p>线程 A 将会调用 one() 方法</p>
-</li>
-<li>
-<p>线程 B 将会调用 two() 方法</p>
-</li>
-<li>
-<p>线程 C 将会调用 three() 方法</p>
-<p>请设计修改程序，以确保 two() 方法在 one() 方法之后被执行，three() 方法在 two() 方法之后被执行。</p>
-</li>
-</ul>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: [1,2,3]
-输出: &quot;onetwothree&quot;
-解释: 
-有三个线程会被异步启动。
-输入 [1,2,3] 表示线程 A 将会调用 one() 方法，线程 B 将会调用 two() 方法，线程 C 将会调用 three() 方法。
-正确的输出是 &quot;onetwothree&quot;。
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p>排序的思路就是 线程 C 等待线程 B 执行完毕，线程 B 等待线程 A 执行完毕，通过线程阻塞的方式实现，JUC 提供了许多的多线程工具类。</p>
-<ul>
-<li>解法一：CountDownLoatch</li>
-</ul>
-<pre><code class="language-java">  /**
-     * 通过 CountDownLatch
-     */
-    public static class Foo1 {
-        private CountDownLatch countDownLatchSecond = new CountDownLatch(1);
-        private CountDownLatch countDownLatchThird = new CountDownLatch(1);
-
-        public void first(Runnable printFirst) throws InterruptedException {
-            printFirst.run();
-            countDownLatchSecond.countDown();
-        }
-
-        public void second(Runnable printSecond) throws InterruptedException {
-            countDownLatchSecond.await();
-            printSecond.run();
-            countDownLatchThird.countDown();
-        }
-
-        public void third(Runnable printThird) throws InterruptedException {
-            countDownLatchThird.await();
-            printThird.run();
-        }
-    }
-</code></pre>
-<ul>
-<li>解法二：Object 内置锁</li>
-</ul>
-<pre><code class="language-java">    /**
-     * 通过 Object 内置锁
-     */
-    public static class Foo2 {
-        private final Object lock = new Object();
-        private int state = 1;
-
-        public void first(Runnable printFirst) throws InterruptedException {
-            synchronized (lock) {
-                printFirst.run();
-                state = 2;
-                lock.notifyAll();
-            }
-        }
-
-        public void second(Runnable printSecond) throws InterruptedException {
-            synchronized (lock) {
-                while (state != 2) {
-                    lock.wait();
-                }
-                printSecond.run();
-                state = 3;
-                lock.notifyAll();
-            }
-        }
-
-        public void third(Runnable printThird) throws InterruptedException {
-            synchronized (lock) {
-                while (state != 3) {
-                    lock.wait();
-                }
-                printThird.run();
-            }
-        }
-    }
-</code></pre>
-<ul>
-<li>解法三：Lock 和 Condition</li>
-</ul>
-<pre><code class="language-java">    /**
-     * 通过 Lock 和 Condition
-     */
-    public static class Foo3 {
-        private Lock lock = new ReentrantLock();
-        private Condition condition = lock.newCondition();
-        private int state = 1;
-
-        public void first(Runnable printFirst) throws InterruptedException {
-            lock.lock();
-            try {
-                printFirst.run();
-                state = 2;
-                condition.signalAll();
-            } finally {
-                lock.unlock();
-            }
-        }
-
-        public void second(Runnable printSecond) throws InterruptedException {
-            lock.lock();
-            try {
-                while (state != 2) {
-                    condition.await();
-                }
-                printSecond.run();
-                state = 3;
-                condition.signalAll();
-            } finally {
-                lock.unlock();
-            }
-        }
-
-        public void third(Runnable printThird) throws InterruptedException {
-            lock.lock();
-            try {
-                while (state != 3) {
-                    condition.await();
-                }
-                printThird.run();
-            } finally {
-                lock.unlock();
-            }
-        }
-    }
-</code></pre>
-<ul>
-<li>解法四：Semaphore</li>
-</ul>
-<pre><code class="language-java">    /**
-     * 通过 Semaphore
-     */
-    public static class Foo4 {
-        private Semaphore semaphoreSecond = new Semaphore(0);
-        private Semaphore semaphoreThird = new Semaphore(0);
-
-        public void first(Runnable printFirst) throws InterruptedException {
-            printFirst.run();
-            semaphoreSecond.release();
-        }
-
-        public void second(Runnable printSecond) throws InterruptedException {
-            semaphoreSecond.acquire();
-            printSecond.run();
-            semaphoreThird.release();
-        }
-
-        public void third(Runnable printThird) throws InterruptedException {
-            semaphoreThird.acquire();
-            printThird.run();
-        }
-    }
-</code></pre>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://www.lifehack.org/articles/technology/20-tips-use-google-search-efficiently.html">20 Google Search Tips to Use Google More Efficiently</a> 用好谷歌搜索的 20 条技巧</p>
-<ol>
-<li>使用 Tab 分类，比如图片、新闻、视频等</li>
-<li>使用双引号，精确匹配关键词，比如： “浪潮之巅 吴军”</li>
-<li>使用连字符 <code>-</code> 排除词语，比如：见识 -吴军</li>
-<li>使用冒号 <code>site:url</code> 搜索指定网站，比如：吴军 site:dangdang.com</li>
-<li>查找链接到另一个页面的页面 <code>link:url</code>，比如：link:qq.com</li>
-<li>使用星号 <code>*</code> 通配符，比如：生活不止 * 苟且</li>
-<li>查找与其他网站相似的网站 <code>related:url</code>，比如：related:amazon.com</li>
-<li>用谷歌搜索做数学，比如：8 * 5 + 5</li>
-<li>一个搜索多个关键词 <code>OR</code>，比如：巧克力 OR 白巧克力</li>
-<li>搜索一系列数字 <code>..</code>，比如：41..43</li>
-<li>保持简单，比如：附近的披萨店</li>
-<li>逐渐添加搜索词，比如：
-<ul>
-<li>首先尝试：工作面试</li>
-<li>其次尝试：准备工作面试</li>
-<li>再次尝试：如何准备工作面试</li>
-</ul>
-</li>
-<li>使用网站会用的词汇，比如：“我头疼”可以换成“头痛缓解”</li>
-<li>只用重要的词汇，比如：
-<ul>
-<li>不要用：我从哪儿可以找到提供配送的餐馆？</li>
-<li>而要用：附近的餐馆</li>
-</ul>
-</li>
-<li>谷歌搜索有快捷方式，就像上面的计算器一样。比如：北京时间、杭州天气</li>
-<li>拼写不那么重要，谷歌搜索会帮你纠正语法和词汇。</li>
-<li>使用描述性词语，比如：如何安装 Ubuntu 的驱动？</li>
-<li>查找特定文件 <code>filetype:pdf</code>，比如：文明之光 filetype:pdf</li>
-<li>货币和单位换算，</li>
-<li>追踪你的包裹</li>
-</ol>
-<p>谷歌搜索是最棒的搜索工具，比某度好一万倍，善用谷歌是一种高效的方式。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>推荐一个静态博客写作客户端 <a href="https://github.com/getgridea/gridea">Gridea</a>，使用它可以方便地管理文章，进行分类、打标签等，一键同步到 GitHub，提供了多套主题，支持配置域名和评论功能，Windows、Mac 、Linux 全平台支持。我的<a href="https://isuperqiang.cn/">博客</a>托管在 GitHub 上，以前使用 <a href="https://hexo.io/zh-cn/">Hexo</a> 发布，但是没有本地管理功能，想修改文章非常麻烦。现在用 Gridea 发布，果然优雅了不少啊。</p>
-<h2 id="4-share">4. Share</h2>
-<p>程序员一般不喜欢写文档，遇到问题时又骂别人不写文档。在我看来，文档和代码一样重要，开源库的 API 文档写得清晰明了，开发者使用时也省心。最怕的是，过了一段时间，自己的代码都捋不清了。所以，尽可能多些文档吧，为了自己也为了接盘侠 :)</p>
 ]]></content>
     </entry>
 </feed>
