@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -125,7 +125,7 @@
 <li>Singleton：单例<br>
 在单例类的内部实现只生成一个实例，同时它提供一个静态的工厂方法，让客户可以使用它的唯一实例；为了防止在外部对其实例化，将其构造函数设计为私有。</li>
 </ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/1820210-e86adc943aa44906..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></p>
+<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-e86adc943aa44906..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></figure>
 <p>单例模式的要点有三个：一是某个类只能有一个实例；二是它必须自行创建这个实例；三是它必须自行向整个系统提供这个实例。</p>
 <p>单例模式的实现方式有饿汉式、懒汉式、静态内部类等，菜鸟教程上的<a href="http://www.runoob.com/design-pattern/singleton-pattern.html">单例模式</a>总结得就很全面，要根据实际情况选择合适的方式。</p>
 <p>我主要使用下面三种实现方式，双重校验锁和静态内部类保证了线程安全和懒加载；饿汉式做到了线程安全，在类加载时就进行实例化。</p>

@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,7 +123,7 @@
 <h4 id="11-加法">1.1 加法</h4>
 <p><strong>无符号加法：</strong> 考虑两个非负整数 x 和 y，满足 0&lt;=x, y&lt;2^w。当  x+y &gt;= 2^w 时，和发生溢出。 溢出情况就是该和减去 2^w 的结果。</p>
 <p><strong>补码加法：</strong> 当 x+y 小于 -2^(w-1) 时，发生负溢出；当它大于 2^(w-1) 时，发生正溢出。负溢出导致和增加 2^w，正溢出导致和减少 2^w。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/TIM%E6%88%AA%E5%9B%BE20190908192533.png" alt="补码加法的溢出"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/TIM%E6%88%AA%E5%9B%BE20190908192533.png" alt="补码加法的溢出"></figure>
 <h4 id="12-乘法">1.2 乘法</h4>
 <p>在大多数机器上，整数乘法指令非常慢，需要 10 个或者更多的时钟周期，然而加法、减法和位运算只需要 1 个时钟周期。</p>
 <p>左移一个整数等价于执行与 2 的幂相等的乘法。</p>
@@ -148,7 +148,7 @@
 <li>k 位对阶码字段 exp 编码阶码 E</li>
 <li>n 位对小数字段 frac 编码尾数 M</li>
 </ul>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190914192853.png" alt="标准浮点格式"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190914192853.png" alt="标准浮点格式"></figure>
 <p>浮点数只能近似表示实数运算，它采用向偶数舍入的方式。需要注意的是，浮点数运算不具备结合性和分配性。</p>
 <p><strong>总结一下：</strong></p>
 <ul>

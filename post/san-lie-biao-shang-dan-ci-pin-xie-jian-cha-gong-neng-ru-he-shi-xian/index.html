@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -121,7 +121,7 @@
             <div class="post-content">
               <h3 id="1-散列思想">1. 散列思想</h3>
 <p>散列表利用的就是数组支持按照下标随机访问的时候，时间复杂度是 O(1) 的特性。通过散列函数把元素的键值映射为下标，然后将数据存储在数组中对应下标的位置。当我们按照键值查询元素时，用同样的散列函数，将键值转化数组下标，从对应的数组下标的位置取数据。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512204112.png" alt="散列"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512204112.png" alt="散列"></figure>
 <h3 id="2-散列函数">2. 散列函数</h3>
 <p>散列函数定义为 hash(key)，其中 key 表示元素的键值，hash(key) 的值表示经过散列函数计算得到的散列值。</p>
 <p>该如何构造散列函数？有三点基本要求：</p>
@@ -135,7 +135,7 @@
 <p>解决方法：开放寻址法和链表法。</p>
 <h4 id="开放寻址法">开放寻址法</h4>
 <p>核心思想是，如果出现了散列冲突，就重新探测一个空闲位置，将其插入。探测方法有线形探测、二次探测和双重散列。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512203435.png" alt="开放寻址法"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512203435.png" alt="开放寻址法"></figure>
 <p><strong>线性探测</strong></p>
 <ul>
 <li>插入数据：当我们往散列表中插入数据时，如果某个数据经过散列函数之后，存储的位置已经被占用了，就从当前位置开始，依次往后查找，看是否有空闲位置，直到找到为止。</li>
@@ -155,7 +155,7 @@
 <h4 id="链表法">链表法</h4>
 <p>更加常用，比开放寻址法简单。</p>
 <p>在散列表中，每个“桶（bucket）”或者“槽（slot）”会对应一条链表，所有散列值相同的元素我们都放到相同槽位对应的链表中。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512201452.png" alt="链表法"></p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512201452.png" alt="链表法"></figure>
 <ul>
 <li>插入数据：当插入的时候，通过散列函数计算出对应的散列槽位，将其插入到对应的链表中即可，所以时间复杂度为 O(1)。</li>
 <li>查找或删除数据：当查找、删除一个元素时，通过散列函数计算对应的槽，然后遍历链表查找或删除。对于散列比较均匀的散列函数，链表的节点个数 k=n/m，其中 n 表示散列表中数据的个数，m 表示散列表中槽的个数，所以时间复杂度为 O(k)。</li>

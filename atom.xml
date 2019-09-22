@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-09-22T15:25:42.278Z</updated>
+    <updated>2019-09-22T23:15:36.072Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -79,7 +79,7 @@
 <h4 id="11-加法">1.1 加法</h4>
 <p><strong>无符号加法：</strong> 考虑两个非负整数 x 和 y，满足 0&lt;=x, y&lt;2^w。当  x+y &gt;= 2^w 时，和发生溢出。 溢出情况就是该和减去 2^w 的结果。</p>
 <p><strong>补码加法：</strong> 当 x+y 小于 -2^(w-1) 时，发生负溢出；当它大于 2^(w-1) 时，发生正溢出。负溢出导致和增加 2^w，正溢出导致和减少 2^w。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/TIM%E6%88%AA%E5%9B%BE20190908192533.png" alt="补码加法的溢出"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/TIM%E6%88%AA%E5%9B%BE20190908192533.png" alt="补码加法的溢出"></figure>
 <h4 id="12-乘法">1.2 乘法</h4>
 <p>在大多数机器上，整数乘法指令非常慢，需要 10 个或者更多的时钟周期，然而加法、减法和位运算只需要 1 个时钟周期。</p>
 <p>左移一个整数等价于执行与 2 的幂相等的乘法。</p>
@@ -104,7 +104,7 @@
 <li>k 位对阶码字段 exp 编码阶码 E</li>
 <li>n 位对小数字段 frac 编码尾数 M</li>
 </ul>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190914192853.png" alt="标准浮点格式"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190914192853.png" alt="标准浮点格式"></figure>
 <p>浮点数只能近似表示实数运算，它采用向偶数舍入的方式。需要注意的是，浮点数运算不具备结合性和分配性。</p>
 <p><strong>总结一下：</strong></p>
 <ul>
@@ -214,7 +214,7 @@
         <content type="html"><![CDATA[<h3 id="1-信息存储">1. 信息存储</h3>
 <p>计算机使用字节作为最小的内存寻址单位，1 个字节等于 8 位。机器级程序将内存视为一个非常大的字节数组，称为虚拟内存。内存的每个字节都用唯一的数字来标识，称为它的地址。所有可能地址的集合称为虚拟地址空间。这个地址空间只是一个展现给机器级程序的概念性映像。</p>
 <p>我们一般不直接使用 0 和 1 表示信息，那样的话数据太长了，而且可读性不好。通常把四个二进制当作一组，也就是十六进制表示字节，以 0x 或 0X 开头的数字代表十六进制的值，两个十六进制的值就是一个字节。比如：01011100 等价于 5C。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907220057.png" alt="十六进制表示法"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907220057.png" alt="十六进制表示法"></figure>
 <p>字节用十六进制表示后，下面该确定它的顺序了。内存地址是递增的，是按照人类的习惯，高位在前低位在后，还是相反呢？</p>
 <p>字节的排列方式有两种：</p>
 <ul>
@@ -251,7 +251,7 @@
 </table>
 <p>选择何种字节顺序，并没有技术上的优劣之分，只要坚持使用同一种规则。</p>
 <p>参数 12345 的十六进制表示为 0x00003039，下面是在不同系统上测试的结果。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190903092905.png" alt="不同数据值的字节表示"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190903092905.png" alt="不同数据值的字节表示"></figure>
 <p>从上图可以看出，Linux 32、Windows 和 Linux 64 采用小端法表示，Sun 采用大端法表示。</p>
 <h3 id="2-整数表示">2. 整数表示</h3>
 <p>C 语言的整数分为无符号数和有符号数，而 Java 只有有符号数。</p>
@@ -263,7 +263,7 @@
 <blockquote>
 <p>1011 = -1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 1 * 2^0 = -5</p>
 </blockquote>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907215430.png" alt="重要的数字"></p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907215430.png" alt="重要的数字"></figure>
 <p>其中，U 表示最无符号编码，T 表示补码编码。</p>
 <p>有符号数到无符号数的隐式类型转换导致某些非直观的行为，避免这类错误的一种方法是绝不使用无符号数。</p>
 <p><strong>总结一下：</strong></p>
@@ -386,10 +386,10 @@ int main() {
 }
 </code></pre>
 <p>在 Unix 系统上，从源文件到目标文件的转化是由编译器驱动程序完成的。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075112.jpg" alt="编译系统"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075112.jpg" alt="编译系统"></figure>
 <p>为什么要编译才能执行呢？因为 C 语言是高级程序设计语言，计算机无法理解 C 语言的语句。像 Python 这样的脚本语言，源代码需要边解释边执行，这是另外一种思路，本质上都是翻译为机器代码。</p>
 <h3 id="系统的硬件组成">系统的硬件组成</h3>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075221.jpg" alt="系统硬件组成"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075221.jpg" alt="系统硬件组成"></figure>
 <ol>
 <li>总线：贯穿整个系统的一组电子管道。在各个部件间传送定长的字节块，也就是字 word。字长是一个基本的系统参数，要么是 4 个字节（32位），要么是 8 个字节（64位）。</li>
 <li>IO 设备：系统与外部世界的联系通道，通过控制器或适配器与 IO 总线相连。</li>
@@ -398,7 +398,7 @@ int main() {
 </ol>
 <p>上面的组成图也可以用<strong>冯·诺依曼体系结构</strong>解释。处理器负责运算和控制，主存负责存储数据和指令，IO 设备负责输入和输出。</p>
 <h3 id="存储设备的层次结构">存储设备的层次结构</h3>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075353.jpg" alt="存储器层次结构"></p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075353.jpg" alt="存储器层次结构"></figure>
 <p>存储器层次结构的主要思想是上层的存储器作为下层存储器的高速缓存。</p>
 <p>为什么要分层呢？因为硬件的读写速度不匹配。越靠近 CPU，读写速度越快，当然价格也更高。现在硬件设计的原则是用空间换时间，买电子设备还是选内存大的，因为<strong>时间比空间更值钱</strong>。</p>
 <h3 id="操作系统管理硬件">操作系统管理硬件</h3>
@@ -408,12 +408,12 @@ int main() {
 <li>向应用程序提供简单一致的机制来控制复杂的低级硬件设备</li>
 </ol>
 <p>操作系统通过几个抽象概念来实现这两个功能，进程、虚拟内存和文件。文件是对 IO 设备的抽象表示，虚拟内存是对主存和磁盘 IO 设备的抽象表示，进程是对处理器、内存和 IO 设备的抽象表示。虚拟机是对整个计算机的抽象，包括操作系统、处理器和程序。指令集架构是对处理器的抽象。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075700.jpg" alt="计算机系统的抽象"></p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075700.jpg" alt="计算机系统的抽象"></figure>
 <p>这里讲的抽象就非常耐人寻味，它简化了系统实现的复杂性。比如，文件操作包括打开、读取、写入和关闭，IO 设备包括本地磁盘、网络存储等。对文件操作都可以抽象出统一的接口，由不同的 IO 设备实现。</p>
 <h3 id="进程和线程">进程和线程</h3>
 <p>进程是操作系统对一个正在运行的程序的一种抽象。处理器通过在进程间切换的机制（上下文切换）实现并行。</p>
 <p>操作系统保持跟踪进程运行所需的所有状态信息，这种状态就是上下文，包括 PC 和寄存器文件的当前值以及主存的内容。上下文切换就是保存当前进程的上下文，恢复新进程的上下文，然后将控制权传递到新进程。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075513.jpg" alt="进程上下文切换"></p>
+<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075513.jpg" alt="进程上下文切换"></figure>
 <p>从一个进程到另一个进程的切换是由操作系统的内核管理的，内核是操作系统代码常驻主存的部分。它不是一个独立的进程，而是系统管理全部进程所用代码和数据结构的集合。</p>
 <p>一个进程实际上由多个线程的组成，每个线程都运行在进程的上下文中，共享同样的代码和数据。</p>
 <p>所以有这样的说法：进程是资源分配的基本单位，线程是任务调度的基本单位。</p>

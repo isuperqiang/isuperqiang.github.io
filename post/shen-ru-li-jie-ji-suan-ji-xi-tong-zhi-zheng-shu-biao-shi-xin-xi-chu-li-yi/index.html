@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -122,7 +122,7 @@
               <h3 id="1-信息存储">1. 信息存储</h3>
 <p>计算机使用字节作为最小的内存寻址单位，1 个字节等于 8 位。机器级程序将内存视为一个非常大的字节数组，称为虚拟内存。内存的每个字节都用唯一的数字来标识，称为它的地址。所有可能地址的集合称为虚拟地址空间。这个地址空间只是一个展现给机器级程序的概念性映像。</p>
 <p>我们一般不直接使用 0 和 1 表示信息，那样的话数据太长了，而且可读性不好。通常把四个二进制当作一组，也就是十六进制表示字节，以 0x 或 0X 开头的数字代表十六进制的值，两个十六进制的值就是一个字节。比如：01011100 等价于 5C。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907220057.png" alt="十六进制表示法"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907220057.png" alt="十六进制表示法"></figure>
 <p>字节用十六进制表示后，下面该确定它的顺序了。内存地址是递增的，是按照人类的习惯，高位在前低位在后，还是相反呢？</p>
 <p>字节的排列方式有两种：</p>
 <ul>
@@ -159,7 +159,7 @@
 </table>
 <p>选择何种字节顺序，并没有技术上的优劣之分，只要坚持使用同一种规则。</p>
 <p>参数 12345 的十六进制表示为 0x00003039，下面是在不同系统上测试的结果。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190903092905.png" alt="不同数据值的字节表示"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190903092905.png" alt="不同数据值的字节表示"></figure>
 <p>从上图可以看出，Linux 32、Windows 和 Linux 64 采用小端法表示，Sun 采用大端法表示。</p>
 <h3 id="2-整数表示">2. 整数表示</h3>
 <p>C 语言的整数分为无符号数和有符号数，而 Java 只有有符号数。</p>
@@ -171,7 +171,7 @@
 <blockquote>
 <p>1011 = -1 * 2^3 + 0 * 2^2 + 1 * 2^1 + 1 * 2^0 = -5</p>
 </blockquote>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907215430.png" alt="重要的数字"></p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190907215430.png" alt="重要的数字"></figure>
 <p>其中，U 表示最无符号编码，T 表示补码编码。</p>
 <p>有符号数到无符号数的隐式类型转换导致某些非直观的行为，避免这类错误的一种方法是绝不使用无符号数。</p>
 <p><strong>总结一下：</strong></p>

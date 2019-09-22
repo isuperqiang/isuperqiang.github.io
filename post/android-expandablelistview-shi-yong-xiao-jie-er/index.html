@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -121,7 +121,7 @@
             <div class="post-content">
               <p>在上一篇<a href="https://isuperqiang.cn/post/android-expandablelistview-shi-yong-xiao-jie-yi/index.html">Android ExpandableListView使用小结（一）</a>的介绍中，我们学习了 ExpandableListView 的使用方法，学习了自定义适配器，为列表选项设置监听事件。想必大家都能熟练使用了，今天我要分享的是 ExpandableListView 的 Indicator（指示器）的使用。</p>
 <p>在我们看来，Indicator 就是分组项前面的小箭头，回顾一下我们之前做的 Demo，并没有显式指定 Indicator 啊，怎么还会出现呢？原来系统自动为分组的左边加上了 Indicator，不用我们做任何操作。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1820210-1d18117f09f4e750.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="系统默认的Indicator"></p>
+<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-1d18117f09f4e750.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="系统默认的Indicator"></figure>
 <p>有人可能觉得系统提供的 Indicator 难看，想换成自己喜欢的，这可怎么办？当然有办法啦，开源代码总是具有良好的扩展性，这里给出几种办法：</p>
 <ol>
 <li>在 Drawable 中利用 XML 定义 Indicator 的状态选择器，然后设置 ExpandableListView 的 groupIndicator 属性，引用我们自定义的 Drawable。先看看我们的状态选择器部分，根据不同的状态分别定义分组展开和闭合的图标就 OK 了。</li>
@@ -234,7 +234,7 @@ expandableListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickLi
     });
 </code></pre>
 <p>我们看看效果怎么样，不用美工我也能做得好看一点了，聊表安慰 (<sup>_</sup>)v</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/1820210-5f0ca5968721360f.jpg?imageMogr2/auto-orient/strip" alt="我的Indicator我做主"></p>
+<figure data-type="image" tabindex="2"><img src="http://upload-images.jianshu.io/upload_images/1820210-5f0ca5968721360f.jpg?imageMogr2/auto-orient/strip" alt="我的Indicator我做主"></figure>
 <p>好了，啰啰嗦嗦这么多，总算把效果做出来了，聊表欣慰。如果各位有什么问题，请评论留言就好，(～ o ～)~zZ</p>
 <p>Demo 地址：<a href="https://github.com/isuperqiang/ExpandableListViewDemo">GitHub</a></p>
 

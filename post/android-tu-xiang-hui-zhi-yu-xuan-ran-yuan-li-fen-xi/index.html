@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,7 +123,7 @@
 <!-- more -->
 <h3 id="1-屏幕与适配">1. 屏幕与适配</h3>
 <p>对于屏幕碎片化问题，Android 推荐使用 dp 作为尺寸单位，首先要了解 dp、px、density 等概念。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/e3094e900dccacb9d9e72063ca3084ce.png" alt="Android屏幕尺寸概念"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/e3094e900dccacb9d9e72063ca3084ce.png" alt="Android屏幕尺寸概念"></figure>
 <p>使用 dp 是 Android 推荐的屏幕适配方式，但是以下存在问题：dpi 与 ppi 不一致导致控件大小不统一。</p>
 <p>目前业界常用的 UI 适配方法主要有下面几种：</p>
 <ul>
@@ -132,11 +132,11 @@
 </ul>
 <h3 id="2-cpu-与-gpu">2. CPU 与 GPU</h3>
 <p>UI 渲染依赖两个核心硬件：CPU 和 GPU。UI 组件在绘制到屏幕之前，需要经过栅格化操作，而栅格化非常耗时。GPU 主要用于处理图形运算，可以加快栅格化的过程。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1c94e50372ff29ef68690da92c6b468d.png" alt="软硬件绘制"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1c94e50372ff29ef68690da92c6b468d.png" alt="软硬件绘制"></figure>
 <p>对于硬件绘制，Android 使用 OpenGL 在 GPU 上完成，OpenGL 是扩平台的图形 API，为 2D/3D 图形处理硬件制定了标准的软件接口。软件绘制使用的是 Skia 库，它能在低端设备上呈现高质量的 2D 跨平台图形。</p>
 <h3 id="3-渲染">3. 渲染</h3>
 <p>Android 图形系统的整体架构和它包含的主要组件。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/7efc5431b860634224f1cd7dda8abd66.png" alt="Android图形系统"></p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/7efc5431b860634224f1cd7dda8abd66.png" alt="Android图形系统"></figure>
 <p>如果把应用程序图形渲染过程当作一次绘画过程。那么绘画过程中，Android 的各个图形组件的作用是：</p>
 <ul>
 <li>
@@ -154,7 +154,7 @@
 </ul>
 <h3 id="4-硬件加速">4. 硬件加速</h3>
 <p>从 Android 3.0 开始，支持硬件加速，到 4.0 时，默认开启硬件加速。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/79c315275abac0823971e5d6b9657be8.png" alt="硬件加速绘制"></p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/79c315275abac0823971e5d6b9657be8.png" alt="硬件加速绘制"></figure>
 <p>硬件加速绘制与软件绘制整个流程差异非常大，最核心就是我们通过 GPU 完成 Graphic Buffer 的内容绘制。此外硬件绘制还引入了ー个 Display List 的概念，每个 View 内部都有个 Displaylist，当某个 View 需要重绘时，将它标记为 Dirty。</p>
 <p>当需要重绘时，仅仅只需要重绘一个 View 的 Display List，而不是像软件绘制那样需要向上递归。这样可以大大减少绘图的操作数量，因而提高了渲染效率。</p>
 <p>硬件加速大大提高来 Android 系统显示和刷新的速度，但是也存在一些问题：一方面内存消耗，OpenGL API 和Graphic Buffer 缓冲区占用内存。还存在兼容性问题。</p>

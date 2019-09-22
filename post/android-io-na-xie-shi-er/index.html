@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569165877921">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1569194134081">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1569165877921" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1569194134081" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -124,11 +124,11 @@
 <h3 id="1-linux-io-的基本组成">1. Linux I/O 的基本组成</h3>
 <p>众所周知，Android 基于 Linux 系统，先介绍一些 Linux 上 I/O 的知识。</p>
 <p>I/O 操作由应用程序、文件系统和磁盘共同完成，应用程序将 I/O 命令发送给文件系统，文件系统在合适的时间把 I/O 指令发送给磁盘。I/O 的流程如下图：</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603080604.png" alt="I/O操作"></p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603080604.png" alt="I/O操作"></figure>
 <p>CPU 和内存的速度比磁盘快得多，I/O 操作的瓶颈在于磁盘的性能。为了降低磁盘对应用程序的影响，文件系统要进行各种各样的优化。</p>
 <h4 id="文件系统">文件系统</h4>
 <p>简单来说，文件系统就是存储和组织数据的方式。应用程序调用 read() 方法，系统会通过中断从用户空间进入内核空间，然后经过虚拟文件系统、具体文件系统、页缓存。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603081904.png" alt="Linux-I/O架构"></p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603081904.png" alt="Linux-I/O架构"></figure>
 <ul>
 <li>虚拟文件系统（VFS）。主要用于屏蔽具体的文件系统，为应用程序的操作提供一个统一的接口。</li>
 <li>文件系统（File System）。ext4、F2FS 都是具体文件系统实现。每个文件系统都有适合自己的场景。</li>
@@ -136,7 +136,7 @@
 </ul>
 <h4 id="磁盘">磁盘</h4>
 <p>磁盘指的是系统的存储设备，常见的有机械硬盘、固态硬盘等。如果发现应用程序要读的数据没有在页缓存中，这时候就需要真正向磁盘发起 I/O 请求。磁盘 I/O 的过程要先经过内核的通用块层、I/O 调度层、设备驱动层，最后才会交给具体的硬件设备处理。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603082924.png" alt="磁盘架构"></p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603082924.png" alt="磁盘架构"></figure>
 <ul>
 <li>通用块层。接收上层发出的磁盘请求，并最终发出 I/O 请求。它与 VPS 的作用类似。</li>
 <li>I/O 调度层。根据设置的调度算法对请求合并和排序。不能接收到磁盘请求就立刻交给驱动层处理。</li>
@@ -161,7 +161,7 @@
 </ul>
 <h3 id="3-io-的三种方式">3. I/O 的三种方式</h3>
 <p>I/O 有三种方式：标准 I/O、mmap 和 Direct I/O。</p>
-<p><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190604090403.png" alt="I/O的方式"></p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190604090403.png" alt="I/O的方式"></figure>
 <h4 id="标准-io">标准 I/O</h4>
 <p>应用程序平时用到 read/write 操作都属于标准 I/O，也就是缓存 I/O（Buffered I/O）。它的关键特性有：</p>
 <ul>
