@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>使用 Java 遍历文件夹的几种方式 | 落英坠露</title>
+<title>深入理解计算机系统之程序的机器级表示（一） | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,66 +115,32 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">使用 Java 遍历文件夹的几种方式</h2>
-            <div class="post-date">2018-07-26</div>
+            <h2 class="post-title">深入理解计算机系统之程序的机器级表示（一）</h2>
+            <div class="post-date">2019-09-23</div>
             
             <div class="post-content">
-              <p>最近面试的时候被问及，使用非递归的方式遍历文件夹下的所有文件。由于之前没有写过，当时卡了一下，最后也没给出好的方案。</p>
-<p>从计算机的角度看，文件夹的数据结构就是多叉树（Tree），而树的遍历方式有两种：深度优先遍历和广度优先遍历。</p>
-<!-- more -->
-<h3 id="1-采用递归的方式实现深度优先遍历">1. 采用递归的方式实现深度优先遍历</h3>
-<p>这种方法最简单，不需要多解释。</p>
-<pre><code>    private static void traverFile1(File file) {
-        System.out.println(file);
-        File[] files = file.listFiles();
-        if (files != null &amp;&amp; files.isDirectory()) {
-            for (File f : files) {
-                traverFile1(f);
-            }
-        }
-    }
-</code></pre>
-<h3 id="2-借助队列结构来实现广度优先遍历">2. 借助队列结构来实现广度优先遍历</h3>
-<p>队列（Queue）的特点是先进先出，我们从头部取出 File 打印并移除，然后把 File 下的子 File 添加到队列，这样在遍历的时候，File 的层级是相同的，最终实现广度优先遍历。</p>
-<pre><code>    private static void traverFile2(File file) {
-        LinkedList&lt;File&gt; list = new LinkedList&lt;&gt;();
-        list.add(file);
-        while (!list.isEmpty()) {
-            File f = list.poll();
-            System.out.println(f);
-            File[] files = f.listFiles();
-            if (files != null) {
-                list.addAll(Arrays.asList(files));
-            }
-        }
-    }
-</code></pre>
-<h3 id="3-借助栈结构来实现深度优先遍历">3. 借助栈结构来实现深度优先遍历</h3>
-<p>栈（Stack）的特点是后进先出，把 File 出栈并打印，然后把 子 File 压栈，下次出栈的时候就是子 File，沿着一个方向层层向下，这样就实现了深度优先遍历。</p>
-<pre><code>    private static void traverFile3(File file) {
-        LinkedList&lt;File&gt; list = new LinkedList&lt;&gt;();
-        list.add(file);
-        while (!list.isEmpty()) {
-            File f = list.pop();
-            System.out.println(f);
-            File[] files = f.listFiles();
-            if (files != null) {
-                for (File fil : files) {
-                    list.push(fil);
-                }
-            }
-        }
-    }
-</code></pre>
-<p><strong>参考文章：</strong></p>
-<p><a href="https://zhuanlan.zhihu.com/p/29425290">树的深度优先遍历、广度优先遍历</a></p>
+              <h3 id="1-概述">1. 概述</h3>
+<p>计算机执行机器代码，用字节序列编码低级的操作，包括处理数据、管理内存、读写存储设备上的数据，以及利用网络通信。编译器基于编程语言的规则、目标机器的指令集和操作系统遵循的惯例，经过一系列的阶段生成机器代码。GCC C 语言编译器以汇编代码的形式产生输出，汇编代码是机器代码的文本表示，给出程序中的每一条指令。然后 GCC 调用汇编器和链接器，根据汇编代码生成可执行的机器代码。</p>
+<h3 id="2-程序编码">2. 程序编码</h3>
+<p>计算机系统使用多种抽象模型来隐藏实现的细节。对于机器级编程来说，有两种抽象尤为重要。</p>
+<ul>
+<li>第一种是由指令集架构（Instruction Set Architecture, ISA）来定义机器级程序的格式和行为，它定义了处理器状态、指令的格式，以及每条指令对状态的影响。</li>
+<li>第二种抽象是，机器级程序使用的内存地址是虚拟地址，提供的内存模型看上去是一个非常大的字节数组。存储器系统的实际实现是将多个硬件存储器和操作系统软件组合起来。</li>
+</ul>
+<p>在编译过程中，编译器把用 C 语言提供的相对比较抽象的执行模型表示的程序，转化为处理器执行的非常基本的指令。汇编代码表示非常接近于机器代码。与机器代码的二进制格式相比，汇编代码的主要特点是它用可读性更好的文本格式表示。</p>
+<p>程序内存包含：程序的可执行机器代码、操作系统需要的一些信息、用来管理过程调用和返回的运行时栈，以及用户分配的内存块。程序内存用虚拟地址来寻址，在任意给定的时刻，只有一部分虚拟地址被认为是合法的。操作系统负责管理虚拟地址空间，将虚拟地址翻译为实际处理器内存中的物理地址。</p>
+<p>一条机器指令只执行一个非常基本的操作。机器执行的程序只是一个字节序列，它是对一系列指令的编码。机器对产生这些指令对源代码几乎一无所知。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190222-072526@2x.jpg" alt="机器代码与汇编代码"></figure>
+<p>生成实际可执行的代码需要对一组目标代码文件运行链接器，而这一组目标代码文件必须含有一个 main 函数。上图中，<code>callq</code> 指令调用函数 <code>muil2</code> 需要使用地址，链接器的任务之一就是为函数调用找到匹配的函数的可执行的代码的位置。最后的两行 <code>nop</code> 对程序没有影响，插入这些指令的目的是为了使代码变为 16 字节，使得存储器系统更好地放置下一个代码块。</p>
+<h3 id="3-数据格式">3. 数据格式</h3>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190222-073010@2x.jpg" alt="C语言数据类型"></figure>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/datastruct-algorithm" class="tag">
-                    数据结构算法
+                  <a href="https://isuperqiang.cn/tag/reading" class="tag">
+                    读书
                   </a>
                 
               </div>
@@ -182,9 +148,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/wo-de-bian-cheng-zhi-lu">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-24-qi">
                   <h3 class="post-title">
-                    一个 CS 科班生的编程之路
+                    每周 ARTS 第 24 期
                   </h3>
                 </a>
               </div>
