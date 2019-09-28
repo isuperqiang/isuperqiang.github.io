@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>散列表（上）：单词拼写检查功能如何实现 | 落英坠露</title>
+<title>每周 ARTS 第 25 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,64 +115,74 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">散列表（上）：单词拼写检查功能如何实现</h2>
-            <div class="post-date">2019-05-12</div>
+            <h2 class="post-title">每周 ARTS 第 25 期</h2>
+            <div class="post-date">2019-09-28</div>
             
             <div class="post-content">
-              <h3 id="1-散列思想">1. 散列思想</h3>
-<p>散列表利用的就是数组支持按照下标随机访问的时候，时间复杂度是 O(1) 的特性。通过散列函数把元素的键值映射为下标，然后将数据存储在数组中对应下标的位置。当我们按照键值查询元素时，用同样的散列函数，将键值转化数组下标，从对应的数组下标的位置取数据。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512204112.png" alt="散列"></figure>
-<h3 id="2-散列函数">2. 散列函数</h3>
-<p>散列函数定义为 hash(key)，其中 key 表示元素的键值，hash(key) 的值表示经过散列函数计算得到的散列值。</p>
-<p>该如何构造散列函数？有三点基本要求：</p>
-<ul>
-<li>散列函数计算得到的散列值是一个非负整数；</li>
-<li>如果 key1 = key2，那 hash(key1) == hash(key2)；</li>
-<li>如果 key1 ≠ key2，那 hash(key1) ≠ hash(key2)。</li>
-</ul>
-<p>第一、二点很好理解，第三点实际上几乎不可能，因为它无法避免散列冲突。</p>
-<h3 id="3-散列冲突">3. 散列冲突</h3>
-<p>解决方法：开放寻址法和链表法。</p>
-<h4 id="开放寻址法">开放寻址法</h4>
-<p>核心思想是，如果出现了散列冲突，就重新探测一个空闲位置，将其插入。探测方法有线形探测、二次探测和双重散列。</p>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512203435.png" alt="开放寻址法"></figure>
-<p><strong>线性探测</strong></p>
-<ul>
-<li>插入数据：当我们往散列表中插入数据时，如果某个数据经过散列函数之后，存储的位置已经被占用了，就从当前位置开始，依次往后查找，看是否有空闲位置，直到找到为止。</li>
-<li>查找数据：通过散列函数求出要查找元素的键值对应的散列值，然后比较数组中下标为散列值的元素和要查找的元素是否相等。如果相等，则说明就是要找的元素；否则，就顺序往后依次查找。如果遍历到数组的空闲位置还未找到，就说明要查找的元素并没有在散列表中。</li>
-<li>删除数据：为了不让查找算法失效，可以将删除的元素特殊标记为 deleted，当线性探测查找的时候，遇到标记为 deleted 的空间，并不是停下来，而是继续往下探测。</li>
-</ul>
-<p>结论：最坏的时间复杂度为O(n)</p>
-<p><strong>二次探测</strong></p>
-<p>线性探测每次探测的步长为1，即在数组中一个个探测，而二次探测的步长变为原来的平方。</p>
-<p><strong>双重散列</strong></p>
-<p>使用一组散列函数，直到找到空闲位置为止。</p>
-<p>散列表用装载因子（load factor）来表示空位的多少，计算公式是：</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h3 id="22-递增的三元子序列中等">22. 递增的三元子序列（中等）</h3>
+<h5 id="描述">描述：</h5>
 <blockquote>
-<p>散列表的装载因子 = 填入表中的元素个数 / 散列表的长度</p>
+<p>给定一个未排序的数组，判断这个数组中是否存在长度为 3 的递增子序列。</p>
+<p>数学表达式如下:</p>
+<p>如果存在这样的 i, j, k,  且满足 0 ≤ i &lt; j &lt; k ≤ n-1，<br>
+使得 arr[i] &lt; arr[j] &lt; arr[k] ，返回 true ; 否则返回 false 。</p>
 </blockquote>
-<p>装载因子越大，说明空闲位置越少，冲突越多，散列表的性能会下降。</p>
-<h4 id="链表法">链表法</h4>
-<p>更加常用，比开放寻址法简单。</p>
-<p>在散列表中，每个“桶（bucket）”或者“槽（slot）”会对应一条链表，所有散列值相同的元素我们都放到相同槽位对应的链表中。</p>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190512201452.png" alt="链表法"></figure>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: [1,2,3,4,5]
+输出: true
+输入: [5,4,3,2,1]
+输出: false
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p><strong>双指针</strong></p>
+<p>定义 min 为序列中的较小值，mid 为中间值，看是否能找到较大值。</p>
+<pre><code class="language-java">class Sulution {
+    public boolean increasingTriplet(int[] nums) {
+        if (nums == null || nums.length &lt; 3) {
+            return false;
+        }
+
+        int min = Integer.MAX_VALUE;
+        int mid = Integer.MAX_VALUE;
+        for (int num : nums) {
+            if (num &lt;= min) {
+                min = num;
+            } else if (num &lt;= mid) {
+                mid = num;
+            } else {
+                return true;
+            }
+        }
+        return false;    
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
 <ul>
-<li>插入数据：当插入的时候，通过散列函数计算出对应的散列槽位，将其插入到对应的链表中即可，所以时间复杂度为 O(1)。</li>
-<li>查找或删除数据：当查找、删除一个元素时，通过散列函数计算对应的槽，然后遍历链表查找或删除。对于散列比较均匀的散列函数，链表的节点个数 k=n/m，其中 n 表示散列表中数据的个数，m 表示散列表中槽的个数，所以时间复杂度为 O(k)。</li>
+<li>时间复杂度：O(n)</li>
+<li>空间复杂度：O(1)</li>
 </ul>
-<h3 id="课后思考">课后思考</h3>
-<ol>
-<li>Word 文档中单词拼写检查功能是如何实现的？</li>
-<li>假设我们有 10 万条 URL 访问日志，如何按照访问次数给 URL 排序？</li>
-<li>有两个字符串数组，每个数组大约有 10 万条字符串，如何快速找出两个数组中相同的字符串？</li>
-</ol>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://skorks.com/2011/02/the-greatest-developer-fallacy-or-the-wisest-words-youll-ever-hear/">The Greatest Developer Fallacy Or The Wisest Words You’ll Ever Hear?</a> 你听过最伟大开发者的谬误还是最明智的话？</p>
+<p>作者从 “I will learn it when I need it” 开始谈起，列举了一些自己的观点。</p>
+<ul>
+<li>投资你的未来，而不是需要的时候才学习，渴望比知识更重要。</li>
+<li>你不知道你不知道的知识，你不去学习它，是因为你根本不知道它的存在。</li>
+<li>广度是深度的副作用，在一个领域成为专家，其他领域也顺便了解。</li>
+<li>和大牛交朋友，从他们那里学到东西。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>分享一个搜索引擎 —— <a href="https://www.dogedoge.com/">多吉搜索</a>，它的宗旨是不追踪，不误导，称得上是国内的 duckduckgo。界面清爽，简单纯粹，搜索质量比百度高 100 倍。如果你不能愉快地访问谷歌，那么多吉搜索是不错的选择。😃</p>
+<h2 id="4-share">4. Share</h2>
+<p>最近由于国庆，SS 服务被阻隔了，无法访问谷歌，对开发很不方便。互联网本该自由，何必构筑高墙，遮蔽众人耳目，自欺欺人呢？</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/datastruct-algorithm" class="tag">
-                    数据结构算法
+                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -180,9 +190,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-6-qi">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-yi">
                   <h3 class="post-title">
-                    每周 ARTS 第 6 期
+                    深入理解计算机系统之程序的机器级表示（一）
                   </h3>
                 </a>
               </div>
