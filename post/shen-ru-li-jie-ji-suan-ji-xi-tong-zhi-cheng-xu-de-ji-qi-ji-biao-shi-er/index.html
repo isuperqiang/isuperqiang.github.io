@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 12 期 | 落英坠露</title>
+<title>深入理解计算机系统之程序的机器级表示（二） | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,77 +115,25 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 12 期</h2>
-            <div class="post-date">2019-06-23</div>
+            <h2 class="post-title">深入理解计算机系统之程序的机器级表示（二）</h2>
+            <div class="post-date">2019-10-13</div>
             
             <div class="post-content">
-              <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="108-将有序数组转换为二叉搜索树简单">108. 将有序数组转换为二叉搜索树（简单）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。本题中，一个高度平衡二叉树是指一个二叉树每个节点的左右两个子树的高度差的绝对值不超过 1。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>给定有序数组: [-10,-3,0,5,9],
-一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
-
-      0
-     / \
-   -3   9
-   /   /
- -10  5
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p>以数组的中间元素为根节点，将数组分为左右两部分，用递归的方法对两个子数组分别构建左右子树。</p>
-<pre><code class="language-java">class Solution {
-    public TreeNode sortedArrayToBST(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return null;
-        }
-        return toBst(nums, 0, nums.length - 1);
-    }
-
-    private TreeNode toBst(int[] nums, int l, int r) {
-        if (l &gt; r) {
-            return null;
-        }
-        int mid = l + (r - l) / 2;
-        TreeNode root = new TreeNode(nums[mid]);
-        root.left = toBst(nums, l, mid - 1);
-        root.right = toBst(nums, mid + 1, r);
-        return root;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：O(logn)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/javascript-scene/tdd-changed-my-life-5af0ce099f80">TDD Changed My Life</a> TDD 改变了我的人生</p>
-<p>TDD 是测试驱动开发，先写测试用例，再写实现代码。作者讲了一个切身的经历，debug 到奔溃也没有发现问题。如果提前写好单元测试，就能及早发现这个 bug。软件开发就是模块的组装，单元测试针对某个功能，每个部件都通过验证，那么整个系统也得到保证。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p><a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">Java 比较浮点数的正确方式</a> 重新认识了浮点数，解决了以前踩过的坑。</p>
-<h2 id="4-share">4. Share</h2>
-<p>一本书不读完，坚决不碰下一本。最近读书一直虎头蛇尾，看到一半就停下来看其他的。碎片化的生活，耐心越来越稀缺，我想静下心来，踏踏实实做下去。</p>
+              <h3 id="过程">过程</h3>
+<p>过程提供了一种封装代码的方式，用一组指定的参数和一个可选的返回值实现某种功能。形式有函数、方法、子例程等。</p>
+<p>C 语言使用栈提供的后进先出的内存管理原则。栈和程序寄存器存放着传递控制和数据、分配内存需要的信息。</p>
+<p>当 Q 执行时，P 及 P 以上的函数调研暂时被挂起，需要为局部变量分配存储空间，或者设置另一个过程调用。当 Q 返回时，它分配的局部存储空间都会被释放。P 的返回地址也被压入栈中，表示在 Q 返回时，从 P 的返回地址继续执行。</p>
+<p>大多数过程间数据传送通过寄存器实现，寄存器最多传递 6 个整型参数，超过 6 个的部分要通过栈来传递。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191014070514.png" alt="栈帧结构"></figure>
 
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://isuperqiang.cn/tag/arts" class="tag">
-                    ARTS
-                  </a>
-                
-              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-25-qi">
                   <h3 class="post-title">
-                    Java 比较浮点数的正确方式
+                    每周 ARTS 第 25 期
                   </h3>
                 </a>
               </div>
