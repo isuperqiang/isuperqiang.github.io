@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-10-15T13:15:43.870Z</updated>
+    <updated>2019-10-20T07:48:42.531Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,38 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之存储器层次结构]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou">
+        </link>
+        <updated>2019-10-20T07:47:51.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="61-存储技术">6.1 存储技术</h3>
+<p>这一节主要讲述存储技术的发展，从 SRAM、DRAM、ROM 再到硬盘。</p>
+<p>随机访问存储器（RAM），分为静态 RAM 和动态 RAM，前者比后者更快，但也贵得多。SRAM 应用于高速缓存，DRAM 应用于主存和帧缓冲区。</p>
+<p>高速缓存存储器作为 CPU 和主存之间的缓存区域，对应用程序性能的影响最大。现代计算机频繁使用基于 SRAM 的高速缓存，试图弥补处理器和内存之间的差距。</p>
+<p>数据流通过总线（bus）在 CPU 和主存之间传递，总线携带地址、数据和控制信号。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020101259.png" alt="连接 CPU 和主存的总线"></figure>
+<p>像显示器、鼠标、键盘这样的 I/O 设备，都是通过 I/O 总线连接到 CPU 和主存的。I/O 总线比系统和内存总线慢，但可以容纳多种第三方 I/O 设备。</p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020101728.png" alt="总线结构图"></figure>
+<p>CPU 使用内存映射的技术向 I/O 设备发出命令，地址空间有一块是为 I/O 设备通信保留的 I/O 端口。</p>
+<h3 id="62-局部性原理">6.2 局部性原理</h3>
+<p>程序倾向于引用最近引用过的数据项，或者与最近引用过的数据项邻近的数据项。</p>
+<p>局部性有两种表现形式：时间局部性和空间局部性。有着良好局部性的程序比局部性差的程序运行得更快。</p>
+<p>对于一个循环求数组元素之和的函数，结果 sum 每次循环都被引用，具有良好的时间局部性。而数组按顺序迭代，具有良好的空间局部性。<br>
+而对于多维数组，步长会影响程序的空间局部性。</p>
+<p>评价程序中局部性的一些简单原则：</p>
+<ul>
+<li>重复引用相同变量的程序具有良好的时间局部性。</li>
+<li>对于具有步长的引用模式的程序，步长越小，空间局部性越好。在内存中以大步长跳来跳去的程序，空间局部性会很差。</li>
+<li>对于取指令来说，循环具有好的时间和空间局部性。循环体越小，迭次次数越多，局部性越好。</li>
+</ul>
+<h3 id="63-存储器的层次结构">6.3 存储器的层次结构</h3>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020152557.png" alt="存储器层次结构"></figure>
+<p>一般而言，从高层到底层，存储设备变得更慢、更便宜和更大容量。</p>
+<p>存储器层次结构的本质是：每一层存储设备都是较低一层的缓存。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之程序的机器级表示（二）]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-er</id>
@@ -520,82 +552,6 @@ int main() {
 <p>一个进程实际上由多个线程的组成，每个线程都运行在进程的上下文中，共享同样的代码和数据。</p>
 <p>所以有这样的说法：进程是资源分配的基本单位，线程是任务调度的基本单位。</p>
 <p>计算机系统漫游让我们从整体上认识了系统的结构和组成，算是为接下来的学习开了个好头。好的开端是成功的一半。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 21 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-21-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-21-qi">
-        </link>
-        <updated>2019-08-25T11:25:36.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="24-两两交换链表中的节点中等">24. 两两交换链表中的节点（中等）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。<br>
-你不能只是单纯的改变节点内部的值，而是需要实际的进行节点交换。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>给定 1-&gt;2-&gt;3-&gt;4, 你应该返回 2-&gt;1-&gt;4-&gt;3.
-</code></pre>
-<h5 id="思路">思路：</h5>
-<ul>
-<li>迭代法：从 head 开始遍历，改变相邻节点和它们前后节点之间的关系。</li>
-</ul>
-<pre><code class="language-java">class Sulution {
-    public ListNode swapPairs(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-        ListNode curr = head;
-        ListNode result = head.next;
-        ListNode next;
-        ListNode prev = null;
-        while (curr != null &amp;&amp; (next = curr.next) != null) {
-            ListNode temp = next.next;
-            next.next = curr;
-            curr.next = temp;
-            if (prev != null) {
-                prev.next = next;
-            }
-            prev = curr;
-            curr = temp;
-        }
-        return result;
-    }
-}
-</code></pre>
-<ul>
-<li>递归法：先处理最后两个或一个节点，然后再从后往前处理每一对节点。</li>
-</ul>
-<pre><code class="language-java">class Sulution {
-    public ListNode swapPairs(ListNode head) {
-        if (head == null || head.next == null) {
-            return head;
-        }
-        ListNode next = head.next;
-        head.next = swapPairs(next.next);
-        next.next = head;
-        return next;
-    }
-}
-</code></pre>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/free-code-camp/how-to-use-git-efficiently-54320a236369">How to use Git efficiently</a> 如何高效地使用 Git</p>
-<p>作者通过一个开发场景，讲解了 Git workflow 的使用技巧。在多人协作的开发过程中，分支是重要的代码管理手段。</p>
-<p>分支主要分为三种：master、release/、feature/xxx。master 是主分支，它存放的是生产代码的拷贝，任何人都不允许在 master 分支提交代码。release 是发布分支，它从 master 分支创建，可以存在多个并行分支 release/xxx，多个项目在同一个 code base 中时，release 分支可以保证项目并行。feature 是需求分支，它通常从 release 分支创建。每个需求都可以创建新的分支，每个开发者在不同的分支上进行功能开发。然后通过 PR 把代码合并到 release 分支。</p>
-<p>通过 pull request，feature 分支的代码合并到 release 分支，主管可以在合并前进行 code review。如果发生合并冲突，解决办法有两种：处理 PR 的主管解决；开发者从 release 分支 pull 最新代码合并到 feature 分支并解决冲突。</p>
-<p>项目完成后，release 分支的代码合并到 master 分支，然后发布产品。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>最近在维护代码的过程中，发现很多地方写得不够好，重复的代码太多，代码结构有些混乱。有时间我就重构，每个点都仔细推敲，引入经典的设计模式，本着可读性和可维护性好的原则，其他人接手也容易，clean code 原则一定要牢记心间呐。</p>
-<h2 id="4-share">4. Share</h2>
-<p><a href="https://www.yuque.com/zenany/up/high_productivity_work">高效工作</a> 来自语雀精选</p>
-<p>作者从两方面列举了高效工作的做法。</p>
-<ul>
-<li>增加有效工作时间</li>
-<li>提高单位时间的产能</li>
-</ul>
-<p>高效能的三个要素：<strong>时间、能量和注意力</strong>。</p>
 ]]></content>
     </entry>
 </feed>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>《深入理解计算机系统》之存储器层次结构 | 落英坠露</title>
+<title>深入理解计算机系统之存储器层次结构 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,25 +115,34 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">《深入理解计算机系统》之存储器层次结构</h2>
-            <div class="post-date">2019-01-29</div>
+            <h2 class="post-title">深入理解计算机系统之存储器层次结构</h2>
+            <div class="post-date">2019-10-20</div>
             
             <div class="post-content">
-              <h3 id="15-高速缓存至关重要">1.5 高速缓存至关重要</h3>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075319.jpg" alt="高速缓存"></figure>
-<p>根据机械原理，较大的存储设备要比较小的存储设备运行得慢，而快速设备的造价远高于同类的低速设备。</p>
-<p>处理器和主存之间的速度差异非常大，寄存器的速度比主存快两个数量级，加快处理器的运行速度比提升主存的速度要容易和便宜得多。</p>
-<p>针对处理器和主存之间的差异，设计了<strong>高度缓存存储器</strong>（cache memory），作为数据暂时的集结区域，存放处理器近期可能会需要的信息。</p>
-<p>三级高速缓存：L1、L2、L3，用静态随机访问存储器（SRAM）实现。</p>
-<p>高速缓存利用了<strong>局部性原理</strong>：程序具有访问局部区域里的数据和代码的趋势。</p>
-<h3 id="16-存储设备形成层次结构">1.6 存储设备形成层次结构</h3>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075353.jpg" alt="存储器层次结构"></figure>
-<p>从上到下，设备的访问速度越来越慢、容量越来越大，并且每字节的造价越来越便宜。</p>
-<p>存储器层次结构的主要思想是<strong>上层的存储器作为下层存储器的高速缓存</strong>。寄存器文件就是 L1 的高速缓存，L1 就是 L2 的高速缓存......</p>
-<hr>
-<h3 id="我的思考">我的思考</h3>
-<p>高速缓存的存在是为了解决处理器和主存之间速度差异大的问题，现在的设备把高速缓存分为三级。离处理器越近的存储器，访问速度越快。寄存器在处理器内部，所以它最快，主存离得比较远，速度就比寄存器慢。</p>
-<p>善用缓存是提高程序性能的办法，比如把加载图片时做个内存磁盘双缓存，这在 Android 开发中是经常用到的。</p>
+              <h3 id="61-存储技术">6.1 存储技术</h3>
+<p>这一节主要讲述存储技术的发展，从 SRAM、DRAM、ROM 再到硬盘。</p>
+<p>随机访问存储器（RAM），分为静态 RAM 和动态 RAM，前者比后者更快，但也贵得多。SRAM 应用于高速缓存，DRAM 应用于主存和帧缓冲区。</p>
+<p>高速缓存存储器作为 CPU 和主存之间的缓存区域，对应用程序性能的影响最大。现代计算机频繁使用基于 SRAM 的高速缓存，试图弥补处理器和内存之间的差距。</p>
+<p>数据流通过总线（bus）在 CPU 和主存之间传递，总线携带地址、数据和控制信号。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020101259.png" alt="连接 CPU 和主存的总线"></figure>
+<p>像显示器、鼠标、键盘这样的 I/O 设备，都是通过 I/O 总线连接到 CPU 和主存的。I/O 总线比系统和内存总线慢，但可以容纳多种第三方 I/O 设备。</p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020101728.png" alt="总线结构图"></figure>
+<p>CPU 使用内存映射的技术向 I/O 设备发出命令，地址空间有一块是为 I/O 设备通信保留的 I/O 端口。</p>
+<h3 id="62-局部性原理">6.2 局部性原理</h3>
+<p>程序倾向于引用最近引用过的数据项，或者与最近引用过的数据项邻近的数据项。</p>
+<p>局部性有两种表现形式：时间局部性和空间局部性。有着良好局部性的程序比局部性差的程序运行得更快。</p>
+<p>对于一个循环求数组元素之和的函数，结果 sum 每次循环都被引用，具有良好的时间局部性。而数组按顺序迭代，具有良好的空间局部性。<br>
+而对于多维数组，步长会影响程序的空间局部性。</p>
+<p>评价程序中局部性的一些简单原则：</p>
+<ul>
+<li>重复引用相同变量的程序具有良好的时间局部性。</li>
+<li>对于具有步长的引用模式的程序，步长越小，空间局部性越好。在内存中以大步长跳来跳去的程序，空间局部性会很差。</li>
+<li>对于取指令来说，循环具有好的时间和空间局部性。循环体越小，迭次次数越多，局部性越好。</li>
+</ul>
+<h3 id="63-存储器的层次结构">6.3 存储器的层次结构</h3>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020152557.png" alt="存储器层次结构"></figure>
+<p>一般而言，从高层到底层，存储设备变得更慢、更便宜和更大容量。</p>
+<p>存储器层次结构的本质是：每一层存储设备都是较低一层的缓存。</p>
 
             </div>
             
@@ -148,9 +157,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/lesslessshen-ru-li-jie-ji-suan-ji-xi-tong-greatergreater-zhi-cao-zuo-xi-tong-guan-li-ying-jian">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-er">
                   <h3 class="post-title">
-                    《深入理解计算机系统》之操作系统管理硬件
+                    深入理解计算机系统之程序的机器级表示（二）
                   </h3>
                 </a>
               </div>
