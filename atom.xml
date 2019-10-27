@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-10-20T07:48:42.531Z</updated>
+    <updated>2019-10-27T13:16:40.406Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,65 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之异常控制流（一）]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi">
+        </link>
+        <updated>2019-10-27T13:14:43.000Z</updated>
+        <content type="html"><![CDATA[<p>指令1，指令性2，指令3……，这样的控制转移序列就是处理器的控制流（control flow）。</p>
+<p>现代系统通过使控制流发生突变，来应对系统状态的变化，称为异常控制流（ECF），它发生在计算机系统的各个层次。</p>
+<p>ECF 的重要性：</p>
+<ul>
+<li>ECF 是操作系统实现 I/O、进程和虚拟内存的基本机制。</li>
+<li>应用程序通过使用系统调用的 ECF 形式，来向操作系统请求服务。</li>
+<li>操作系统为应用程序提供了强大的 ECF 机制，用来创建新进程、等待进程终止、通知其他进程中的异常事件。</li>
+<li>ECF 是计算机系统中实现并发的基本机制，比如中断应用程序执行的异常处理程序。</li>
+<li>非本地跳转是一种应用层 ECF，软件异常允许程序进行非本地跳转来响应错误情况。</li>
+</ul>
+<h3 id="1-异常">1. 异常</h3>
+<p>异常就是控制流中的突变，用来响应处理器状态中的某些变化。它一部分由硬件实现，一部分由操作系统实现。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026212833.png" alt="异常的剖析"></figure>
+<p>在任何情况下，当处理器检测到有事件发生时，就会通过一张叫做「异常表」的跳转表，进行一个间接过程调用，交给异常处理程序去处理。<br>
+当处理完成后，根据引起异常事件的类型，发生以下 3 种情况中的一种：</p>
+<ul>
+<li>处理程序将控制返回给当前指令。</li>
+<li>处理程序将控制返回给下一条指令。</li>
+<li>处理程序终止被中断的程序。</li>
+</ul>
+<p>异常可以分为四类：</p>
+<ul>
+<li>中断：来自外部 I/O 设备信号的结果，不是由专门的指令造成的。</li>
+<li>陷阱：最重要的用途是在用户程序和内核之间提供一个接口——系统调用。</li>
+<li>故障：由错误情况引起，可能被故障处理程序修正，比如缺页异常。</li>
+<li>终止：不可恢复的致命错误造成的结果，通常是一些硬件错误。</li>
+</ul>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026213802.png" alt="异常的类别"></figure>
+<h3 id="2-进程">2. 进程</h3>
+<p>进程就是一个正在执行的程序实例，系统中的每个程序都运行在某个进程的上下文（context）中。</p>
+<p>进程提供给应用程序的关键抽象：</p>
+<ul>
+<li>一个独立的逻辑控制流，它提供一个假象，好像程序独占地使用处理器。</li>
+<li>一个私有的地址空间，它提供一个假象，好像程序独占地使用内存系统。</li>
+</ul>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027200254.png" alt="进程控制流"></figure>
+<p>进程是轮流使用处理器的，每个进程执行它的流的一部分，然后被抢占（暂时挂起），然后轮到其他进程。</p>
+<p>进程为每个程序提供它自己私有地址空间。一般而言，和某个地址关联的内存字节是不能被其他进程读或写的。每个私有地址空间都有相同的通用结构。</p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027201327.png" alt="x86-64 linux 进程地址空间"></figure>
+<p>处理器通常是用某个控制寄存器中的一个模式位，来实现限制应用可以执行的指令以及可以访问的地址空间。</p>
+<p>当设置了模式位时，进程就运行在内核模式中，它可以执行指令集中的任何指令，并且可以访问系统中的任何内存位置。没有设置模式位时，进行就运行在用户模式中，不允许执行特权指令，也不允许直接引用地址空间中内核区的代码和数据。</p>
+<p>运行应用程序代码的进程起初是在用户模式中的，进程从用户模式变为内核模式的唯一方法就是通过中断、故障或者陷入系统调用这样的异常。</p>
+<p>操作系统内核使用一种称为「上下文切换」的异常控制流来实现多任务。内核为每个进程维持一个上下文。上下文就是内核重新启动一个被抢占的进程所需的状态。这些状态包括：通用目的寄存器、程序计数器、用户栈、环境变量等。</p>
+<p>上下文切换的过程：</p>
+<ul>
+<li>保存当前进程的上下文</li>
+<li>恢复某个先前被抢占的进程保存的上下文</li>
+<li>将控制传递给这个刚恢复的进程</li>
+</ul>
+<p>当执行系统调用或者中断时，都可能会发生上下文切换。</p>
+<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027202847.png" alt="进程上下文切换"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之存储器层次结构]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou</id>
@@ -499,59 +558,6 @@
 <p>最近在读<a href="https://book.douban.com/subject/1230413/">《深入理解计算机系统》</a>，又称 CSAPP，真是神书！读完第一章，对计算机系统有了新的认识——<a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you/">深入理解计算机系统之计算机系统漫游</a>。</p>
 <h2 id="4-share">4. Share</h2>
 <p>说一说如何选书。写书是一件正式的活动，作者都会认真对待。但是作者的经验水平不一样，产出的内容质量也参差不齐。对于追热点的、空洞无物的、作者资历尚浅的图书，一般不值得阅读。辨别的方式是看豆瓣评分，经过时间筛选过的经典，最值得阅读。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之计算机系统漫游]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you">
-        </link>
-        <updated>2019-08-28T14:11:37.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="信息就是位上下文">信息就是位+上下文</h3>
-<p>计算机系统中的所有信息——包括磁盘文件、内存中的数据以及网络上传送的数据，都是由一串比特序列表示。区分不同数据对象的唯一方法是我们读到这些数据时的上下文。比如在不同的上下文中，一个同样的字节序列可能表示一个整数、字符串或者机器指令。</p>
-<p>这让我想起以前遇到的一个问题。当时用 NDK 开发，错把数组的 JVM 地址直接传给了 Native，然后程序运行失败了。同样的内存地址，也就是一段字节序列，在 JVM 和 Native 中的解释不一样，说明信息脱离上下文就没有意义了，传递信息时不能忽略上下文。</p>
-<h3 id="程序被编译执行">程序被编译执行</h3>
-<p>下面是用 C 语言实现 hello 程序，它是一种人类可读的文本表示，但是计算机只认由 0 和 1 组成的机器指令，C 语句需要被转化为机器语言指令，打包成可执行目标程序，以二进制的磁盘文件形式存放。</p>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
-
-int main() {
-    printf(&quot;Hello world\n&quot;);
-    return 0;
-}
-</code></pre>
-<p>在 Unix 系统上，从源文件到目标文件的转化是由编译器驱动程序完成的。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075112.jpg" alt="编译系统"></figure>
-<p>为什么要编译才能执行呢？因为 C 语言是高级程序设计语言，计算机无法理解 C 语言的语句。像 Python 这样的脚本语言，源代码需要边解释边执行，这是另外一种思路，本质上都是翻译为机器代码。</p>
-<h3 id="系统的硬件组成">系统的硬件组成</h3>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075221.jpg" alt="系统硬件组成"></figure>
-<ol>
-<li>总线：贯穿整个系统的一组电子管道。在各个部件间传送定长的字节块，也就是字 word。字长是一个基本的系统参数，要么是 4 个字节（32位），要么是 8 个字节（64位）。</li>
-<li>IO 设备：系统与外部世界的联系通道，通过控制器或适配器与 IO 总线相连。</li>
-<li>主存：临时存储设备，在处理器执行程序时，用来存放程序和程序处理的数据。</li>
-<li>处理器：CPU，解释或执行存储在主存中指令的引擎。处理器的核心是一个大小为一个字的寄存器，称为程序计数器（PC）。在任何时刻，PC 都指向主存中的某条机器语言指令。</li>
-</ol>
-<p>上面的组成图也可以用<strong>冯·诺依曼体系结构</strong>解释。处理器负责运算和控制，主存负责存储数据和指令，IO 设备负责输入和输出。</p>
-<h3 id="存储设备的层次结构">存储设备的层次结构</h3>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075353.jpg" alt="存储器层次结构"></figure>
-<p>存储器层次结构的主要思想是上层的存储器作为下层存储器的高速缓存。</p>
-<p>为什么要分层呢？因为硬件的读写速度不匹配。越靠近 CPU，读写速度越快，当然价格也更高。现在硬件设计的原则是用空间换时间，买电子设备还是选内存大的，因为<strong>时间比空间更值钱</strong>。</p>
-<h3 id="操作系统管理硬件">操作系统管理硬件</h3>
-<p>操作系统有两个基本功能：</p>
-<ol>
-<li>防止硬件被失控的应用程序滥用</li>
-<li>向应用程序提供简单一致的机制来控制复杂的低级硬件设备</li>
-</ol>
-<p>操作系统通过几个抽象概念来实现这两个功能，进程、虚拟内存和文件。文件是对 IO 设备的抽象表示，虚拟内存是对主存和磁盘 IO 设备的抽象表示，进程是对处理器、内存和 IO 设备的抽象表示。虚拟机是对整个计算机的抽象，包括操作系统、处理器和程序。指令集架构是对处理器的抽象。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075700.jpg" alt="计算机系统的抽象"></figure>
-<p>这里讲的抽象就非常耐人寻味，它简化了系统实现的复杂性。比如，文件操作包括打开、读取、写入和关闭，IO 设备包括本地磁盘、网络存储等。对文件操作都可以抽象出统一的接口，由不同的 IO 设备实现。</p>
-<h3 id="进程和线程">进程和线程</h3>
-<p>进程是操作系统对一个正在运行的程序的一种抽象。处理器通过在进程间切换的机制（上下文切换）实现并行。</p>
-<p>操作系统保持跟踪进程运行所需的所有状态信息，这种状态就是上下文，包括 PC 和寄存器文件的当前值以及主存的内容。上下文切换就是保存当前进程的上下文，恢复新进程的上下文，然后将控制权传递到新进程。</p>
-<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190115-075513.jpg" alt="进程上下文切换"></figure>
-<p>从一个进程到另一个进程的切换是由操作系统的内核管理的，内核是操作系统代码常驻主存的部分。它不是一个独立的进程，而是系统管理全部进程所用代码和数据结构的集合。</p>
-<p>一个进程实际上由多个线程的组成，每个线程都运行在进程的上下文中，共享同样的代码和数据。</p>
-<p>所以有这样的说法：进程是资源分配的基本单位，线程是任务调度的基本单位。</p>
-<p>计算机系统漫游让我们从整体上认识了系统的结构和组成，算是为接下来的学习开了个好头。好的开端是成功的一半。</p>
 ]]></content>
     </entry>
 </feed>
