@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-10-27T13:18:07.331Z</updated>
+    <updated>2019-11-03T09:32:18.586Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,36 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之异常控制流（二）]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-er</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-er">
+        </link>
+        <updated>2019-11-03T09:30:36.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-进程控制">1. 进程控制</h3>
+<p>每个进程都有一个唯一的正数进程 ID(PID)。</p>
+<p>从程序员的角度，可以认为进程总是处于下面三种状态之一：</p>
+<ul>
+<li>运行。进程要么在执行，要么等待被执行。</li>
+<li>停止。进程的执行被挂起，且不会被调度。</li>
+<li>终止。进程永远地停止了。</li>
+</ul>
+<p>父进程通过 fork 函数创建一个新运行的子进程，新创建的子进程几乎但不完全与父进程相同，它们之间的最大区别是有不同的 PID。</p>
+<p>当一个进程由于某种原因终止时，进程保持一种终止的状态，直到被它的父进程回收。</p>
+<p>execve 函数在当前进程的上下文中加载并运行一个新程序。</p>
+<h3 id="2-信号">2. 信号</h3>
+<p>一个信号就是一条消息，它通知进程系统中发生某种类型的事件。</p>
+<p>传递一个信号到目的进程是由两个步骤组成的：</p>
+<ul>
+<li>发送信号：内核通过更新目的进程上下文中的某个状态，发送一个信号给目的进程。</li>
+<li>接收信号：当目的进程被内核强迫以某种方式对信号的发送做出反应时，它就接收了信号。</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191103170627.png" alt="信号处理"></figure>
+<p>Unix 系统提供了大量的进程发送信号机制，这些机制都是基于进程组这个概念。每个进程只属于一个进程组，<br>
+进程组由一个正整数 ID 标识。默认地，子进程和它的父进程属于同一个进程组。</p>
+<p>当内核把进程 p 从内核模式切换到用户模式时，它会检查进程 p 的未被阻塞的待处理信号集合，如果集合为空，那么内核将控制传递到 p 的逻辑控制流的下一条指令。如果集合非空，那么内核选择集合中的某个信号 k，并且强制 p 接收 k。收到这个信号会触发进程采取某种行为。一旦进程完成了这个行为，那么控制就传递回 p 的逻辑控制流的下一条指令。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之异常控制流（一）]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi</id>
@@ -467,97 +497,6 @@
 <li>有符号数采用补码表示，最高位是符号位。</li>
 <li>无符号数和有符号数之间的转换容易出错，尽量避免使用无符号数。</li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 22 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-22-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-22-qi">
-        </link>
-        <updated>2019-09-01T12:47:10.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="15-三数之和中等">15. 三数之和（中等）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？找出所有满足条件且不重复的三元组。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>例如, 给定数组 nums = [-1, 0, 1, 2, -1, -4]，
-
-满足要求的三元组集合为：
-[
-  [-1, 0, 1],
-  [-1, -1, 2]
-]
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p><strong>双指针法</strong></p>
-<p>首先对数组进行排序，然后固定一个数 nums[i]，使用左右指针分别指向 nums[i] 后面的两端。计算三个数的和 sum，判断 sum 是否满足为 0。如果满足则添加进结果集，否则左右指针交替向中间移动。同时注意去重。</p>
-<pre><code class="language-java">class Sulution {
-    public List&lt;List&lt;Integer&gt;&gt; threeSum(int[] nums) {
-        if (nums == null || nums.length &lt; 3) {
-            return Collections.emptyList();
-        }
-        Arrays.sort(nums);
-        List&lt;List&lt;Integer&gt;&gt; result = new ArrayList&lt;&gt;();
-        int length = nums.length;
-        for (int i = 0; i &lt; length; i++) {
-            if (nums[i] &gt; 0) {
-                break;
-            }
-            if (i &gt; 0 &amp;&amp; nums[i] == nums[i - 1]) {
-                continue;
-            }
-            int l = i + 1, r = length - 1;
-            while (l &lt; r) {
-                int s = nums[i] + nums[l] + nums[r];
-                if (s == 0) {
-                    while (l &lt; r &amp;&amp; nums[l] == nums[l + 1]) {
-                        l++;
-                    }
-                    while (l &lt; r &amp;&amp; nums[r] == nums[r - 1]) {
-                        r--;
-                    }
-                    result.add(Arrays.asList(nums[i], nums[l], nums[r]));
-                    l++;
-                    r--;
-                } else if (s &gt; 0) {
-                    r--;
-                } else {
-                    l++;
-                }
-            }
-        }
-        return result;
-    }
-
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：O(n^2)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/@maladdinsayed/advanced-techniques-and-ideas-for-better-coding-skills-d632e9f9675">Advanced Coding Skills, Techniques, and Ideas</a></p>
-<p>作者列举了一些编程的技巧。</p>
-<ul>
-<li>重构可以帮助我们写出整洁的代码，可读可维护可重用。</li>
-<li>不要重构生产环境中没有经过单元测试的代码，要想重构，先单元测试。</li>
-<li>从代码的最深处开始重构，最深处只关注单一的逻辑，这使得重构更加容易。</li>
-<li>使你的方法变得短小，通过把它们拆分成更小的方法。</li>
-<li>if 语句后面总是跟着 {}，即使只有一行。</li>
-<li>不要使用魔法值，因为它的可读性太差了，可以抽取出变量或者常量。</li>
-<li>如果没有必要，不要使用 else 语句，比如 if 语句中有 return 时，语句块外不需要 else。</li>
-<li>为你的方法、变量和测试选择有意义的命名。</li>
-<li>使用你的编程语言的最大能力，这样会省力，增强代码的健壮性。</li>
-<li>……</li>
-</ul>
-<p>代码经验都要靠积累，推荐阿里巴巴的<a href="https://github.com/alibaba/p3c">代码规约</a>。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>最近在读<a href="https://book.douban.com/subject/1230413/">《深入理解计算机系统》</a>，又称 CSAPP，真是神书！读完第一章，对计算机系统有了新的认识——<a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you/">深入理解计算机系统之计算机系统漫游</a>。</p>
-<h2 id="4-share">4. Share</h2>
-<p>说一说如何选书。写书是一件正式的活动，作者都会认真对待。但是作者的经验水平不一样，产出的内容质量也参差不齐。对于追热点的、空洞无物的、作者资历尚浅的图书，一般不值得阅读。辨别的方式是看豆瓣评分，经过时间筛选过的经典，最值得阅读。</p>
 ]]></content>
     </entry>
 </feed>

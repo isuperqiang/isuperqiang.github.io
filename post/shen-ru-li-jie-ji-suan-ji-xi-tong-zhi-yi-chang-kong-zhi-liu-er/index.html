@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Android 进程保活系列：（二）利用 Notification 提升权限 | 落英坠露</title>
+<title>深入理解计算机系统之异常控制流（二） | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,68 +115,49 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Android 进程保活系列：（二）利用 Notification 提升权限</h2>
-            <div class="post-date">2017-01-05</div>
+            <h2 class="post-title">深入理解计算机系统之异常控制流（二）</h2>
+            <div class="post-date">2019-11-03</div>
             
             <div class="post-content">
-              <p>前一篇文章 —— <a href="https://isuperqiang.cn/post/android-jin-cheng-bao-huo-xi-lie-yi-li-yong-activity-ti-sheng-quan-xian/index.html">Android 进程保活系列：（一）利用 Activity 提升权限</a> 讲到了利用前台的 Activity 保证系统管家不会杀死我们的应用。这只是一种讨巧的技术手段，并没有利用系统的漏洞。今天要说的方法适用性非常广，应用间互不干扰，不存在像是我开启一像素 Activity 把你盖住，然后你我争夺焦点的问题。</p>
-<p>在实践之前还是先看看别人家的应用，比如腾讯新闻。adb shell 下输入</p>
-<pre><code>dumpsys activity services com.tencent.news
-</code></pre>
-<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-2c87cfaee8aa9b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="腾讯新闻前台 Service"></figure>
-<p>看一下控制台的输出，顾名思义 PushService 应该是推送服务，ServiceRecord 指明了它是前台服务。我们看一下它的 oom_adj 的值：</p>
-<pre><code>ps | grep com.tencent.news
-cat /proc/25890/oom_adj
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="http://upload-images.jianshu.io/upload_images/1820210-8a4a8c8f1ea29d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="进程优先级"></figure>
-<p>没错，PuseService 的优先级是 2，属于可感知进程，一般不会被杀死。下面有个关于 oom_adj 的说明。</p>
-<figure data-type="image" tabindex="3"><img src="http://upload-images.jianshu.io/upload_images/1820210-015dac049bb2f48a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="oom_adj 说明"></figure>
-<p>其中红色部分代表比较容易被杀死的 Android 进程（OOM_ADJ &gt;= 4），绿色部分表示不容易被杀死的 Android 进程，其他表示非 Android 进程（纯 Linux 进程）。在 Lowmemorykiller 回收内存时会根据进程的级别优先杀死 OOM_ADJ 比较大的进程，对于优先级相同的进程，则进一步受到进程所占内存和进程存活时间的影响。</p>
-<p>下面就来亲身实践一下。利用系统的漏洞开启前台服务，提升进程的优先级。这里有两个思路：</p>
+              <h3 id="1-进程控制">1. 进程控制</h3>
+<p>每个进程都有一个唯一的正数进程 ID(PID)。</p>
+<p>从程序员的角度，可以认为进程总是处于下面三种状态之一：</p>
 <ul>
-<li>思路一：API &lt; 18，启动前台 Service 时直接传入new Notification()；</li>
-<li>思路二：API &gt;= 18，同时启动两个id相同的前台 Service，然后再将后启动的 Service 做 stop 处理；</li>
+<li>运行。进程要么在执行，要么等待被执行。</li>
+<li>停止。进程的执行被挂起，且不会被调度。</li>
+<li>终止。进程永远地停止了。</li>
 </ul>
-<pre><code> // 要开启前台的 service
-@Override
-public int onStartCommand(Intent intent, int flags, int startId) {      
-    if (Build.VERSION.SDK_INT &lt; 18) {
-        startForeground(SERVICE_ID, new Notification());    
-    } else {        
-        startForeground(SERVICE_ID, new Notification());        
-        Intent sendIntend = new Intent(this, ChannelService.class);        
-        startService(sendIntend);    
-    }
-    return super.onStartCommand(intent, flags, startId);
-}
-
-// 为开启前台 service 服务的傀儡 service
-@Override
-public int onStartCommand(Intent intent, int flags, int startId) {     
-    startForeground(DaemonService.SERVICE_ID, new Notification());    
-    stopForeground(true);    
-    stopSelf();    
-    return super.onStartCommand(intent, flags, startId);
-}
-</code></pre>
-<p>这样就完成了，我们再次用 shell 命令验证一下。</p>
-<figure data-type="image" tabindex="4"><img src="http://upload-images.jianshu.io/upload_images/1820210-3f3b423ee2a24fde.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自己的前台服务"></figure>
-<p>没错，它已经是前台服务了，用户看不见摸不着的前台服务，系统是不会轻易杀死该服务的，可以放心大胆地搞事情啦~~</p>
-<p><strong>项目地址：</strong> <a href="https://github.com/isuperqiang/AndroidKeepLivePractice">AndroidKeepPractive</a></p>
-<p><strong>参考链接：</strong></p>
+<p>父进程通过 fork 函数创建一个新运行的子进程，新创建的子进程几乎但不完全与父进程相同，它们之间的最大区别是有不同的 PID。</p>
+<p>当一个进程由于某种原因终止时，进程保持一种终止的状态，直到被它的父进程回收。</p>
+<p>execve 函数在当前进程的上下文中加载并运行一个新程序。</p>
+<h3 id="2-信号">2. 信号</h3>
+<p>一个信号就是一条消息，它通知进程系统中发生某种类型的事件。</p>
+<p>传递一个信号到目的进程是由两个步骤组成的：</p>
 <ul>
-<li><a href="http://www.jianshu.com/p/63aafe3c12af">关于 Android 进程保活，你所需要知道的一切</a></li>
-<li><a href="https://segmentfault.com/a/1190000006251859">【腾讯Bugly干货分享】Android 进程保活招式大全</a></li>
+<li>发送信号：内核通过更新目的进程上下文中的某个状态，发送一个信号给目的进程。</li>
+<li>接收信号：当目的进程被内核强迫以某种方式对信号的发送做出反应时，它就接收了信号。</li>
 </ul>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191103170627.png" alt="信号处理"></figure>
+<p>Unix 系统提供了大量的进程发送信号机制，这些机制都是基于进程组这个概念。每个进程只属于一个进程组，<br>
+进程组由一个正整数 ID 标识。默认地，子进程和它的父进程属于同一个进程组。</p>
+<p>当内核把进程 p 从内核模式切换到用户模式时，它会检查进程 p 的未被阻塞的待处理信号集合，如果集合为空，那么内核将控制传递到 p 的逻辑控制流的下一条指令。如果集合非空，那么内核选择集合中的某个信号 k，并且强制 p 接收 k。收到这个信号会触发进程采取某种行为。一旦进程完成了这个行为，那么控制就传递回 p 的逻辑控制流的下一条指令。</p>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/reading" class="tag">
+                    读书
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/android-jin-cheng-bao-huo-xi-lie-yi-li-yong-activity-ti-sheng-quan-xian">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi">
                   <h3 class="post-title">
-                    Android 进程保活系列：（一）利用 Activity 提升权限
+                    深入理解计算机系统之异常控制流（一）
                   </h3>
                 </a>
               </div>
