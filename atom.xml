@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2019-11-15T14:42:42.685Z</updated>
+    <updated>2019-11-22T01:22:42.592Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,33 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2019, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之虚拟内存（二）]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er">
+        </link>
+        <updated>2019-11-22T01:14:46.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-内存映射">1. 内存映射</h3>
+<p>Linux 通过将虚拟内存区域与磁盘上的对象关联起来，来初始化这个虚拟内存区域的内容，这个过程称为内存映射。虚拟内存区域可以映射到两种类型的对象中的一种：</p>
+<ul>
+<li>Linux 文件系统中的普通文件：磁盘文件的连续部分。</li>
+<li>匿名文件：由内核创建，包含的都是二进制零。</li>
+</ul>
+<p>一旦虚拟页面被初始化，它就在由内核维护的交换空间之间换来换去。在任何时刻，交换空间都限制当前运行的进程能够分配的虚拟页面的总数。</p>
+<p>一个对象可以被映射到虚拟内存的一个区域，要么作为共享对象，要么作为私有对象。进程对共享对象映射到的虚拟地址空间的写操作，对把该共享对象映射到它们虚拟内存区域的其他进程也是可见的，并且这些变化反映在磁盘上的对象中。另一方面，对于映射到私有对象的区域的改变，对其他进程来说是不可见的，并且不会反映在磁盘上的对象中。</p>
+<p>许多进程有同样的只读代码区域，内存映射可以控制多个进程如何共享对象。即使对象被映射到多个共享区域，物理内存中只需要存放共享对象的一个副本。</p>
+<p>私有对象使用写时复制（copy-on-write）的技术被映射到虚拟内存中。和共享对象一样，在物理内存中只保存私有对象的一个副本。当一个进程试图写私有区域内的某个页面时，写操作就会触发一个保护故障。故障处理程序会在物理内存中创建这个页面的新副本，更新页表条目指向新副本，恢复这个页面的写权限。当故障处理程序返回时，CPU 就可以正常执行写操作了。</p>
+<h3 id="2-动态内存分配">2. 动态内存分配</h3>
+<p>当运行时需要额外虚拟内存时，用动态内存分配器更方便，也有更好的可移植性。</p>
+<p>动态内存分配器维护着一个进程的虚拟内存区域，称为堆。分配器将堆视为一组不同大小的块的集合来维护。每个块就是一个连续的虚拟内存片，要么是已分配的，要么是空闲的。</p>
+<p>分配器有两种基本风格，两种风格都要求应用显式地分配块，它们的不同之处在于由哪个实体负责释放已分配的块。</p>
+<ul>
+<li>显式分配器要求应用显式地释放任何已分配的块。例如 C 通过调用 malloc 和 free 分配和释放块。</li>
+<li>隐时分配器会自动释放不再使用的已分配的块。例如 Java 的垃圾回收。</li>
+</ul>
+<p>造成堆利用率很低的主要原因是碎片的现象，当有未使用的内存但不能用来满足分配请求时，就发生这种现象。分配器通常采用试图维持少量的大空闲块，而不是维持大量的小空闲块。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之虚拟内存（一）]]></title>
         <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi</id>
@@ -381,96 +408,6 @@
 <li>浮点数采用 IEEE 754 标准表示，编码方式是符号、阶码和尾数。</li>
 <li>浮点数是近似表示的，它的运算不精确，之前总结过<a href="https://isuperqiang.cn/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">Java 比较浮点数的正确方式</a>。</li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 23 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-23-qi</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-23-qi">
-        </link>
-        <updated>2019-09-10T00:45:53.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="62-不同路径中等">62. 不同路径（中等）</h3>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。<br>
-机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。<br>
-问总共有多少条不同的路径？</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: m = 3, n = 2
-输出: 3
-解释:
-从左上角开始，总共有 3 条路径可以到达右下角。
-1. 向右 -&gt; 向右 -&gt; 向下
-2. 向右 -&gt; 向下 -&gt; 向右
-3. 向下 -&gt; 向右 -&gt; 向右
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p><strong>动态规划</strong></p>
-<p>令 dp[i][j] 是到达 i, j 最多路径。<br>
-动态方程：dp[i][j] = dp[i-1][j] + dp[i][j-1]<br>
-注意，对于第一行 dp[0][j]，或者第一列 dp[i][0]，由于都是在边界，所以只能为 1。</p>
-<pre><code class="language-java">class Sulution {
-    public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m][n];
-        for (int i = 0; i &lt; m; i++) {
-            dp[i][0] = 1;
-        }
-        for (int i = 0; i &lt; n; i++) {
-            dp[0][i] = 1;
-        }
-        for (int i = 1; i &lt; m; i++) {
-            for (int j = 1; j &lt; n; j++) {
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-            }
-        }
-        return dp[m - 1][n - 1];
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>时间复杂度：O(m*n)</li>
-<li>空间复杂度：O(m*n)</li>
-</ul>
-<h5 id="优化">优化：</h5>
-<p>使用一维数组记录变量，空间复杂度降为 O(n)。</p>
-<pre><code class="language-java">class Sulution {
-    public int uniquePaths(int m, int n) {
-        int[] sum = new int[n];
-        Arrays.fill(sum, 1);
-        for (int i = 1; i &lt; m; i++) {
-            for (int j = 1; j &lt; n; j++) {
-                sum[j] += sum[j - 1];
-            }
-        }
-        return sum[n - 1];
-    }
-}
-</code></pre>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/s/story/reflections-on-clean-code-8c9b683277ca">What is clean code?</a> 什么是整洁的代码？</p>
-<p>作者从《Clean Code》这本书说起，它被认为是程序员的必读书，作者概括了三个关键概念：</p>
-<ul>
-<li>技术手艺很重要。代码不仅要正常工作，而且要让其他人长期受益。拙劣的代码在边缘磨损的速度比你想象的要快得多。</li>
-<li>今天的额外努力会减轻明天痛苦。一开始写出好代码并经常重构，日后就会节省的时间和金钱。</li>
-<li>你的代码不是你自己的。对作者来说，过于聪明的技巧、黑客和编程手法只是有趣的。对他人友好的代码才是可取的。</li>
-</ul>
-<p>那究竟什么是 Clean Code 呢？作者给出了自己的观点：</p>
-<ul>
-<li>整洁代码是简洁的。不是算法或系统的复杂性，而是实现上的简约。</li>
-<li>整洁代码是可读的。代码规约有助于写出可读性好的代码。</li>
-<li>整洁代码是经过深思熟虑的。假定未来有代码使用者，一看到你的代码就懂。</li>
-<li>整洁代码是经过测试的。没人写得出完美的代码，经过测试的代码是整洁的。</li>
-<li>整洁代码是经过实践的。要一直写整洁代码，不断练习来提高技能。</li>
-<li>整洁代码是经常被重构的。尽可能多地重构，不要担心出问题。</li>
-<li>整洁代码符合 SOLID 原则。确保你的代码灵活、可维护、长久。</li>
-</ul>
-<h2 id="3-tip">3. Tip</h2>
-<p>读到<a href="https://book.douban.com/subject/1230413/">《深入理解计算机系统》</a> 第二章 <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi/">深入理解计算机系统之信息的表示和处理</a>，了解了整数的表示和信息存储方法。理论知识有用么？当然有用。整形溢出是编程中经常遇到的问题，知道整数的表示方式后，会尽量规避溢出的错误。比如二分法中的取中数，<code>mid = (low + high) / 2</code> 就潜在溢出的风险，而 <code>mid = low + (high - low) /2</code>则不会，这样的程序更健壮。</p>
-<h2 id="4-share">4. Share</h2>
-<p>都说 deadline 是第一生产力，但是也不要总拖到最后，这时往往会因为做得太快而导致质量下降。日常有规划地进行，一步一个脚印，这样才能走得更远。</p>
 ]]></content>
     </entry>
 </feed>
