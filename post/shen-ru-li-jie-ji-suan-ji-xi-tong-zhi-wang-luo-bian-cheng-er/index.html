@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>一份不严肃的2018年中总结 | 落英坠露</title>
+<title>深入理解计算机系统之网络编程（二） | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,48 +115,51 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">一份不严肃的2018年中总结</h2>
-            <div class="post-date">2018-06-30</div>
+            <h2 class="post-title">深入理解计算机系统之网络编程（二）</h2>
+            <div class="post-date">2019-12-06</div>
             
             <div class="post-content">
-              <p>时间过得真快，一转眼 2018 年已经过半，当初定下的目标完成了一部分，简单总结一下。</p>
-<p>上半年做的几件事：</p>
-<ol>
-<li><strong>坚持早起</strong></li>
-</ol>
-<p>这个习惯坚持了一年多，现在很少睡懒觉，到了早上 6 点多自然就醒了。起来收拾好就去公司，做些重要但不紧急的事情，比如阅读付费专栏，看看技术博客之类，主要是积累自己的厚度。但是读后缺少输出，看了很快就忘，这个马上就加入习惯清单。</p>
-<ol start="2">
-<li><strong>写作</strong></li>
-</ol>
-<p>年后开通了这个公众号，就是想记录点什么。每周会更新一篇，主要记录日常的思考和学到的东西。写作可以锻炼人的表达能力，夜深人静时码字，会找到真实的自我。虽然订阅者不多，但我还是认真地更新，如果你喜欢，不妨关注一下。</p>
-<ol start="3">
-<li><strong>运动</strong></li>
-</ol>
-<p>运动会改善一个人的精神面貌，让人少疾病。每天十几分钟的微运动，唤醒沉睡的肌肉，让身体更有活力。我之前写过 <a href="https://isuperqiang.cn/post/jian-chi-pao-bu-dai-gei-wo-de-gan-shou/index.html">坚持跑步带给我的感受</a>，现在还在坚持。看看那些成功人士，身材都很匀称，我们为什么不可以呢。</p>
-<ol start="4">
-<li><strong>保持好奇心</strong></li>
-</ol>
-<p>尽管生活如此艰难，但是也要抱有积极的心态，主动发现生活中的美。比如绚烂的晚霞，奇异的花朵，用相机记录下来，这是多么美妙的事情啊。这种和常人「不一样」，会让你很容易被记住。你对生活积极乐观，生活自然会回馈你。</p>
-<ol start="5">
-<li><strong>多学习</strong></li>
-</ol>
-<p>利用好碎片化的时间，就比一般人多收获一点点。我已经很久不用头条了，因为里面有太多的垃圾信息。现在主要是从公众号获取内容，得到 app 也在用，程序员建议多看看「极客时间」，做一个<strong>终身学习者</strong>。就像查理芒格说的，每天晚上都比早上聪明一点。</p>
-<p>工作方面并不乐观，源于当初错误的选择，人生就是不断试错的过程，也悟出了一些道理。职场的前几年，不要太看重薪资，<strong>个人成长才是最重要的</strong>。团队文化对人有潜移默化的影响，所以要选择一支优秀的技术团队，发挥自己的优势技能。</p>
-<p>下半年准备做技术转型，要学习新的东西，寻找新的机会。另外，<strong>技术洞察力</strong>很重要，它能帮助你选择稳定、可靠的方向。没必要一味地追逐新技术，做好自己方向的就好。T 字型人才还是要以深度为主，广度为辅。</p>
-<p><strong>自律给我自由</strong>，我也一直相信，只有管理好自己，才能从容应对工作和生活。一切的改变源自<strong>心智的开启</strong>，这个概念从李笑来的《把时间当作朋友》里面习得，说的就是「<strong>元认知</strong>」层面的东西，不要被你的大脑所控制，而是主动管理自己，用正确的方式做正确的事情。</p>
-<p>新时代的警世格言：</p>
-<blockquote>
-<p>只要努力刷抖音，人生很快就过去了。</p>
-</blockquote>
-<p>道理都懂，可就是过不好这一生。怎么破？慢慢来吧，先从小事开始，我也在一直尝试。</p>
-<p>感谢阅读，希望对你有启发。</p>
+              <h3 id="1-套接字接口">1. 套接字接口</h3>
+<p>套接字接口是一组函数，它们和 Unix I/O 函数结合，用来创建网络应用。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210084427.png" alt="基于套接字接口的网络应用"></figure>
+<p>从 Linux 内核的角度看，套接字就是通信的端点；从 Linux 程序的角度看，套接字就是有相应描述符的打开文件。</p>
+<h3 id="2-web-服务器">2. Web 服务器</h3>
+<p>Web 客户端和服务器之间的交互通过基于文本的 HTTP 协议。浏览器打开一个网络连接，向服务器请求某些内容。服务器响应所请求的内容，然后关闭连接。浏览器读取这些内容，并把它显示在屏幕上。</p>
+<p>Web 内容是一个与 MIME 类型相关的字节序列，比如 text/html、image/jpeg 等。<br>
+Web 服务器通过两种方式向客户端提供内容：</p>
+<ul>
+<li>取一个磁盘文件，并将它的内容返回客户端，称为静态内容。</li>
+<li>运行一个可执行文件，并将它的输出返回客户端，称为动态内容。</li>
+</ul>
+<p>Http 请求（GET 方法）的组成是这样的：一个请求行，后面跟随多个请求报头，再跟随一个空文本行来终止报头。<br>
+请求行的格式是：method URI version。请求报头的格式为：header-name: header-data。</p>
+<pre><code>GET / HTTP/1.1
+Host: www.qq.com
+
+</code></pre>
+<p>Http 响应的组成是这样的：一个响应行，后面跟随多个响应报头，再跟随一个终止报头的空文本行，最后跟随响应主体。<br>
+响应行的格式是：version status-code status-message。</p>
+<pre><code>HTTP/1.0 200 OK
+MIME-Version: 1.0
+Date: Jan, 11 Dec 2019 12:00:00
+Server: Apache-Coyote/1.1
+Content-Type: text/html
+Content-Length: 42090
+
+&lt;html&gt;
+...
+&lt;/html&gt;
+</code></pre>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191211081627.png" alt="Http事务"></figure>
+<p>GET 请求的参数在 URI 中。用 <code>？</code> 分隔文件名和参数，每个参数用 <code>&amp;</code> 分隔，参数不允许有空格。POST 请求的参数在请求主体中。</p>
+<p>服务器程序遵守 CGI（通用网关接口）标准，CGI 可以管理客户端如何将参数传递给服务器，服务器如何将参数和其他信息传递给子进程，以及子进程如何将它的输出返回客户端。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/summary" class="tag">
-                    个人总结
+                  <a href="https://isuperqiang.cn/tag/reading" class="tag">
+                    读书
                   </a>
                 
               </div>
@@ -164,9 +167,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/cong-jin-tian-kai-shi-tiao-zhan-leetcode">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi">
                   <h3 class="post-title">
-                    从今天开始挑战 LeetCode
+                    深入理解计算机系统之网络编程（一）
                   </h3>
                 </a>
               </div>
