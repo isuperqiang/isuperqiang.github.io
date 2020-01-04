@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>libyuv 库编译 | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">libyuv 库编译</h2>
+            <div class="post-date">2020-01-04</div>
+            
+            <div class="post-content">
+              <p><a href="https://chromium.googlesource.com/libyuv/libyuv">libyuv</a> 是谷歌开源的对 YUV 数据进行缩放、旋转和转换的跨平台库，可在 Windows、Linux、Mac、Android 等操作系统，x86、x64、arm 架构上进行编译运行，支持 AVX2、NEON 等 SIMD 指令加速。</p>
+<p>官方介绍的几个功能：</p>
+<ul>
+<li>可以使用 point，bilinear 或 box 三种方法进行 YUV 的压缩</li>
+<li>可以转换为 RGB 来实现渲染/特效</li>
+<li>旋转 90/180/270 的角度以适配设备的竖屏模式</li>
+<li>可以把 webcam 转换为 YUV 来进行压缩</li>
+<li>还有一系列的平台性能优化等</li>
+</ul>
+<p>接下来让我们编译 libyuv，编译步骤在 Windows 和 Mac 上都验证成功，下面以 Mac 为例。</p>
+<h3 id="1-clone-libyuv-源码">1. clone libyuv 源码</h3>
+<p>既然要编译库，怎么少得了源码呢？</p>
+<pre><code>git clone https://chromium.googlesource.com/libyuv/libyuv
+</code></pre>
+<h3 id="2-重命名文件夹">2. 重命名文件夹</h3>
+<p>clone 的文件夹叫做 libyuv，这里要把它修改为 jni。</p>
+<h3 id="3-修改-androidmk">3. 修改 Android.mk</h3>
+<p>注释 jpeg 相关的代码，其他地方不用改动。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard2.png" alt="fix-jpeg1"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard3.png" alt="fix-jpeg2"></figure>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard.png" alt="fix-jpeg3"></figure>
+<p>下面是修改后的 Android.mk 文件内容：</p>
+<pre><code># This is the Android makefile for libyuv for NDK.
+LOCAL_PATH:= $(call my-dir)
+
+include $(CLEAR_VARS)
+
+LOCAL_CPP_EXTENSION := .cc
+
+LOCAL_SRC_FILES := \
+    source/compare.cc           \
+    source/compare_common.cc    \
+    source/compare_gcc.cc       \
+    source/compare_mmi.cc       \
+    source/compare_msa.cc       \
+    source/compare_neon.cc      \
+    source/compare_neon64.cc    \
+    source/convert.cc           \
+    source/convert_argb.cc      \
+    source/convert_from.cc      \
+    source/convert_from_argb.cc \
+    source/convert_to_argb.cc   \
+    source/convert_to_i420.cc   \
+    source/cpu_id.cc            \
+    source/planar_functions.cc  \
+    source/rotate.cc            \
+    source/rotate_any.cc        \
+    source/rotate_argb.cc       \
+    source/rotate_common.cc     \
+    source/rotate_gcc.cc        \
+    source/rotate_mmi.cc        \
+    source/rotate_msa.cc        \
+    source/rotate_neon.cc       \
+    source/rotate_neon64.cc     \
+    source/row_any.cc           \
+    source/row_common.cc        \
+    source/row_gcc.cc           \
+    source/row_mmi.cc           \
+    source/row_msa.cc           \
+    source/row_neon.cc          \
+    source/row_neon64.cc        \
+    source/scale.cc             \
+    source/scale_any.cc         \
+    source/scale_argb.cc        \
+    source/scale_common.cc      \
+    source/scale_gcc.cc         \
+    source/scale_mmi.cc         \
+    source/scale_msa.cc         \
+    source/scale_neon.cc        \
+    source/scale_neon64.cc      \
+    source/video_common.cc
+
+common_CFLAGS := -Wall -fexceptions
+# ifneq ($(LIBYUV_DISABLE_JPEG), &quot;yes&quot;)
+# LOCAL_SRC_FILES += \
+#     source/convert_jpeg.cc      \
+#     source/mjpeg_decoder.cc     \
+#     source/mjpeg_validate.cc
+# common_CFLAGS += -DHAVE_JPEG
+# LOCAL_SHARED_LIBRARIES := libjpeg
+# endif
+
+LOCAL_CFLAGS += $(common_CFLAGS)
+LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
+
+LOCAL_MODULE := libyuv_static
+LOCAL_MODULE_TAGS := optional
+
+include $(BUILD_STATIC_LIBRARY)
+
+include $(CLEAR_VARS)
+
+LOCAL_WHOLE_STATIC_LIBRARIES := libyuv_static
+# 生成库的名称
+LOCAL_MODULE := libyuv
+# ifneq ($(LIBYUV_DISABLE_JPEG), &quot;yes&quot;)
+# LOCAL_SHARED_LIBRARIES := libjpeg
+# endif
+
+# 生成静态库还是动态库
+# BUILD_STATIC_LIBRSRY 静态库
+# BUILD_SHARED_LIBRARY 动态库
+include $(BUILD_SHARED_LIBRARY)
+
+include $(CLEAR_VARS)
+LOCAL_STATIC_LIBRARIES := libyuv_static
+# LOCAL_SHARED_LIBRARIES := libjpeg
+LOCAL_MODULE_TAGS := tests
+LOCAL_CPP_EXTENSION := .cc
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
+LOCAL_SRC_FILES := \
+    unit_test/unit_test.cc        \
+    unit_test/basictypes_test.cc  \
+    unit_test/color_test.cc       \
+    unit_test/compare_test.cc     \
+    unit_test/convert_test.cc     \
+    unit_test/cpu_test.cc         \
+    unit_test/cpu_thread_test.cc  \
+    unit_test/math_test.cc        \
+    unit_test/planar_test.cc      \
+    unit_test/rotate_argb_test.cc \
+    unit_test/rotate_test.cc      \
+    unit_test/scale_argb_test.cc  \
+    unit_test/scale_test.cc       \
+    unit_test/video_common_test.cc
+
+LOCAL_MODULE := libyuv_unittest
+include $(BUILD_NATIVE_TEST)
+</code></pre>
+<h3 id="4-新建-applicationmk">4. 新建 Application.mk</h3>
+<p>在 jni 文件夹下，新建 Application.mk 文件，指定架构平台和 Android 版本，内容如下：</p>
+<pre><code>APP_ABI := armeabi-v7a arm64-v8a x86 x86_64
+APP_PLATFORM := android-18
+</code></pre>
+<h3 id="5-ndk-build-编译">5. ndk-build 编译</h3>
+<p>编译前要确保本机配置好了 NDK 环境变量，如果不知道怎么做请自行百度。</p>
+<p>cd 到 jni 文件夹的父级文件夹，然后执行 ndk 相关的命令。每次编译前都要先执行 <code>ndk-build clean</code> 清理缓存，最后执行 <code>ndk-build</code> 编译库，在 jni 父文件夹下就会出现两个文件夹： libs 文件夹下是动态库，obj 文件夹下是静态库。</p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20200104200940.png" alt="ndk-build"></figure>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://yangandmore.github.io/2019/03/07/libYUV%E7%BC%96%E8%AF%91/">libYUV编译</a></li>
+<li><a href="https://github.com/byhook/ffmpeg4android/blob/master/readme/android%E5%85%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91libyuv%E5%BA%93%E5%AE%9E%E7%8E%B0YUV%E5%92%8CRGB%E7%9A%84%E8%BD%AC%E6%8D%A2.md">android全平台编译libyuv库实现YUV和RGB的转换</a></li>
+<li><a href="http://www.raomengyang.com/2017/01/15/Android-libyuv%E5%BA%94%E7%94%A8%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89libyuv%E7%9A%84%E4%BD%BF%E7%94%A8/">Android libyuv应用系列（二）libyuv的使用</a></li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android-media" class="tag">
+                    Android 音视频
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi">
+                  <h3 class="post-title">
+                    深入理解计算机系统之并发编程（一）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: '2d592b1f64cd4e3a8e73',
+        clientSecret: '0f2a4bb1031c2cc9a8d60153522506ce6771dfa6',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
