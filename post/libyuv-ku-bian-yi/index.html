@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578148454795">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578148454795" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -137,9 +137,9 @@
 <p>clone 的文件夹叫做 libyuv，这里要把它修改为 jni。</p>
 <h3 id="3-修改-androidmk">3. 修改 Android.mk</h3>
 <p>注释 jpeg 相关的代码，其他地方不用改动。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard2.png" alt="fix-jpeg1"></figure>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard3.png" alt="fix-jpeg2"></figure>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard.png" alt="fix-jpeg3"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard2.png" alt="fix-jpeg1" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard3.png" alt="fix-jpeg2" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard.png" alt="fix-jpeg3" loading="lazy"></figure>
 <p>下面是修改后的 Android.mk 文件内容：</p>
 <pre><code># This is the Android makefile for libyuv for NDK.
 LOCAL_PATH:= $(call my-dir)
@@ -258,7 +258,7 @@ APP_PLATFORM := android-18
 <h3 id="5-ndk-build-编译">5. ndk-build 编译</h3>
 <p>编译前要确保本机配置好了 NDK 环境变量，如果不知道怎么做请自行百度。</p>
 <p>cd 到 jni 文件夹的父级文件夹，然后执行 ndk 相关的命令。每次编译前都要先执行 <code>ndk-build clean</code> 清理缓存，最后执行 <code>ndk-build</code> 编译库，在 jni 父文件夹下就会出现两个文件夹： libs 文件夹下是动态库，obj 文件夹下是静态库。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20200104200940.png" alt="ndk-build"></figure>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20200104200940.png" alt="ndk-build" loading="lazy"></figure>
 <p><strong>参考文章：</strong></p>
 <ul>
 <li><a href="https://yangandmore.github.io/2019/03/07/libYUV%E7%BC%96%E8%AF%91/">libYUV编译</a></li>
@@ -279,9 +279,9 @@ APP_PLATFORM := android-18
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi">
+                <a href="https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong">
                   <h3 class="post-title">
-                    深入理解计算机系统之并发编程（一）
+                    哈希算法及其应用
                   </h3>
                 </a>
               </div>

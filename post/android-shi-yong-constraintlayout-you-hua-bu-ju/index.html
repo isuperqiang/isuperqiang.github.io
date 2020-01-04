@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578148454795">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578148454795" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -128,17 +128,17 @@
 </ul>
 <p>以前我们用 LinearLayout、RelativeLayout 等实现的布局，现在用 ConstraintLayout 都可以实现，而且布局更轻巧，更扁平。</p>
 <p>举个例子，要实现下面的布局，一个图标和一段文字两者居中对齐，而且文本长度不固定，考虑一下需要怎么做？</p>
-<figure data-type="image" tabindex="1"><a href="https://imgchr.com/i/ADTIKK"><img src="http://upload-images.jianshu.io/upload_images/1820210-fa9f099f98a9512c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果.png"></a></figure>
+<figure data-type="image" tabindex="1"><a href="https://imgchr.com/i/ADTIKK"><img src="http://upload-images.jianshu.io/upload_images/1820210-fa9f099f98a9512c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果.png" loading="lazy"></a></figure>
 <p>以前，我们可能会采用下面这种方式实现，通过嵌套一层 LinearLayout 来包裹要居中的元素，最后实现的效果没有任何问题，但不是最优的方案。</p>
-<figure data-type="image" tabindex="2"><a href="https://imgchr.com/i/ADTOPA"><img src="http://upload-images.jianshu.io/upload_images/1820210-ea19df5edb80aae0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="旧方案.png"></a></figure>
+<figure data-type="image" tabindex="2"><a href="https://imgchr.com/i/ADTOPA"><img src="http://upload-images.jianshu.io/upload_images/1820210-ea19df5edb80aae0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="旧方案.png" loading="lazy"></a></figure>
 <p>有了 ConstraintLayout 后，一切变得那么简单。不再需要嵌套一层，直接给元素添加约束就可以，二者通过 packed 合为一体，布局更加扁平。</p>
-<figure data-type="image" tabindex="3"><a href="https://imgchr.com/i/AD7Sr8"><img src="http://upload-images.jianshu.io/upload_images/1820210-0a8b0d3de71d6966.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新方案.png"></a></figure>
+<figure data-type="image" tabindex="3"><a href="https://imgchr.com/i/AD7Sr8"><img src="http://upload-images.jianshu.io/upload_images/1820210-0a8b0d3de71d6966.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="新方案.png" loading="lazy"></a></figure>
 <p>这是 ConstraintLayout 的 ChainStype 属性，LinearLayout 的 layout-weight 属性也包含在其中，还可以指定左右边距的比例，实在是太灵活、太强大了。</p>
-<figure data-type="image" tabindex="4"><a href="https://imgchr.com/i/AD7CVg"><img src="http://upload-images.jianshu.io/upload_images/1820210-36aee7b69ffd1fd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="ChainStyle.png"></a></figure>
+<figure data-type="image" tabindex="4"><a href="https://imgchr.com/i/AD7CVg"><img src="http://upload-images.jianshu.io/upload_images/1820210-36aee7b69ffd1fd7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="ChainStyle.png" loading="lazy"></a></figure>
 <p>除此之外，还有 GuideLine，Barrier，Group，PlaceHolder 等用法，支持相对定位、角度定位、比例尺寸约束等特性，有了 ConstraintLayout 还要啥自行车。</p>
 <p>另外，从 Android Studio 的 Layout Editor 界面中可以看出，官方已经不推荐使用 Legacy 里的控件，包括 ListView、GridView、RelativeLayout 等。Layouts 里的 ConstraintLayout、LinearLayout 和 FrameLayout 可以实现绝大多数的布局，列表使用 RecyclerView 就够了。在控件选择上，没有最好的，只有最合适的。</p>
-<p><a href="https://imgchr.com/i/AD7NqO"><img src="http://upload-images.jianshu.io/upload_images/1820210-f42384d18f539c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS-legacy.png"></a><br>
-<a href="https://imgchr.com/i/AD7tsK"><img src="http://upload-images.jianshu.io/upload_images/1820210-21cd1479c6d19cae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS-layouts.png"></a></p>
+<p><a href="https://imgchr.com/i/AD7NqO"><img src="http://upload-images.jianshu.io/upload_images/1820210-f42384d18f539c6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS-legacy.png" loading="lazy"></a><br>
+<a href="https://imgchr.com/i/AD7tsK"><img src="http://upload-images.jianshu.io/upload_images/1820210-21cd1479c6d19cae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS-layouts.png" loading="lazy"></a></p>
 <p>如果想了解更多，推荐这篇文章：<a href="https://juejin.im/post/5bac92f2f265da0aba70c1bf">约束布局ConstraintLayout看这一篇就够了</a></p>
 
             </div>

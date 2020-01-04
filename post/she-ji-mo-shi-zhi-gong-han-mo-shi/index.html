@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578148454795">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578148454795" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -137,7 +137,7 @@
 </li>
 </ul>
 <p>举个例子：我们要制作披萨，有奶酪味的和希腊风味的，所以就可以定义一个抽象的 Pizza 接口，各种口味的披萨扩展接口。然后再定义一个静态的工厂方法，根据不同的类型来创建 Pizza 实例。</p>
-<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-5b2edb9fe3a11cec..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="简单工厂的类图"></figure>
+<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-5b2edb9fe3a11cec..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="简单工厂的类图" loading="lazy"></figure>
 <pre><code class="language-java">public abstract class Pizza {
 
     public void bake(){
@@ -217,7 +217,7 @@ public class SimplePizzaFactory {
 </li>
 </ul>
 <p>继续上面披萨的例子，我们开了两家披萨店，分别制作不同口味的披萨，客户想要哪种披萨，我们就让哪家做。</p>
-<figure data-type="image" tabindex="2"><img src="http://upload-images.jianshu.io/upload_images/1820210-4ee98b208c358895..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工厂方法的类图"></figure>
+<figure data-type="image" tabindex="2"><img src="http://upload-images.jianshu.io/upload_images/1820210-4ee98b208c358895..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="工厂方法的类图" loading="lazy"></figure>
 <pre><code class="language-java">public abstract class PizzaStore {
 
     public void orderPizza() {
@@ -279,7 +279,7 @@ public class GreekPizzaStore extends PizzaStore {
 </li>
 </ul>
 <p>继续上面的例子，披萨店要卖饮料了，和披萨搭配一起卖，但是每个地区的人们都有喜欢的口味，所以制作的披萨和饮料就要合理满足客户的需要。</p>
-<figure data-type="image" tabindex="3"><img src="http://upload-images.jianshu.io/upload_images/1820210-622ae6464ca0216a..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="抽象工厂的类图"></figure>
+<figure data-type="image" tabindex="3"><img src="http://upload-images.jianshu.io/upload_images/1820210-622ae6464ca0216a..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="抽象工厂的类图" loading="lazy"></figure>
 <pre><code class="language-java">public abstract class Drink {
 
     public void taste(){

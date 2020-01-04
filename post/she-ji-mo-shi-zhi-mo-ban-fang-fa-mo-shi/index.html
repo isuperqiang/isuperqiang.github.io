@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578148454795">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578148454795" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -137,7 +137,7 @@
 <h3 id="4-实现">4. 实现</h3>
 <p>举个例子：泡茶和冲咖啡。都要经过烧水、放料和冲泡的过程，其中烧水和冲泡是一样的操作，而放入的原料却不同。所以，定义一个冲泡热饮的基本方法：烧水--放料--冲泡，放料定义为抽象方法，由茶和咖啡分别实现。</p>
 <p>另外，我们可以决定是否加糖，默认是加糖（甜是大家都爱的嘛），在这里咖啡需要加糖，而茶却不需要。所以，茶类可以覆盖抽象类的默认实现，那么在泡茶的时候，就不会加糖啦。这个方法称作钩子方法，具体类可以通过它来控制抽象类的行为。</p>
-<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-2be6ca5d931fb8fa..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图"></figure>
+<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-2be6ca5d931fb8fa..jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="类图" loading="lazy"></figure>
 <pre><code>public abstract class CoffeineBeverage {
 
     /**

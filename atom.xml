@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-01-04T12:22:16.238Z</updated>
+    <updated>2020-01-04T14:35:37.617Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -34,9 +34,9 @@
 <p>clone 的文件夹叫做 libyuv，这里要把它修改为 jni。</p>
 <h3 id="3-修改-androidmk">3. 修改 Android.mk</h3>
 <p>注释 jpeg 相关的代码，其他地方不用改动。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard2.png" alt="fix-jpeg1"></figure>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard3.png" alt="fix-jpeg2"></figure>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard.png" alt="fix-jpeg3"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard2.png" alt="fix-jpeg1" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard3.png" alt="fix-jpeg2" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard.png" alt="fix-jpeg3" loading="lazy"></figure>
 <p>下面是修改后的 Android.mk 文件内容：</p>
 <pre><code># This is the Android makefile for libyuv for NDK.
 LOCAL_PATH:= $(call my-dir)
@@ -155,13 +155,66 @@ APP_PLATFORM := android-18
 <h3 id="5-ndk-build-编译">5. ndk-build 编译</h3>
 <p>编译前要确保本机配置好了 NDK 环境变量，如果不知道怎么做请自行百度。</p>
 <p>cd 到 jni 文件夹的父级文件夹，然后执行 ndk 相关的命令。每次编译前都要先执行 <code>ndk-build clean</code> 清理缓存，最后执行 <code>ndk-build</code> 编译库，在 jni 父文件夹下就会出现两个文件夹： libs 文件夹下是动态库，obj 文件夹下是静态库。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20200104200940.png" alt="ndk-build"></figure>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20200104200940.png" alt="ndk-build" loading="lazy"></figure>
 <p><strong>参考文章：</strong></p>
 <ul>
 <li><a href="https://yangandmore.github.io/2019/03/07/libYUV%E7%BC%96%E8%AF%91/">libYUV编译</a></li>
 <li><a href="https://github.com/byhook/ffmpeg4android/blob/master/readme/android%E5%85%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91libyuv%E5%BA%93%E5%AE%9E%E7%8E%B0YUV%E5%92%8CRGB%E7%9A%84%E8%BD%AC%E6%8D%A2.md">android全平台编译libyuv库实现YUV和RGB的转换</a></li>
 <li><a href="http://www.raomengyang.com/2017/01/15/Android-libyuv%E5%BA%94%E7%94%A8%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89libyuv%E7%9A%84%E4%BD%BF%E7%94%A8/">Android libyuv应用系列（二）libyuv的使用</a></li>
 </ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[哈希算法及其应用]]></title>
+        <id>https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong</id>
+        <link href="https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong">
+        </link>
+        <updated>2019-12-27T14:29:54.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-什么是哈希算法">1. 什么是哈希算法？</h3>
+<p>将任意长度的二进制值串映射为固定长度的二进制值串，这个映射的规则就是哈希算法，而通过原始数据映射之后得到的二进制值串就是哈希值。</p>
+<p>哈希算法历史悠久，业界著名的哈希算法也有很多，比如 MD5、SHA 等。在我们平时的开发中，基本上都是拿现成的直接用。</p>
+<p>怎样算是优秀的哈希算法？</p>
+<ul>
+<li>从哈希值不能反向推导出原始数据（所以哈希算法也叫单向哈希算法）；</li>
+<li>对输入数据非常敏感，哪怕原始数据只修改了一个 Bit，最后得到的哈希值也大不相同；</li>
+<li>散列冲突的概率要很小，对于不同的原始数据，哈希值相同的概率非常小；</li>
+<li>哈希算法的执行效率要尽量高效，针对较长的文本，也能快速地计算出哈希值。</li>
+</ul>
+<p>哈希算法的应用非常非常多，包括安全加密、唯一标识、数据校验、散列函数、负载均衡、数据分片、分布式存储等。</p>
+<h3 id="2-应用一安全加密">2. 应用一：安全加密</h3>
+<p>常用的加密哈希算法：</p>
+<ul>
+<li>MD5（MD5 Message-Digest Algorithm，MD5 消息摘要算法）</li>
+<li>SHA（Secure Hash Algorithm，安全散列算法）</li>
+<li>DES（Data Encryption Standard，数据加密标准）</li>
+<li>AES（Advanced Encryption Standard，高级加密标准）</li>
+</ul>
+<p>对用于加密的哈希算法来说，有两点格外重要。第一点是很难根据哈希值反向推导出原始数据，第二点是散列冲突的概率要很小。</p>
+<p>基于鸽巢原理，哈希算法无法避免散列冲突。一般情况下，哈希值越长的哈希算法，散列冲突的概率越低。即便哈希算法存在散列冲突的情况，但是因为哈希值的范围很大，冲突的概率极低，所以相对来说还是很难破解的。</p>
+<p>越是复杂哈希算法越难破解，但同样计算时间也就越长。所以，选择哈希算法的时候，要权衡安全性和计算时间来决定用哪种哈希算法。</p>
+<h3 id="3-应用二唯一标识">3. 应用二：唯一标识</h3>
+<p>给每张图片取一个唯一标识，或者说信息摘要，就可以从海量图库中快速搜索一张图片。</p>
+<p>哈希算法可以对大数据做信息摘要，通过一个较短的二进制编码来表示很大的数据。</p>
+<h3 id="4-应用三数据校验">4. 应用三：数据校验</h3>
+<p>BT 下载的文件经过哈希算法校验，用于校验数据的完整性和正确性。</p>
+<h3 id="5-应用四散列函数">5. 应用四：散列函数</h3>
+<p>散列函数对哈希算法的要求非常特别，更加看重的是散列的平均性和哈希算法的执行效率。</p>
+<h3 id="6-应用五负载均衡">6. 应用五：负载均衡</h3>
+<p>利用哈希算法替代映射表，可以实现一个会话粘滞的负载均衡策略。</p>
+<p>我们可以通过哈希算法，对客户端 IP 地址或者会话 ID 计算哈希值，将取得的哈希值与服务器列表的大小进行取模运算，最终得到的值就是应该被路由到的服务器编号。 这样就可以把同一个 IP 过来的所有请求，都路由到同一个后端服务器上。</p>
+<h3 id="7-应用六数据分片">7. 应用六：数据分片</h3>
+<p>通过哈希算法对处理的海量数据进行分片，多机分布式处理，可以突破单机资源的限制。</p>
+<ol>
+<li>如何统计“搜索关键词”出现的次数？</li>
+</ol>
+<p>可以先对数据进行分片，然后采用多台机器处理的方法，来提高处理速度。具体的思路是这样的：为了提高处理的速度，我们用 n 台机器并行处理。从搜索记录的日志文件中，依次读出每个搜索关键词，并且通过哈希函数计算哈希值，然后再跟 n 取模，最终得到的值，就是应该被分配到的机器编号。</p>
+<ol start="2">
+<li>如何快速判断图片是否在图库中？</li>
+</ol>
+<p>通过同样的哈希算法，计算这个图片的唯一标识，然后与机器个数 n 求余取模。假设得到的值是 k，那就去编号 k 的机器构建的散列表中查找。</p>
+<h3 id="8-分布式存储">8. 分布式存储</h3>
+<p>利用一致性哈希算法，可以解决缓存等分布式系统的扩容、缩容导致数据大量搬移的难题。</p>
+<p>假设我们有 k 个机器，数据的哈希值的范围是 [0, MAX]。我们将整个范围划分成 m 个小区间（m 远大于 k），每个机器负责 m/k 个小区间。当有新机器加入的时候，我们就将某几个小区间的数据，从原来的机器中搬移到新的机器中。这样，既不用全部重新哈希、搬移数据，也保持了各个机器上数据数量的均衡。</p>
 ]]></content>
     </entry>
     <entry>
@@ -192,7 +245,7 @@ I/O 事件发生后，才将控制返回给应用程序。select 是个复杂的
 <h3 id="3-基于线程的并发编程">3. 基于线程的并发编程</h3>
 <p>线程就是运行在进程上下文中的逻辑流。每个线程都有自己的线程上下文，包括一个唯一的整数线程 ID、栈、栈指针、程序计数器、通用目的寄存器和条件码。所有运行在一个进程内的线程共享该进程的整个虚拟地址空间。</p>
 <p>同进程一样，线程由内核自动调度，并且内核通过一个整数 ID 来识别线程。同基于 I/O 多路复用的流一样，多个线程运行在单一进程的上下文中，因此共享这个进程虚拟地址空间的所有内容，包括它的代码、数据、堆、共享库和打开的文件。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191225065818.png" alt="并发线程执行"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191225065818.png" alt="并发线程执行" loading="lazy"></figure>
 <p>每个进程开始生命周期都是单线程，这个线程称为主线程（main thread）。在某一时刻，主线程创建一个对等线程（peer thread），从这个时间点开始，两个线程并发地运行。最后主线程执行一个慢速系统调用，比如 read 或 sleep，或者被系统的间隔计时器中断，控制就会通过上下文切换传递到对等线程。对等线程会执行一段时间，然后控制传递回主线程，依次类推。</p>
 <p>线程和进程的不同之处有：</p>
 <ul>
@@ -210,7 +263,7 @@ I/O 事件发生后，才将控制返回给应用程序。select 是个复杂的
         <updated>2019-12-06T00:35:33.000Z</updated>
         <content type="html"><![CDATA[<h3 id="1-套接字接口">1. 套接字接口</h3>
 <p>套接字接口是一组函数，它们和 Unix I/O 函数结合，用来创建网络应用。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210084427.png" alt="基于套接字接口的网络应用"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210084427.png" alt="基于套接字接口的网络应用" loading="lazy"></figure>
 <p>从 Linux 内核的角度看，套接字就是通信的端点；从 Linux 程序的角度看，套接字就是有相应描述符的打开文件。</p>
 <h3 id="2-web-服务器">2. Web 服务器</h3>
 <p>Web 客户端和服务器之间的交互通过基于文本的 HTTP 协议。浏览器打开一个网络连接，向服务器请求某些内容。服务器响应所请求的内容，然后关闭连接。浏览器读取这些内容，并把它显示在屏幕上。</p>
@@ -239,7 +292,7 @@ Content-Length: 42090
 ...
 &lt;/html&gt;
 </code></pre>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191211081627.png" alt="Http事务"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191211081627.png" alt="Http事务" loading="lazy"></figure>
 <p>GET 请求的参数在 URI 中。用 <code>？</code> 分隔文件名和参数，每个参数用 <code>&amp;</code> 分隔，参数不允许有空格。POST 请求的参数在请求主体中。</p>
 <p>服务器程序遵守 CGI（通用网关接口）标准，CGI 可以管理客户端如何将参数传递给服务器，服务器如何将参数和其他信息传递给子进程，以及子进程如何将它的输出返回客户端。</p>
 ]]></content>
@@ -253,7 +306,7 @@ Content-Length: 42090
         <content type="html"><![CDATA[<h3 id="1-客户端-服务端编程模型">1. 客户端-服务端编程模型</h3>
 <p>每个网络应用都是基于客户端-服务器模型。一个应用是由一个服务器进程和一个或者多个客户端进程组成。服务器管理某种资源，并且通过这种资源来为它的客户端提供某种服务。客户端和服务器是进程，而不是常提到的机器或者主机。</p>
 <p>客户端-服务器模型中的基本操作是事务。这个事务不是数据库事务，没有数据库事务的任何特性，它仅仅是客户端和服务器执行的一系列步骤。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191209080352.png" alt="客户端-服务器事务"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191209080352.png" alt="客户端-服务器事务" loading="lazy"></figure>
 <h3 id="2-网络">2. 网络</h3>
 <p>对主机而言，网路只是另一种 I/O 设备，是数据源和数据接收方。</p>
 <p>网路是一个按照地理远近组成的层次系统，最低层是局域网（LAN），最流行的局域网技术是以太网。</p>
@@ -264,7 +317,7 @@ Content-Length: 42090
 <p>一个 IP 地址就是一个 32 位无符号整数，使用点分十进制表示法表示。为了方便人们记忆，定义了域名以及将域名映射到 IP 地址的机制。</p>
 <p>套接字是连接的端点，套接字地址是由互联网地址和 16 位的整数端口组成的，用「地址：端口」来表示。当客户端发起一个请求时，<br>
 客户端套接字地址中的端口是由内核自动分配的，称为临时端口。服务器套接字地址端口通常是某个知名端口，和 这个服务相对应。</p>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210081750.png" alt="互联网连接分析"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210081750.png" alt="互联网连接分析" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
@@ -284,7 +337,7 @@ Content-Length: 42090
 <li>套接字是用来与另一个进程进行跨网络通信的文件。</li>
 </ul>
 <p>Linux 内核将所有文件都组织称一个目录层次结构，由名为 / 的根目录确定。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191124201916.png" alt="Linux 目录层次结构"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191124201916.png" alt="Linux 目录层次结构" loading="lazy"></figure>
 <p>作为其上下文的一部分，每个进程都有一个当前工作目录，来确定其在目录层次结构中的当前位置。</p>
 <h3 id="3-用-rio-包健壮地读写">3. 用 RIO 包健壮地读写</h3>
 <p>应用程序不该直接使用 Unix I/O 函数，而应该使用 RIO 包。RIO 包提供了两类不同的函数：无缓冲的输出输出函数和有缓冲的输入函数。RIO 包通过反复执行读写操作，直到传送完所有的请求数据，自动处理不足值。</p>
@@ -337,8 +390,8 @@ Content-Length: 42090
 </ul>
 <h3 id="1-物理和虚拟寻址">1. 物理和虚拟寻址</h3>
 <p>早起的 PC 使用物理寻址，现代处理器使用虚拟寻址。虚拟寻址的方式需要内存管理单元（MMU）将虚拟地址转换为物理地址。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191106085329.png" alt="物理寻址"></figure>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191106085354.png" alt="虚拟寻址"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191106085329.png" alt="物理寻址" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191106085354.png" alt="虚拟寻址" loading="lazy"></figure>
 <h3 id="2-地址空间">2. 地址空间</h3>
 <p>地址空间是一个非负整数地址的有序集合。如果地址空间中的整数是连续的，那么它就是线性地址空间。</p>
 <p>在带有虚拟内存的系统中，CPU 从含有 N=2^n 个地址的地址空间中生成虚拟地址，称为虚拟地址空间。</p>
@@ -349,7 +402,7 @@ Content-Length: 42090
 <p>虚拟内存被分割为称作虚拟页（VP）的大小固定块，来作为磁盘和主存之间的传输单元。类似地，物理内存被分割为物理页。在任意时刻，虚拟页面的集合都分为三个不相交的子集：未分配的、缓存的、未缓存的。</p>
 <p>页表（page table）将虚拟页映射到物理页。每次 MMU（内存管理单元）中的地址翻译硬件将虚拟地址转换为物理地址时，都会读取页表。<br>
 操作系统负责维护页表的内容，以及在磁盘与 DRAM 之间来回传送页。</p>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115220042.png" alt="页表"></figure>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115220042.png" alt="页表" loading="lazy"></figure>
 <p>页表就是一个页表条目（PTE）的数组。虚拟地址空间中的每个页在页表中一个固定偏移量处都有一个 PTE。</p>
 <p>DRAM 缓存不命中称为缺页（page fault）。缺页会触发缺页异常，该异常调用缺页异常处理程序，该程序会选择一个牺牲页，<br>
 内核总会修改牺牲页的页表条目，牺牲页就不再缓存在主存中。当异常处理程序返回时，它会重新启动导致缺页的指令，<br>
@@ -361,10 +414,10 @@ Content-Length: 42090
 <p>如果工作集的大小超出了物理内存的大小，那么程序将产生一种不幸的状态，叫做抖动（thrashing），这时页面将不断地换进换出。</p>
 <h3 id="4-虚拟内存作为内存管理的工具">4. 虚拟内存作为内存管理的工具</h3>
 <p>实际上，操作系统为每个进程提供了一个独立的页表，也就是一个独立的虚拟地址空间。注意，多个虚拟页面可以映射到同一个共享的物理页面上。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115221725.png" alt="内存管理"></figure>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115221725.png" alt="内存管理" loading="lazy"></figure>
 <h3 id="5-虚拟存在作为内存保护的工具">5. 虚拟存在作为内存保护的工具</h3>
 <p>提供独立的地址空间使得区分不同进程的私有内存变得容易。地址翻译机制可以通过一种自然的方式扩展到提供更好的访问控制。CPU 每次生成一个地址时，地址翻译硬件都会读一个 PTE。所以可以通过在 PTE 上添加一些额外的许可位来控制一个虚拟页面内容的访问。</p>
-<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115222808.png" alt="内存保护"></figure>
+<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115222808.png" alt="内存保护" loading="lazy"></figure>
 ]]></content>
     </entry>
     <entry>
@@ -391,7 +444,7 @@ Content-Length: 42090
 <li>发送信号：内核通过更新目的进程上下文中的某个状态，发送一个信号给目的进程。</li>
 <li>接收信号：当目的进程被内核强迫以某种方式对信号的发送做出反应时，它就接收了信号。</li>
 </ul>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191103170627.png" alt="信号处理"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191103170627.png" alt="信号处理" loading="lazy"></figure>
 <p>Unix 系统提供了大量的进程发送信号机制，这些机制都是基于进程组这个概念。每个进程只属于一个进程组，<br>
 进程组由一个正整数 ID 标识。默认地，子进程和它的父进程属于同一个进程组。</p>
 <p>当内核把进程 p 从内核模式切换到用户模式时，它会检查进程 p 的未被阻塞的待处理信号集合，如果集合为空，那么内核将控制传递到 p 的逻辑控制流的下一条指令。如果集合非空，那么内核选择集合中的某个信号 k，并且强制 p 接收 k。收到这个信号会触发进程采取某种行为。一旦进程完成了这个行为，那么控制就传递回 p 的逻辑控制流的下一条指令。</p>
@@ -415,7 +468,7 @@ Content-Length: 42090
 </ul>
 <h3 id="1-异常">1. 异常</h3>
 <p>异常就是控制流中的突变，用来响应处理器状态中的某些变化。它一部分由硬件实现，一部分由操作系统实现。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026212833.png" alt="异常的剖析"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026212833.png" alt="异常的剖析" loading="lazy"></figure>
 <p>在任何情况下，当处理器检测到有事件发生时，就会通过一张叫做「异常表」的跳转表，进行一个间接过程调用，交给异常处理程序去处理。<br>
 当处理完成后，根据引起异常事件的类型，发生以下 3 种情况中的一种：</p>
 <ul>
@@ -430,7 +483,7 @@ Content-Length: 42090
 <li>故障：由错误情况引起，可能被故障处理程序修正，比如缺页异常。</li>
 <li>终止：不可恢复的致命错误造成的结果，通常是一些硬件错误。</li>
 </ul>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026213802.png" alt="异常的类别"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026213802.png" alt="异常的类别" loading="lazy"></figure>
 <h3 id="2-进程">2. 进程</h3>
 <p>进程就是一个正在执行的程序实例，系统中的每个程序都运行在某个进程的上下文（context）中。</p>
 <p>进程提供给应用程序的关键抽象：</p>
@@ -438,10 +491,10 @@ Content-Length: 42090
 <li>一个独立的逻辑控制流，它提供一个假象，好像程序独占地使用处理器。</li>
 <li>一个私有的地址空间，它提供一个假象，好像程序独占地使用内存系统。</li>
 </ul>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027200254.png" alt="进程控制流"></figure>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027200254.png" alt="进程控制流" loading="lazy"></figure>
 <p>进程是轮流使用处理器的，每个进程执行它的流的一部分，然后被抢占（暂时挂起），然后轮到其他进程。</p>
 <p>进程为每个程序提供它自己私有地址空间。一般而言，和某个地址关联的内存字节是不能被其他进程读或写的。每个私有地址空间都有相同的通用结构。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027201327.png" alt="x86-64 linux 进程地址空间"></figure>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027201327.png" alt="x86-64 linux 进程地址空间" loading="lazy"></figure>
 <p>处理器通常是用某个控制寄存器中的一个模式位，来实现限制应用可以执行的指令以及可以访问的地址空间。</p>
 <p>当设置了模式位时，进程就运行在内核模式中，它可以执行指令集中的任何指令，并且可以访问系统中的任何内存位置。没有设置模式位时，进行就运行在用户模式中，不允许执行特权指令，也不允许直接引用地址空间中内核区的代码和数据。</p>
 <p>运行应用程序代码的进程起初是在用户模式中的，进程从用户模式变为内核模式的唯一方法就是通过中断、故障或者陷入系统调用这样的异常。</p>
@@ -453,39 +506,7 @@ Content-Length: 42090
 <li>将控制传递给这个刚恢复的进程</li>
 </ul>
 <p>当执行系统调用或者中断时，都可能会发生上下文切换。</p>
-<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027202847.png" alt="进程上下文切换"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之存储器层次结构]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou">
-        </link>
-        <updated>2019-10-20T07:47:51.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="61-存储技术">6.1 存储技术</h3>
-<p>这一节主要讲述存储技术的发展，从 SRAM、DRAM、ROM 再到硬盘。</p>
-<p>随机访问存储器（RAM），分为静态 RAM 和动态 RAM，前者比后者更快，但也贵得多。SRAM 应用于高速缓存，DRAM 应用于主存和帧缓冲区。</p>
-<p>高速缓存存储器作为 CPU 和主存之间的缓存区域，对应用程序性能的影响最大。现代计算机频繁使用基于 SRAM 的高速缓存，试图弥补处理器和内存之间的差距。</p>
-<p>数据流通过总线（bus）在 CPU 和主存之间传递，总线携带地址、数据和控制信号。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020101259.png" alt="连接 CPU 和主存的总线"></figure>
-<p>像显示器、鼠标、键盘这样的 I/O 设备，都是通过 I/O 总线连接到 CPU 和主存的。I/O 总线比系统和内存总线慢，但可以容纳多种第三方 I/O 设备。</p>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020101728.png" alt="总线结构图"></figure>
-<p>CPU 使用内存映射的技术向 I/O 设备发出命令，地址空间有一块是为 I/O 设备通信保留的 I/O 端口。</p>
-<h3 id="62-局部性原理">6.2 局部性原理</h3>
-<p>程序倾向于引用最近引用过的数据项，或者与最近引用过的数据项邻近的数据项。</p>
-<p>局部性有两种表现形式：时间局部性和空间局部性。有着良好局部性的程序比局部性差的程序运行得更快。</p>
-<p>对于一个循环求数组元素之和的函数，结果 sum 每次循环都被引用，具有良好的时间局部性。而数组按顺序迭代，具有良好的空间局部性。<br>
-而对于多维数组，步长会影响程序的空间局部性。</p>
-<p>评价程序中局部性的一些简单原则：</p>
-<ul>
-<li>重复引用相同变量的程序具有良好的时间局部性。</li>
-<li>对于具有步长的引用模式的程序，步长越小，空间局部性越好。在内存中以大步长跳来跳去的程序，空间局部性会很差。</li>
-<li>对于取指令来说，循环具有好的时间和空间局部性。循环体越小，迭次次数越多，局部性越好。</li>
-</ul>
-<h3 id="63-存储器的层次结构">6.3 存储器的层次结构</h3>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191020152557.png" alt="存储器层次结构"></figure>
-<p>一般而言，从高层到底层，存储设备变得更慢、更便宜和更大容量。</p>
-<p>存储器层次结构的本质是：每一层存储设备都是较低一层的缓存。</p>
+<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027202847.png" alt="进程上下文切换" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>

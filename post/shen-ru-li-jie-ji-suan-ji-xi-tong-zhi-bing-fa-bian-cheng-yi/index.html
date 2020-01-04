@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578148454795">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578148454795" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -141,7 +141,7 @@ I/O 事件发生后，才将控制返回给应用程序。select 是个复杂的
 <h3 id="3-基于线程的并发编程">3. 基于线程的并发编程</h3>
 <p>线程就是运行在进程上下文中的逻辑流。每个线程都有自己的线程上下文，包括一个唯一的整数线程 ID、栈、栈指针、程序计数器、通用目的寄存器和条件码。所有运行在一个进程内的线程共享该进程的整个虚拟地址空间。</p>
 <p>同进程一样，线程由内核自动调度，并且内核通过一个整数 ID 来识别线程。同基于 I/O 多路复用的流一样，多个线程运行在单一进程的上下文中，因此共享这个进程虚拟地址空间的所有内容，包括它的代码、数据、堆、共享库和打开的文件。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191225065818.png" alt="并发线程执行"></figure>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191225065818.png" alt="并发线程执行" loading="lazy"></figure>
 <p>每个进程开始生命周期都是单线程，这个线程称为主线程（main thread）。在某一时刻，主线程创建一个对等线程（peer thread），从这个时间点开始，两个线程并发地运行。最后主线程执行一个慢速系统调用，比如 read 或 sleep，或者被系统的间隔计时器中断，控制就会通过上下文切换传递到对等线程。对等线程会执行一段时间，然后控制传递回主线程，依次类推。</p>
 <p>线程和进程的不同之处有：</p>
 <ul>

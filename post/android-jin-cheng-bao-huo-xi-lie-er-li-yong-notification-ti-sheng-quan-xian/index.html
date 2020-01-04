@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578140490725">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1578148454795">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1578140490725" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1578148454795" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -123,14 +123,14 @@
 <p>在实践之前还是先看看别人家的应用，比如腾讯新闻。adb shell 下输入</p>
 <pre><code>dumpsys activity services com.tencent.news
 </code></pre>
-<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-2c87cfaee8aa9b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="腾讯新闻前台 Service"></figure>
+<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-2c87cfaee8aa9b3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="腾讯新闻前台 Service" loading="lazy"></figure>
 <p>看一下控制台的输出，顾名思义 PushService 应该是推送服务，ServiceRecord 指明了它是前台服务。我们看一下它的 oom_adj 的值：</p>
 <pre><code>ps | grep com.tencent.news
 cat /proc/25890/oom_adj
 </code></pre>
-<figure data-type="image" tabindex="2"><img src="http://upload-images.jianshu.io/upload_images/1820210-8a4a8c8f1ea29d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="进程优先级"></figure>
+<figure data-type="image" tabindex="2"><img src="http://upload-images.jianshu.io/upload_images/1820210-8a4a8c8f1ea29d19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="进程优先级" loading="lazy"></figure>
 <p>没错，PuseService 的优先级是 2，属于可感知进程，一般不会被杀死。下面有个关于 oom_adj 的说明。</p>
-<figure data-type="image" tabindex="3"><img src="http://upload-images.jianshu.io/upload_images/1820210-015dac049bb2f48a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="oom_adj 说明"></figure>
+<figure data-type="image" tabindex="3"><img src="http://upload-images.jianshu.io/upload_images/1820210-015dac049bb2f48a.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="oom_adj 说明" loading="lazy"></figure>
 <p>其中红色部分代表比较容易被杀死的 Android 进程（OOM_ADJ &gt;= 4），绿色部分表示不容易被杀死的 Android 进程，其他表示非 Android 进程（纯 Linux 进程）。在 Lowmemorykiller 回收内存时会根据进程的级别优先杀死 OOM_ADJ 比较大的进程，对于优先级相同的进程，则进一步受到进程所占内存和进程存活时间的影响。</p>
 <p>下面就来亲身实践一下。利用系统的漏洞开启前台服务，提升进程的优先级。这里有两个思路：</p>
 <ul>
@@ -160,7 +160,7 @@ public int onStartCommand(Intent intent, int flags, int startId) {
 }
 </code></pre>
 <p>这样就完成了，我们再次用 shell 命令验证一下。</p>
-<figure data-type="image" tabindex="4"><img src="http://upload-images.jianshu.io/upload_images/1820210-3f3b423ee2a24fde.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自己的前台服务"></figure>
+<figure data-type="image" tabindex="4"><img src="http://upload-images.jianshu.io/upload_images/1820210-3f3b423ee2a24fde.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自己的前台服务" loading="lazy"></figure>
 <p>没错，它已经是前台服务了，用户看不见摸不着的前台服务，系统是不会轻易杀死该服务的，可以放心大胆地搞事情啦~~</p>
 <p><strong>项目地址：</strong> <a href="https://github.com/isuperqiang/AndroidKeepLivePractice">AndroidKeepPractive</a></p>
 <p><strong>参考链接：</strong></p>
