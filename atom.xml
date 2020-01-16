@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-01-04T14:35:37.617Z</updated>
+    <updated>2020-01-16T13:22:04.207Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,54 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[深入理解计算机系统之并发编程（二）]]></title>
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er">
+        </link>
+        <updated>2020-01-16T13:10:44.000Z</updated>
+        <content type="html"><![CDATA[<h3 id="1-多线程程序中的共享变量">1. 多线程程序中的共享变量</h3>
+<p>一组并发线程运行在一个进程的上下文中。每个线程都有自己独立的线程上下文，包括线程 ID、栈、<br>
+栈指针、程序计数器、条件码和通用目的寄存器值。每个线程和其他线程共享进程上下文的剩余部分，<br>
+包括用户虚拟地址空间，它是由只读文本（代码）、读/写数据、堆以及共享库代码和<br>
+数据区组成的。线程也共享相同的打开文件的集合。</p>
+<p>寄存器是从不共享的，虚拟内存总是共享的。</p>
+<p>多线程的 C 程序中的变量根据它们的存储类型被影射到虚拟内存：</p>
+<ul>
+<li>全局变量：定义在函数之外的变量，虚拟内存中只有一个实例，任何线程都能引用。</li>
+<li>本地自动变量：定义在函数内但没有 static 属性的变量，每个线程都有自己的实例。</li>
+<li>本地静态变量：定义在函数内并有 static 属性的变量，和全部变量一样。</li>
+</ul>
+<p>多线程实现计数器，每个线程对共享变量操作，容易出现同步错误。</p>
+<p>进度图将 n 个并发线程的执行，模型化为一条 n 维笛卡尔空间中的轨迹线。每条轴 k 对应<br>
+线程 k 的进度，每个点代表线程 k 已经完成指令的状态。</p>
+<p>每个线程在执行临界区（critical section）的指令时，拥有对共享变量的互斥（mutual exclusion）访问。<br>
+在进度图中，两个临界区的交集形成的状态空间称为不安全区，绕开不安全区的轨迹线叫做安全轨迹线。</p>
+<p>任何安全轨迹线都会正确地更新共享变量，为了保证线程化程序的正确执行，我们必须以某种方式同步线程。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191227085650.png" alt="安全和不安全轨迹线" loading="lazy"></figure>
+<h3 id="2-使用信号量同步线程">2. 使用信号量同步线程</h3>
+<p>一种经典的解决线程同步问题的方法：信号量（semephore）。它是具有非负整数的全局变量，只能由两种特殊的操作处理，成为 P 和 V。P 和 V 来源于荷兰语，分别表示测试和增加。</p>
+<p>P 中的测试和减一操作是不可分割的，V 中的加一操作也是不可分割的。当多个线程等待同一个信号量时，<br>
+无法预测 V 操作也重启哪个线程。</p>
+<p>使用信号量可以确保对共享变量的互斥访问。基本思想是将每个共享变量与一个信号量 s （初始为 1）关联起来，<br>
+然后用 P(s) 和 V(s) 操作将相应的临界区包围起来。这种保护共享变量的信号量称为二元信号量，<br>
+以提供互斥为目的的二元信号量称为互斥锁。</p>
+<p>除了提供互斥外，信号量的另一个重要作用是调度对共享资源的访问。比如生产者-消费者问题，读者-写者问题。</p>
+<h3 id="3-使用线程提高并行性">3. 使用线程提高并行性</h3>
+<p>所有程序的集合被划分为不相交的顺序程序集合和并发程序的结合，并行程序是一种运行在多个处理器上的并发程序。</p>
+<p>来看一个用多线程对整数序列求和的问题，将序列划分为多个不相交的区域，给每个线程分配一个区域。</p>
+<ul>
+<li>第一种做法，将每个线程求得的和放入共享的全局变量中，用互斥锁保护这个变量。结果性能非常差，同步操作的代价太大。</li>
+<li>第二种做法，定义一个全局数组，每个对等线程把和累积在数组的不同位置。同时，使用局部变量消除不必要的内存引用。最终性能提升明显。</li>
+</ul>
+<p>同步开销巨大，要尽可能避免。如果无可避免，必须要用尽可能多的有用计算弥补这个开销。</p>
+<p>随着线程数量的增加，程序运行时间不会一直减少，由于线程上下文切换的开销。</p>
+<h3 id="4-其他并发问题">4. 其他并发问题</h3>
+<p>可重入(reentrant)函数：当被多个线程调用时，不会引用任何共享数据。比不可重入的线程安全的函数高效一些，因为它不需要同步操作。</p>
+<p>避免死锁(deadlock)：给定所有互斥操作的一个全序，如果每个线程都以一种顺序获得互斥锁并以相反的顺序<br>
+释放，那么这个程序就是无死锁的。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[libyuv 库编译]]></title>
         <id>https://isuperqiang.cn/post/libyuv-ku-bian-yi</id>
@@ -448,65 +496,6 @@ Content-Length: 42090
 <p>Unix 系统提供了大量的进程发送信号机制，这些机制都是基于进程组这个概念。每个进程只属于一个进程组，<br>
 进程组由一个正整数 ID 标识。默认地，子进程和它的父进程属于同一个进程组。</p>
 <p>当内核把进程 p 从内核模式切换到用户模式时，它会检查进程 p 的未被阻塞的待处理信号集合，如果集合为空，那么内核将控制传递到 p 的逻辑控制流的下一条指令。如果集合非空，那么内核选择集合中的某个信号 k，并且强制 p 接收 k。收到这个信号会触发进程采取某种行为。一旦进程完成了这个行为，那么控制就传递回 p 的逻辑控制流的下一条指令。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之异常控制流（一）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi">
-        </link>
-        <updated>2019-10-27T13:14:43.000Z</updated>
-        <content type="html"><![CDATA[<p>指令1，指令性2，指令3……，这样的控制转移序列就是处理器的控制流（control flow）。</p>
-<p>现代系统通过使控制流发生突变，来应对系统状态的变化，称为异常控制流（ECF），它发生在计算机系统的各个层次。</p>
-<p>ECF 的重要性：</p>
-<ul>
-<li>ECF 是操作系统实现 I/O、进程和虚拟内存的基本机制。</li>
-<li>应用程序通过使用系统调用的 ECF 形式，来向操作系统请求服务。</li>
-<li>操作系统为应用程序提供了强大的 ECF 机制，用来创建新进程、等待进程终止、通知其他进程中的异常事件。</li>
-<li>ECF 是计算机系统中实现并发的基本机制，比如中断应用程序执行的异常处理程序。</li>
-<li>非本地跳转是一种应用层 ECF，软件异常允许程序进行非本地跳转来响应错误情况。</li>
-</ul>
-<h3 id="1-异常">1. 异常</h3>
-<p>异常就是控制流中的突变，用来响应处理器状态中的某些变化。它一部分由硬件实现，一部分由操作系统实现。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026212833.png" alt="异常的剖析" loading="lazy"></figure>
-<p>在任何情况下，当处理器检测到有事件发生时，就会通过一张叫做「异常表」的跳转表，进行一个间接过程调用，交给异常处理程序去处理。<br>
-当处理完成后，根据引起异常事件的类型，发生以下 3 种情况中的一种：</p>
-<ul>
-<li>处理程序将控制返回给当前指令。</li>
-<li>处理程序将控制返回给下一条指令。</li>
-<li>处理程序终止被中断的程序。</li>
-</ul>
-<p>异常可以分为四类：</p>
-<ul>
-<li>中断：来自外部 I/O 设备信号的结果，不是由专门的指令造成的。</li>
-<li>陷阱：最重要的用途是在用户程序和内核之间提供一个接口——系统调用。</li>
-<li>故障：由错误情况引起，可能被故障处理程序修正，比如缺页异常。</li>
-<li>终止：不可恢复的致命错误造成的结果，通常是一些硬件错误。</li>
-</ul>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191026213802.png" alt="异常的类别" loading="lazy"></figure>
-<h3 id="2-进程">2. 进程</h3>
-<p>进程就是一个正在执行的程序实例，系统中的每个程序都运行在某个进程的上下文（context）中。</p>
-<p>进程提供给应用程序的关键抽象：</p>
-<ul>
-<li>一个独立的逻辑控制流，它提供一个假象，好像程序独占地使用处理器。</li>
-<li>一个私有的地址空间，它提供一个假象，好像程序独占地使用内存系统。</li>
-</ul>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027200254.png" alt="进程控制流" loading="lazy"></figure>
-<p>进程是轮流使用处理器的，每个进程执行它的流的一部分，然后被抢占（暂时挂起），然后轮到其他进程。</p>
-<p>进程为每个程序提供它自己私有地址空间。一般而言，和某个地址关联的内存字节是不能被其他进程读或写的。每个私有地址空间都有相同的通用结构。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027201327.png" alt="x86-64 linux 进程地址空间" loading="lazy"></figure>
-<p>处理器通常是用某个控制寄存器中的一个模式位，来实现限制应用可以执行的指令以及可以访问的地址空间。</p>
-<p>当设置了模式位时，进程就运行在内核模式中，它可以执行指令集中的任何指令，并且可以访问系统中的任何内存位置。没有设置模式位时，进行就运行在用户模式中，不允许执行特权指令，也不允许直接引用地址空间中内核区的代码和数据。</p>
-<p>运行应用程序代码的进程起初是在用户模式中的，进程从用户模式变为内核模式的唯一方法就是通过中断、故障或者陷入系统调用这样的异常。</p>
-<p>操作系统内核使用一种称为「上下文切换」的异常控制流来实现多任务。内核为每个进程维持一个上下文。上下文就是内核重新启动一个被抢占的进程所需的状态。这些状态包括：通用目的寄存器、程序计数器、用户栈、环境变量等。</p>
-<p>上下文切换的过程：</p>
-<ul>
-<li>保存当前进程的上下文</li>
-<li>恢复某个先前被抢占的进程保存的上下文</li>
-<li>将控制传递给这个刚恢复的进程</li>
-</ul>
-<p>当执行系统调用或者中断时，都可能会发生上下文切换。</p>
-<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191027202847.png" alt="进程上下文切换" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>

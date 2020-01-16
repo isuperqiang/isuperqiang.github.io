@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>深入理解计算机系统之网络编程（二） | 落英坠露</title>
+<title>深入理解计算机系统之并发编程（二） | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,44 +115,50 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">深入理解计算机系统之网络编程（二）</h2>
-            <div class="post-date">2019-12-06</div>
+            <h2 class="post-title">深入理解计算机系统之并发编程（二）</h2>
+            <div class="post-date">2020-01-16</div>
             
             <div class="post-content">
-              <h3 id="1-套接字接口">1. 套接字接口</h3>
-<p>套接字接口是一组函数，它们和 Unix I/O 函数结合，用来创建网络应用。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210084427.png" alt="基于套接字接口的网络应用" loading="lazy"></figure>
-<p>从 Linux 内核的角度看，套接字就是通信的端点；从 Linux 程序的角度看，套接字就是有相应描述符的打开文件。</p>
-<h3 id="2-web-服务器">2. Web 服务器</h3>
-<p>Web 客户端和服务器之间的交互通过基于文本的 HTTP 协议。浏览器打开一个网络连接，向服务器请求某些内容。服务器响应所请求的内容，然后关闭连接。浏览器读取这些内容，并把它显示在屏幕上。</p>
-<p>Web 内容是一个与 MIME 类型相关的字节序列，比如 text/html、image/jpeg 等。<br>
-Web 服务器通过两种方式向客户端提供内容：</p>
+              <h3 id="1-多线程程序中的共享变量">1. 多线程程序中的共享变量</h3>
+<p>一组并发线程运行在一个进程的上下文中。每个线程都有自己独立的线程上下文，包括线程 ID、栈、<br>
+栈指针、程序计数器、条件码和通用目的寄存器值。每个线程和其他线程共享进程上下文的剩余部分，<br>
+包括用户虚拟地址空间，它是由只读文本（代码）、读/写数据、堆以及共享库代码和<br>
+数据区组成的。线程也共享相同的打开文件的集合。</p>
+<p>寄存器是从不共享的，虚拟内存总是共享的。</p>
+<p>多线程的 C 程序中的变量根据它们的存储类型被影射到虚拟内存：</p>
 <ul>
-<li>取一个磁盘文件，并将它的内容返回客户端，称为静态内容。</li>
-<li>运行一个可执行文件，并将它的输出返回客户端，称为动态内容。</li>
+<li>全局变量：定义在函数之外的变量，虚拟内存中只有一个实例，任何线程都能引用。</li>
+<li>本地自动变量：定义在函数内但没有 static 属性的变量，每个线程都有自己的实例。</li>
+<li>本地静态变量：定义在函数内并有 static 属性的变量，和全部变量一样。</li>
 </ul>
-<p>Http 请求（GET 方法）的组成是这样的：一个请求行，后面跟随多个请求报头，再跟随一个空文本行来终止报头。<br>
-请求行的格式是：method URI version。请求报头的格式为：header-name: header-data。</p>
-<pre><code>GET / HTTP/1.1
-Host: www.qq.com
-
-</code></pre>
-<p>Http 响应的组成是这样的：一个响应行，后面跟随多个响应报头，再跟随一个终止报头的空文本行，最后跟随响应主体。<br>
-响应行的格式是：version status-code status-message。</p>
-<pre><code>HTTP/1.0 200 OK
-MIME-Version: 1.0
-Date: Jan, 11 Dec 2019 12:00:00
-Server: Apache-Coyote/1.1
-Content-Type: text/html
-Content-Length: 42090
-
-&lt;html&gt;
-...
-&lt;/html&gt;
-</code></pre>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191211081627.png" alt="Http事务" loading="lazy"></figure>
-<p>GET 请求的参数在 URI 中。用 <code>？</code> 分隔文件名和参数，每个参数用 <code>&amp;</code> 分隔，参数不允许有空格。POST 请求的参数在请求主体中。</p>
-<p>服务器程序遵守 CGI（通用网关接口）标准，CGI 可以管理客户端如何将参数传递给服务器，服务器如何将参数和其他信息传递给子进程，以及子进程如何将它的输出返回客户端。</p>
+<p>多线程实现计数器，每个线程对共享变量操作，容易出现同步错误。</p>
+<p>进度图将 n 个并发线程的执行，模型化为一条 n 维笛卡尔空间中的轨迹线。每条轴 k 对应<br>
+线程 k 的进度，每个点代表线程 k 已经完成指令的状态。</p>
+<p>每个线程在执行临界区（critical section）的指令时，拥有对共享变量的互斥（mutual exclusion）访问。<br>
+在进度图中，两个临界区的交集形成的状态空间称为不安全区，绕开不安全区的轨迹线叫做安全轨迹线。</p>
+<p>任何安全轨迹线都会正确地更新共享变量，为了保证线程化程序的正确执行，我们必须以某种方式同步线程。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191227085650.png" alt="安全和不安全轨迹线" loading="lazy"></figure>
+<h3 id="2-使用信号量同步线程">2. 使用信号量同步线程</h3>
+<p>一种经典的解决线程同步问题的方法：信号量（semephore）。它是具有非负整数的全局变量，只能由两种特殊的操作处理，成为 P 和 V。P 和 V 来源于荷兰语，分别表示测试和增加。</p>
+<p>P 中的测试和减一操作是不可分割的，V 中的加一操作也是不可分割的。当多个线程等待同一个信号量时，<br>
+无法预测 V 操作也重启哪个线程。</p>
+<p>使用信号量可以确保对共享变量的互斥访问。基本思想是将每个共享变量与一个信号量 s （初始为 1）关联起来，<br>
+然后用 P(s) 和 V(s) 操作将相应的临界区包围起来。这种保护共享变量的信号量称为二元信号量，<br>
+以提供互斥为目的的二元信号量称为互斥锁。</p>
+<p>除了提供互斥外，信号量的另一个重要作用是调度对共享资源的访问。比如生产者-消费者问题，读者-写者问题。</p>
+<h3 id="3-使用线程提高并行性">3. 使用线程提高并行性</h3>
+<p>所有程序的集合被划分为不相交的顺序程序集合和并发程序的结合，并行程序是一种运行在多个处理器上的并发程序。</p>
+<p>来看一个用多线程对整数序列求和的问题，将序列划分为多个不相交的区域，给每个线程分配一个区域。</p>
+<ul>
+<li>第一种做法，将每个线程求得的和放入共享的全局变量中，用互斥锁保护这个变量。结果性能非常差，同步操作的代价太大。</li>
+<li>第二种做法，定义一个全局数组，每个对等线程把和累积在数组的不同位置。同时，使用局部变量消除不必要的内存引用。最终性能提升明显。</li>
+</ul>
+<p>同步开销巨大，要尽可能避免。如果无可避免，必须要用尽可能多的有用计算弥补这个开销。</p>
+<p>随着线程数量的增加，程序运行时间不会一直减少，由于线程上下文切换的开销。</p>
+<h3 id="4-其他并发问题">4. 其他并发问题</h3>
+<p>可重入(reentrant)函数：当被多个线程调用时，不会引用任何共享数据。比不可重入的线程安全的函数高效一些，因为它不需要同步操作。</p>
+<p>避免死锁(deadlock)：给定所有互斥操作的一个全序，如果每个线程都以一种顺序获得互斥锁并以相反的顺序<br>
+释放，那么这个程序就是无死锁的。</p>
 
             </div>
             
@@ -167,9 +173,9 @@ Content-Length: 42090
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi">
+                <a href="https://isuperqiang.cn/post/libyuv-ku-bian-yi">
                   <h3 class="post-title">
-                    深入理解计算机系统之网络编程（一）
+                    libyuv 库编译
                   </h3>
                 </a>
               </div>
