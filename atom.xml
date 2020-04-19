@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-02-05T10:11:53.996Z</updated>
+    <updated>2020-04-19T14:05:35.912Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -11,9 +11,90 @@
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
     <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 26 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-26-qi/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-26-qi/">
+        </link>
+        <updated>2020-04-19T14:02:16.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="判定字符是否唯一"><a href="https://leetcode-cn.com/problems/is-unique-lcci/">判定字符是否唯一</a>（简单）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>实现一个算法，确定一个字符串 s 的所有字符是否全都不同。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: s = &quot;leetcode&quot;
+输出: false 
+输入: s = &quot;abc&quot;
+输出: true
+</code></pre>
+<h5 id="思路">思路：</h5>
+<ul>
+<li>统计次数：使用一个额外的 int 数组，统计每个字符出现的次数。</li>
+<li>位运算：int 类型有 32 位，取其中的低 26 位，作为每个字符的标志位，通过左移、与、或运算，记录每个字符的对应位置。真是高级解法！</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public boolean isUnique1(String astr) {
+        if (astr == null || astr.length() == 0) {
+            return true;
+        }
+        int[] counts = new int[26];
+        for (int i = 0, length = astr.length(); i &lt; length; i++) {
+            int pos = astr.charAt(i) - 'a';
+            if (counts[pos] &gt;= 1) {
+                return false;
+            }
+            counts[pos] += 1;
+        }
+        return true;
+    }
+
+    public boolean isUnique2(String astr) {
+        if (astr == null || astr.length() == 0) {
+            return true;
+        }
+        int mark = 0;
+        for (int i = 0, length = astr.length(); i &lt; length; i++) {
+            int flag = 1 &lt;&lt; (astr.charAt(i) - 'a');
+            if ((mark &amp; flag) != 0) {
+                return false;
+            } else {
+                mark |= flag;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<p>统计次数：</p>
+<ul>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(N)</li>
+</ul>
+<p>位运算：</p>
+<ul>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://levelup.gitconnected.com/how-to-go-from-junior-to-senior-programmer-29d53f3edd27">How to Go from Junior to Senior Programmer</a>  <a href="https://www.infoq.cn/article/6gagslvv3x5oQLpaVpv8">如何从初级程序员变成高级程序员？</a></p>
+<p>从 InfoQ 看到的一篇译文，算是经验之谈。高工不是根据经验判定，而是分析的技能。深有同感，我总是把代码放在第一位，有时候忽略了业务场景，考虑问题的出发点不同，导致任务处理方式也不同。代码只是一部分，真正的目的是解决问题。</p>
+<blockquote>
+<p>一名程序员不会因为他会写代码而成为一名合格的程序员，而是因为在开始做任何事情之前先做分析，然后再来开展工作，这才是真正的程序员。</p>
+</blockquote>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近某 BAT 之一坑害了 pandownload，真的是令人发指！自己的产品做得烂不去反思，却耍小伎俩坑无辜的开发者。天下苦 B 久矣，作为程序员，从抵制 B 开始。推荐一个好用的木弟子 <a href="https://neoproxy.org/?rc=r1gv64bl">AgentNeo</a>，线路非常稳定，价格也实惠。通过我的链接注册，可以享受 5 元优惠 https://neoproxy.org/?rc=r1gv64bl。</p>
+<h2 id="4-share">4. Share</h2>
+<p>在 GitHub 上搜了一些 Android 面试资料 http://note.youdao.com/noteshare?id=a04ac812925b23f6dc112eda70079c53，愿步步高升。</p>
+<p><strong>题外话：</strong></p>
+<p>由于个人原因，ARTS 暂停了将近半年，后续恢复打卡，请见谅。</p>
+]]></content>
+    </entry>
+    <entry>
         <title type="html"><![CDATA[深入理解计算机系统之并发编程（二）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/">
         </link>
         <updated>2020-01-16T13:10:44.000Z</updated>
         <content type="html"><![CDATA[<h3 id="1-多线程程序中的共享变量">1. 多线程程序中的共享变量</h3>
@@ -60,8 +141,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[libyuv 库编译]]></title>
-        <id>https://isuperqiang.cn/post/libyuv-ku-bian-yi</id>
-        <link href="https://isuperqiang.cn/post/libyuv-ku-bian-yi">
+        <id>https://isuperqiang.cn/post/libyuv-ku-bian-yi/</id>
+        <link href="https://isuperqiang.cn/post/libyuv-ku-bian-yi/">
         </link>
         <updated>2020-01-04T12:17:26.000Z</updated>
         <content type="html"><![CDATA[<p><a href="https://chromium.googlesource.com/libyuv/libyuv">libyuv</a> 是谷歌开源的对 YUV 数据进行缩放、旋转和转换的跨平台库，可在 Windows、Linux、Mac、Android 等操作系统，x86、x64、arm 架构上进行编译运行，支持 AVX2、NEON 等 SIMD 指令加速。</p>
@@ -214,8 +295,8 @@ APP_PLATFORM := android-18
     </entry>
     <entry>
         <title type="html"><![CDATA[哈希算法及其应用]]></title>
-        <id>https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong</id>
-        <link href="https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong">
+        <id>https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong/</id>
+        <link href="https://isuperqiang.cn/post/ha-xi-suan-fa-ji-qi-ying-yong/">
         </link>
         <updated>2019-12-27T14:29:54.000Z</updated>
         <content type="html"><![CDATA[<h3 id="1-什么是哈希算法">1. 什么是哈希算法？</h3>
@@ -267,8 +348,8 @@ APP_PLATFORM := android-18
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之并发编程（一）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi/">
         </link>
         <updated>2019-12-15T14:46:37.000Z</updated>
         <content type="html"><![CDATA[<p>并发不仅是操作系统内核用来运行多个应用程序的机制，还可以在应用程序中扮演重要角色。</p>
@@ -305,8 +386,8 @@ I/O 事件发生后，才将控制返回给应用程序。select 是个复杂的
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之网络编程（二）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-er</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-er">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-er/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-er/">
         </link>
         <updated>2019-12-06T00:35:33.000Z</updated>
         <content type="html"><![CDATA[<h3 id="1-套接字接口">1. 套接字接口</h3>
@@ -347,8 +428,8 @@ Content-Length: 42090
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之网络编程（一）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi/">
         </link>
         <updated>2019-11-29T00:20:28.000Z</updated>
         <content type="html"><![CDATA[<h3 id="1-客户端-服务端编程模型">1. 客户端-服务端编程模型</h3>
@@ -370,8 +451,8 @@ Content-Length: 42090
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之系统级IO]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io/">
         </link>
         <updated>2019-11-24T13:00:15.000Z</updated>
         <content type="html"><![CDATA[<p>输入/输出(I/O) 是在主存和外部设备之间复制数据的过程。输入操作是从 I/O 设备复制到主存，输出操作是从主存复制到 I/O 设备。</p>
@@ -398,8 +479,8 @@ Content-Length: 42090
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之虚拟内存（二）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er/">
         </link>
         <updated>2019-11-22T01:14:46.000Z</updated>
         <content type="html"><![CDATA[<h3 id="1-内存映射">1. 内存映射</h3>
@@ -425,8 +506,8 @@ Content-Length: 42090
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解计算机系统之虚拟内存（一）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/">
         </link>
         <updated>2019-11-08T14:40:47.000Z</updated>
         <content type="html"><![CDATA[<p>为了更加有效地管理内存并减少出错，现代系统提供了虚拟内存（VM）的概念，它为每个进程提供了一个庞大、一致和私有的地址空间。</p>
@@ -466,36 +547,6 @@ Content-Length: 42090
 <h3 id="5-虚拟存在作为内存保护的工具">5. 虚拟存在作为内存保护的工具</h3>
 <p>提供独立的地址空间使得区分不同进程的私有内存变得容易。地址翻译机制可以通过一种自然的方式扩展到提供更好的访问控制。CPU 每次生成一个地址时，地址翻译硬件都会读一个 PTE。所以可以通过在 PTE 上添加一些额外的许可位来控制一个虚拟页面内容的访问。</p>
 <figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115222808.png" alt="内存保护" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之异常控制流（二）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-er</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-er">
-        </link>
-        <updated>2019-11-03T09:30:36.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1-进程控制">1. 进程控制</h3>
-<p>每个进程都有一个唯一的正数进程 ID(PID)。</p>
-<p>从程序员的角度，可以认为进程总是处于下面三种状态之一：</p>
-<ul>
-<li>运行。进程要么在执行，要么等待被执行。</li>
-<li>停止。进程的执行被挂起，且不会被调度。</li>
-<li>终止。进程永远地停止了。</li>
-</ul>
-<p>父进程通过 fork 函数创建一个新运行的子进程，新创建的子进程几乎但不完全与父进程相同，它们之间的最大区别是有不同的 PID。</p>
-<p>当一个进程由于某种原因终止时，进程保持一种终止的状态，直到被它的父进程回收。</p>
-<p>execve 函数在当前进程的上下文中加载并运行一个新程序。</p>
-<h3 id="2-信号">2. 信号</h3>
-<p>一个信号就是一条消息，它通知进程系统中发生某种类型的事件。</p>
-<p>传递一个信号到目的进程是由两个步骤组成的：</p>
-<ul>
-<li>发送信号：内核通过更新目的进程上下文中的某个状态，发送一个信号给目的进程。</li>
-<li>接收信号：当目的进程被内核强迫以某种方式对信号的发送做出反应时，它就接收了信号。</li>
-</ul>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191103170627.png" alt="信号处理" loading="lazy"></figure>
-<p>Unix 系统提供了大量的进程发送信号机制，这些机制都是基于进程组这个概念。每个进程只属于一个进程组，<br>
-进程组由一个正整数 ID 标识。默认地，子进程和它的父进程属于同一个进程组。</p>
-<p>当内核把进程 p 从内核模式切换到用户模式时，它会检查进程 p 的未被阻塞的待处理信号集合，如果集合为空，那么内核将控制传递到 p 的逻辑控制流的下一条指令。如果集合非空，那么内核选择集合中的某个信号 k，并且强制 p 接收 k。收到这个信号会触发进程采取某种行为。一旦进程完成了这个行为，那么控制就传递回 p 的逻辑控制流的下一条指令。</p>
 ]]></content>
     </entry>
 </feed>

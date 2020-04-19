@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>深入理解计算机系统之虚拟内存（二） | 落英坠露</title>
+<title>每周 ARTS 第 26 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,36 +115,90 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">深入理解计算机系统之虚拟内存（二）</h2>
-            <div class="post-date">2019-11-22</div>
+            <h2 class="post-title">每周 ARTS 第 26 期</h2>
+            <div class="post-date">2020-04-19</div>
             
             <div class="post-content">
-              <h3 id="1-内存映射">1. 内存映射</h3>
-<p>Linux 通过将虚拟内存区域与磁盘上的对象关联起来，来初始化这个虚拟内存区域的内容，这个过程称为内存映射。虚拟内存区域可以映射到两种类型的对象中的一种：</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="判定字符是否唯一"><a href="https://leetcode-cn.com/problems/is-unique-lcci/">判定字符是否唯一</a>（简单）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>实现一个算法，确定一个字符串 s 的所有字符是否全都不同。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: s = &quot;leetcode&quot;
+输出: false 
+输入: s = &quot;abc&quot;
+输出: true
+</code></pre>
+<h5 id="思路">思路：</h5>
 <ul>
-<li>Linux 文件系统中的普通文件：磁盘文件的连续部分。</li>
-<li>匿名文件：由内核创建，包含的都是二进制零。</li>
+<li>统计次数：使用一个额外的 int 数组，统计每个字符出现的次数。</li>
+<li>位运算：int 类型有 32 位，取其中的低 26 位，作为每个字符的标志位，通过左移、与、或运算，记录每个字符的对应位置。真是高级解法！</li>
 </ul>
-<p>一旦虚拟页面被初始化，它就在由内核维护的交换空间之间换来换去。在任何时刻，交换空间都限制当前运行的进程能够分配的虚拟页面的总数。</p>
-<p>一个对象可以被映射到虚拟内存的一个区域，要么作为共享对象，要么作为私有对象。进程对共享对象映射到的虚拟地址空间的写操作，对把该共享对象映射到它们虚拟内存区域的其他进程也是可见的，并且这些变化反映在磁盘上的对象中。另一方面，对于映射到私有对象的区域的改变，对其他进程来说是不可见的，并且不会反映在磁盘上的对象中。</p>
-<p>许多进程有同样的只读代码区域，内存映射可以控制多个进程如何共享对象。即使对象被映射到多个共享区域，物理内存中只需要存放共享对象的一个副本。</p>
-<p>私有对象使用写时复制（copy-on-write）的技术被映射到虚拟内存中。和共享对象一样，在物理内存中只保存私有对象的一个副本。当一个进程试图写私有区域内的某个页面时，写操作就会触发一个保护故障。故障处理程序会在物理内存中创建这个页面的新副本，更新页表条目指向新副本，恢复这个页面的写权限。当故障处理程序返回时，CPU 就可以正常执行写操作了。</p>
-<h3 id="2-动态内存分配">2. 动态内存分配</h3>
-<p>当运行时需要额外虚拟内存时，用动态内存分配器更方便，也有更好的可移植性。</p>
-<p>动态内存分配器维护着一个进程的虚拟内存区域，称为堆。分配器将堆视为一组不同大小的块的集合来维护。每个块就是一个连续的虚拟内存片，要么是已分配的，要么是空闲的。</p>
-<p>分配器有两种基本风格，两种风格都要求应用显式地分配块，它们的不同之处在于由哪个实体负责释放已分配的块。</p>
+<pre><code class="language-java">class Sulution {
+    public boolean isUnique1(String astr) {
+        if (astr == null || astr.length() == 0) {
+            return true;
+        }
+        int[] counts = new int[26];
+        for (int i = 0, length = astr.length(); i &lt; length; i++) {
+            int pos = astr.charAt(i) - 'a';
+            if (counts[pos] &gt;= 1) {
+                return false;
+            }
+            counts[pos] += 1;
+        }
+        return true;
+    }
+
+    public boolean isUnique2(String astr) {
+        if (astr == null || astr.length() == 0) {
+            return true;
+        }
+        int mark = 0;
+        for (int i = 0, length = astr.length(); i &lt; length; i++) {
+            int flag = 1 &lt;&lt; (astr.charAt(i) - 'a');
+            if ((mark &amp; flag) != 0) {
+                return false;
+            } else {
+                mark |= flag;
+            }
+        }
+        return true;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<p>统计次数：</p>
 <ul>
-<li>显式分配器要求应用显式地释放任何已分配的块。例如 C 通过调用 malloc 和 free 分配和释放块。</li>
-<li>隐时分配器会自动释放不再使用的已分配的块。例如 Java 的垃圾回收。</li>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(N)</li>
 </ul>
-<p>造成堆利用率很低的主要原因是碎片的现象，当有未使用的内存但不能用来满足分配请求时，就发生这种现象。分配器通常采用试图维持少量的大空闲块，而不是维持大量的小空闲块。</p>
+<p>位运算：</p>
+<ul>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://levelup.gitconnected.com/how-to-go-from-junior-to-senior-programmer-29d53f3edd27">How to Go from Junior to Senior Programmer</a>  <a href="https://www.infoq.cn/article/6gagslvv3x5oQLpaVpv8">如何从初级程序员变成高级程序员？</a></p>
+<p>从 InfoQ 看到的一篇译文，算是经验之谈。高工不是根据经验判定，而是分析的技能。深有同感，我总是把代码放在第一位，有时候忽略了业务场景，考虑问题的出发点不同，导致任务处理方式也不同。代码只是一部分，真正的目的是解决问题。</p>
+<blockquote>
+<p>一名程序员不会因为他会写代码而成为一名合格的程序员，而是因为在开始做任何事情之前先做分析，然后再来开展工作，这才是真正的程序员。</p>
+</blockquote>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近某 BAT 之一坑害了 pandownload，真的是令人发指！自己的产品做得烂不去反思，却耍小伎俩坑无辜的开发者。天下苦 B 久矣，作为程序员，从抵制 B 开始。推荐一个好用的木弟子 <a href="https://neoproxy.org/?rc=r1gv64bl">AgentNeo</a>，线路非常稳定，价格也实惠。通过我的链接注册，可以享受 5 元优惠 https://neoproxy.org/?rc=r1gv64bl。</p>
+<h2 id="4-share">4. Share</h2>
+<p>在 GitHub 上搜了一些 Android 面试资料 http://note.youdao.com/noteshare?id=a04ac812925b23f6dc112eda70079c53，愿步步高升。</p>
+<p><strong>题外话：</strong></p>
+<p>由于个人原因，ARTS 暂停了将近半年，后续恢复打卡，请见谅。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/reading/" class="tag">
-                    读书
+                  <a href="https://isuperqiang.cn/tag/arts/" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -152,9 +206,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/">
+                <a href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/">
                   <h3 class="post-title">
-                    深入理解计算机系统之虚拟内存（一）
+                    深入理解计算机系统之并发编程（二）
                   </h3>
                 </a>
               </div>
