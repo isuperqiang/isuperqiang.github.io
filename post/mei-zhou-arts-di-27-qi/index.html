@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 13 期 | 落英坠露</title>
+<title>每周 ARTS 第 27 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,64 +115,68 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 13 期</h2>
-            <div class="post-date">2019-06-30</div>
+            <h2 class="post-title">每周 ARTS 第 27 期</h2>
+            <div class="post-date">2020-04-25</div>
             
             <div class="post-content">
               <h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="242-有效的字母异位词简单">242. 有效的字母异位词（简单）</h4>
+<h4 id="搜索二维矩阵-ii"><a href="https://leetcode-cn.com/problems/search-a-2d-matrix-ii/">搜索二维矩阵 II</a>（中等）</h4>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>给定两个字符串 s 和 t ，编写一个函数来判断 t 是否是 s 的字母异位词。</p>
+<p>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：<br>
+每行的元素从左到右升序排列。<br>
+每列的元素从上到下升序排列。</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code>输入: s = &quot;anagram&quot;, t = &quot;nagaram&quot;
-输出: true
+<pre><code>现有矩阵 matrix 如下：
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+给定 target = 5，返回 true。
+给定 target = 20，返回 false。
 </code></pre>
 <h5 id="思路">思路：</h5>
-<p>统计 s 中每个字母出现的次数，遍历 t 中的字母减去相应的次数。如果次数小于 0，那么认为是 false。</p>
-<pre><code class="language-java">class Solution {
-    public boolean isAnagram(String s, String t) {
-        if (s == null || t == null || s.length() != t.length()) {
+<p>从左下角出发，把 target 和当前值比较。如果 target 大于当前值，就往右走；如果小于，就往上走。如果等于，就返回 true。</p>
+<pre><code class="language-java">class Sulution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
             return false;
         }
-
-        int[] counter = new int[26];
-        for (int i = 0, size = s.length(); i &lt; size; i++) {
-            counter[s.charAt(i) - 'a']++;
-        }
-        for (int i = 0, size = t.length(); i &lt; size; i++) {
-            char c = t.charAt(i);
-            counter[c - 'a']--;
-            if (counter[c - 'a'] &lt; 0) {
-                return false;
+        int row = matrix.length - 1;
+        int column = 0;
+        int columnLength = matrix[0].length;
+        while (row &gt;= 0 &amp;&amp; column &lt; columnLength) {
+            if (matrix[row][column] &gt; target) {
+                row--;
+            } else if (matrix[row][column] &lt; target) {
+                column++;
+            } else {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 }
 </code></pre>
 <h5 id="分析">分析：</h5>
 <ul>
-<li>时间复杂度：O(n)</li>
+<li>时间复杂度：O(M+N)</li>
 <li>空间复杂度：O(1)</li>
 </ul>
 <h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/devtrailsio/how-to-become-a-better-software-developer-dd16072c974e">How to Become a Better Software Developer</a> 如何成为更好的软件开发者</p>
-<p>作者分享了一些提升技能和高效工作的方法，这里简单列举几条：</p>
-<ul>
-<li>从端到端理解流程。程序员不要低头写代码，应该关注软件开发的其他方面，比如产品、设计、测试等。</li>
-<li>理解客户的需求。客户不懂技术，我们要赢得客户的信任，多站在客户的角度考虑。</li>
-<li>为工作选择正确的工具。不要限制自己思维，要提出不同的方案。尝试新事物时，要注意到安全性。</li>
-<li>站在巨人的肩膀上。不要重复造轮子，但是可以通过重新实现来学习。</li>
-<li>关心自己如何工作。提升个人和团队的研发效能，比如完善的工作流程、项目计划等。</li>
-<li>专注于基础。IT 行业瞬息万变，新框架层出不穷，唯有基础知识是一成不变的。</li>
-<li>其他的经验：积极分享知识，不要指责自己和他人，不要做刺头。</li>
-</ul>
+<p><a href="https://medium.com/@alexewerlof/my-guiding-principles-after-20-years-of-programming-a087dc55596c">My guiding principles after 20 years of programming</a>  <a href="https://www.infoq.cn/article/VEgR7xkNIYUsSWP9Ohc3">20 年老程序员告诉你的 20 条编码原则</a></p>
+<p>软件开发的历史没多久，20年经验的程序员也比较稀缺。作者总结了编程的经验和原则，对刚入门不久的新人有很大启发。比如第一条不要纠结于开发工具，不管是库、编程语言或平台。总是有人争吵什么是最好的语言，其实抛开具体业务场景谈是没有意义的。</p>
 <h2 id="3-tip">3. Tip</h2>
-<p>最近在读《Java并发编程实战》，里面讲了一些线程安全的技巧和概念，比如原子性、可见性、不可变对象。线程安全的核心在于对共享和可变的对象进行访问控制，采用同步机制（synchronized），同步的代码块保持精细。不可变对象一定是线程安全的，比如 String。加锁机制可以确保可见性和原子性，而 volatile 只能保证可见性。</p>
+<p>断点调试是排查问题的好方法，其效率比打印 log 要高。不管是 Native 库还是 Java 库，都可以用断点调试，一步步执行代码，查看变量值和函数跳转。</p>
 <h2 id="4-share">4. Share</h2>
-<p>19 年过半，我发现有些目标做到一半就停止了，执行力还需要提高。计划-执行-坚持。</p>
+<p><strong>为什么需要软件架构?</strong></p>
+<p>早在 1986 年的时候，人月神话的作者在讨论软件的复杂性时，谈到：软件的本质复杂性存在于复杂的业务需求中。</p>
+<p>而管理复杂性，最根本的手段就是职责分离。为了实现职责分离，代码重用，架构慢慢地复现出来。架构的本质是管理复杂性。</p>
+<p>没有架构，我们所有的代码都耦合在一起，人类的心智模型不擅长处理这种复杂性，架构的设立，和图书馆的图书分类，公司的组织划分等，本质都是一样的。是为了管理复杂性，以取得更高的生产力。</p>
 
             </div>
             
@@ -187,9 +191,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-12-qi/">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-26-qi/">
                   <h3 class="post-title">
-                    每周 ARTS 第 12 期
+                    每周 ARTS 第 26 期
                   </h3>
                 </a>
               </div>

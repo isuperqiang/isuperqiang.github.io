@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-04-21T01:19:58.948Z</updated>
+    <updated>2020-04-25T11:15:35.860Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,72 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 27 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-27-qi/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-27-qi/">
+        </link>
+        <updated>2020-04-25T11:15:04.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="搜索二维矩阵-ii"><a href="https://leetcode-cn.com/problems/search-a-2d-matrix-ii/">搜索二维矩阵 II</a>（中等）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：<br>
+每行的元素从左到右升序排列。<br>
+每列的元素从上到下升序排列。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>现有矩阵 matrix 如下：
+[
+  [1,   4,  7, 11, 15],
+  [2,   5,  8, 12, 19],
+  [3,   6,  9, 16, 22],
+  [10, 13, 14, 17, 24],
+  [18, 21, 23, 26, 30]
+]
+给定 target = 5，返回 true。
+给定 target = 20，返回 false。
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>从左下角出发，把 target 和当前值比较。如果 target 大于当前值，就往右走；如果小于，就往上走。如果等于，就返回 true。</p>
+<pre><code class="language-java">class Sulution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        int row = matrix.length - 1;
+        int column = 0;
+        int columnLength = matrix[0].length;
+        while (row &gt;= 0 &amp;&amp; column &lt; columnLength) {
+            if (matrix[row][column] &gt; target) {
+                row--;
+            } else if (matrix[row][column] &lt; target) {
+                column++;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(M+N)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/@alexewerlof/my-guiding-principles-after-20-years-of-programming-a087dc55596c">My guiding principles after 20 years of programming</a>  <a href="https://www.infoq.cn/article/VEgR7xkNIYUsSWP9Ohc3">20 年老程序员告诉你的 20 条编码原则</a></p>
+<p>软件开发的历史没多久，20年经验的程序员也比较稀缺。作者总结了编程的经验和原则，对刚入门不久的新人有很大启发。比如第一条不要纠结于开发工具，不管是库、编程语言或平台。总是有人争吵什么是最好的语言，其实抛开具体业务场景谈是没有意义的。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>断点调试是排查问题的好方法，其效率比打印 log 要高。不管是 Native 库还是 Java 库，都可以用断点调试，一步步执行代码，查看变量值和函数跳转。</p>
+<h2 id="4-share">4. Share</h2>
+<p><strong>为什么需要软件架构?</strong></p>
+<p>早在 1986 年的时候，人月神话的作者在讨论软件的复杂性时，谈到：软件的本质复杂性存在于复杂的业务需求中。</p>
+<p>而管理复杂性，最根本的手段就是职责分离。为了实现职责分离，代码重用，架构慢慢地复现出来。架构的本质是管理复杂性。</p>
+<p>没有架构，我们所有的代码都耦合在一起，人类的心智模型不擅长处理这种复杂性，架构的设立，和图书馆的图书分类，公司的组织划分等，本质都是一样的。是为了管理复杂性，以取得更高的生产力。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 26 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-26-qi/</id>
@@ -502,51 +568,6 @@ Content-Length: 42090
 <li>隐时分配器会自动释放不再使用的已分配的块。例如 Java 的垃圾回收。</li>
 </ul>
 <p>造成堆利用率很低的主要原因是碎片的现象，当有未使用的内存但不能用来满足分配请求时，就发生这种现象。分配器通常采用试图维持少量的大空闲块，而不是维持大量的小空闲块。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之虚拟内存（一）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/">
-        </link>
-        <updated>2019-11-08T14:40:47.000Z</updated>
-        <content type="html"><![CDATA[<p>为了更加有效地管理内存并减少出错，现代系统提供了虚拟内存（VM）的概念，它为每个进程提供了一个庞大、一致和私有的地址空间。</p>
-<p>虚拟内存提供了三个重要能力：</p>
-<ul>
-<li>把主存看成一个存储在磁盘上的地址空间的高速缓存，在主存中只保存活动区域，并根据需要在磁盘和主存之间来回传送数据</li>
-<li>为每个进程提供一致的地址空间，从而简化了内存管理</li>
-<li>保护每个进程的地址空间不被其他进程破坏</li>
-</ul>
-<h3 id="1-物理和虚拟寻址">1. 物理和虚拟寻址</h3>
-<p>早起的 PC 使用物理寻址，现代处理器使用虚拟寻址。虚拟寻址的方式需要内存管理单元（MMU）将虚拟地址转换为物理地址。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191106085329.png" alt="物理寻址" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191106085354.png" alt="虚拟寻址" loading="lazy"></figure>
-<h3 id="2-地址空间">2. 地址空间</h3>
-<p>地址空间是一个非负整数地址的有序集合。如果地址空间中的整数是连续的，那么它就是线性地址空间。</p>
-<p>在带有虚拟内存的系统中，CPU 从含有 N=2^n 个地址的地址空间中生成虚拟地址，称为虚拟地址空间。</p>
-<p>系统还有一个物理地址空间，对应物理内存的 M 个字节。</p>
-<p>地址空间清楚地区分了数据对象（字节）和它们的属性（地址）。允许每个对象有多个独立的地址，其中每个地址都选自不同的地址空间，这就是虚拟内存的基本思想。主存中的每个字节都有一个来自虚拟地址空间的虚拟地址和来自物理地址空间的物理地址。</p>
-<h3 id="3-虚拟内存作为缓存的工具">3. 虚拟内存作为缓存的工具</h3>
-<p>虚拟内存被组织为一个由存放在磁盘上的 N 个连续的字节大小的单元组成的数组。每个字节都有一个唯一的虚拟地址，作为到数组的索引。磁盘上数组的内容被缓存在主存中。</p>
-<p>虚拟内存被分割为称作虚拟页（VP）的大小固定块，来作为磁盘和主存之间的传输单元。类似地，物理内存被分割为物理页。在任意时刻，虚拟页面的集合都分为三个不相交的子集：未分配的、缓存的、未缓存的。</p>
-<p>页表（page table）将虚拟页映射到物理页。每次 MMU（内存管理单元）中的地址翻译硬件将虚拟地址转换为物理地址时，都会读取页表。<br>
-操作系统负责维护页表的内容，以及在磁盘与 DRAM 之间来回传送页。</p>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115220042.png" alt="页表" loading="lazy"></figure>
-<p>页表就是一个页表条目（PTE）的数组。虚拟地址空间中的每个页在页表中一个固定偏移量处都有一个 PTE。</p>
-<p>DRAM 缓存不命中称为缺页（page fault）。缺页会触发缺页异常，该异常调用缺页异常处理程序，该程序会选择一个牺牲页，<br>
-内核总会修改牺牲页的页表条目，牺牲页就不再缓存在主存中。当异常处理程序返回时，它会重新启动导致缺页的指令，<br>
-该指令会把导致缺页的虚拟地址发送到地址翻译硬件，页命中就能由地址翻译硬件正常处理了。</p>
-<p>在磁盘和内存之间传送页的活动叫做交换（swapping）或者页面调度（paging）。页从磁盘换入 DRAM 和 从 DRAM 换出磁盘。<br>
-当有不命中发生时才换入页面的策略叫做按需页面调度（demand paging）。所有现在操作系统都是用按需页面调度的方式。</p>
-<p>尽管在整个运行过程中程序引用的不同页面的总数可能超出物理内存总的大小，但是局部性原理保证了在任意时刻，<br>
-程序将趋于在一个较小的活动页面（active page）集合上工作，这个集合叫做工作集合。</p>
-<p>如果工作集的大小超出了物理内存的大小，那么程序将产生一种不幸的状态，叫做抖动（thrashing），这时页面将不断地换进换出。</p>
-<h3 id="4-虚拟内存作为内存管理的工具">4. 虚拟内存作为内存管理的工具</h3>
-<p>实际上，操作系统为每个进程提供了一个独立的页表，也就是一个独立的虚拟地址空间。注意，多个虚拟页面可以映射到同一个共享的物理页面上。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115221725.png" alt="内存管理" loading="lazy"></figure>
-<h3 id="5-虚拟存在作为内存保护的工具">5. 虚拟存在作为内存保护的工具</h3>
-<p>提供独立的地址空间使得区分不同进程的私有内存变得容易。地址翻译机制可以通过一种自然的方式扩展到提供更好的访问控制。CPU 每次生成一个地址时，地址翻译硬件都会读一个 PTE。所以可以通过在 PTE 上添加一些额外的许可位来控制一个虚拟页面内容的访问。</p>
-<figure data-type="image" tabindex="5"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191115222808.png" alt="内存保护" loading="lazy"></figure>
 ]]></content>
     </entry>
 </feed>
