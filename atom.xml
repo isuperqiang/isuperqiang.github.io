@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-04-25T11:15:35.860Z</updated>
+    <updated>2020-05-03T09:49:43.283Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,135 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 28 周]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-28-zhou/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-28-zhou/">
+        </link>
+        <updated>2020-05-03T09:48:29.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="旋转数组"><a href="https://leetcode-cn.com/problems/rotate-array/">旋转数组</a>（简单）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。<br>
+尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。<br>
+要求使用空间复杂度为 O(1) 的原地算法。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: [1,2,3,4,5,6,7] 和 k = 3
+输出: [5,6,7,1,2,3,4]
+</code></pre>
+<h5 id="思路">思路：</h5>
+<ul>
+<li>暴力解法：循环 K 次，每次移动一个元素。时间复杂度：O(k*N)，空间复杂度：O(1)。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int length = nums.length;
+        int temp;
+        for (int i = 0; i &lt; k; i++) {
+            temp = nums[length - 1];
+            for (int j = length - 1; j &gt; 0; j--) {
+                nums[j] = nums[j - 1];
+            }
+            nums[0] = temp;
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>额外空间：使用额外数组保存旋转后的元素，把原数组下标是 i 的元素放到临时数组 (i+k)%nums.length 的位置，然后写回原数组。时间复杂度：O(N)，空间复杂度：O(N)。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int[] temp = new int[nums.length];
+        for (int i = 0; i &lt; nums.length; i++) {
+            temp[(i + k) % nums.length] = nums[i];
+        }
+        System.arraycopy(temp, 0, nums, 0, nums.length);
+    }
+}
+</code></pre>
+<ul>
+<li>环状替换：计算每个元素的最终位置，每次迭代时替换到正确位置并保存被替换的值，计算被替换值的正确位置。以 K 为步长跳跃，如果跳跃回原地，就从下一个位置继续。时间复杂度：O(N)，空间复杂度：O(1)。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        k = k % nums.length;
+        int count = 0;
+        for (int start = 0; count &lt; nums.length; start++) {
+            int currentI = start;
+            int currentE = nums[start];
+            do {
+                int nextI = (currentI + k) % nums.length;
+                int temp = nums[nextI];
+                nums[nextI] = currentE;
+                currentE = temp;
+                currentI = nextI;
+                count++;
+            } while (start != currentI);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>三次反转：当我们旋转数组 k 次， k%n 个尾部元素会被移动到头部，剩下的元素会被向后移动。时间复杂度：O(N)，空间复杂度：O(1)。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+  // 原始数组                  : 1 2 3 4 5 6 7
+  // 反转所有数字后             : 7 6 5 4 3 2 1
+  // 反转前 k 个数字后          : 5 6 7 4 3 2 1
+  // 反转后 n-k 个数字后        : 5 6 7 1 2 3 4 --&gt; 结果
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        k = k % nums.length;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+    
+    private void reverse(int[] arr, int start, int end) {
+        while (start &lt; end) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://levelup.gitconnected.com/programming-habits-you-should-adopt-8ab75419fb09">Programming Habits You Should Adopt</a> 你应该养成的编程习惯</p>
+<p>作者列举了 7 个编程习惯：</p>
+<ul>
+<li>不要写重复代码。遇到重复代码，就该考虑重构了。</li>
+<li>一旦认为自己完成了，开始重构吧。实现需求并不代表完成，接下来就该重构。</li>
+<li>聚焦业务逻辑。不要总是专注于业务之外的技术栈，做好工作内容更重要。</li>
+<li>短小精简的提交。便于回滚排查问题和代码审查。</li>
+<li>一致性很关键。坚持标准的代码规范，提升代码的可维护性。</li>
+<li>多做一步。完成任务意味着解决 todo，单元测试，编写文档。</li>
+<li>不要停止学习。一直做自己熟练的事情，是不会得到成长的。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>近期看了 Kotlin 语言，感觉是增强型的 Java，简洁灵活安全省心。同样基于 JVM，弥补 Java 的不足，编程语言总是在进化，Google 力推 Kotlin 作为 Android 开发语言是正确的。建议新项目尝试 Kotlin，老项目继续用 Java，两者还可以混编。Have a try 😃</p>
+<h2 id="4-share">4. Share</h2>
+<p>在 Twitter 上看到陈皓发的推文，从程序员职业发展的角度评论编程语言，有生命力、有市场需求的语言值得投入。原帖在这里：https://twitter.com/haoel/status/1254974994964086785</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/EWqQTnKU4AES4-K.png" alt="有生命力语言的特征" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/EWqQRcGUcAAKt6z.png" alt="陈皓评论语言" loading="lazy"></figure>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 27 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-27-qi/</id>
@@ -541,33 +670,6 @@ Content-Length: 42090
 <p><code>linux&gt; ls &gt; foo.txt</code>。</p>
 <h3 id="5-该使用哪些-io-函数">5. 该使用哪些 I/O 函数</h3>
 <p>标准 I/O 库是基于 Unix I/O 实现的，并提供了一组强大的高级 I/O 例程。对于大多数应用程序而言，标准 I/O 更简单，是优于 Unix I/O 的选择。然而，因为 Unix I/O 和网络文件之间有些相互不兼容的限制，Unix I/O 更适合用于网络应用程序。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之虚拟内存（二）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er/</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er/">
-        </link>
-        <updated>2019-11-22T01:14:46.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1-内存映射">1. 内存映射</h3>
-<p>Linux 通过将虚拟内存区域与磁盘上的对象关联起来，来初始化这个虚拟内存区域的内容，这个过程称为内存映射。虚拟内存区域可以映射到两种类型的对象中的一种：</p>
-<ul>
-<li>Linux 文件系统中的普通文件：磁盘文件的连续部分。</li>
-<li>匿名文件：由内核创建，包含的都是二进制零。</li>
-</ul>
-<p>一旦虚拟页面被初始化，它就在由内核维护的交换空间之间换来换去。在任何时刻，交换空间都限制当前运行的进程能够分配的虚拟页面的总数。</p>
-<p>一个对象可以被映射到虚拟内存的一个区域，要么作为共享对象，要么作为私有对象。进程对共享对象映射到的虚拟地址空间的写操作，对把该共享对象映射到它们虚拟内存区域的其他进程也是可见的，并且这些变化反映在磁盘上的对象中。另一方面，对于映射到私有对象的区域的改变，对其他进程来说是不可见的，并且不会反映在磁盘上的对象中。</p>
-<p>许多进程有同样的只读代码区域，内存映射可以控制多个进程如何共享对象。即使对象被映射到多个共享区域，物理内存中只需要存放共享对象的一个副本。</p>
-<p>私有对象使用写时复制（copy-on-write）的技术被映射到虚拟内存中。和共享对象一样，在物理内存中只保存私有对象的一个副本。当一个进程试图写私有区域内的某个页面时，写操作就会触发一个保护故障。故障处理程序会在物理内存中创建这个页面的新副本，更新页表条目指向新副本，恢复这个页面的写权限。当故障处理程序返回时，CPU 就可以正常执行写操作了。</p>
-<h3 id="2-动态内存分配">2. 动态内存分配</h3>
-<p>当运行时需要额外虚拟内存时，用动态内存分配器更方便，也有更好的可移植性。</p>
-<p>动态内存分配器维护着一个进程的虚拟内存区域，称为堆。分配器将堆视为一组不同大小的块的集合来维护。每个块就是一个连续的虚拟内存片，要么是已分配的，要么是空闲的。</p>
-<p>分配器有两种基本风格，两种风格都要求应用显式地分配块，它们的不同之处在于由哪个实体负责释放已分配的块。</p>
-<ul>
-<li>显式分配器要求应用显式地释放任何已分配的块。例如 C 通过调用 malloc 和 free 分配和释放块。</li>
-<li>隐时分配器会自动释放不再使用的已分配的块。例如 Java 的垃圾回收。</li>
-</ul>
-<p>造成堆利用率很低的主要原因是碎片的现象，当有未使用的内存但不能用来满足分配请求时，就发生这种现象。分配器通常采用试图维持少量的大空闲块，而不是维持大量的小空闲块。</p>
 ]]></content>
     </entry>
 </feed>

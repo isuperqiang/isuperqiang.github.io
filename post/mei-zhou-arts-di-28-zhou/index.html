@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>每周 ARTS 第 9 期 | 落英坠露</title>
+<title>每周 ARTS 第 28 周 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,125 +115,131 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">每周 ARTS 第 9 期</h2>
-            <div class="post-date">2019-06-02</div>
+            <h2 class="post-title">每周 ARTS 第 28 周</h2>
+            <div class="post-date">2020-05-03</div>
             
             <div class="post-content">
               <h2 id="1-algorithm">1. Algorithm</h2>
-<h3 id="268-缺失数字简单">268. 缺失数字（简单）</h3>
+<h4 id="旋转数组"><a href="https://leetcode-cn.com/problems/rotate-array/">旋转数组</a>（简单）</h4>
 <h5 id="描述">描述：</h5>
 <blockquote>
-<p>给定一个包含 0, 1, 2, ..., n 中 n 个数的序列，找出 0 .. n 中没有出现在序列中的那个数。</p>
+<p>给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。<br>
+尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。<br>
+要求使用空间复杂度为 O(1) 的原地算法。</p>
 </blockquote>
 <h5 id="示例">示例：</h5>
-<pre><code>输入: [3,0,1]
-输出: 2
+<pre><code>输入: [1,2,3,4,5,6,7] 和 k = 3
+输出: [5,6,7,1,2,3,4]
 </code></pre>
 <h5 id="思路">思路：</h5>
-<blockquote>
 <ul>
-<li>解法一：用完整数组的元素之和减去当前数组的元素之和就可以了。</li>
-<li>解法二：异或操作，eg: b<sup>a</sup>b=a; 相同的数字互相抵消，剩下的数值就是结果</li>
+<li>暴力解法：循环 K 次，每次移动一个元素。时间复杂度：O(k*N)，空间复杂度：O(1)。</li>
 </ul>
-</blockquote>
-<h5 id="解法">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public int missingNumber1(int[] nums) {
+<pre><code class="language-java">class Sulution {
+    public void rotate(int[] nums, int k) {
         if (nums == null || nums.length == 0) {
-            return 0;
+            return;
         }
-        int numSum = 0;
-        int allSum = nums.length;
-        for (int i = 0; i &lt; nums.length; i++) {
-            numSum += nums[i];
-            allSum += i;
-        }
-        return allSum - numSum;
-    }
-
-    public int missingNumber2(int[] nums) {
-        if (nums == null || nums.length == 0) {
-            return 0;
-        }
-        int result = nums.length;
-        for (int i = 0; i &lt; nums.length; i++) {
-            result ^= nums[i];
-            result ^= i;
-        }
-        return result;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<ul>
-<li>解法一和解法二一样：时间复杂度：O(n)，空间复杂度：O(1)</li>
-</ul>
-<h3 id="203-移除链表元素简单">203. 移除链表元素（简单）</h3>
-<h5 id="描述-2">描述：</h5>
-<blockquote>
-<p>删除链表中等于给定值 val 的所有节点。</p>
-</blockquote>
-<h5 id="示例-2">示例：</h5>
-<pre><code>输入: 1-&gt;2-&gt;6-&gt;3-&gt;4-&gt;5-&gt;6, val = 6
-输出: 1-&gt;2-&gt;3-&gt;4-&gt;5
-</code></pre>
-<h5 id="思路-2">思路：</h5>
-<blockquote>
-<ul>
-<li>解法一：首先检查头结点，如果结点值与val相等，那么把头指针后移；然后遍历链表，如果当前结点值与val相等，那么将前一个结点的指针指向后一个结点。</li>
-<li>解法二：递归。</li>
-</ul>
-</blockquote>
-<h5 id="解法-2">解法：</h5>
-<pre><code class="language-java">class Solution {
-    public ListNode removeElements(ListNode head, int val) {
-        if (head == null) {
-            return null;
-        }
-        while (head != null &amp;&amp; head.val == val) {
-            head = head.next;
-        }
-        ListNode curr = head;
-        ListNode prev = curr;
-        while (curr != null) {
-            if (curr.val == val) {
-                prev.next = curr.next;
-            } else {
-                prev = curr;
+        int length = nums.length;
+        int temp;
+        for (int i = 0; i &lt; k; i++) {
+            temp = nums[length - 1];
+            for (int j = length - 1; j &gt; 0; j--) {
+                nums[j] = nums[j - 1];
             }
-            curr = curr.next;
+            nums[0] = temp;
         }
-        return head;
-    }
-
-    public ListNode removeElementsRecursive(ListNode head, int val) {
-        if (head == null) {
-            return null;
-        }
-        head.next = removeElementsRecursive(head.next, val);
-        return head.val == val ? head.next : head;
     }
 }
 </code></pre>
-<h5 id="分析-2">分析：</h5>
 <ul>
-<li>时间复杂度：O(n)，空间复杂度：O(1)</li>
+<li>额外空间：使用额外数组保存旋转后的元素，把原数组下标是 i 的元素放到临时数组 (i+k)%nums.length 的位置，然后写回原数组。时间复杂度：O(N)，空间复杂度：O(N)。</li>
 </ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://hackernoon.com/50-data-structure-and-algorithms-interview-questions-for-programmers-b4b1ac61f5b0">50+ Data Structure and Algorithms Interview Questions for Programmers</a> 50个数据结构和算法面试题</p>
-<p>作者主要介绍了面试中常见的算法题，大多关于数组、链表、字符串、二叉树，还有其他等。</p>
+<pre><code class="language-java">class Sulution {
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int[] temp = new int[nums.length];
+        for (int i = 0; i &lt; nums.length; i++) {
+            temp[(i + k) % nums.length] = nums[i];
+        }
+        System.arraycopy(temp, 0, nums, 0, nums.length);
+    }
+}
+</code></pre>
 <ul>
-<li>数组是最基本的线性数据结构，使用连续的存储空间。随机访问元素的时间复杂度 O(1)，添加和移除元素的时间复杂度是 O(n)。常见的题目有：数组反转、数据排序等。</li>
-<li>链表也是一种线性数据结构，通过结点的指针连接，存储空间不连续。添加和移除元素的时间复杂度是 O(1)，查找元素的时间复杂度是 O(n)。解决链表问题不要忘记递归的思想。</li>
-<li>字符串的问题也很常见，String 本质上就是字符数组，可以采用基于数组的解法。</li>
-<li>树是一种有层次的数据结构，解决二叉树问题的关键是树的理论知识。比如：树的深度、大小、叶子结点，还有前序遍历、中序遍历、后序遍历。</li>
-<li>其他的问题，比如算法、设计、位运算、逻辑题等，</li>
+<li>环状替换：计算每个元素的最终位置，每次迭代时替换到正确位置并保存被替换的值，计算被替换值的正确位置。以 K 为步长跳跃，如果跳跃回原地，就从下一个位置继续。时间复杂度：O(N)，空间复杂度：O(1)。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        k = k % nums.length;
+        int count = 0;
+        for (int start = 0; count &lt; nums.length; start++) {
+            int currentI = start;
+            int currentE = nums[start];
+            do {
+                int nextI = (currentI + k) % nums.length;
+                int temp = nums[nextI];
+                nums[nextI] = currentE;
+                currentE = temp;
+                currentI = nextI;
+                count++;
+            } while (start != currentI);
+        }
+    }
+}
+</code></pre>
+<ul>
+<li>三次反转：当我们旋转数组 k 次， k%n 个尾部元素会被移动到头部，剩下的元素会被向后移动。时间复杂度：O(N)，空间复杂度：O(1)。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+  // 原始数组                  : 1 2 3 4 5 6 7
+  // 反转所有数字后             : 7 6 5 4 3 2 1
+  // 反转前 k 个数字后          : 5 6 7 4 3 2 1
+  // 反转后 n-k 个数字后        : 5 6 7 1 2 3 4 --&gt; 结果
+    public void rotate(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        k = k % nums.length;
+        reverse(nums, 0, nums.length - 1);
+        reverse(nums, 0, k - 1);
+        reverse(nums, k, nums.length - 1);
+    }
+    
+    private void reverse(int[] arr, int start, int end) {
+        while (start &lt; end) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://levelup.gitconnected.com/programming-habits-you-should-adopt-8ab75419fb09">Programming Habits You Should Adopt</a> 你应该养成的编程习惯</p>
+<p>作者列举了 7 个编程习惯：</p>
+<ul>
+<li>不要写重复代码。遇到重复代码，就该考虑重构了。</li>
+<li>一旦认为自己完成了，开始重构吧。实现需求并不代表完成，接下来就该重构。</li>
+<li>聚焦业务逻辑。不要总是专注于业务之外的技术栈，做好工作内容更重要。</li>
+<li>短小精简的提交。便于回滚排查问题和代码审查。</li>
+<li>一致性很关键。坚持标准的代码规范，提升代码的可维护性。</li>
+<li>多做一步。完成任务意味着解决 todo，单元测试，编写文档。</li>
+<li>不要停止学习。一直做自己熟练的事情，是不会得到成长的。</li>
 </ul>
 <h2 id="3-tip">3. Tip</h2>
-<p>重新复习了 Gradle 构建的知识。Gradle 构建就是围绕 Project 和 Task 展开的，Project 可以理解要构建的模块，Task 则是要执行的任务。Gradle 构建要经历初始化、配置和执行的过程，Task 之间存在依赖关系，开发者可以自由配置 Task，灵活性非常好。另外，Groovy 是基于 JVM 的语言，可以和 Java 兼容，语法和 Python 类似，封装了很多常用的 API，特别适合写脚本。</p>
+<p>近期看了 Kotlin 语言，感觉是增强型的 Java，简洁灵活安全省心。同样基于 JVM，弥补 Java 的不足，编程语言总是在进化，Google 力推 Kotlin 作为 Android 开发语言是正确的。建议新项目尝试 Kotlin，老项目继续用 Java，两者还可以混编。Have a try 😃</p>
 <h2 id="4-share">4. Share</h2>
-<p><a href="https://www.zhihu.com/question/312019918">作为 IT 行业的过来人，你有什么话想对后辈说的？</a></p>
-<p>从老一代 IT 人的经历中，得到一些发展和行为的启示。</p>
+<p>在 Twitter 上看到陈皓发的推文，从程序员职业发展的角度评论编程语言，有生命力、有市场需求的语言值得投入。原帖在这里：https://twitter.com/haoel/status/1254974994964086785</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/EWqQTnKU4AES4-K.png" alt="有生命力语言的特征" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/EWqQRcGUcAAKt6z.png" alt="陈皓评论语言" loading="lazy"></figure>
 
             </div>
             
@@ -248,9 +254,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-8-qi/">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-27-qi/">
                   <h3 class="post-title">
-                    每周 ARTS 第 8 期
+                    每周 ARTS 第 27 期
                   </h3>
                 </a>
               </div>
