@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-05-07T23:47:07.721Z</updated>
+    <updated>2020-05-12T13:20:14.218Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,69 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 29 周]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-29-zhou/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-29-zhou/">
+        </link>
+        <updated>2020-05-12T13:19:24.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="颠倒二进制位"><a href="https://leetcode-cn.com/problems/reverse-bits/">颠倒二进制位</a>（简单）</h4>
+<h5 id="描述">描述：</h5>
+<blockquote>
+<p>颠倒给定的 32 位无符号整数的二进制位。</p>
+</blockquote>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: 00000010100101000001111010011100
+输出: 00111001011110000010100101000000
+解释: 输入的二进制串 00000010100101000001111010011100 表示无符号整数 43261596，
+因此返回 964176192，其二进制表示形式为 00111001011110000010100101000000。
+</code></pre>
+<h5 id="思路">思路：</h5>
+<ul>
+<li>逐位颠倒：从右向左遍历二进制串，用 n&amp;1 取得最右一位，然后左移该值到对应位置，和结果值求和，退出条件是 n == 0。</li>
+</ul>
+<pre><code class="language-java">class Sulution {
+    // you need treat n as an unsigned value
+    public int reverseBits(int n) {
+        int ret = 0;
+        for (int bitsSize = 31; n != 0; bitsSize--) {
+            ret += (n &amp; 1) &lt;&lt; bitsSize;
+            n = n &gt;&gt;&gt; 1;
+        }
+        return ret;
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(1)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/free-code-camp/the-code-im-still-ashamed-of-e4c021dff55e">The code I’m still ashamed of</a> 至今令我惭愧的代码</p>
+<p>作者回忆了刚开始工作时为医药公司做网站，先让用户做测验然后推荐药物，目标是年轻女性。在庆功聚会前，作者看到一条新闻，一名服用药物的女子自杀了，由药物的副作用导致。回家后发现自己的妹妹也在用这种药，作者马上就制止了她。不久后作者便离职了，自此每次写代码前都要三思代码带来的影响。</p>
+<blockquote>
+<p>作为开发人员，我们通常是防范潜在危险和不道德行为的最后一道防线。</p>
+</blockquote>
+<h2 id="3-tip">3. Tip</h2>
+<p>最近重构了部分项目代码，对此有些感悟。在重构的过程中，对业务会有更深的理解，编程就是把现实世界抽象成代码结构。同时看到以前代码的糟糕之处，毫不犹豫地删掉重写，目的就是提升可读性、可用性和可维护性。</p>
+<p>《重构，改善既有代码的设计》这本书值得每位程序员阅读。任何一个傻瓜都能写出计算机可以理解的代码，唯有写出人类可以理解的代码，才是优秀的程序员。</p>
+<h2 id="4-share">4. Share</h2>
+<p>最近在看极客时间上《许式伟的架构课》，讲到操作系统很棒，特地分享出来。 <a href="https://time.geekbang.org/column/article/4b4426d9ac4cb25d7f82325a893b494f/share?code=w%2Fj%2F7UNTJpAHk25ddhtU5iTaKNYvSTs5a5gk-p9iOJs%3D">操作系统进场</a></p>
+<p><strong>精华部分：</strong></p>
+<p>从客户需求来说，操作系统的核心价值在于：</p>
+<ul>
+<li>
+<p>实现软件治理，让多个软件和谐共处；</p>
+</li>
+<li>
+<p>提供基础的编程接口，降低软件开发难度。</p>
+</li>
+</ul>
+<p>从商业价值来说，操作系统是刚性需求，核心的流量入口，兵家必争之地。所以，围绕它的核心能力，操作系统必然会不断演化出新的形态。早期预装软件是一种流量变现的方式。后来苹果引入了 “账号 - 支付 - 应用市场” 商业闭环的收税模式。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 28 周]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-28-zhou/</id>
@@ -642,34 +705,6 @@ Content-Length: 42090
 <p>套接字是连接的端点，套接字地址是由互联网地址和 16 位的整数端口组成的，用「地址：端口」来表示。当客户端发起一个请求时，<br>
 客户端套接字地址中的端口是由内核自动分配的，称为临时端口。服务器套接字地址端口通常是某个知名端口，和 这个服务相对应。</p>
 <figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191210081750.png" alt="互联网连接分析" loading="lazy"></figure>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之系统级IO]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io/</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io/">
-        </link>
-        <updated>2019-11-24T13:00:15.000Z</updated>
-        <content type="html"><![CDATA[<p>输入/输出(I/O) 是在主存和外部设备之间复制数据的过程。输入操作是从 I/O 设备复制到主存，输出操作是从主存复制到 I/O 设备。</p>
-<h3 id="1-unix-io">1. Unix I/O</h3>
-<p>一个 Linux 文件就是一个 m 个字节的序列。所有的 I/O 设备都被模型化为文件，所有的输入和输出都被当作相应文件的读和写来执行。这种将设备优雅地映射为文件的方式，允许 Linux 内核引出一个简单、低级的应用接口，称为 Unix I/O。</p>
-<h3 id="2-文件">2. 文件</h3>
-<p>每个 Linux 文件都有一个类型来表明它在系统中的角色：</p>
-<ul>
-<li>普通文件包含任意数据。</li>
-<li>目录是包含一组链接的文件。</li>
-<li>套接字是用来与另一个进程进行跨网络通信的文件。</li>
-</ul>
-<p>Linux 内核将所有文件都组织称一个目录层次结构，由名为 / 的根目录确定。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191124201916.png" alt="Linux 目录层次结构" loading="lazy"></figure>
-<p>作为其上下文的一部分，每个进程都有一个当前工作目录，来确定其在目录层次结构中的当前位置。</p>
-<h3 id="3-用-rio-包健壮地读写">3. 用 RIO 包健壮地读写</h3>
-<p>应用程序不该直接使用 Unix I/O 函数，而应该使用 RIO 包。RIO 包提供了两类不同的函数：无缓冲的输出输出函数和有缓冲的输入函数。RIO 包通过反复执行读写操作，直到传送完所有的请求数据，自动处理不足值。</p>
-<h3 id="4-io-重定向">4. I/O 重定向</h3>
-<p>Linux shell 提供了 I/O 重定向操作符，允许用户将磁盘文件和标准输入输出联系起来。例如：</p>
-<p><code>linux&gt; ls &gt; foo.txt</code>。</p>
-<h3 id="5-该使用哪些-io-函数">5. 该使用哪些 I/O 函数</h3>
-<p>标准 I/O 库是基于 Unix I/O 实现的，并提供了一组强大的高级 I/O 例程。对于大多数应用程序而言，标准 I/O 更简单，是优于 Unix I/O 的选择。然而，因为 Unix I/O 和网络文件之间有些相互不兼容的限制，Unix I/O 更适合用于网络应用程序。</p>
 ]]></content>
     </entry>
 </feed>
