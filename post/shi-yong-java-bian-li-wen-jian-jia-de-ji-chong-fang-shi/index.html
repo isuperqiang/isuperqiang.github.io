@@ -9,7 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1589289578619">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1589847048002">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
 
@@ -45,7 +45,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://isuperqiang.cn">
-        <img src="https://isuperqiang.cn/images/avatar.png?v=1589289578619" class="site-logo">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1589847048002" class="site-logo">
         <h1 class="site-title">落英坠露</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -137,7 +137,7 @@
 <h3 id="2-借助队列结构来实现广度优先遍历">2. 借助队列结构来实现广度优先遍历</h3>
 <p>队列（Queue）的特点是先进先出，我们从头部取出 File 打印并移除，然后把 File 下的子 File 添加到队列，这样在遍历的时候，File 的层级是相同的，最终实现广度优先遍历。</p>
 <pre><code>    private static void traverFile2(File file) {
-        LinkedList&lt;File&gt; list = new LinkedList&lt;&gt;();
+        Queue&lt;File&gt; list = new LinkedList&lt;&gt;();
         list.add(file);
         while (!list.isEmpty()) {
             File f = list.poll();
@@ -150,7 +150,7 @@
     }
 </code></pre>
 <h3 id="3-借助栈结构来实现深度优先遍历">3. 借助栈结构来实现深度优先遍历</h3>
-<p>栈（Stack）的特点是后进先出，把 File 出栈并打印，然后把 子 File 压栈，下次出栈的时候就是子 File，沿着一个方向层层向下，这样就实现了深度优先遍历。</p>
+<p>栈（Stack）的特点是后进先出，把 File 出栈并打印，然后把子 File 压栈，下次出栈的时候就是子 File，沿着一个方向层层向下，这样就实现了深度优先遍历。</p>
 <pre><code>    private static void traverFile3(File file) {
         LinkedList&lt;File&gt; list = new LinkedList&lt;&gt;();
         list.add(file);

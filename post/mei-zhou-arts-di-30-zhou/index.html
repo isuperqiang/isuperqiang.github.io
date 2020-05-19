@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>从今天开始挑战 LeetCode | 落英坠露</title>
+<title>每周 ARTS 第 30 周 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,27 +115,68 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">从今天开始挑战 LeetCode</h2>
-            <div class="post-date">2018-06-02</div>
+            <h2 class="post-title">每周 ARTS 第 30 周</h2>
+            <div class="post-date">2020-05-19</div>
             
             <div class="post-content">
-              <p>算法和数据结构是计算机编程重要的理论，也是一名优秀程序员的基本功，所以非常有必要对其学习和加深。</p>
-<p>但是，算法是比较难学的，学习它需要智商。 同样一个问题，他的算法耗时 10ms，你的要 100ms，其中的性能差异是巨大的。解算法题的确是区分人类智商的比较好的方式，这也是为什么许多公司用算法面试来找到智商比较高的程序员。</p>
-<p>数组、链表、哈希表、二叉树、排序算法等一些基础知识，对大多数人来说是没什么问题的。但是其他动态规划、字符匹配等问题就非常复杂，都是伤脑筋等问题，没有解答思路是令人痛苦的。</p>
-<p>虽然很多时候，在工作中根本用不到算法，这不代表算法无用。真正的技术突破或者性能优化可能就在于算法，算法是贯穿底层系统和顶层业务的理论，不管用 Java 还是 C 语言，都离不开算法的编织。</p>
-<p>学习算法，不仅要解决当前问题，还要学会背后的套路，这样对于搞定其他问题是有帮助的。比如涉及数组移动和替换的一些问题都可以用快慢指针解决。</p>
-<p>目前，我已经开始做 <a href="https://leetcode-cn.com/">LeetCode</a> 上的题目了，每日一道算法题，先从简单开始，题目的解答放在 GitHub 上——<a href="https://github.com/isuperqiang/LeetCodePractice">LeetCodePractice</a>。前几年看到 LeetCode 上的英文题目令人发怵，幸运的是，LeetCode 中国（力扣）上线了，这是一个非常优秀的社区，我们应该利用好它。</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="零钱兑换"><a href="https://leetcode-cn.com/problems/coin-change/">零钱兑换</a>（中等）</h4>
+<h5 id="描述">描述：</h5>
 <blockquote>
-<p>万丈高楼平地起，勿在浮沙筑高台。</p>
+<p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。<br>
+你可以认为每种硬币的数量是无限的。</p>
 </blockquote>
-<p>共勉。</p>
+<h5 id="示例">示例：</h5>
+<pre><code>输入: coins = [1, 2, 5], amount = 11
+输出: 3 
+解释: 11 = 5 + 5 + 1
+</code></pre>
+<h5 id="思路">思路：</h5>
+<p>动态规划：dp[i] 表示总金额为 i 时至少需要的硬币个数，初始赋值 amount+1 表示不可能取到的值。注意总金额要不小于硬币面值，而且保证总金额可以被硬币凑出来。</p>
+<pre><code class="language-java">class Sulution {
+    public int coinChange(int[] coins, int amount) {
+        if (coins == null || coins.length == 0) {
+            return -1;
+        }
+        int length = amount + 1;
+        int[] dp = new int[length];
+        Arrays.fill(dp, length);
+        dp[0] = 0;
+        for (int i = 0; i &lt; dp.length; i++) {
+            for (int coin : coins) {
+                if (i &gt;= coin) {
+                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+                }
+            }
+        }
+        return dp[amount] == length ? -1 : dp[amount];
+    }
+}
+</code></pre>
+<h5 id="分析">分析：</h5>
+<ul>
+<li>时间复杂度：O(N * k)，k 为硬币个数</li>
+<li>空间复杂度：O(N)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/@magnus.chatt/why-you-should-totally-switch-to-kotlin-c7bbde9e10d5">Why you should totally switch to Kotlin</a> 为什么你该完全切换到 Kotlin</p>
+<p>介绍了 Kotlin 的特性，与 Java 互操作、类型推断、空安全、数据类等，Kotlin 是现代化的语言，其特性会令开发者喜欢。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>遇到 crash 如何解决呢？分享一下我的经验。</p>
+<p>首先查看 stack trace，找到报错的类型、信息、代码文件和行数，常见的异常有 NullPointerException、ClassCastException、IndexOutOfBoundException 等，根据信息就大概可以知道报错原因。如果之前没见过这种异常，把信息复制粘贴到谷歌搜索，排名靠前的搜索结果都来自 Stack Overflow，说不定前人也碰到了类似的错误，从问题回复中就能找到答案，这就要求英文阅读能力要过关。最后如果实在搜不到，那只能请教大佬了。</p>
+<h2 id="4-share">4. Share</h2>
+<p>分享两个网站，收录了 Windows 和 Mac 平台上的优质软件。</p>
+<ul>
+<li><a href="https://github.com/Awesome-Windows/Awesome/blob/master/README-cn.md">Awesome-Windows</a></li>
+<li><a href="https://github.com/jaywcjlove/awesome-mac/blob/master/README-zh.md">Awesome-Mac</a></li>
+</ul>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/datastruct-algorithm/" class="tag">
-                    数据结构算法
+                  <a href="https://isuperqiang.cn/tag/arts/" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -143,9 +184,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/shi-yong-python-pa-qu-dou-ban-yin-le-top250/">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-29-zhou/">
                   <h3 class="post-title">
-                    使用 Python 爬取豆瓣音乐 Top250
+                    每周 ARTS 第 29 周
                   </h3>
                 </a>
               </div>
