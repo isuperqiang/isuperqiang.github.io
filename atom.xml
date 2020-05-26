@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-05-26T23:26:25.635Z</updated>
+    <updated>2020-05-26T23:51:26.570Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,76 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 31 周]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-31-zhou/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-31-zhou/">
+        </link>
+        <updated>2020-05-26T23:46:49.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="环形链表-ii"><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/">环形链表 II</a>（中等）</h4>
+<h4 id="描述">描述：</h4>
+<blockquote>
+<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。<br>
+为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。<br>
+说明：不允许修改给定的链表。</p>
+</blockquote>
+<h4 id="示例">示例：</h4>
+<pre><code>输入：head = [3,2,0,-4,2], pos = 1
+输出：tail connects to node index 1
+解释：链表中有一个环，其尾部连接到第二个节点。
+</code></pre>
+<h4 id="思路">思路：</h4>
+<p>快慢指针：使用快慢指针从头遍历链表，如果两个指针相遇则表示链表有环。然后让慢指针从头开始，快指针继续向前，两者再次相遇点就是环的入口。这个地方用图解释更清晰，推荐阅读 <a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/shuang-zhi-zhen-ji-qiao">双指针技巧总结</a>。</p>
+<pre><code class="language-java">class Sulution {
+    public ListNode detectCycle(ListNode head) {
+       if (head == null || head.next == null) {
+            return null;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        boolean hasCycle = false;
+        while (fast != null &amp;&amp; fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                hasCycle = true;
+                break;
+            }
+        }
+        if (!hasCycle) {
+            return null;
+        }
+        slow = head;
+        while (fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+</code></pre>
+<h4 id="分析">分析：</h4>
+<ul>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898">The S.O.L.I.D Principles in Pictures</a> 图画讲解 SOLID 原则</p>
+<p>本文介绍了面向对象编程的 SOLID 原则，每个原则下面都有漫画说明，挺有趣的。</p>
+<ul>
+<li>单一职责原则：每个类应该只有一个职责，包含一组强相关的行为。</li>
+<li>开闭原则：类应该对扩展开放，对修改关闭。扩展功能要增加行为而不是修改它。</li>
+<li>里氏替换原则：如果 S 是 T 的子类，那么 T 出现的地方就该被 S 替换并不需要改动代码。</li>
+<li>接口隔离原则：类不应该依赖不需要的行为，需要把行为拆分成更小的粒度。</li>
+<li>依赖反转原则：高层模块不该依赖低层模块，他们都该依赖抽象；抽象不该依赖细节，细节该依赖抽象。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>重构项目代码的过程中，遇到不美观的地方，用新技术方案完美解决。<a href="https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">使用Android架构组件Lifecycle优化代码</a></p>
+<h2 id="4-share">4. Share</h2>
+<p>B站有个不错的视频 <a href="https://www.bilibili.com/video/BV1EW411u7th">计算机科学速成课</a>，从计算机历史、硬件、软件、编程等方面介绍，是计算机科学的基础知识，当作科普也不错，推荐大家看看。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[使用Android架构组件Lifecycle优化代码]]></title>
         <id>https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/</id>
@@ -734,44 +804,6 @@ APP_PLATFORM := android-18
 <h3 id="8-分布式存储">8. 分布式存储</h3>
 <p>利用一致性哈希算法，可以解决缓存等分布式系统的扩容、缩容导致数据大量搬移的难题。</p>
 <p>假设我们有 k 个机器，数据的哈希值的范围是 [0, MAX]。我们将整个范围划分成 m 个小区间（m 远大于 k），每个机器负责 m/k 个小区间。当有新机器加入的时候，我们就将某几个小区间的数据，从原来的机器中搬移到新的机器中。这样，既不用全部重新哈希、搬移数据，也保持了各个机器上数据数量的均衡。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之并发编程（一）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi/</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi/">
-        </link>
-        <updated>2019-12-15T14:46:37.000Z</updated>
-        <content type="html"><![CDATA[<p>并发不仅是操作系统内核用来运行多个应用程序的机制，还可以在应用程序中扮演重要角色。</p>
-<p>现代操作系统提供三种基本的构造并发程序的方法：</p>
-<ul>
-<li>进程</li>
-<li>I/O 多路复用</li>
-<li>线程</li>
-</ul>
-<h3 id="1-基于进程的并发编程">1. 基于进程的并发编程</h3>
-<p>每个逻辑控制流都是一个进程，由内核来调度和维护。进程有独立的虚拟地址空间，想要和其他流通信，必须使用某种显式的进程间通信（IPC）机制。我们可以使用熟悉的函数，像 fork、exec 和 waitpid 来构造进程。</p>
-<p>对于在父、子进程间共享状态信息，进程有个非常清晰的模型：共享文件表，但是不共享用户地址空间。独立的地址空间确保一个进程不会覆盖另一个进程的虚拟内存，消除了许多令人迷惑的错误。同时也使得进程共享状态信息更加困难，为了共享信息，必须使用显示的 IPC 机制，但是进程控制和 IPC 的开销很高。</p>
-<h3 id="2-基于-io-多路复用的并发编程">2. 基于 I/O 多路复用的并发编程</h3>
-<p>I/O 多路复用（multiplexing）技术，基本思路就是使用 select 函数，要求内核挂起进程，只有在一个或者多个<br>
-I/O 事件发生后，才将控制返回给应用程序。select 是个复杂的函数，有许多不同的使用场景。</p>
-<p>在事件驱动程序中，某些事件会驱动、导致流的推进。而I/O 多路复用可以作为事件驱动程序的基础。在事件驱动程序中，逻辑流被模型化为状态机，一个状态机就是一组状态、输入事件、转移。<br>
-当一个输入事件发生，状态机发生转移，变化为另一个状态。</p>
-<p>服务器使用 I/O 多路复用技术，借助 select 函数检测输入事件的发生。当每个已连接描述符准备好可读时，服务器就为相应的状态机执行转移。</p>
-<p>事件驱动设计的优点是，它比基于进程的设计具有更多对程序行为的控制。另一个优点是，每个逻辑流<br>
-都能访问该进程的全部地址空间，这使得在流之间共享数据变得容易。</p>
-<p>事件驱动设计的缺点是，编码复杂，不能充分利用多核处理器。</p>
-<h3 id="3-基于线程的并发编程">3. 基于线程的并发编程</h3>
-<p>线程就是运行在进程上下文中的逻辑流。每个线程都有自己的线程上下文，包括一个唯一的整数线程 ID、栈、栈指针、程序计数器、通用目的寄存器和条件码。所有运行在一个进程内的线程共享该进程的整个虚拟地址空间。</p>
-<p>同进程一样，线程由内核自动调度，并且内核通过一个整数 ID 来识别线程。同基于 I/O 多路复用的流一样，多个线程运行在单一进程的上下文中，因此共享这个进程虚拟地址空间的所有内容，包括它的代码、数据、堆、共享库和打开的文件。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191225065818.png" alt="并发线程执行" loading="lazy"></figure>
-<p>每个进程开始生命周期都是单线程，这个线程称为主线程（main thread）。在某一时刻，主线程创建一个对等线程（peer thread），从这个时间点开始，两个线程并发地运行。最后主线程执行一个慢速系统调用，比如 read 或 sleep，或者被系统的间隔计时器中断，控制就会通过上下文切换传递到对等线程。对等线程会执行一段时间，然后控制传递回主线程，依次类推。</p>
-<p>线程和进程的不同之处有：</p>
-<ul>
-<li>线程的上下文比进程的上下文小得多，所以线程的上下文切换要比进程的上下文切换快得多。</li>
-<li>线程不像进程那样，不是按照严格的父子层次组织的，和一个进程相关的线程组成一个对等线程（池）。</li>
-</ul>
-<p>对等线程（池）的主要影响是，一个线程可以杀死它的任何对等线程，或者等待它的任意对等线程终止。每个对等线程都能读写相同的共享数据。</p>
 ]]></content>
     </entry>
 </feed>

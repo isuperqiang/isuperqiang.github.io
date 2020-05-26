@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>每周 ARTS 第 31 周 | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1590536842890">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1590536842890" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">每周 ARTS 第 31 周</h2>
+            <div class="post-date">2020-05-27</div>
+            
+            <div class="post-content">
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="环形链表-ii"><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/">环形链表 II</a>（中等）</h4>
+<h4 id="描述">描述：</h4>
+<blockquote>
+<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。<br>
+为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。<br>
+说明：不允许修改给定的链表。</p>
+</blockquote>
+<h4 id="示例">示例：</h4>
+<pre><code>输入：head = [3,2,0,-4,2], pos = 1
+输出：tail connects to node index 1
+解释：链表中有一个环，其尾部连接到第二个节点。
+</code></pre>
+<h4 id="思路">思路：</h4>
+<p>快慢指针：使用快慢指针从头遍历链表，如果两个指针相遇则表示链表有环。然后让慢指针从头开始，快指针继续向前，两者再次相遇点就是环的入口。这个地方用图解释更清晰，推荐阅读 <a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/shuang-zhi-zhen-ji-qiao">双指针技巧总结</a>。</p>
+<pre><code class="language-java">class Sulution {
+    public ListNode detectCycle(ListNode head) {
+       if (head == null || head.next == null) {
+            return null;
+        }
+        ListNode fast = head;
+        ListNode slow = head;
+        boolean hasCycle = false;
+        while (fast != null &amp;&amp; fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (fast == slow) {
+                hasCycle = true;
+                break;
+            }
+        }
+        if (!hasCycle) {
+            return null;
+        }
+        slow = head;
+        while (fast != slow) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
+    }
+}
+</code></pre>
+<h4 id="分析">分析：</h4>
+<ul>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(1)</li>
+</ul>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898">The S.O.L.I.D Principles in Pictures</a> 图画讲解 SOLID 原则</p>
+<p>本文介绍了面向对象编程的 SOLID 原则，每个原则下面都有漫画说明，挺有趣的。</p>
+<ul>
+<li>单一职责原则：每个类应该只有一个职责，包含一组强相关的行为。</li>
+<li>开闭原则：类应该对扩展开放，对修改关闭。扩展功能要增加行为而不是修改它。</li>
+<li>里氏替换原则：如果 S 是 T 的子类，那么 T 出现的地方就该被 S 替换并不需要改动代码。</li>
+<li>接口隔离原则：类不应该依赖不需要的行为，需要把行为拆分成更小的粒度。</li>
+<li>依赖反转原则：高层模块不该依赖低层模块，他们都该依赖抽象；抽象不该依赖细节，细节该依赖抽象。</li>
+</ul>
+<h2 id="3-tip">3. Tip</h2>
+<p>重构项目代码的过程中，遇到不美观的地方，用新技术方案完美解决。<a href="https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">使用Android架构组件Lifecycle优化代码</a></p>
+<h2 id="4-share">4. Share</h2>
+<p>B站有个不错的视频 <a href="https://www.bilibili.com/video/BV1EW411u7th">计算机科学速成课</a>，从计算机历史、硬件、软件、编程等方面介绍，是计算机科学的基础知识，当作科普也不错，推荐大家看看。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/arts/" class="tag">
+                    ARTS
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
+                  <h3 class="post-title">
+                    使用Android架构组件Lifecycle优化代码
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd18dcb9f11230a396f48',
+        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
