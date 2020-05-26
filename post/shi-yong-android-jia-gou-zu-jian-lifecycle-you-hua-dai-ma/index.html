@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>深入理解计算机系统之程序的机器级表示（二） | 落英坠露</title>
+<title>使用Android架构组件Lifecycle优化代码 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,25 +115,92 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">深入理解计算机系统之程序的机器级表示（二）</h2>
-            <div class="post-date">2019-10-13</div>
+            <h2 class="post-title">使用Android架构组件Lifecycle优化代码</h2>
+            <div class="post-date">2020-05-27</div>
             
             <div class="post-content">
-              <h3 id="过程">过程</h3>
-<p>过程提供了一种封装代码的方式，用一组指定的参数和一个可选的返回值实现某种功能。形式有函数、方法、子例程等。</p>
-<p>C 语言使用栈提供的后进先出的内存管理原则。栈和程序寄存器存放着传递控制和数据、分配内存需要的信息。</p>
-<p>当 Q 执行时，P 及 P 以上的函数调研暂时被挂起，需要为局部变量分配存储空间，或者设置另一个过程调用。当 Q 返回时，它分配的局部存储空间都会被释放。P 的返回地址也被压入栈中，表示在 Q 返回时，从 P 的返回地址继续执行。</p>
-<p>大多数过程间数据传送通过寄存器实现，寄存器最多传递 6 个整型参数，超过 6 个的部分要通过栈来传递。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191014070514.png" alt="栈帧结构" loading="lazy"></figure>
+              <p>Android developers 提供的支持库越来越完善，不知大家在开发中有没有升级 <a href="https://developer.android.com/jetpack">Jetpack</a>，也就是引入 androidX 包，Jetpack 确实简化了代码，提升了效率。下面介绍架构组件中的 Lifecycle，官网的介绍：<a href="https://developer.android.com/topic/libraries/architecture/lifecycle">使用生命周期感知型组件处理生命周期</a> 非常详细，我就介绍一下 Lifecycle 在开发中的实践。</p>
+<h3 id="1-重构之前">1. 重构之前</h3>
+<p>项目中有许多组件和 Activity 的生命周期有关联，比如 SensorManager 在 resume 时注册，pause 时解除注册。Camera 在 resume 时打开，pause 时关闭等。代码写起来就像下面这样：</p>
+<pre><code class="language-java">    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    }   
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+      // manage other components that need to respond
+            // to the activity lifecycle
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+      // manage other components that need to respond
+            // to the activity lifecycle
+    }
+</code></pre>
+<p>如果需要响应 Activity 生命周期的组件非常多，那么代码将变得非常臃肿难以维护。组件对外暴露的状态接口太多，稍不留神就会出错，这种转发式的调用并不是优雅的做法。</p>
+<h3 id="2-重构之后">2. 重构之后</h3>
+<p>抽离 Sensor 相关代码形成新类，封装 Sensor 注册、解除注册和监听操作，最重要的是可感知生命周期。本质上是观察者设计模式，Activity 是 LifecycleOwner，具有 Lifecycle，是被观察者；LifeCycleSensorManager 实现 LifecyclerObserver 接口，是观察者。外部不需要传递生命周期状态进来，LifeCycleSensorManager 内部可感知生命周期。这样使用时，只要一行代码即可，非常干净清爽。</p>
+<pre><code class="language-java">public final class LifeCycleSensorManager implements LifecycleObserver, SensorEventListener {
+    private Sensor mSensor;
+    private SensorManager mSensorManager;
+    private Lifecycle mLifecycle;
+
+    public LifeCycleSensorManager(final Context context, final Lifecycle lifecycle) {
+        mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        lifecycle.addObserver(this);
+        mLifecycle = lifecycle;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void onResume() {
+        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void onPause() {
+        mSensorManager.unregisterListener(this);
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void onDestroy() {
+        mLifecycle.removeObserver(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+}
+</code></pre>
 
             </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-25-qi/">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-30-zhou/">
                   <h3 class="post-title">
-                    每周 ARTS 第 25 期
+                    每周 ARTS 第 30 周
                   </h3>
                 </a>
               </div>
