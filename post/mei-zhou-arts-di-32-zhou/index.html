@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>Android Studio 和 Gradle 优化配置总结 | 落英坠露</title>
+<title>每周 ARTS 第 32 周 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,63 +115,63 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">Android Studio 和 Gradle 优化配置总结</h2>
-            <div class="post-date">2017-11-25</div>
+            <h2 class="post-title">每周 ARTS 第 32 周</h2>
+            <div class="post-date">2020-06-07</div>
             
             <div class="post-content">
-              <p>最近换了一台新电脑，重新安装了 AS、JDK 等开发软件。重新配置的过程繁琐，不断地踩坑试错，可算是配置好了，记录下一些常用设置，软件环境是 macOS 😃</p>
-<!-- more -->
-<h3 id="1-android-studio">1. Android Studio</h3>
-<p>从<a href="https://developer.android.com/studio/index.html?hl=zh-cn">官网</a>下载安装后，根据电脑的硬件配置，适当修改 AS 的配置参数，可以加快启动和编译的速度。<br>
-在 /Applications/AndroidStudio.app/Contents/bin 目录下有两个配置文件：</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="路径总和"><a href="https://leetcode-cn.com/problems/path-sum/">路径总和</a>（简单）</h4>
+<h4 id="描述">描述：</h4>
+<blockquote>
+<p>给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。<br>
+叶子节点是指没有子节点的节点。</p>
+</blockquote>
+<h4 id="示例">示例：</h4>
+<pre><code>给定如下二叉树，以及目标和 sum = 22，
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+</code></pre>
+<h4 id="思路">思路：</h4>
+<p>从根节点开始遍历，每次遍历时从目标和减去当前节点值，当作子节点要凑的和，在叶子节点判断是否刚好凑齐。</p>
+<pre><code class="language-java">class Sulution {
+    pbulic boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return false;
+        }
+        if (root.left == null &amp;&amp; root.right == null) {
+            return sum == root.val;
+        }
+        int csum = sum - root.val;
+        return hasPathSum(root.left, csum) || hasPathSum(root.right, csum);
+    }
+}
+</code></pre>
+<h4 id="分析">分析：</h4>
 <ul>
-<li>studio.vmoptions：自定义 Studio Java 虚拟机 (JVM) 的选项，如堆内存和缓存大小。</li>
-<li>idea.properties：自定义 Android Studio 的属性，如插件文件夹路径或最大支持文件大小。</li>
+<li>时间复杂度：O(N)</li>
+<li>空间复杂度：O(log(N)) or O(N)</li>
 </ul>
-<p>这里是我的配置：</p>
-<pre><code>-Xms1024m
--Xmx4096m
--XX:MaxPermSize=1024m
--XX:ReservedCodeCacheSize=512m
--XX:+UseCompressedOops
-</code></pre>
-<p>-Xms：JVM 起始分配的堆内存<br>
--Xmx：JVM 允许分配的最大堆内存<br>
--XX:MaxPermSize：JVM 最大允许分配的非堆内存<br>
--XX:ReservedCodeCacheSize：JIT 编译后的最大代码缓存</p>
-<p>这几个参数的值当然是越大越好，当然还要根据自己的硬件来修改，现在做开发的都是 8G 内存起，上面的配置就比较合适。</p>
-<h3 id="2-gradle">2. Gradle</h3>
-<p>如果不采取一些特殊手段，<a href="https://gradle.org/install/">Gradle</a> 的下载非常缓慢，建议还是手动下载，然后配置到 AS 中。在 /Users/用户名/.gradle 文件夹下新建一个文件：<code>gradle.properties</code>，然后把下面的配置添加进去。</p>
-<pre><code>org.gradle.jvmargs=-Xmx4096m -XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8
-org.gradle.daemon=true
-org.gradle.configureondemand=true
-org.gradle.parallel=true
-org.gradle.caching=true
-</code></pre>
-<p>主要的优化方面是开启守护进程、并行模式、孵化模式（只构建相关的项目）、设置 JVM<br>
-参数（最大堆内存、最大非堆内存）等。<br>
-在 AS 设置里面，开启离线模式，使用本地 gradle 文件，这样会不需要联网，速度会快很多。如图：</p>
-<figure data-type="image" tabindex="1"><img src="http://upload-images.jianshu.io/upload_images/1820210-b718709b1c3aaad0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AS 构建配置" loading="lazy"></figure>
-<h3 id="3-as-其他设置">3. AS 其他设置</h3>
-<ol>
-<li>
-<p>禁用不必要的插件，如：Firebase 系列、Google 系列、hg4idea、CVS、YAML 等，这样可以减少资源占用，加快启动速度。</p>
-</li>
-<li>
-<p>由于你懂的原因，访问 Google 的时候会中断，对于开发来说很不友好。当然国内的 Android SDK 的服务器也有，一般是科研机构、大公司提供，这些都是备用手段。我使用 SS 的 HTTP 代理，主机和端口号如图。完成后点击下方的 check connection，如果能访问 Google，那么恭喜你通关。<br>
-<img src="http://upload-images.jianshu.io/upload_images/1820210-bcc48a4e2e1380cc.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="proxy" loading="lazy"></p>
-</li>
-<li>
-<p>其他的设置包括字体、代码风格、快捷键、编码、填充等，就比较琐碎，这里不再啰嗦。有问题，找 Google。哈哈～</p>
-</li>
-</ol>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/mind-cafe/a-3-minute-hack-for-focus-youve-probably-never-heard-of-40708b788a0f">A 3-Minute Hack for Focus You’ve Probably Never Heard Of</a> 你从未听说过的 3 分钟聚焦大法</p>
+<p>作者一直无法专注工作，同事分享了一个方法给他——双耳节拍。本质上，双耳节拍是重复播放的音乐。它没有实际的节拍，而是在大脑中产生的同时播放两个不同频率的音调。</p>
+<p>我一直在用的产品叫「小睡眠」，它主要功能是助眠，但是也有聚焦和放松模式。配合降噪耳机，很快便进入高效工作中。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>接手维护老项目，开发者代码设计得烂，不知道怎么代码怎么调用，也无处安放 debug 点。这时只要创建一个异常，打印它的 stack track，就能够对调用时序一目了然。查看源码时也可以通过这种办法确定调用流程。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://cyc2018.github.io/CS-Notes/#/">CS-Notes</a> GitHub 100k+ star 的项目，技术面试必备基础知识、Leetcode、计算机操作系统、计算机网络、系统设计、Java 等。</p>
+<p>面试前可以刷一刷，主要是增加知识面的广度。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/android/" class="tag">
-                    Android
+                  <a href="https://isuperqiang.cn/tag/arts/" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -179,9 +179,9 @@ org.gradle.caching=true
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/android-shu-ju-jia-mi-he-bian-ma-de-ji-chong-fang-shi/">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-31-zhou/">
                   <h3 class="post-title">
-                    Android 数据加密和编码的几种方式
+                    每周 ARTS 第 31 周
                   </h3>
                 </a>
               </div>
