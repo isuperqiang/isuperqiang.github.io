@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>链表（上）实现 LRU 缓存淘汰算法 | 落英坠露</title>
+<title>每周 ARTS 第 33 期 | 落英坠露</title>
 <meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -115,68 +115,72 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">链表（上）实现 LRU 缓存淘汰算法</h2>
-            <div class="post-date">2019-05-08</div>
+            <h2 class="post-title">每周 ARTS 第 33 期</h2>
+            <div class="post-date">2020-06-14</div>
             
             <div class="post-content">
-              <p>经典的链表应用场景就是 LRU 缓存淘汰算法。</p>
-<h3 id="1-链表结构">1. 链表结构</h3>
-<p>数组需要一块连续的内存空间来存储，对内存的要求比较高。而链表不需要，它通过“指针”将一组零散的内存块串联起来使用。</p>
-<p>三种常见的链表结构：单链表、双向链表和循环链表。</p>
-<p>单链表：头结点记录链表的基地址，可以用来遍历整条链表。尾结点的指针指向空地址 NULL，表示最后的结点。每个结点存储数据 data 和后继指针 next，如下：</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190420-093109@2x.jpg" alt="单链表" loading="lazy"></figure>
-<p>针对链表的插入和删除操作，只需要考虑相邻结点的指针改变，所以对应的时间复杂度是 O(1)。但是，随机访问需要从头结点开始遍历，所以时间复杂度是 O(n)。</p>
-<p>循环链表是一种特殊的单链表，它的尾结点指针指向链表的头结点，优点是从链尾到链头比较方便。当要处理的数据具有环型结构特点时，就特别适合采用循环链表，比如约瑟夫问题。</p>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190420-093100@2x.jpg" alt="循环链表" loading="lazy"></figure>
-<p>双向链表支持两个方向，每个结点有个后继指针 next 指向后面的结点和一个前驱指针 prev 指向前面的结点。它支持双向遍历，带来了操作的灵活性。双向链表可以支持 O(1) 时间复杂度的情况下找到前驱结点，这使得它在某些情况下的插入、删除等操作比单链表简单高效。对于一个有序链表，双向链表的按值查询的效率也要比单链表高一些。</p>
-<p>在实际的软件开发中，双向链表尽管比较费内存，但比单链表的应用更加广泛。Java 语言中的 LinkedHashMap 就用到了双向链表，这是用空间换时间的设计思想。</p>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/Jietu20190420-093237@2x.jpg" alt="双向链表" loading="lazy"></figure>
-<h3 id="2-链表-数组性能比较">2. 链表、数组性能比较</h3>
-<table>
-<thead>
-<tr>
-<th>时间复杂度</th>
-<th>数组</th>
-<th>链表</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>插入、删除</td>
-<td>O(n)</td>
-<td>O(1)</td>
-</tr>
-<tr>
-<td>随机访问</td>
-<td>O(1)</td>
-<td>O(n)</td>
-</tr>
-</tbody>
-</table>
-<p>数组简单易用，在实现上使用的是连续的内存空间，可以借助 CPU 的缓存机制，预读数组中的数据，所以访问效率更高。而链表在内存中并不是连续存储，所以对 CPU 缓存不友好，没办法有效预读。（此处是局部性原理）</p>
-<p>数组的缺点是大小固定，要占用整块连续内存空间。如果数组过大，容易导致 OOM。扩容时需要拷贝数组，非常耗时。链表本身没有大小的限制，天然地支持动态扩容。</p>
-<p>如果代码对内存的使用非常苛刻，那数组就是更适合的选择。链表需要额外存储指针结点，频繁的增删操作容易造成内存碎片，如果用 Java 语言，就可能导致频繁 GC。</p>
-<p>如何用链表实现 LRU 缓存呢？</p>
-<p>维护一个有序单链表，靠近尾部的结点是最早访问的。当有数据被访问时，从头开始遍历链表。</p>
-<ol>
-<li>如果数据被缓存过，遍历得到对应的结点，把它从原来位置删除，插入到链表头部。</li>
-<li>如果没有缓存过，那么分两种情况：
-<ul>
-<li>如果缓存没满，那么直接把新数据插入链表尾部；</li>
-<li>如果缓存已满，那么把尾结点删除，新数据插入链表头部。</li>
-</ul>
-</li>
-</ol>
-<p>基于链表的实现思路，缓存访问的时间复杂度为 O(n)。考虑一下优化，比如引入散列表老记录每个数据的位置，使访问时间复杂度降到 O(1)。</p>
-<h3 id="思考题">思考题：</h3>
-<p>如何判断一个字符串是否是回文字符串？如果字符串是通过单链表来存储的，那该如何来判断是一个回文串呢？</p>
+              <h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="路径总和-iii"><a href="https://leetcode-cn.com/problems/path-sum-iii/">路径总和 III</a>（简单）</h4>
+<h4 id="描述">描述：</h4>
+<blockquote>
+<p>给定一个二叉树，它的每个结点都存放着一个整数值。找出路径和等于给定数值的路径总数。<br>
+路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。<br>
+二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。</p>
+</blockquote>
+<h4 id="示例">示例：</h4>
+<pre><code>root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+返回 3。和等于 8 的路径有:
+
+1.  5 -&gt; 3
+2.  5 -&gt; 2 -&gt; 1
+3.  -3 -&gt; 11
+</code></pre>
+<h4 id="思路">思路：</h4>
+<p>两次递归。pathSum 返回以当前节点为根的树中，路径和为目标值的路径总数；count 返回以当前节点为根的树中，有多少以该节点为开头，路径和为目标值的路径总数。</p>
+<pre><code class="language-java">class Sulution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        return count(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+
+    private int count(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int count = 0;
+        if (sum == root.val) {
+            count += 1;
+        }
+        int diff = sum - root.val;
+        return count + count(root.left, diff) + count(root.right, diff);
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/free-code-camp/the-most-important-skill-a-programmer-can-learn-9d410c786baf">The most important skill a programmer can learn</a> 程序员该学到的最重要技能</p>
+<p>知道什么时候不写代码，该拒绝的需求就坚定拒绝。代码增多会带来很多问题，面对各种需求，我们不该被动接受，不合理的需求就不做。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>程序员不喜欢做重复的事情，写脚本成了偷懒的方法，shell 是最常用的脚本，可完成许多自动化的操作。<a href="https://wangdoc.com/bash/index.html">Bash脚本教程</a> 是不错的参考资料。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/TIxWo9LMI3tFrz5612JWFw">caoz 的职场系列</a> 写得很受用，职场人可以多读读。</p>
 
             </div>
             
               <div class="tag-container">
                 
-                  <a href="https://isuperqiang.cn/tag/datastruct-algorithm/" class="tag">
-                    数据结构算法
+                  <a href="https://isuperqiang.cn/tag/arts/" class="tag">
+                    ARTS
                   </a>
                 
               </div>
@@ -184,9 +188,9 @@
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-5-qi/">
+                <a href="https://isuperqiang.cn/post/mei-zhou-arts-di-32-zhou/">
                   <h3 class="post-title">
-                    每周 ARTS 第 5 期
+                    每周 ARTS 第 32 周
                   </h3>
                 </a>
               </div>

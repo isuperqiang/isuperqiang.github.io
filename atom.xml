@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-06-07T15:23:56.207Z</updated>
+    <updated>2020-06-14T15:08:58.133Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,69 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 33 期]]></title>
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-33-qi/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-33-qi/">
+        </link>
+        <updated>2020-06-14T15:07:09.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="路径总和-iii"><a href="https://leetcode-cn.com/problems/path-sum-iii/">路径总和 III</a>（简单）</h4>
+<h4 id="描述">描述：</h4>
+<blockquote>
+<p>给定一个二叉树，它的每个结点都存放着一个整数值。找出路径和等于给定数值的路径总数。<br>
+路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。<br>
+二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。</p>
+</blockquote>
+<h4 id="示例">示例：</h4>
+<pre><code>root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+返回 3。和等于 8 的路径有:
+
+1.  5 -&gt; 3
+2.  5 -&gt; 2 -&gt; 1
+3.  -3 -&gt; 11
+</code></pre>
+<h4 id="思路">思路：</h4>
+<p>两次递归。pathSum 返回以当前节点为根的树中，路径和为目标值的路径总数；count 返回以当前节点为根的树中，有多少以该节点为开头，路径和为目标值的路径总数。</p>
+<pre><code class="language-java">class Sulution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        return count(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+
+    private int count(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int count = 0;
+        if (sum == root.val) {
+            count += 1;
+        }
+        int diff = sum - root.val;
+        return count + count(root.left, diff) + count(root.right, diff);
+    }
+}
+</code></pre>
+<h2 id="2-review">2. Review</h2>
+<p><a href="https://medium.com/free-code-camp/the-most-important-skill-a-programmer-can-learn-9d410c786baf">The most important skill a programmer can learn</a> 程序员该学到的最重要技能</p>
+<p>知道什么时候不写代码，该拒绝的需求就坚定拒绝。代码增多会带来很多问题，面对各种需求，我们不该被动接受，不合理的需求就不做。</p>
+<h2 id="3-tip">3. Tip</h2>
+<p>程序员不喜欢做重复的事情，写脚本成了偷懒的方法，shell 是最常用的脚本，可完成许多自动化的操作。<a href="https://wangdoc.com/bash/index.html">Bash脚本教程</a> 是不错的参考资料。</p>
+<h2 id="4-share">4. Share</h2>
+<p><a href="https://mp.weixin.qq.com/s/TIxWo9LMI3tFrz5612JWFw">caoz 的职场系列</a> 写得很受用，职场人可以多读读。</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 32 周]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-32-zhou/</id>
@@ -651,160 +714,6 @@
 <p>可重入(reentrant)函数：当被多个线程调用时，不会引用任何共享数据。比不可重入的线程安全的函数高效一些，因为它不需要同步操作。</p>
 <p>避免死锁(deadlock)：给定所有互斥操作的一个全序，如果每个线程都以一种顺序获得互斥锁并以相反的顺序<br>
 释放，那么这个程序就是无死锁的。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[libyuv 库编译]]></title>
-        <id>https://isuperqiang.cn/post/libyuv-ku-bian-yi/</id>
-        <link href="https://isuperqiang.cn/post/libyuv-ku-bian-yi/">
-        </link>
-        <updated>2020-01-04T12:17:26.000Z</updated>
-        <content type="html"><![CDATA[<p><a href="https://chromium.googlesource.com/libyuv/libyuv">libyuv</a> 是谷歌开源的对 YUV 数据进行缩放、旋转和转换的跨平台库，可在 Windows、Linux、Mac、Android 等操作系统，x86、x64、arm 架构上进行编译运行，支持 AVX2、NEON 等 SIMD 指令加速。</p>
-<p>官方介绍的几个功能：</p>
-<ul>
-<li>可以使用 point，bilinear 或 box 三种方法进行 YUV 的压缩</li>
-<li>可以转换为 RGB 来实现渲染/特效</li>
-<li>旋转 90/180/270 的角度以适配设备的竖屏模式</li>
-<li>可以把 webcam 转换为 YUV 来进行压缩</li>
-<li>还有一系列的平台性能优化等</li>
-</ul>
-<p>接下来让我们编译 libyuv，编译步骤在 Windows 和 Mac 上都验证成功，下面以 Mac 为例。</p>
-<h3 id="1-clone-libyuv-源码">1. clone libyuv 源码</h3>
-<p>既然要编译库，怎么少得了源码呢？</p>
-<pre><code>git clone https://chromium.googlesource.com/libyuv/libyuv
-</code></pre>
-<h3 id="2-重命名文件夹">2. 重命名文件夹</h3>
-<p>clone 的文件夹叫做 libyuv，这里要把它修改为 jni。</p>
-<h3 id="3-修改-androidmk">3. 修改 Android.mk</h3>
-<p>注释 jpeg 相关的代码，其他地方不用改动。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard2.png" alt="fix-jpeg1" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard3.png" alt="fix-jpeg2" loading="lazy"></figure>
-<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/clipboard.png" alt="fix-jpeg3" loading="lazy"></figure>
-<p>下面是修改后的 Android.mk 文件内容：</p>
-<pre><code># This is the Android makefile for libyuv for NDK.
-LOCAL_PATH:= $(call my-dir)
-
-include $(CLEAR_VARS)
-
-LOCAL_CPP_EXTENSION := .cc
-
-LOCAL_SRC_FILES := \
-    source/compare.cc           \
-    source/compare_common.cc    \
-    source/compare_gcc.cc       \
-    source/compare_mmi.cc       \
-    source/compare_msa.cc       \
-    source/compare_neon.cc      \
-    source/compare_neon64.cc    \
-    source/convert.cc           \
-    source/convert_argb.cc      \
-    source/convert_from.cc      \
-    source/convert_from_argb.cc \
-    source/convert_to_argb.cc   \
-    source/convert_to_i420.cc   \
-    source/cpu_id.cc            \
-    source/planar_functions.cc  \
-    source/rotate.cc            \
-    source/rotate_any.cc        \
-    source/rotate_argb.cc       \
-    source/rotate_common.cc     \
-    source/rotate_gcc.cc        \
-    source/rotate_mmi.cc        \
-    source/rotate_msa.cc        \
-    source/rotate_neon.cc       \
-    source/rotate_neon64.cc     \
-    source/row_any.cc           \
-    source/row_common.cc        \
-    source/row_gcc.cc           \
-    source/row_mmi.cc           \
-    source/row_msa.cc           \
-    source/row_neon.cc          \
-    source/row_neon64.cc        \
-    source/scale.cc             \
-    source/scale_any.cc         \
-    source/scale_argb.cc        \
-    source/scale_common.cc      \
-    source/scale_gcc.cc         \
-    source/scale_mmi.cc         \
-    source/scale_msa.cc         \
-    source/scale_neon.cc        \
-    source/scale_neon64.cc      \
-    source/video_common.cc
-
-common_CFLAGS := -Wall -fexceptions
-# ifneq ($(LIBYUV_DISABLE_JPEG), &quot;yes&quot;)
-# LOCAL_SRC_FILES += \
-#     source/convert_jpeg.cc      \
-#     source/mjpeg_decoder.cc     \
-#     source/mjpeg_validate.cc
-# common_CFLAGS += -DHAVE_JPEG
-# LOCAL_SHARED_LIBRARIES := libjpeg
-# endif
-
-LOCAL_CFLAGS += $(common_CFLAGS)
-LOCAL_EXPORT_C_INCLUDES := $(LOCAL_PATH)/include
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
-LOCAL_EXPORT_C_INCLUDE_DIRS := $(LOCAL_PATH)/include
-
-LOCAL_MODULE := libyuv_static
-LOCAL_MODULE_TAGS := optional
-
-include $(BUILD_STATIC_LIBRARY)
-
-include $(CLEAR_VARS)
-
-LOCAL_WHOLE_STATIC_LIBRARIES := libyuv_static
-# 生成库的名称
-LOCAL_MODULE := libyuv
-# ifneq ($(LIBYUV_DISABLE_JPEG), &quot;yes&quot;)
-# LOCAL_SHARED_LIBRARIES := libjpeg
-# endif
-
-# 生成静态库还是动态库
-# BUILD_STATIC_LIBRSRY 静态库
-# BUILD_SHARED_LIBRARY 动态库
-include $(BUILD_SHARED_LIBRARY)
-
-include $(CLEAR_VARS)
-LOCAL_STATIC_LIBRARIES := libyuv_static
-# LOCAL_SHARED_LIBRARIES := libjpeg
-LOCAL_MODULE_TAGS := tests
-LOCAL_CPP_EXTENSION := .cc
-LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
-LOCAL_SRC_FILES := \
-    unit_test/unit_test.cc        \
-    unit_test/basictypes_test.cc  \
-    unit_test/color_test.cc       \
-    unit_test/compare_test.cc     \
-    unit_test/convert_test.cc     \
-    unit_test/cpu_test.cc         \
-    unit_test/cpu_thread_test.cc  \
-    unit_test/math_test.cc        \
-    unit_test/planar_test.cc      \
-    unit_test/rotate_argb_test.cc \
-    unit_test/rotate_test.cc      \
-    unit_test/scale_argb_test.cc  \
-    unit_test/scale_test.cc       \
-    unit_test/video_common_test.cc
-
-LOCAL_MODULE := libyuv_unittest
-include $(BUILD_NATIVE_TEST)
-</code></pre>
-<h3 id="4-新建-applicationmk">4. 新建 Application.mk</h3>
-<p>在 jni 文件夹下，新建 Application.mk 文件，指定架构平台和 Android 版本，内容如下：</p>
-<pre><code>APP_ABI := armeabi-v7a arm64-v8a x86 x86_64
-APP_PLATFORM := android-18
-</code></pre>
-<h3 id="5-ndk-build-编译">5. ndk-build 编译</h3>
-<p>编译前要确保本机配置好了 NDK 环境变量，如果不知道怎么做请自行百度。</p>
-<p>cd 到 jni 文件夹的父级文件夹，然后执行 ndk 相关的命令。每次编译前都要先执行 <code>ndk-build clean</code> 清理缓存，最后执行 <code>ndk-build</code> 编译库，在 jni 父文件夹下就会出现两个文件夹： libs 文件夹下是动态库，obj 文件夹下是静态库。</p>
-<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20200104200940.png" alt="ndk-build" loading="lazy"></figure>
-<p><strong>参考文章：</strong></p>
-<ul>
-<li><a href="https://yangandmore.github.io/2019/03/07/libYUV%E7%BC%96%E8%AF%91/">libYUV编译</a></li>
-<li><a href="https://github.com/byhook/ffmpeg4android/blob/master/readme/android%E5%85%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91libyuv%E5%BA%93%E5%AE%9E%E7%8E%B0YUV%E5%92%8CRGB%E7%9A%84%E8%BD%AC%E6%8D%A2.md">android全平台编译libyuv库实现YUV和RGB的转换</a></li>
-<li><a href="http://www.raomengyang.com/2017/01/15/Android-libyuv%E5%BA%94%E7%94%A8%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89libyuv%E7%9A%84%E4%BD%BF%E7%94%A8/">Android libyuv应用系列（二）libyuv的使用</a></li>
-</ul>
 ]]></content>
     </entry>
 </feed>
