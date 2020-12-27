@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-06-14T15:08:58.133Z</updated>
+    <updated>2020-12-27T08:02:03.503Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -10,6 +10,187 @@
     <logo>https://isuperqiang.cn/images/avatar.png</logo>
     <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2020, 落英坠露</rights>
+    <entry>
+        <title type="html"><![CDATA[Android SDK 开发经验谈]]></title>
+        <id>https://isuperqiang.cn/post/android-sdk-kai-fa-jing-yan-tan/</id>
+        <link href="https://isuperqiang.cn/post/android-sdk-kai-fa-jing-yan-tan/">
+        </link>
+        <updated>2020-12-09T07:59:35.000Z</updated>
+        <content type="html"><![CDATA[<p>在公司做了两年多的 SDK 开发，结合自己的所知所学，分享一些 SDK 开发的经验。</p>
+<h3 id="1-sdk-是什么">1. SDK 是什么</h3>
+<p>相信做 Android 开发的朋友，一定使用过第三方的 SDK，比如推送 SDK、分享 SDK 等。SDK 的全称是 Software Development Kit，翻译为“软件开发工具包”。SDK 通常是为辅助开发某类软件而编写的特定软件包、框架集合等。</p>
+<p>SDK 可以分为系统 SDK 和应用 SDK。所谓系统 SDK 是为使用特定的软件框架、硬件平台等所开发的工具集合。而应用 SDK 则是基于系统 SDK 开发的独立于具体业务、拥有特定功能的工具集合。</p>
+<p>SDK 的使用者主要是 B 端客户，最终交付产品是代码、示例和文档，客户接入 SDK 也是和 SDK 提供方交流的过程，对外沟通的成本比对内更高，遇到的问题也会更多。所以 SDK 开发对开发者的要求比对应用开发更高。能开发好 SDK 一定能开发好应用，但能开发好应用，未必能开发好 SDK。</p>
+<h3 id="2-sdk-实现目标">2. SDK 实现目标</h3>
+<p>SDK 的实现目标，概括来说：简洁、稳定、高效。</p>
+<h4 id="简洁">简洁</h4>
+<p>对于用户而言，一款好的产品应该是简洁易用的，不该让他们花费太长的时间学习。SDK 也当如此，它不该出现复杂繁琐的对接工作，使用者通过阅读代码和文档，花费很少的时间就能做好 SDK 的对接。</p>
+<p>比如当开发者需要使用 SDK 的服务时，只需要在代码中新增一行即可。在项目中初始化 SDK 只要一行代码，开发者不用关心 GLContext，内部已做好处理，也不用关心同步或异步问题。</p>
+<pre><code class="language-java">public class FURenderer {
+    // 定义    
+    public static void setup(Context context) {
+        //...
+    }
+}
+// 一行代码调用
+FURenderer.setup(context);
+</code></pre>
+<h4 id="稳定">稳定</h4>
+<p>站在 SDK 使用者角度来看，我们期望第三方 SDK 的服务是稳定高效的，体现在提供稳定可靠的服务，同时运行时性能要高效。这就要求我们在设计实现 SDK 时要尽可能做到以下几点：</p>
+<ul>
+<li>对外提供稳定的 API。SDK 的 API 一旦确定，除非特殊情况不可更改，提供方变更 API 的成本非常大。</li>
+<li>对外提供稳定的业务。在提供了稳定的 API 后，必须要有稳定的业务作为支撑。</li>
+<li>运行时的稳定。确保 SDK 自身稳定运行，不能出现因为接入了 SDK 而导致宿主应用不稳定的情况。</li>
+<li>版本稳定更新。SDK 版本迭代非常缓慢，要尽可能对使用者屏蔽迭代过程，避免带来不必要的适配成本。</li>
+</ul>
+<h4 id="高效">高效</h4>
+<p>无论是普通的应用开发还是 SDK 开发，都应该考虑到性能问题，SDK 设计者要着重考虑以下问题：</p>
+<ul>
+<li>更少的内存占用。一般 SDK 和 App 运行在同一进程，此时 SDK 要管理好自己占用的内存，合理分配，注意释放。</li>
+<li>更少的内存抖动。在占用更少内存的前提下，SDK 设计者必须减少频繁 GC 造成的内存抖动问题。</li>
+<li>更少的电量消耗。低电量消耗和高性能表现之间很难做到权衡，可以从 CPU 计算量、屏幕刷新帧率等角度考量。</li>
+</ul>
+<h3 id="3-sdk-架构设计">3. SDK 架构设计</h3>
+<p>SDK 的架构实现决定了后续的维护难度，所以最好能够结合实际业务确定合适的方案。以项目中的模块化开发为例，讲讲架构设计的原则。</p>
+<p>遵循面向对象开发的几大原则，目的是达到三个目标：可维护性、可重用性和可扩展性。具体来讲：</p>
+<ul>
+<li>根据单一职责原则，将系统拆分为多个小模块，每个模块保持相对独立，降低实现类的复杂度。</li>
+<li>根据接口隔离原则，为每个模块定义契约接口，接口的粒度要小，功能要细，越细小越易维护。</li>
+<li>模块之间通过协议或接口通信，避免直接相互依赖，以降低耦合，互相了解最少，体现了迪米特法则。</li>
+<li>根据开闭原则，定义各个模块的公共行为，通过模版方法设计模式提供骨架实现，易于功能扩展。</li>
+<li>根据组合优于继承的原则，当多个模块功能叠加时，使用类的组合保证设计的灵活性。</li>
+</ul>
+<p>比如项目第三方 demo 的功能模块借鉴了 Java 集合框架的架构，分为契约接口、抽象类和具体实现三部分。</p>
+<ul>
+<li>首先定义 IEffectModule 作为特效的契约接口，包括创建、设置参数、销毁等各个功能模块的公共操作。</li>
+<li>AbstractEffectModule 作为 IEffectModule 的骨架实现，实现了共同使用的方法，定义了公共的成员变量。</li>
+<li>定义美颜 IFaceBeautyModule 接口，其继承 IEffectModule 接口，包括额外的设置参数操作，FaceBeautyModule 作为其实现类，同时继承 AbstractEffectModule，复用基类的代码。</li>
+<li>美妆美体模块类似，先定义契约接口，然后定义具体实现，接口间相互隔离，接口内高度内聚。</li>
+<li>FURenderer 实现 IFURenderer 渲染接口和  IModuleManager 模块管理接口，组合各个功能模块。</li>
+</ul>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20201226180356.png" alt="UML类图" loading="lazy"></figure>
+<h3 id="4-sdk-设计规范">4. SDK 设计规范</h3>
+<p>API 设计在任何开发中都非常重要，许多时候软件的质量好坏体现在 API 的设计上。在普通的应用开发中，API 只会在开发人员间流通，不会暴露给非本应用开发的其他人员。但是 SDK 作为一种服务，需要向开发者暴露一部分 API，这样才能使用 SDK 的服务。</p>
+<p>下面列出一些应该重点关注的原则。</p>
+<ol>
+<li><strong>方法名表明其用途</strong></li>
+</ol>
+<p>好的方法名最直观表明它的功能，名字是自解释的，不需要额外的文档，这样做会减少不必要的沟通成本。对于开发者而言，还有什么比直接读代码更直观呢？《重构》一书中讲到，要像给自己孩子起名一样给每个变量命名，这个要求不算过分吧。</p>
+<ol start="2">
+<li><strong>参数的合法性检验</strong></li>
+</ol>
+<p>如果程序运行时出现异常，会破坏使用者的体验，影响非常不好。我们采用“防御式编程”的思想，能够避免非法输入对系统的破坏性。</p>
+<p>当合法性校验不通过时，针对方法权限不同分别对应不同不同的处理策略:</p>
+<ul>
+<li>对于公开方法显式检查抛出异常，并使用 <code>@throw</code> 来说明抛出异常的原因</li>
+<li>对于私有方法通过断言的方式来检查参数的合法。</li>
+<li>检查构造方法的参数的合法性，以使对象处在统一状态。</li>
+</ul>
+<p>需要注意的是，如果检查的代价太大，那就需要综合考量。</p>
+<ol start="3">
+<li><strong>方法只实现单一功能</strong></li>
+</ol>
+<p>一个方法应该具有单一的功能，尽可能做更少、更专的事情，这也是单一职责原则的体现。“阿里巴巴代码规约”规定一个方法<br>
+最好不要超过 80 行，对庞大的方法要拆分成更小的。</p>
+<p>另外注意，宁可提供小而美的方法也不要提供大而全的方法，大而全的方法往往经常发生变动，产生风险的可能性更高。因此不如提供更小的方法以便组合使用，小而美的方法更易做到代码复用。</p>
+<ol start="4">
+<li><strong>访问权限控制</strong></li>
+</ol>
+<p>包括类方法的权限和变量的权限，能声明私有的不要公开，外部知道得越少越好。能声明静态的方法就用静态，静态方法天然线程安全，体现继承关系的用 <code>protected</code> 修饰，确保公开的方法和变量是安全可靠的。</p>
+<ol start="5">
+<li><strong>避免过长参数</strong></li>
+</ol>
+<p>过长的参数会造成记忆上困难，还有调用传参容易出错，应当尽力避免。在无法避免过长参数的情况下，考虑其他的方法进行解决:</p>
+<ul>
+<li>通过使用 Builder 模式来实现</li>
+<li>通过将多个参数封装成类对象</li>
+</ul>
+<p>例如，项目里有个方法，参数非常多。</p>
+<pre><code class="language-java">int onDrawFrameSingleInput(byte[] img, int w, int h, int format, byte[] readBackImg, int readBackW, int readBackH);
+</code></pre>
+<p>重构后，把参数封装成对象，调用方法只用构造一个对象传入，避免大量参数带来不好的体验感。</p>
+<pre><code class="language-java">public class VideoFrame {
+    private int width;
+    private int height;
+    private byte[] data;
+    private byte[] readback;
+    private int readbackWidth;
+    private int readbackHeight;
+    private int pixelFormat;
+    // ...
+}
+
+int onDrawFrameSingleInput(VideoFrame videoFrame);
+</code></pre>
+<ol start="6">
+<li><strong>慎用方法重载</strong></li>
+</ol>
+<p>滥用重载容易让开发者感到疑惑，在需要重载方法的时候，可以使用不同方法名来代替。对于构造函数，可以通过静态工厂来代替重载。</p>
+<p>Java 中提供的 ObjectOutputStream 类就是个很好的示范：它的 write 对于每个基本类型都有一个变形，比如写出字符、写出 boolean 等操作。设计者并没有使用重载将其设计成 write(Long l)、write(Boolean b)，而是将其设计为 writeLong(l)、writeBoolean(b)。</p>
+<p>例如，项目对外的处理方法全部是重载，只能根据参数区分，迷惑性非常大。修改为不同的方法名后，看到名字就知道要调用的方法，清楚了不少。</p>
+<pre><code class="language-java">// 重构前
+int onDrawFrame(byte[] img, int tex, int w, int h);
+int onDrawFrame(byte[] img, int w, int h)；
+// 重构后
+int onDrawFrameDualInput(byte[] img, int tex, int w, int h);
+int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
+</code></pre>
+<ol start="7">
+<li><strong>避免方法直接返回 null</strong></li>
+</ol>
+<p>对于需要返回数组或集合的方法，不要返回null。比如我们去买糕点店买面包，面包没了是一种正常状态，就不应该返回 null，而是返回长度为 0 的数组或集合。Java 提供了 <code>Collections.emptyXXX()</code> 表示空集合。</p>
+<ol start="8">
+<li><strong>避免引入第三方库</strong></li>
+</ol>
+<p>GitHub有许多开源的第三方库，比如网络请求 OkHttp、图片加载 Glide 等，但在 SDK 开发中，遵循的基本的原则是：</p>
+<ul>
+<li>最小可用性原则，即用最少的代码，如无必要勿增实体。</li>
+<li>最少依赖性原则，即用最低限度的外部依赖，如无必要勿增依赖。</li>
+</ul>
+<p>引入第三方库可能带来下面几个问题：</p>
+<ul>
+<li>宿主应用的第三方库和 SDK 依赖的版本不一致，容易引起冲突，增加对接的成本。</li>
+<li>开源库不断更新，SDK 也要及时更新，增加额外的维护工作量。</li>
+<li>由于引入开源库，出现问题难以排查。</li>
+</ul>
+<ol start="9">
+<li><strong>保证兼容性</strong></li>
+</ol>
+<p>SDK 是不断迭代的，每次发布都会有新功能和 bug 修复。对于使用者来说，升级版本不该有太大的改动，一般直接替换库文件或者修改远程依赖库的版本号就够了。避免直接对公开接口的重命名，如果旧接口废弃，要通过 <code>@Deprecated</code> 关键字标明，并给出替代方案和废弃的时间。</p>
+<ol start="10">
+<li><strong>减少入侵性</strong></li>
+</ol>
+<p>要保证较少的代码侵入主要在对外提供服务时，充分考虑开发者的使用场景来设计优良的 API。一套优良的 API 在定义时要满足绝大数开发者预期的方式——语义上要求通俗易懂，使用上要求简单可靠。具体的表现是，在正常情况下能够稳定可靠地运行，在异常情况下及时地反馈错误信息。</p>
+<p>比如使用 Gradle 下载依赖库，AAR 包中有不必要的 bundle 资源，我们提供了打包 apk 时的构建配置，自由选择要打包的 bundle，减少了对宿主应用的侵入性。</p>
+<pre><code class="language-groovy">    applicationVariants.all { variant -&gt;
+        variant.mergeAssetsProvider.configure {
+            doLast {
+                delete(fileTree(dir: outputDir,
+                        // 删除不必要的 bundle 文件
+                        includes: ['model/ai_face_processor_lite.bundle',
+                                   'model/ai_gesture.bundle',
+                                   'graphics/controller.bundle',
+                                   'graphics/tongue.bundle']))
+            }
+        }
+    }
+</code></pre>
+<h3 id="5-sdk-交付">5. SDK 交付</h3>
+<h4 id="封装包">封装包</h4>
+<p>Android 平台通常使用 jar 和 aar 发布 SDK，区别是 jar 只包含代码，aar 可以包含代码、资源和动态库。一般而言 aar 是最合适的交付方式，把它上传到 maven 服务器，使用者就可以一行代码集成。对于需要灵活定制的客户，我们也会提供 SDK 的源码，弊端就是升级困难，要改动很多的代码。</p>
+<p>对于代码混淆，公开接口和 native 使用的接口不要混，内部的实现细节可以混淆，以减少 SDK 包的大小。</p>
+<h4 id="接入文档">接入文档</h4>
+<p>接入文档用来告诉 SDK 使用者，如何使用 SDK、详细步使用骤和可能发生的问题。文档内容包括：更新记录、基本信息、API 说明、集成步骤、FAQ等。好文档的标准就是清晰明了，通俗易懂。一个完全不懂 SDK 的开发者看着文档就能对接，对于经常遇到的问题要逐条列出，专业名词要有对应的解释。</p>
+<h4 id="demo-示例">Demo 示例</h4>
+<p>集成 Demo 通常是一个简单的 App，用来展示如何快速地接入 SDK。Demo 的源码托管到 GitHub，方便使用者参考，其版本变更策略和 SDK 版本的变化保持一致。尽管是个 Demo，它的开发原则也要与 SDK 一致，确保高质量的交付。</p>
+<p><strong>参考文章：</strong></p>
+<ul>
+<li><a href="https://lionoggo.blog.csdn.net/article/details/53558011">随想录:开发一流Android SDK</a></li>
+<li><a href="https://juejin.cn/post/6844904100077764622">Android SDK开发规范整理</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/113505249">Android SDK 开发经验浅谈</a></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 33 期]]></title>
         <id>https://isuperqiang.cn/post/mei-zhou-arts-di-33-qi/</id>
@@ -666,54 +847,6 @@
 <p>在 GitHub 上搜了一些 Android 面试资料 http://note.youdao.com/noteshare?id=a04ac812925b23f6dc112eda70079c53 愿步步高升。</p>
 <p><strong>题外话：</strong></p>
 <p>由于个人原因，ARTS 暂停了将近半年，后续恢复打卡，请见谅。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[深入理解计算机系统之并发编程（二）]]></title>
-        <id>https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/</id>
-        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/">
-        </link>
-        <updated>2020-01-16T13:10:44.000Z</updated>
-        <content type="html"><![CDATA[<h3 id="1-多线程程序中的共享变量">1. 多线程程序中的共享变量</h3>
-<p>一组并发线程运行在一个进程的上下文中。每个线程都有自己独立的线程上下文，包括线程 ID、栈、<br>
-栈指针、程序计数器、条件码和通用目的寄存器值。每个线程和其他线程共享进程上下文的剩余部分，<br>
-包括用户虚拟地址空间，它是由只读文本（代码）、读/写数据、堆以及共享库代码和<br>
-数据区组成的。线程也共享相同的打开文件的集合。</p>
-<p>寄存器是从不共享的，虚拟内存总是共享的。</p>
-<p>多线程的 C 程序中的变量根据它们的存储类型被影射到虚拟内存：</p>
-<ul>
-<li>全局变量：定义在函数之外的变量，虚拟内存中只有一个实例，任何线程都能引用。</li>
-<li>本地自动变量：定义在函数内但没有 static 属性的变量，每个线程都有自己的实例。</li>
-<li>本地静态变量：定义在函数内并有 static 属性的变量，和全部变量一样。</li>
-</ul>
-<p>多线程实现计数器，每个线程对共享变量操作，容易出现同步错误。</p>
-<p>进度图将 n 个并发线程的执行，模型化为一条 n 维笛卡尔空间中的轨迹线。每条轴 k 对应<br>
-线程 k 的进度，每个点代表线程 k 已经完成指令的状态。</p>
-<p>每个线程在执行临界区（critical section）的指令时，拥有对共享变量的互斥（mutual exclusion）访问。<br>
-在进度图中，两个临界区的交集形成的状态空间称为不安全区，绕开不安全区的轨迹线叫做安全轨迹线。</p>
-<p>任何安全轨迹线都会正确地更新共享变量，为了保证线程化程序的正确执行，我们必须以某种方式同步线程。</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20191227085650.png" alt="安全和不安全轨迹线" loading="lazy"></figure>
-<h3 id="2-使用信号量同步线程">2. 使用信号量同步线程</h3>
-<p>一种经典的解决线程同步问题的方法：信号量（semephore）。它是具有非负整数的全局变量，只能由两种特殊的操作处理，成为 P 和 V。P 和 V 来源于荷兰语，分别表示测试和增加。</p>
-<p>P 中的测试和减一操作是不可分割的，V 中的加一操作也是不可分割的。当多个线程等待同一个信号量时，<br>
-无法预测 V 操作也重启哪个线程。</p>
-<p>使用信号量可以确保对共享变量的互斥访问。基本思想是将每个共享变量与一个信号量 s （初始为 1）关联起来，<br>
-然后用 P(s) 和 V(s) 操作将相应的临界区包围起来。这种保护共享变量的信号量称为二元信号量，<br>
-以提供互斥为目的的二元信号量称为互斥锁。</p>
-<p>除了提供互斥外，信号量的另一个重要作用是调度对共享资源的访问。比如生产者-消费者问题，读者-写者问题。</p>
-<h3 id="3-使用线程提高并行性">3. 使用线程提高并行性</h3>
-<p>所有程序的集合被划分为不相交的顺序程序集合和并发程序的结合，并行程序是一种运行在多个处理器上的并发程序。</p>
-<p>来看一个用多线程对整数序列求和的问题，将序列划分为多个不相交的区域，给每个线程分配一个区域。</p>
-<ul>
-<li>第一种做法，将每个线程求得的和放入共享的全局变量中，用互斥锁保护这个变量。结果性能非常差，同步操作的代价太大。</li>
-<li>第二种做法，定义一个全局数组，每个对等线程把和累积在数组的不同位置。同时，使用局部变量消除不必要的内存引用。最终性能提升明显。</li>
-</ul>
-<p>同步开销巨大，要尽可能避免。如果无可避免，必须要用尽可能多的有用计算弥补这个开销。</p>
-<p>随着线程数量的增加，程序运行时间不会一直减少，由于线程上下文切换的开销。</p>
-<h3 id="4-其他并发问题">4. 其他并发问题</h3>
-<p>可重入(reentrant)函数：当被多个线程调用时，不会引用任何共享数据。比不可重入的线程安全的函数高效一些，因为它不需要同步操作。</p>
-<p>避免死锁(deadlock)：给定所有互斥操作的一个全序，如果每个线程都以一种顺序获得互斥锁并以相反的顺序<br>
-释放，那么这个程序就是无死锁的。</p>
 ]]></content>
     </entry>
 </feed>
