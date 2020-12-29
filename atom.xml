@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2020-12-27T08:02:03.503Z</updated>
+    <updated>2020-12-29T16:27:06.967Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.cn"/>
     <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
@@ -189,6 +189,37 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
 <li><a href="https://juejin.cn/post/6844904100077764622">Android SDK开发规范整理</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/113505249">Android SDK 开发经验浅谈</a></li>
 </ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[给程序员的推荐书单]]></title>
+        <id>https://isuperqiang.cn/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
+        <link href="https://isuperqiang.cn/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
+        </link>
+        <updated>2020-10-29T16:19:40.000Z</updated>
+        <content type="html"><![CDATA[<p>工作这么多年，虽然平时加班很多，但闲暇时间依然会读书。在我看来，读书并实践是成长的最有效途径。读书提升认知，实践改变行为，所谓知行合一。细细数来，读过不少的好书，有技术类的，也有非技术类的。下面推荐一些我认为值得读的好书：</p>
+<h4 id="1-技术类">1. 技术类</h4>
+<ul>
+<li><a href="https://book.douban.com/subject/2130190/">Java 编程思想（第4版）</a> Java 的“圣经”级作品，包含编程思想和设计模式，从宏观视角讲解 Java 语言，经典之作值得反复阅读，适合进阶，入门级就不要看了。</li>
+<li><a href="https://book.douban.com/subject/30412517/">Effective Java（第3版）</a>  Java 开发的规范，或者说最佳实践，实在的经验之谈，格外关注细节，重在培养优秀的编程习惯，同样值得拜读多次，同样适合进阶。</li>
+<li><a href="https://book.douban.com/subject/10484692/">Java 并发编程实战</a> 深入 Java 并发的必读之作，一本完美的 Java 并发参考手册，JUC 源码的作者 Doug Lea 也是该书作者之一。</li>
+<li><a href="https://book.douban.com/subject/2243615/">Head First 设计模式</a> 介绍了 GoF 提出的 23 种设计模式，配合插画和案例，读起来不觉枯燥，非常生动有趣，适合入门设计模式。</li>
+<li><a href="https://book.douban.com/subject/25708312/">C++ Primer（第5版）</a>  经典的 C++ 教程，采用 C++11 标准编写，最近正在读，很厚的一本书。</li>
+<li><a href="https://book.douban.com/subject/26912767/">深入理解计算机系统（第3版）</a> 简称“CSAPP”，程序员的必读书，详细描绘了计算机系统的实现细节，不懂底层的程序员称不上是合格的程序员。此书非常硬核，有些概念要反复理解。</li>
+<li><a href="https://book.douban.com/subject/1477390/">代码大全（第2版）</a> 写代码不该局限于砌墙，更高远的是建设软件大厦。这本书介绍了软件构建的流程，还包括其中的细节和技巧，高屋建瓴，是提升编程认知的好书。</li>
+<li><a href="https://book.douban.com/subject/4262627/">重构</a> 代码重构非常好的指导书，里面有许多非常规的观点和技巧，读完后你会发现项目里有太多坏代码等着修改，重构是为了使代码变得更好。</li>
+<li><a href="https://book.douban.com/subject/30333948/">码出高效：Java 开发手册</a> 阿里大佬写的书，比较大众化，都是基础性的内容，总结了一些实战经验，打牢基础总没错。</li>
+<li><a href="https://book.douban.com/subject/30358046/">Android 进阶解密</a> 和 <a href="https://book.douban.com/subject/26599538/">Android 开发艺术探索</a> 都是非常好的 Android 进阶书，知识面有深度和广度，也是高级工程师必备的技能。</li>
+</ul>
+<p>这里有份 <a href="https://m.douban.com/subject_collection/5185">豆瓣热门编程图书 Top10</a>，如果不知道怎么选，多读经典总是没错的。</p>
+<h4 id="2-非技术">2. 非技术</h4>
+<ul>
+<li><a href="https://book.douban.com/subject/24868904/">高效能程序员的修炼</a> coding horror 博客中的精选文章集合，除了技术之外，还有职业规划、团队协作、高效工作环境等，软件开发远不是只写代码那么简单，程序员的软技能和硬技能一样重要。从这本书中可以读到骨灰级程序员的真知灼见。</li>
+<li><a href="https://book.douban.com/subject/26835090/">软件能</a> 始于代码，不止代码。这本书介绍了程序员的发展的多个方面，职业、营销、学习、理财、健身等，读完真的是刷新认知。程序员不是呆子，我们的人生有多种可能性。</li>
+<li><a href="https://book.douban.com/subject/1152111/">程序员修炼之道</a> 程序员的基本修养，包括软件编程、职业发展、工作习惯等方面。学校只会教你怎么写代码，不会教你软技能，这本书就是很好的指导。不要埋头写代码，抬头看路才能走对方向。</li>
+</ul>
+<p>技术类的书籍提升我们的硬技能，进而提升职业专业性。非技术类的书籍提升我们的软技能，少走弯路从而走得更远。</p>
+<p>另外说一点，好书值得反复读，每读一遍都会有新的收获，愿你职业发展越走越好。</p>
 ]]></content>
     </entry>
     <entry>
@@ -766,87 +797,6 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
 <p>早在 1986 年的时候，人月神话的作者在讨论软件的复杂性时，谈到：软件的本质复杂性存在于复杂的业务需求中。</p>
 <p>而管理复杂性，最根本的手段就是职责分离。为了实现职责分离，代码重用，架构慢慢地复现出来。架构的本质是管理复杂性。</p>
 <p>没有架构，我们所有的代码都耦合在一起，人类的心智模型不擅长处理这种复杂性，架构的设立，和图书馆的图书分类，公司的组织划分等，本质都是一样的。是为了管理复杂性，以取得更高的生产力。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 26 期]]></title>
-        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-26-qi/</id>
-        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-26-qi/">
-        </link>
-        <updated>2020-04-19T14:02:16.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="判定字符是否唯一"><a href="https://leetcode-cn.com/problems/is-unique-lcci/">判定字符是否唯一</a>（简单）</h4>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>实现一个算法，确定一个字符串 s 的所有字符是否全都不同。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: s = &quot;leetcode&quot;
-输出: false 
-输入: s = &quot;abc&quot;
-输出: true
-</code></pre>
-<h5 id="思路">思路：</h5>
-<ul>
-<li>统计次数：使用一个额外的 int 数组，统计每个字符出现的次数。</li>
-<li>位运算：int 类型有 32 位，取其中的低 26 位，作为每个字符的标志位，通过左移、与、或运算，记录每个字符的对应位置。真是高级解法！</li>
-</ul>
-<pre><code class="language-java">class Sulution {
-    public boolean isUnique1(String astr) {
-        if (astr == null || astr.length() == 0) {
-            return true;
-        }
-        int[] counts = new int[26];
-        for (int i = 0, length = astr.length(); i &lt; length; i++) {
-            int pos = astr.charAt(i) - 'a';
-            if (counts[pos] &gt;= 1) {
-                return false;
-            }
-            counts[pos] += 1;
-        }
-        return true;
-    }
-
-    public boolean isUnique2(String astr) {
-        if (astr == null || astr.length() == 0) {
-            return true;
-        }
-        int mark = 0;
-        for (int i = 0, length = astr.length(); i &lt; length; i++) {
-            int flag = 1 &lt;&lt; (astr.charAt(i) - 'a');
-            if ((mark &amp; flag) != 0) {
-                return false;
-            } else {
-                mark |= flag;
-            }
-        }
-        return true;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
-<p>统计次数：</p>
-<ul>
-<li>时间复杂度：O(N)</li>
-<li>空间复杂度：O(N)</li>
-</ul>
-<p>位运算：</p>
-<ul>
-<li>时间复杂度：O(N)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://levelup.gitconnected.com/how-to-go-from-junior-to-senior-programmer-29d53f3edd27">How to Go from Junior to Senior Programmer</a>  <a href="https://www.infoq.cn/article/6gagslvv3x5oQLpaVpv8">如何从初级程序员变成高级程序员？</a></p>
-<p>从 InfoQ 看到的一篇译文，算是经验之谈。高工不是根据经验判定，而是分析的技能。深有同感，我总是把代码放在第一位，有时候忽略了业务场景，考虑问题的出发点不同，导致任务处理方式也不同。代码只是一部分，真正的目的是解决问题。</p>
-<blockquote>
-<p>一名程序员不会因为他会写代码而成为一名合格的程序员，而是因为在开始做任何事情之前先做分析，然后再来开展工作，这才是真正的程序员。</p>
-</blockquote>
-<h2 id="3-tip">3. Tip</h2>
-<p>最近某 BAT 之一坑害了 pandownload，真的是令人发指！自己的产品做得烂不去反思，却耍小伎俩坑无辜的开发者。天下苦 B 久矣，作为程序员，从抵制 B 开始。推荐一个好用的木弟子 <a href="https://neoproxy.me/?rc=r1gv64bl">AgentNeo</a>，线路非常稳定，价格也实惠。通过我的链接注册，可以享受 5 元优惠 https://neoproxy.me/?rc=r1gv64bl。（结算时选择团购下单，团购代码 21853G0V，享受 8 折优惠，活动截止 2020-04-25）</p>
-<h2 id="4-share">4. Share</h2>
-<p>在 GitHub 上搜了一些 Android 面试资料 http://note.youdao.com/noteshare?id=a04ac812925b23f6dc112eda70079c53 愿步步高升。</p>
-<p><strong>题外话：</strong></p>
-<p>由于个人原因，ARTS 暂停了将近半年，后续恢复打卡，请见谅。</p>
 ]]></content>
     </entry>
 </feed>
