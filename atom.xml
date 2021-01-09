@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/</id>
+    <id>https://isuperqiang.github.io</id>
     <title>落英坠露</title>
-    <updated>2021-01-09T12:10:03.381Z</updated>
+    <updated>2021-01-09T12:22:43.425Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/"/>
-    <link rel="self" href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/atom.xml"/>
+    <link rel="alternate" href="https://isuperqiang.github.io"/>
+    <link rel="self" href="https://isuperqiang.github.io/atom.xml"/>
     <subtitle>生活不止眼前的苟且，还有诗和远方的田野。</subtitle>
-    <logo>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/images/avatar.png</logo>
-    <icon>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/favicon.ico</icon>
+    <logo>https://isuperqiang.github.io/images/avatar.png</logo>
+    <icon>https://isuperqiang.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, 落英坠露</rights>
     <entry>
         <title type="html"><![CDATA[作为程序员的我，核心竞争力是什么]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/">
+        <id>https://isuperqiang.github.io/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/</id>
+        <link href="https://isuperqiang.github.io/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/">
         </link>
         <updated>2020-12-15T14:08:12.000Z</updated>
         <content type="html"><![CDATA[<p>在准备面试的过程中，突然想到一个问题：面试这个岗位的人那么多，和其他人相比，你的优势在什么地方，公司为什么要录用你？<br>
@@ -68,8 +68,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Android SDK 开发经验谈]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/android-sdk-kai-fa-jing-yan-tan/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/android-sdk-kai-fa-jing-yan-tan/">
+        <id>https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/</id>
+        <link href="https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/">
         </link>
         <updated>2020-12-09T07:59:35.000Z</updated>
         <content type="html"><![CDATA[<p>在公司做了两年多的 SDK 开发，结合自己的所知所学，分享一些 SDK 开发的经验。</p>
@@ -249,8 +249,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[给程序员的推荐书单]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
+        <id>https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
+        <link href="https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
         </link>
         <updated>2020-10-29T16:19:40.000Z</updated>
         <content type="html"><![CDATA[<p>工作这么多年，虽然平时加班很多，但闲暇时间依然会读书。在我看来，读书并实践是成长的最有效途径。读书提升认知，实践改变行为，所谓知行合一。细细数来，读过不少的好书，有技术类的，也有非技术类的。下面推荐一些我认为值得读的好书：</p>
@@ -280,8 +280,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 33 期]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-33-qi/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-33-qi/">
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
         </link>
         <updated>2020-06-14T15:07:09.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
@@ -343,8 +343,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 32 周]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-32-zhou/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-32-zhou/">
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/">
         </link>
         <updated>2020-06-07T15:22:45.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
@@ -397,8 +397,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 31 周]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-31-zhou/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-31-zhou/">
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/">
         </link>
         <updated>2020-05-26T23:46:49.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
@@ -467,8 +467,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[使用Android架构组件Lifecycle优化代码]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
+        <id>https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/</id>
+        <link href="https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
         </link>
         <updated>2020-05-26T23:23:34.000Z</updated>
         <content type="html"><![CDATA[<p>Android developers 提供的支持库越来越完善，不知大家在开发中有没有升级 <a href="https://developer.android.com/jetpack">Jetpack</a>，也就是引入 androidX 包，Jetpack 确实简化了代码，提升了效率。下面介绍架构组件中的 Lifecycle，官网的介绍：<a href="https://developer.android.com/topic/libraries/architecture/lifecycle">使用生命周期感知型组件处理生命周期</a> 非常详细，我就介绍一下 Lifecycle 在开发中的实践。</p>
@@ -540,8 +540,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 30 周]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-30-zhou/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-30-zhou/">
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/">
         </link>
         <updated>2020-05-19T00:10:13.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
@@ -599,8 +599,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 29 周]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-29-zhou/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-29-zhou/">
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/">
         </link>
         <updated>2020-05-12T13:19:24.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
@@ -662,8 +662,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 28 周]]></title>
-        <id>https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-28-zhou/</id>
-        <link href="https://coding-pages-bucket-427316-8217905-10184-454102-1257024749.cos-website.ap-hongkong.myqcloud.com/post/mei-zhou-arts-di-28-zhou/">
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/">
         </link>
         <updated>2020-05-03T09:48:29.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
