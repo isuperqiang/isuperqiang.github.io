@@ -1,703 +1,756 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+    <meta charset="utf-8" >
+
+<title>文章归档 | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
-      
-    
-      
-    
-  </div>
-</div>
+    <div id="app" class="main">
 
-    
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
         
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
 
-<div class="archives-container">
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+
+          <h2 class="archives-title">文章归档</h2>
+          <div class="archives-container">
+            
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2020</h2>
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/">
+                      <h2 class="post-title">
+                        作为程序员的我，核心竞争力是什么
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/">
+                      <h2 class="post-title">
+                        Android SDK 开发经验谈
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
+                      <h2 class="post-title">
+                        给程序员的推荐书单
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 33 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 32 周
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 31 周
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
+                      <h2 class="post-title">
+                        使用Android架构组件Lifecycle优化代码
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 30 周
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 29 周
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 28 周
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-27-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 27 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-26-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 26 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之并发编程（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/libyuv-ku-bian-yi/">
+                      <h2 class="post-title">
+                        libyuv 库编译
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2019</h2>
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/ha-xi-suan-fa-ji-qi-ying-yong/">
+                      <h2 class="post-title">
+                        哈希算法及其应用
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之并发编程（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-er/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之网络编程（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之网络编程（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之系统级IO
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之虚拟内存（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之虚拟内存（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-er/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之异常控制流（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之异常控制流（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之存储器层次结构
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-er/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之程序的机器级表示（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-25-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 25 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-yi/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之程序的机器级表示（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-24-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 24 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xin-xi-de-biao-shi-he-chu-li-er/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之信息的表示和处理（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-23-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 23 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi-xin-xi-chu-li-yi/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之信息的表示和处理（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-22-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 22 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you/">
+                      <h2 class="post-title">
+                        深入理解计算机系统之计算机系统漫游
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-21-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 21 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-20-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 20 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-19-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 19 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-18-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 18 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-17-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 17 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-16-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 16 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">
+                      <h2 class="post-title">
+                        深入理解 Java 中的 override 和 overload
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-15-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 15 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-14-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 14 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-13-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 13 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-12-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 12 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">
+                      <h2 class="post-title">
+                        Java 比较浮点数的正确方式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-11-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 11 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-10-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 10 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-io-na-xie-shi-er/">
+                      <h2 class="post-title">
+                        Android I/O 那些事儿
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-9-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 9 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-8-qi/">
+                      <h2 class="post-title">
+                        每周 ARTS 第 8 期
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+            
+          </div>
+
+          <div class="pagination-container">
   
-    <h2 class="year">2020</h2>
-    
-      
-        <a href="https://isuperqiang.github.io/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/" class="post">
-          <h2 class="post-title">
-            作为程序员的我，核心竞争力是什么
-          </h2>
-          <div class="time">2020-12-15</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/" class="post">
-          <h2 class="post-title">
-            Android SDK 开发经验谈
-          </h2>
-          <div class="time">2020-12-09</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/" class="post">
-          <h2 class="post-title">
-            给程序员的推荐书单
-          </h2>
-          <div class="time">2020-10-30</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 33 期
-          </h2>
-          <div class="time">2020-06-14</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 32 周
-          </h2>
-          <div class="time">2020-06-07</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 31 周
-          </h2>
-          <div class="time">2020-05-27</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/" class="post">
-          <h2 class="post-title">
-            使用Android架构组件Lifecycle优化代码
-          </h2>
-          <div class="time">2020-05-27</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 30 周
-          </h2>
-          <div class="time">2020-05-19</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 29 周
-          </h2>
-          <div class="time">2020-05-12</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 28 周
-          </h2>
-          <div class="time">2020-05-03</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-27-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 27 期
-          </h2>
-          <div class="time">2020-04-25</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-26-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 26 期
-          </h2>
-          <div class="time">2020-04-19</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-er/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之并发编程（二）
-          </h2>
-          <div class="time">2020-01-16</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/libyuv-ku-bian-yi/" class="post">
-          <h2 class="post-title">
-            libyuv 库编译
-          </h2>
-          <div class="time">2020-01-04</div>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
   
-    <h2 class="year">2019</h2>
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/ha-xi-suan-fa-ji-qi-ying-yong/" class="post">
-          <h2 class="post-title">
-            哈希算法及其应用
-          </h2>
-          <div class="time">2019-12-27</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-bing-fa-bian-cheng-yi/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之并发编程（一）
-          </h2>
-          <div class="time">2019-12-15</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-er/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之网络编程（二）
-          </h2>
-          <div class="time">2019-12-06</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-wang-luo-bian-cheng-yi/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之网络编程（一）
-          </h2>
-          <div class="time">2019-11-29</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xi-tong-ji-io/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之系统级IO
-          </h2>
-          <div class="time">2019-11-24</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-er/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之虚拟内存（二）
-          </h2>
-          <div class="time">2019-11-22</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xu-ni-nei-cun-yi/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之虚拟内存（一）
-          </h2>
-          <div class="time">2019-11-08</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-er/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之异常控制流（二）
-          </h2>
-          <div class="time">2019-11-03</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-yi-chang-kong-zhi-liu-yi/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之异常控制流（一）
-          </h2>
-          <div class="time">2019-10-27</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cun-chu-qi-ceng-ci-jie-gou/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之存储器层次结构
-          </h2>
-          <div class="time">2019-10-20</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-er/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之程序的机器级表示（二）
-          </h2>
-          <div class="time">2019-10-13</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-25-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 25 期
-          </h2>
-          <div class="time">2019-09-28</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-cheng-xu-de-ji-qi-ji-biao-shi-yi/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之程序的机器级表示（一）
-          </h2>
-          <div class="time">2019-09-23</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-24-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 24 期
-          </h2>
-          <div class="time">2019-09-14</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-xin-xi-de-biao-shi-he-chu-li-er/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之信息的表示和处理（二）
-          </h2>
-          <div class="time">2019-09-14</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-23-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 23 期
-          </h2>
-          <div class="time">2019-09-10</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-zheng-shu-biao-shi-xin-xi-chu-li-yi/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之信息的表示和处理（一）
-          </h2>
-          <div class="time">2019-09-07</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-22-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 22 期
-          </h2>
-          <div class="time">2019-09-01</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-ji-suan-ji-xi-tong-zhi-ji-suan-ji-xi-tong-man-you/" class="post">
-          <h2 class="post-title">
-            深入理解计算机系统之计算机系统漫游
-          </h2>
-          <div class="time">2019-08-28</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-21-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 21 期
-          </h2>
-          <div class="time">2019-08-25</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-20-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 20 期
-          </h2>
-          <div class="time">2019-08-18</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-19-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 19 期
-          </h2>
-          <div class="time">2019-08-11</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-18-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 18 期
-          </h2>
-          <div class="time">2019-08-04</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-17-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 17 期
-          </h2>
-          <div class="time">2019-07-28</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-16-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 16 期
-          </h2>
-          <div class="time">2019-07-20</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/" class="post">
-          <h2 class="post-title">
-            深入理解 Java 中的 override 和 overload
-          </h2>
-          <div class="time">2019-07-20</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-15-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 15 期
-          </h2>
-          <div class="time">2019-07-14</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-14-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 14 期
-          </h2>
-          <div class="time">2019-07-07</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-13-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 13 期
-          </h2>
-          <div class="time">2019-06-30</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-12-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 12 期
-          </h2>
-          <div class="time">2019-06-23</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/" class="post">
-          <h2 class="post-title">
-            Java 比较浮点数的正确方式
-          </h2>
-          <div class="time">2019-06-23</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-11-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 11 期
-          </h2>
-          <div class="time">2019-06-16</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-10-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 10 期
-          </h2>
-          <div class="time">2019-06-09</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-io-na-xie-shi-er/" class="post">
-          <h2 class="post-title">
-            Android I/O 那些事儿
-          </h2>
-          <div class="time">2019-06-04</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-9-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 9 期
-          </h2>
-          <div class="time">2019-06-02</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-8-qi/" class="post">
-          <h2 class="post-title">
-            每周 ARTS 第 8 期
-          </h2>
-          <div class="time">2019-05-26</div>
-        </a>
-      
-    
+    <a href="https://isuperqiang.github.io/archives/page/2" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
   
 </div>
 
-    
-        <div class="pagination-container">
-  
-  
-    <a href="https://isuperqiang.github.io/archives/page/2" class="prev-page">下一页</a>
-  
-</div>
+        </div>
+      </div>
+    </div>
 
-    
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-<script>
-  hljs.initHighlightingOnLoad()
+<script type="application/javascript">
 
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+AOS.init();
 
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
+hljs.initHighlightingOnLoad()
 
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>

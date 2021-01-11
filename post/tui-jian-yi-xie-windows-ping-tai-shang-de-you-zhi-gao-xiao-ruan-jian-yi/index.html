@@ -1,105 +1,125 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>推荐一些 Windows 平台上的优质高效软件（一） | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
       
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              推荐一些 Windows 平台上的优质高效软件（一）
-            </h2>
-            <div class="post-info">
-              <span>
-                2017-03-04
-              </span>
-              <span>
-                6 min read
-              </span>
-              
-                <a href="https://isuperqiang.github.io/tag/toolkit/" class="post-tag">
-                  # 软件工具
-                </a>
-              
-            </div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（一）</h2>
+            <div class="post-date">2017-03-04</div>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <p>在 PC 领域苹果电脑是高端的代名词，凭借 MacOS 的优秀设计，Mac 已经成为不少办公族的标配。技术圈里大多数人推荐使用 Mac 开发，但是考虑到成本问题，有的公司还是没能满足开发者的诉求。我个人使用 Windows 系统有几年时间了，对其特性和使用技巧有所了解，这篇文章主要介绍我平时用到的优质的软件，只为提高工作效率。</p>
+            <div class="post-content">
+              <p>在 PC 领域苹果电脑是高端的代名词，凭借 MacOS 的优秀设计，Mac 已经成为不少办公族的标配。技术圈里大多数人推荐使用 Mac 开发，但是考虑到成本问题，有的公司还是没能满足开发者的诉求。我个人使用 Windows 系统有几年时间了，对其特性和使用技巧有所了解，这篇文章主要介绍我平时用到的优质的软件，只为提高工作效率。</p>
 <h3 id="1-搜狗输入法">1. 搜狗输入法</h3>
 <p><a href="http://pinyin.sogou.com/">搜狗拼音输入法</a> 是国内用户量最大的输入法，鉴于搜狗这么多年来在输入法领域的精耕细作，其产品的质量还是不错的。自定义短语是非常好用的功能，在属性设置 → 高级设置里面，把使用频度高的短语词汇（比如开发经常用到的 <a href="https://github.com/mzlogin/awesome-adb">ADB 命令</a> ）添加进去，使用的时候输入两三个字母就行了，确实非常地方便。<br>
 <img src="http://upload-images.jianshu.io/upload_images/1820210-7e3e43ddf64ecac2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="自定义短语功能" loading="lazy"></p>
@@ -132,121 +152,83 @@
 <img src="http://upload-images.jianshu.io/upload_images/1820210-3195dc148d1c88a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="网易云音乐" loading="lazy"></p>
 <p>这次的推荐就这么多，欢迎大家分享使用心得，下次再与大家分享其他好玩实用的工具~</p>
 
-              </div>
-              <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li>
-<ul>
-<li><a href="#1-%E6%90%9C%E7%8B%97%E8%BE%93%E5%85%A5%E6%B3%95">1. 搜狗输入法</a></li>
-<li><a href="#2-%E6%AF%8F%E6%97%A5%E5%BF%85%E5%BA%94">2. 每日必应</a></li>
-<li><a href="#3-clover-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E5%99%A8">3. Clover 资源管理器</a></li>
-<li><a href="#4-cmder-%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7">4. Cmder 命令行工具</a></li>
-<li><a href="#5-ditto-%E5%89%AA%E8%B4%B4%E6%9D%BF%E7%AE%A1%E7%90%86%E5%99%A8">5. Ditto 剪贴板管理器</a></li>
-<li><a href="#6-flux-%E8%B0%83%E8%8A%82%E8%89%B2%E6%B8%A9-%E4%BF%9D%E6%8A%A4%E7%9C%BC%E7%9D%9B">6. f.lux 调节色温 保护眼睛</a></li>
-<li><a href="#7-foxmail-%E9%82%AE%E4%BB%B6%E5%AE%A2%E6%88%B7%E7%AB%AF">7. Foxmail 邮件客户端</a></li>
-<li><a href="#8-%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0">8. 印象笔记</a></li>
-<li><a href="#9-notepad">9. Notepad++</a></li>
-<li><a href="#10-%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90">10. 网易云音乐</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-              </div>
             </div>
-          </article>
-        </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.github.io/tag/toolkit/" class="tag">
+                    软件工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-san-li-yong-ding-shi-qi-he-xi-tong-guang-bo/">
+                  <h3 class="post-title">
+                    Android 进程保活系列：（三）利用定时器和系统广播
+                  </h3>
+                </a>
+              </div>
+            
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-san-li-yong-ding-shi-qi-he-xi-tong-guang-bo/">
-              <h3 class="post-title">
-                Android 进程保活系列：（三）利用定时器和系统广播
-              </h3>
-            </a>
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
           </div>
-        
 
-        
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: 'd18dcb9f11230a396f48',
-    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-    repo: 'isuperqiang.github.io',
-    owner: 'isuperqiang',
-    admin: ['isuperqiang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-
-          
-        
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
-
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
-
-</script>
-
+        </div>
       </div>
     </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd18dcb9f11230a396f48',
+        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
   </body>
 </html>

@@ -1,366 +1,285 @@
+<!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>Android 音视频 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
       
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-        <div class="current-tag-container">
-            <h2 class="title">
-                标签：# Android 音视频
-            </h2> 
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: Android 音视频</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/libyuv-ku-bian-yi/">
+                  <h2 class="post-title">libyuv 库编译</h2>
+                </a>
+                <div class="post-date">
+                  2020-01-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-opengl-es-hui-zhi-tu-pian/">
+                  <h2 class="post-title">Android 使用 OpenGL ES 绘制图片</h2>
+                </a>
+                <div class="post-date">
+                  2019-05-03
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-mediacodec-bian-jie-ma-aac/">
+                  <h2 class="post-title">Android 使用 MediaCodec 编解码 AAC</h2>
+                </a>
+                <div class="post-date">
+                  2019-05-03
+                </div>
+                <div class="post-abstract">
+                  <p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-opengl-es-hui-zhi-san-jiao-xing/">
+                  <h2 class="post-title">Android 使用 OpenGL ES 绘制三角形</h2>
+                </a>
+                <div class="post-date">
+                  2019-05-02
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-mediaextractor-yu-mediamuxer-fen-chi-he-cheng/">
+                  <h2 class="post-title">Android 使用 MediaExtractor 与 MediaMuxer 分离合成音视频</h2>
+                </a>
+                <div class="post-date">
+                  2018-11-06
+                </div>
+                <div class="post-abstract">
+                  <p>一个音视频文件是由音频和视频组成的，Android 提供了 MediaExtractor 和 MediaMuxer 类，用来把音频或视频单独抽取出来，然后合成新的视频。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-camera-cai-ji-shi-pin/">
+                  <h2 class="post-title">Android 使用 Camera 采集视频</h2>
+                </a>
+                <div class="post-date">
+                  2018-11-03
+                </div>
+                <div class="post-abstract">
+                  <p>在 Android 平台预览相机画面主要用到的是  SurfaceView、TextureView 这两个类。那么它们的区别是什么呢？</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-audiotrack-bo-fang-yin-pin/">
+                  <h2 class="post-title">Android 使用 AudioTrack 播放音频</h2>
+                </a>
+                <div class="post-date">
+                  2018-10-31
+                </div>
+                <div class="post-abstract">
+                  <p>说到在 Android 平台上播放音频，我们最先想到的是 MediaPlayer，系统 API 对其做了比较全面的封装，开发者用少量的代码就能实现播放功能。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-audiorecord-cai-ji-yin-pin/">
+                  <h2 class="post-title">Android 使用 AudioRecord 采集音频</h2>
+                </a>
+                <div class="post-date">
+                  2018-10-30
+                </div>
+                <div class="post-abstract">
+                  <p>AudioRecord 是 Android 系统提供的用于实现录音功能的 API，官方文档是这么解释的：</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-surfaceview-hui-tu/">
+                  <h2 class="post-title">Android 使用 SurfaceView 绘图</h2>
+                </a>
+                <div class="post-date">
+                  2018-10-29
+                </div>
+                <div class="post-abstract">
+                  <p>由于公司业务要用到音视频方面的知识，所以打算学习一下 Android 音视频开发。在网上搜索资料和教程，发现系统化的比较少，内容大多讲得比较零散。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+</div>
+
         </div>
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/libyuv-ku-bian-yi/">
-        <h2 class="post-title">libyuv 库编译</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-01-04
-        </span>
-        <span>
-          4 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
       </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-opengl-es-hui-zhi-tu-pian/">
-        <h2 class="post-title">Android 使用 OpenGL ES 绘制图片</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-05-03
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/opengles/" class="post-tag">
-            # OpengGL ES
-          </a>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-mediacodec-bian-jie-ma-aac/">
-        <h2 class="post-title">Android 使用 MediaCodec 编解码 AAC</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-05-03
-        </span>
-        <span>
-          10 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>现在的短视频、音视频通话都离不开编码和解码，今天就来聊一下音频的编解码。</p>
+    </div>
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-opengl-es-hui-zhi-san-jiao-xing/">
-        <h2 class="post-title">Android 使用 OpenGL ES 绘制三角形</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-05-02
-        </span>
-        <span>
-          12 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/opengles/" class="post-tag">
-            # OpengGL ES
-          </a>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-mediaextractor-yu-mediamuxer-fen-chi-he-cheng/">
-        <h2 class="post-title">Android 使用 MediaExtractor 与 MediaMuxer 分离合成音视频</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2018-11-06
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>一个音视频文件是由音频和视频组成的，Android 提供了 MediaExtractor 和 MediaMuxer 类，用来把音频或视频单独抽取出来，然后合成新的视频。</p>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-camera-cai-ji-shi-pin/">
-        <h2 class="post-title">Android 使用 Camera 采集视频</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2018-11-03
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>在 Android 平台预览相机画面主要用到的是  SurfaceView、TextureView 这两个类。那么它们的区别是什么呢？</p>
+<script type="application/javascript">
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-audiotrack-bo-fang-yin-pin/">
-        <h2 class="post-title">Android 使用 AudioTrack 播放音频</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2018-10-31
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>说到在 Android 平台上播放音频，我们最先想到的是 MediaPlayer，系统 API 对其做了比较全面的封装，开发者用少量的代码就能实现播放功能。</p>
+AOS.init();
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-audiorecord-cai-ji-yin-pin/">
-        <h2 class="post-title">Android 使用 AudioRecord 采集音频</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2018-10-30
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>AudioRecord 是 Android 系统提供的用于实现录音功能的 API，官方文档是这么解释的：</p>
+hljs.initHighlightingOnLoad()
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-shi-yong-surfaceview-hui-tu/">
-        <h2 class="post-title">Android 使用 SurfaceView 绘图</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2018-10-29
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-            # Android 音视频
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>由于公司业务要用到音视频方面的知识，所以打算学习一下 Android 音视频开发。在网上搜索资料和教程，发现系统化的比较少，内容大多讲得比较零散。</p>
-
-      </di>
-    </article>
-  
-</div>
-
-        <div class="pagination-container">
-  
-  
-</div>
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
-
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>

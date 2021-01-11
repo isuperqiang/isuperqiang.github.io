@@ -1,105 +1,125 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>Android 使用 AudioTrack 播放音频 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
       
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              Android 使用 AudioTrack 播放音频
-            </h2>
-            <div class="post-info">
-              <span>
-                2018-10-31
-              </span>
-              <span>
-                5 min read
-              </span>
-              
-                <a href="https://isuperqiang.github.io/tag/android-media/" class="post-tag">
-                  # Android 音视频
-                </a>
-              
-            </div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 使用 AudioTrack 播放音频</h2>
+            <div class="post-date">2018-10-31</div>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <p>说到在 Android 平台上播放音频，我们最先想到的是 MediaPlayer，系统 API 对其做了比较全面的封装，开发者用少量的代码就能实现播放功能。</p>
+            <div class="post-content">
+              <p>说到在 Android 平台上播放音频，我们最先想到的是 MediaPlayer，系统 API 对其做了比较全面的封装，开发者用少量的代码就能实现播放功能。</p>
 <!-- more -->
 <p>MediaPlayer 可以播放多种格式的声音文件，例如 MP3，AAC，WAV，OGG，MIDI 等，而 AudioTrack 只能播放 PCM 数据流。</p>
 <p>实际上，MediaPlayer 在播放音频时，在 Framework 层还是会创建 AudioTrack，把解码后的 PCM 数流传递给 AudioTrack，最后由 AudioFlinger 进行混音，把音频传递给硬件播放出来。利用 AudioTrack 播放只是跳过 Mediaplayer 的解码部分而已。如果是实时的音频数据，那么只能用 AudioTrack 进行播放。</p>
@@ -239,101 +259,83 @@
 <li><a href="https://blog.csdn.net/bzlj2912009596/article/details/76101035">android音频系统之AudioTrack的使用</a></li>
 </ul>
 
-              </div>
-              <div class="toc-container">
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.github.io/tag/android-media/" class="tag">
+                    Android 音视频
+                  </a>
                 
               </div>
-            </div>
-          </article>
-        </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.github.io/post/android-shi-yong-audiorecord-cai-ji-yin-pin/">
+                  <h3 class="post-title">
+                    Android 使用 AudioRecord 采集音频
+                  </h3>
+                </a>
+              </div>
+            
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://isuperqiang.github.io/post/android-shi-yong-audiorecord-cai-ji-yin-pin/">
-              <h3 class="post-title">
-                Android 使用 AudioRecord 采集音频
-              </h3>
-            </a>
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
           </div>
-        
 
-        
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: 'd18dcb9f11230a396f48',
-    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-    repo: 'isuperqiang.github.io',
-    owner: 'isuperqiang',
-    admin: ['isuperqiang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-
-          
-        
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
-
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
-
-</script>
-
+        </div>
       </div>
     </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd18dcb9f11230a396f48',
+        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
   </body>
 </html>

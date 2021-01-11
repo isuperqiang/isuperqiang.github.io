@@ -1,105 +1,125 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>从今天开始挑战 LeetCode | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
       
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-        <div class="post-detail">
-          <article class="post">
-            <h2 class="post-title">
-              从今天开始挑战 LeetCode
-            </h2>
-            <div class="post-info">
-              <span>
-                2018-06-02
-              </span>
-              <span>
-                2 min read
-              </span>
-              
-                <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
-                  # 数据结构算法
-                </a>
-              
-            </div>
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">从今天开始挑战 LeetCode</h2>
+            <div class="post-date">2018-06-02</div>
             
-            <div class="post-content-wrapper">
-              <div class="post-content">
-                <p>算法和数据结构是计算机编程重要的理论，也是一名优秀程序员的基本功，所以非常有必要对其学习和加深。</p>
+            <div class="post-content">
+              <p>算法和数据结构是计算机编程重要的理论，也是一名优秀程序员的基本功，所以非常有必要对其学习和加深。</p>
 <p>但是，算法是比较难学的，学习它需要智商。 同样一个问题，他的算法耗时 10ms，你的要 100ms，其中的性能差异是巨大的。解算法题的确是区分人类智商的比较好的方式，这也是为什么许多公司用算法面试来找到智商比较高的程序员。</p>
 <p>数组、链表、哈希表、二叉树、排序算法等一些基础知识，对大多数人来说是没什么问题的。但是其他动态规划、字符匹配等问题就非常复杂，都是伤脑筋等问题，没有解答思路是令人痛苦的。</p>
 <p>虽然很多时候，在工作中根本用不到算法，这不代表算法无用。真正的技术突破或者性能优化可能就在于算法，算法是贯穿底层系统和顶层业务的理论，不管用 Java 还是 C 语言，都离不开算法的编织。</p>
@@ -110,101 +130,83 @@
 </blockquote>
 <p>共勉。</p>
 
-              </div>
-              <div class="toc-container">
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="tag">
+                    数据结构算法
+                  </a>
                 
               </div>
-            </div>
-          </article>
-        </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.github.io/post/shi-yong-python-pa-qu-dou-ban-yin-le-top250/">
+                  <h3 class="post-title">
+                    使用 Python 爬取豆瓣音乐 Top250
+                  </h3>
+                </a>
+              </div>
+            
 
-        
-          <div class="next-post">
-            <div class="next">下一篇</div>
-            <a href="https://isuperqiang.github.io/post/shi-yong-python-pa-qu-dou-ban-yin-le-top250/">
-              <h3 class="post-title">
-                使用 Python 爬取豆瓣音乐 Top250
-              </h3>
-            </a>
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
           </div>
-        
 
-        
-          
-            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
-<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-
-<div id="gitalk-container"></div>
-
-<script>
-
-  var gitalk = new Gitalk({
-    clientID: 'd18dcb9f11230a396f48',
-    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-    repo: 'isuperqiang.github.io',
-    owner: 'isuperqiang',
-    admin: ['isuperqiang'],
-    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-    distractionFreeMode: false  // Facebook-like distraction free mode
-  })
-
-  gitalk.render('gitalk-container')
-
-</script>
-
-          
-
-          
-        
-
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-<script>
-  hljs.initHighlightingOnLoad()
-
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
-
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
-
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
-
-</script>
-
+        </div>
       </div>
     </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd18dcb9f11230a396f48',
+        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
   </body>
 </html>

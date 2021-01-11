@@ -1,377 +1,296 @@
+<!DOCTYPE html>
 <html>
   <head>
-  <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>ARTS | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
       
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-        <div class="current-tag-container">
-            <h2 class="title">
-                标签：# ARTS
-            </h2> 
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <h2 class="current-tag">标签: ARTS</h2>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
+                  <h2 class="post-title">每周 ARTS 第 33 期</h2>
+                </a>
+                <div class="post-date">
+                  2020-06-14
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/">
+                  <h2 class="post-title">每周 ARTS 第 32 周</h2>
+                </a>
+                <div class="post-date">
+                  2020-06-07
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/">
+                  <h2 class="post-title">每周 ARTS 第 31 周</h2>
+                </a>
+                <div class="post-date">
+                  2020-05-27
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/">
+                  <h2 class="post-title">每周 ARTS 第 30 周</h2>
+                </a>
+                <div class="post-date">
+                  2020-05-19
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/">
+                  <h2 class="post-title">每周 ARTS 第 29 周</h2>
+                </a>
+                <div class="post-date">
+                  2020-05-12
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/">
+                  <h2 class="post-title">每周 ARTS 第 28 周</h2>
+                </a>
+                <div class="post-date">
+                  2020-05-03
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-27-qi/">
+                  <h2 class="post-title">每周 ARTS 第 27 期</h2>
+                </a>
+                <div class="post-date">
+                  2020-04-25
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-26-qi/">
+                  <h2 class="post-title">每周 ARTS 第 26 期</h2>
+                </a>
+                <div class="post-date">
+                  2020-04-19
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-25-qi/">
+                  <h2 class="post-title">每周 ARTS 第 25 期</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-28
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-24-qi/">
+                  <h2 class="post-title">每周 ARTS 第 24 期</h2>
+                </a>
+                <div class="post-date">
+                  2019-09-14
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
+  
+  
+    <a href="https://isuperqiang.github.io/tag/arts/page/2" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+  
+</div>
+
         </div>
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
-        <h2 class="post-title">每周 ARTS 第 33 期</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-06-14
-        </span>
-        <span>
-          2 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
       </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/">
-        <h2 class="post-title">每周 ARTS 第 32 周</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-06-07
-        </span>
-        <span>
-          2 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/">
-        <h2 class="post-title">每周 ARTS 第 31 周</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-05-27
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/">
-        <h2 class="post-title">每周 ARTS 第 30 周</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-05-19
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/">
-        <h2 class="post-title">每周 ARTS 第 29 周</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-05-12
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/">
-        <h2 class="post-title">每周 ARTS 第 28 周</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-05-03
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-27-qi/">
-        <h2 class="post-title">每周 ARTS 第 27 期</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-04-25
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-26-qi/">
-        <h2 class="post-title">每周 ARTS 第 26 期</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2020-04-19
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-25-qi/">
-        <h2 class="post-title">每周 ARTS 第 25 期</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-28
-        </span>
-        <span>
-          2 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/mei-zhou-arts-di-24-qi/">
-        <h2 class="post-title">每周 ARTS 第 24 期</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2019-09-14
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/arts/" class="post-tag">
-            # ARTS
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-</div>
+    </div>
 
-        <div class="pagination-container">
-  
-  
-    <a href="https://isuperqiang.github.io/tag/arts/page/2" class="prev-page">下一页</a>
-  
-</div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
+<script type="application/javascript">
 
-<script>
-  hljs.initHighlightingOnLoad()
+AOS.init();
 
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+hljs.initHighlightingOnLoad()
 
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
-
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>

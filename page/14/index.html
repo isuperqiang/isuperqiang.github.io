@@ -1,382 +1,302 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" >
+
 <title>落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
       
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
       
-    
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
       
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
+    </div>
   </div>
-  <div class="social-container">
-    
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
       
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
       
-    
+        
       
-    
+        
       
-    
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
       
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
+        
       
-    
-      
-    
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
   </div>
 </div>
 
-    
-        <div class="post-container">
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/zen-yang-cha-kan-bing-shi-yong-android-yin-cang-he-nei-bu-de-api/">
-        <h2 class="post-title">怎样查看并使用 Android 隐藏和内部的 API</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-06-09
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>Android 有两种类型的 API 不能通过 SDK 访问。一种是在 com.android.internal 包中的 API，称之为 internal API。另一种是被标记为 <code>@hide</code> 属性的类和方法，这是一组小级别的被隐藏的 API，称之为 hidden API。</p>
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-er/">
-        <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（二）</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-05-09
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/toolkit/" class="post-tag">
-            # 软件工具
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi/">
-        <h2 class="post-title">Android WebView 支持文件下载的几种方式</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-05-06
-        </span>
-        <span>
-          6 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>最近在开发的过程中遇到一个需求，那就是让 WebView 支持文件下载，比如说下载 apk。WebView 默认是不支持下载的，需要开发者自己实现。</p>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/zen-yang-cha-kan-bing-shi-yong-android-yin-cang-he-nei-bu-de-api/">
+                  <h2 class="post-title">怎样查看并使用 Android 隐藏和内部的 API</h2>
+                </a>
+                <div class="post-date">
+                  2017-06-09
+                </div>
+                <div class="post-abstract">
+                  <p>Android 有两种类型的 API 不能通过 SDK 访问。一种是在 com.android.internal 包中的 API，称之为 internal API。另一种是被标记为 <code>@hide</code> 属性的类和方法，这是一组小级别的被隐藏的 API，称之为 hidden API。</p>
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-jing-mo-an-zhuang-de-ji-chong-fang-shi/">
-        <h2 class="post-title">Android 静默安装的几种方式</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-04-03
-        </span>
-        <span>
-          11 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>乍听起来，静默安装是非常流氓的一件事，它让用户不知觉的情况下被「收割」。但是技术本身是中立的，我们只谈谈实现静默安装这件事儿。</p>
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-er/">
+                  <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（二）</h2>
+                </a>
+                <div class="post-date">
+                  2017-05-09
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi/">
+                  <h2 class="post-title">Android WebView 支持文件下载的几种方式</h2>
+                </a>
+                <div class="post-date">
+                  2017-05-06
+                </div>
+                <div class="post-abstract">
+                  <p>最近在开发的过程中遇到一个需求，那就是让 WebView 支持文件下载，比如说下载 apk。WebView 默认是不支持下载的，需要开发者自己实现。</p>
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang/">
-        <h2 class="post-title">Android WebView 运行在系统进程引发的异常</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-03-26
-        </span>
-        <span>
-          7 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/fix-bug/" class="post-tag">
-            # 填坑
-          </a>
-        
-          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi/">
-        <h2 class="post-title">Java 使用静态工厂方法代替构造器</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-03-22
-        </span>
-        <span>
-          5 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
-            # Java
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>最近看到一段代码，感觉写得非常好，它的功能是带参数启动 Activity：</p>
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-jing-mo-an-zhuang-de-ji-chong-fang-shi/">
+                  <h2 class="post-title">Android 静默安装的几种方式</h2>
+                </a>
+                <div class="post-date">
+                  2017-04-03
+                </div>
+                <div class="post-abstract">
+                  <p>乍听起来，静默安装是非常流氓的一件事，它让用户不知觉的情况下被「收割」。但是技术本身是中立的，我们只谈谈实现静默安装这件事儿。</p>
 
-      </di>
-    </article>
-  
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-sharedpreferences-shi-xian-yuan-li-fen-xi/">
-        <h2 class="post-title">Android SharedPreferences 实现原理分析</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-03-06
-        </span>
-        <span>
-          13 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        <p>Android 中的 SharedPreference 是轻量级的数据存储方式，能够保存简单的数据类型，比如 String、int、boolean 值等。其内部是以 XML 结构保存在 /data/data/包名/shared_prefs 文件夹下，数据以键值对的形式保存。</p>
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang/">
+                  <h2 class="post-title">Android WebView 运行在系统进程引发的异常</h2>
+                </a>
+                <div class="post-date">
+                  2017-03-26
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi/">
+                  <h2 class="post-title">Java 使用静态工厂方法代替构造器</h2>
+                </a>
+                <div class="post-date">
+                  2017-03-22
+                </div>
+                <div class="post-abstract">
+                  <p>最近看到一段代码，感觉写得非常好，它的功能是带参数启动 Activity：</p>
 
-      </di>
-    </article>
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-sharedpreferences-shi-xian-yuan-li-fen-xi/">
+                  <h2 class="post-title">Android SharedPreferences 实现原理分析</h2>
+                </a>
+                <div class="post-date">
+                  2017-03-06
+                </div>
+                <div class="post-abstract">
+                  <p>Android 中的 SharedPreference 是轻量级的数据存储方式，能够保存简单的数据类型，比如 String、int、boolean 值等。其内部是以 XML 结构保存在 /data/data/包名/shared_prefs 文件夹下，数据以键值对的形式保存。</p>
+
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-yi/">
+                  <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（一）</h2>
+                </a>
+                <div class="post-date">
+                  2017-03-04
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-san-li-yong-ding-shi-qi-he-xi-tong-guang-bo/">
+                  <h2 class="post-title">Android 进程保活系列：（三）利用定时器和系统广播</h2>
+                </a>
+                <div class="post-date">
+                  2017-01-17
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+            <article class="post-item">
+              <div class="left">
+                <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-er-li-yong-notification-ti-sheng-quan-xian/">
+                  <h2 class="post-title">Android 进程保活系列：（二）利用 Notification 提升权限</h2>
+                </a>
+                <div class="post-date">
+                  2017-01-05
+                </div>
+                <div class="post-abstract">
+                  
+                </div>
+              </div>
+              
+            </article>
+          
+
+          <div class="pagination-container">
   
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-yi/">
-        <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（一）</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-03-04
-        </span>
-        <span>
-          6 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/toolkit/" class="post-tag">
-            # 软件工具
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
+    <a href="https://isuperqiang.github.io/page/13/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
   
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-san-li-yong-ding-shi-qi-he-xi-tong-guang-bo/">
-        <h2 class="post-title">Android 进程保活系列：（三）利用定时器和系统广播</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-01-17
-        </span>
-        <span>
-          4 min read
-        </span>
-        
-          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
-            # Android
-          </a>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
   
-    <article class="post">
-      <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-er-li-yong-notification-ti-sheng-quan-xian/">
-        <h2 class="post-title">Android 进程保活系列：（二）利用 Notification 提升权限</h2>
-      </a>
-      <div class="post-info">
-        <span>
-          2017-01-05
-        </span>
-        <span>
-          3 min read
-        </span>
-        
-      </div>
-      
-      <div class="post-abstract">
-        
-      </di>
-    </article>
+    <a href="https://isuperqiang.github.io/page/15/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
   
 </div>
 
-    
-        <div class="pagination-container">
-  
-    <a href="https://isuperqiang.github.io/page/13/" class="prev-page">上一页</a>
-  
-  
-    <a href="https://isuperqiang.github.io/page/15/" class="prev-page">下一页</a>
-  
-</div>
+        </div>
+      </div>
+    </div>
 
-    
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-<script>
-  hljs.initHighlightingOnLoad()
+<script type="application/javascript">
 
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+AOS.init();
 
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
+hljs.initHighlightingOnLoad()
 
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>

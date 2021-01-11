@@ -1,754 +1,803 @@
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383260086">
+    <meta charset="utf-8" >
+
+<title>文章归档 | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610383338858">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
 
 
   </head>
   <body>
-    <div class="main">
-      <div class="main-content">
-        <div class="site-header">
-  <a href="https://isuperqiang.github.io">
-  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610383260086" alt="">
-  </a>
-  <h1 class="site-title">
-    落英坠露
-  </h1>
-  <p class="site-description">
-    生活不止眼前的苟且，还有诗和远方的田野。
-  </p>
-  <div class="menu-container">
-    
-      
-        <a href="https://isuperqiang.cn" class="menu">
-          首页
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/archives" class="menu">
-          归档
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/tags" class="menu">
-          标签
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.cn/post/about/" class="menu">
-          关于
-        </a>
-      
-    
-  </div>
-  <div class="social-container">
-    
-      
-        <a href="https://github.com/isuperqiang" target="_blank">
-          <i class="fab fa-github"></i>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
-          <i class="fab fa-zhihu"></i>
-        </a>
-      
-    
-      
-    
-  </div>
-</div>
+    <div id="app" class="main">
 
-    
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.github.io">
+        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610383338858" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
         
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
+            <i class="fab fa-zhihu"></i>
+          </a>
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
 
-<div class="archives-container">
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          
+
+          <h2 class="archives-title">文章归档</h2>
+          <div class="archives-container">
+            
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2018</h2>
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/ru-he-you-ya-di-shang-wang/">
+                      <h2 class="post-title">
+                        如何优雅地上网
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-ce-lue-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之策略模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-dai-li-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之代理模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-zhuang-tai-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之状态模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-zu-he-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之组合模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-die-dai-qi-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之迭代器模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-mo-ban-fang-fa-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之模版方法模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-wai-guan-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之外观模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-gua-pei-qi-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之适配器模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-ming-ling-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之命令模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-dan-li-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之单例模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-shi-yong-sao-ma-qiang-shu-ru-zi-fu/">
+                      <h2 class="post-title">
+                        Android 使用扫码枪输入字符
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-gong-han-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之工厂模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-zhuang-shi-zhe-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之装饰者模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-guan-cha-zhe-mo-shi/">
+                      <h2 class="post-title">
+                        设计模式之观察者模式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/fei-chang-ren-ke-de-hu-lian-wang-gong-si-de-gong-ju-wen-hua/">
+                      <h2 class="post-title">
+                        非常认可的互联网公司的工具文化
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/dui-eventbus-feng-zhuang/">
+                      <h2 class="post-title">
+                        对事件总线 EventBus 库的封装
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2017</h2>
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/wo-de-2017xiang-nan-fei-de-hou-niao-yi-yang/">
+                      <h2 class="post-title">
+                        我的 2017，像南飞的候鸟一样
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-studio-he-gradle-you-hua-pei-zhi-zong-jie/">
+                      <h2 class="post-title">
+                        Android Studio 和 Gradle 优化配置总结
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-shu-ju-jia-mi-he-bian-ma-de-ji-chong-fang-shi/">
+                      <h2 class="post-title">
+                        Android 数据加密和编码的几种方式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-shi-yong-gradle-da-bao-zhi-qian-ming-pei-zhi/">
+                      <h2 class="post-title">
+                        Android 使用 Gradle 打包之签名配置
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/gei-cheng-xu-yuan-tui-jian-yi-ge-jian-ji-shi-yong-de-jian-li-mo-ban/">
+                      <h2 class="post-title">
+                        给程序员推荐一个简洁实用的简历模板
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/hang-zhou-zhao-gong-zuo-android-mian-shi-zong-jie/">
+                      <h2 class="post-title">
+                        2017 杭州 Android 面试总结
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/xie-zai-gong-zuo-yi-nian-tiao-cao-hou/">
+                      <h2 class="post-title">
+                        写在工作一年跳槽后
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-duo-mo-kuai-da-bao-hun-yao-tian-keng-ji/">
+                      <h2 class="post-title">
+                        Android 多模块打包混淆填坑记
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-zi-ding-yi-view-zhi-hui-zhi-lei-da-tu/">
+                      <h2 class="post-title">
+                        Android 自定义 View 之绘制雷达图
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/gao-xiao-shi-yong-de-chrome-cha-jian-fen-xiang/">
+                      <h2 class="post-title">
+                        高效实用的 Chrome 插件分享
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/gong-si-nei-bu-ji-zhu-kai-fa-gui-fan/">
+                      <h2 class="post-title">
+                        公司内部技术开发规范
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-san/">
+                      <h2 class="post-title">
+                        推荐一些 Windows 平台上的优质高效软件（三）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/li-jie-android-hook-ji-zhu-yi-ji-jian-dan-shi-zhan/">
+                      <h2 class="post-title">
+                        理解 Android Hook 技术以及简单实战
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/zen-yang-cha-kan-bing-shi-yong-android-yin-cang-he-nei-bu-de-api/">
+                      <h2 class="post-title">
+                        怎样查看并使用 Android 隐藏和内部的 API
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-er/">
+                      <h2 class="post-title">
+                        推荐一些 Windows 平台上的优质高效软件（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi/">
+                      <h2 class="post-title">
+                        Android WebView 支持文件下载的几种方式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-jing-mo-an-zhuang-de-ji-chong-fang-shi/">
+                      <h2 class="post-title">
+                        Android 静默安装的几种方式
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang/">
+                      <h2 class="post-title">
+                        Android WebView 运行在系统进程引发的异常
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi/">
+                      <h2 class="post-title">
+                        Java 使用静态工厂方法代替构造器
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-sharedpreferences-shi-xian-yuan-li-fen-xi/">
+                      <h2 class="post-title">
+                        Android SharedPreferences 实现原理分析
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-yi/">
+                      <h2 class="post-title">
+                        推荐一些 Windows 平台上的优质高效软件（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-san-li-yong-ding-shi-qi-he-xi-tong-guang-bo/">
+                      <h2 class="post-title">
+                        Android 进程保活系列：（三）利用定时器和系统广播
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-er-li-yong-notification-ti-sheng-quan-xian/">
+                      <h2 class="post-title">
+                        Android 进程保活系列：（二）利用 Notification 提升权限
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-yi-li-yong-activity-ti-sheng-quan-xian/">
+                      <h2 class="post-title">
+                        Android 进程保活系列：（一）利用 Activity 提升权限
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+            
+              <h2 class="year" data-aos="fade-in" data-aos-delay="500">2016</h2>
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-expandablelistview-shi-yong-xiao-jie-er/">
+                      <h2 class="post-title">
+                        Android ExpandableListView 使用小结（二）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/android-expandablelistview-shi-yong-xiao-jie-yi/">
+                      <h2 class="post-title">
+                        Android ExpandableListView 使用小结（一）
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/bi-ye-hou-qu-liao-yi-jia-tian-jin-de-chuang-ye-gong-si/">
+                      <h2 class="post-title">
+                        毕业后去了一家天津的创业公司
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/2016-nian-xiao-zhao-mian-shi-zong-jie/">
+                      <h2 class="post-title">
+                        2016 年校招面试总结
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+                
+                  <article class="post">
+                    <a href="https://isuperqiang.github.io/post/can-jia-liao-zhong-guo-yin-xing-ji-zhu-bu-chun-zhao-bi-shi/">
+                      <h2 class="post-title">
+                        参加了中国银行技术部春招笔试
+                      </h2>
+                    </a>
+                  </article>
+                
+              
+            
+          </div>
+
+          <div class="pagination-container">
   
-    <h2 class="year">2018</h2>
-    
-      
-        <a href="https://isuperqiang.github.io/post/ru-he-you-ya-di-shang-wang/" class="post">
-          <h2 class="post-title">
-            如何优雅地上网
-          </h2>
-          <div class="time">2018-04-15</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-ce-lue-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之策略模式
-          </h2>
-          <div class="time">2018-04-10</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-dai-li-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之代理模式
-          </h2>
-          <div class="time">2018-04-02</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-zhuang-tai-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之状态模式
-          </h2>
-          <div class="time">2018-03-31</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-zu-he-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之组合模式
-          </h2>
-          <div class="time">2018-03-27</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-die-dai-qi-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之迭代器模式
-          </h2>
-          <div class="time">2018-03-25</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-mo-ban-fang-fa-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之模版方法模式
-          </h2>
-          <div class="time">2018-03-20</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-wai-guan-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之外观模式
-          </h2>
-          <div class="time">2018-03-19</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-gua-pei-qi-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之适配器模式
-          </h2>
-          <div class="time">2018-03-18</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-ming-ling-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之命令模式
-          </h2>
-          <div class="time">2018-03-16</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-dan-li-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之单例模式
-          </h2>
-          <div class="time">2018-03-15</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-shi-yong-sao-ma-qiang-shu-ru-zi-fu/" class="post">
-          <h2 class="post-title">
-            Android 使用扫码枪输入字符
-          </h2>
-          <div class="time">2018-03-14</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-gong-han-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之工厂模式
-          </h2>
-          <div class="time">2018-03-12</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-zhuang-shi-zhe-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之装饰者模式
-          </h2>
-          <div class="time">2018-03-09</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/she-ji-mo-shi-zhi-guan-cha-zhe-mo-shi/" class="post">
-          <h2 class="post-title">
-            设计模式之观察者模式
-          </h2>
-          <div class="time">2018-03-08</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/fei-chang-ren-ke-de-hu-lian-wang-gong-si-de-gong-ju-wen-hua/" class="post">
-          <h2 class="post-title">
-            非常认可的互联网公司的工具文化
-          </h2>
-          <div class="time">2018-02-28</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/dui-eventbus-feng-zhuang/" class="post">
-          <h2 class="post-title">
-            对事件总线 EventBus 库的封装
-          </h2>
-          <div class="time">2018-01-26</div>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
+    <a href="https://isuperqiang.github.io/archives/page/2/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
   
-    <h2 class="year">2017</h2>
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/wo-de-2017xiang-nan-fei-de-hou-niao-yi-yang/" class="post">
-          <h2 class="post-title">
-            我的 2017，像南飞的候鸟一样
-          </h2>
-          <div class="time">2017-12-31</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-studio-he-gradle-you-hua-pei-zhi-zong-jie/" class="post">
-          <h2 class="post-title">
-            Android Studio 和 Gradle 优化配置总结
-          </h2>
-          <div class="time">2017-11-25</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-shu-ju-jia-mi-he-bian-ma-de-ji-chong-fang-shi/" class="post">
-          <h2 class="post-title">
-            Android 数据加密和编码的几种方式
-          </h2>
-          <div class="time">2017-11-15</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-shi-yong-gradle-da-bao-zhi-qian-ming-pei-zhi/" class="post">
-          <h2 class="post-title">
-            Android 使用 Gradle 打包之签名配置
-          </h2>
-          <div class="time">2017-11-10</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/gei-cheng-xu-yuan-tui-jian-yi-ge-jian-ji-shi-yong-de-jian-li-mo-ban/" class="post">
-          <h2 class="post-title">
-            给程序员推荐一个简洁实用的简历模板
-          </h2>
-          <div class="time">2017-10-25</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/hang-zhou-zhao-gong-zuo-android-mian-shi-zong-jie/" class="post">
-          <h2 class="post-title">
-            2017 杭州 Android 面试总结
-          </h2>
-          <div class="time">2017-09-10</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/xie-zai-gong-zuo-yi-nian-tiao-cao-hou/" class="post">
-          <h2 class="post-title">
-            写在工作一年跳槽后
-          </h2>
-          <div class="time">2017-08-12</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-duo-mo-kuai-da-bao-hun-yao-tian-keng-ji/" class="post">
-          <h2 class="post-title">
-            Android 多模块打包混淆填坑记
-          </h2>
-          <div class="time">2017-07-23</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-zi-ding-yi-view-zhi-hui-zhi-lei-da-tu/" class="post">
-          <h2 class="post-title">
-            Android 自定义 View 之绘制雷达图
-          </h2>
-          <div class="time">2017-07-02</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/gao-xiao-shi-yong-de-chrome-cha-jian-fen-xiang/" class="post">
-          <h2 class="post-title">
-            高效实用的 Chrome 插件分享
-          </h2>
-          <div class="time">2017-06-24</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/gong-si-nei-bu-ji-zhu-kai-fa-gui-fan/" class="post">
-          <h2 class="post-title">
-            公司内部技术开发规范
-          </h2>
-          <div class="time">2017-06-18</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-san/" class="post">
-          <h2 class="post-title">
-            推荐一些 Windows 平台上的优质高效软件（三）
-          </h2>
-          <div class="time">2017-06-12</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/li-jie-android-hook-ji-zhu-yi-ji-jian-dan-shi-zhan/" class="post">
-          <h2 class="post-title">
-            理解 Android Hook 技术以及简单实战
-          </h2>
-          <div class="time">2017-06-11</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/zen-yang-cha-kan-bing-shi-yong-android-yin-cang-he-nei-bu-de-api/" class="post">
-          <h2 class="post-title">
-            怎样查看并使用 Android 隐藏和内部的 API
-          </h2>
-          <div class="time">2017-06-09</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-er/" class="post">
-          <h2 class="post-title">
-            推荐一些 Windows 平台上的优质高效软件（二）
-          </h2>
-          <div class="time">2017-05-09</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-webview-zhi-chi-wen-jian-xia-zai-de-ji-chong-fang-shi/" class="post">
-          <h2 class="post-title">
-            Android WebView 支持文件下载的几种方式
-          </h2>
-          <div class="time">2017-05-06</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-jing-mo-an-zhuang-de-ji-chong-fang-shi/" class="post">
-          <h2 class="post-title">
-            Android 静默安装的几种方式
-          </h2>
-          <div class="time">2017-04-03</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-webview-yun-xing-zai-xi-tong-jin-cheng-yin-fa-de-yi-chang/" class="post">
-          <h2 class="post-title">
-            Android WebView 运行在系统进程引发的异常
-          </h2>
-          <div class="time">2017-03-26</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi/" class="post">
-          <h2 class="post-title">
-            Java 使用静态工厂方法代替构造器
-          </h2>
-          <div class="time">2017-03-22</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-sharedpreferences-shi-xian-yuan-li-fen-xi/" class="post">
-          <h2 class="post-title">
-            Android SharedPreferences 实现原理分析
-          </h2>
-          <div class="time">2017-03-06</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-yi/" class="post">
-          <h2 class="post-title">
-            推荐一些 Windows 平台上的优质高效软件（一）
-          </h2>
-          <div class="time">2017-03-04</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-san-li-yong-ding-shi-qi-he-xi-tong-guang-bo/" class="post">
-          <h2 class="post-title">
-            Android 进程保活系列：（三）利用定时器和系统广播
-          </h2>
-          <div class="time">2017-01-17</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-er-li-yong-notification-ti-sheng-quan-xian/" class="post">
-          <h2 class="post-title">
-            Android 进程保活系列：（二）利用 Notification 提升权限
-          </h2>
-          <div class="time">2017-01-05</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-jin-cheng-bao-huo-xi-lie-yi-li-yong-activity-ti-sheng-quan-xian/" class="post">
-          <h2 class="post-title">
-            Android 进程保活系列：（一）利用 Activity 提升权限
-          </h2>
-          <div class="time">2017-01-04</div>
-        </a>
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  
-    <h2 class="year">2016</h2>
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-expandablelistview-shi-yong-xiao-jie-er/" class="post">
-          <h2 class="post-title">
-            Android ExpandableListView 使用小结（二）
-          </h2>
-          <div class="time">2016-05-14</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/android-expandablelistview-shi-yong-xiao-jie-yi/" class="post">
-          <h2 class="post-title">
-            Android ExpandableListView 使用小结（一）
-          </h2>
-          <div class="time">2016-05-12</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/bi-ye-hou-qu-liao-yi-jia-tian-jin-de-chuang-ye-gong-si/" class="post">
-          <h2 class="post-title">
-            毕业后去了一家天津的创业公司
-          </h2>
-          <div class="time">2016-05-07</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/2016-nian-xiao-zhao-mian-shi-zong-jie/" class="post">
-          <h2 class="post-title">
-            2016 年校招面试总结
-          </h2>
-          <div class="time">2016-04-22</div>
-        </a>
-      
-    
-      
-        <a href="https://isuperqiang.github.io/post/can-jia-liao-zhong-guo-yin-xing-ji-zhu-bu-chun-zhao-bi-shi/" class="post">
-          <h2 class="post-title">
-            参加了中国银行技术部春招笔试
-          </h2>
-          <div class="time">2016-04-16</div>
-        </a>
-      
-    
   
 </div>
 
-    
-        <div class="pagination-container">
-  
-    <a href="https://isuperqiang.github.io/archives/page/2/" class="prev-page">上一页</a>
-  
-  
-</div>
+        </div>
+      </div>
+    </div>
 
-    
-        <div class="site-footer">
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
-  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-</div>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 
-<script>
-  hljs.initHighlightingOnLoad()
+<script type="application/javascript">
 
-  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+AOS.init();
 
-  // This should probably be throttled.
-  // Especially because it triggers during smooth scrolling.
-  // https://lodash.com/docs/4.17.10#throttle
-  // You could do like...
-  // window.addEventListener("scroll", () => {
-  //    _.throttle(doThatStuff, 100);
-  // });
-  // Only not doing it here to keep this Pen dependency-free.
+hljs.initHighlightingOnLoad()
 
-  window.addEventListener("scroll", event => {
-    let fromTop = window.scrollY;
-
-    mainNavLinks.forEach((link, index) => {
-      let section = document.getElementById(decodeURI(link.hash).substring(1));
-      let nextSection = null
-      if (mainNavLinks[index + 1]) {
-        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
-      }
-      console.log('section.offsetHeight', section.offsetHeight);
-      if (section.offsetTop <= fromTop) {
-        if (nextSection) {
-          if (nextSection.offsetTop > fromTop) {
-            link.classList.add("current");
-          } else {
-            link.classList.remove("current");    
-          }
-        } else {
-          link.classList.add("current");
-        }
-      } else {
-        link.classList.remove("current");
-      }
-    });
-  });
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
 
 </script>
 
-      </div>
-    </div>
+
+
+
   </body>
 </html>
