@@ -1,299 +1,387 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
+      
+    
+      
+    
+      
+    
+      
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
+      
+    
+      
+    
+  </div>
+</div>
 
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
+    
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/android-shi-yong-gradle-da-bao-zhi-qian-ming-pei-zhi/">
+        <h2 class="post-title">Android 使用 Gradle 打包之签名配置</h2>
       </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
+      <div class="post-info">
+        <span>
+          2017-11-10
+        </span>
+        <span>
+          3 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
+            # Android
+          </a>
+        
       </div>
-    </div>
-    <div>
       
+      <div class="post-abstract">
+        <p>最近正好在项目里用到了 Gradle 打包的配置，顺便总结一下。</p>
+
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/gei-cheng-xu-yuan-tui-jian-yi-ge-jian-ji-shi-yong-de-jian-li-mo-ban/">
+        <h2 class="post-title">给程序员推荐一个简洁实用的简历模板</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-10-25
+        </span>
+        <span>
+          1 min read
+        </span>
         
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
+          <a href="https://isuperqiang.github.io/tag/interview/" class="post-tag">
+            # 面试
           </a>
         
+      </div>
       
+      <div class="post-abstract">
         
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/hang-zhou-zhao-gong-zuo-android-mian-shi-zong-jie/">
+        <h2 class="post-title">2017 杭州 Android 面试总结</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-09-10
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/interview/" class="post-tag">
+            # 面试
           </a>
         
-      
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
+          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
+            # Android
           </a>
         
+      </div>
       
+      <div class="post-abstract">
         
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/xie-zai-gong-zuo-yi-nian-tiao-cao-hou/">
+        <h2 class="post-title">写在工作一年跳槽后</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-08-12
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/summary/" class="post-tag">
+            # 个人总结
           </a>
         
+      </div>
       
-    </div>
-  </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
-      
+      <div class="post-abstract">
         
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/android-duo-mo-kuai-da-bao-hun-yao-tian-keng-ji/">
+        <h2 class="post-title">Android 多模块打包混淆填坑记</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-07-23
+        </span>
+        <span>
+          2 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/fix-bug/" class="post-tag">
+            # 填坑
           </a>
         
-      
-        
-      
-        
-      
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
+          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
+            # Android
           </a>
         
+      </div>
       
+      <div class="post-abstract">
         
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/android-zi-ding-yi-view-zhi-hui-zhi-lei-da-tu/">
+        <h2 class="post-title">Android 自定义 View 之绘制雷达图</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-07-02
+        </span>
+        <span>
+          8 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
+            # Android
+          </a>
+        
+      </div>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
-  </div>
+      <div class="post-abstract">
+        <p>做 Android 应用开发，界面自然是少不了的，它是最直接可被用户感知的部分。每当看到手机上应用做出绚丽的画面、巧妙的动画，使用体验就像把玩一件艺术品一般，真的令人赞叹！</p>
+
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/gao-xiao-shi-yong-de-chrome-cha-jian-fen-xiang/">
+        <h2 class="post-title">高效实用的 Chrome 插件分享</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-06-24
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/toolkit/" class="post-tag">
+            # 软件工具
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/gong-si-nei-bu-ji-zhu-kai-fa-gui-fan/">
+        <h2 class="post-title">公司内部技术开发规范</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-06-18
+        </span>
+        <span>
+          13 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/tech-quality/" class="post-tag">
+            # 技术素养
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-san/">
+        <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（三）</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-06-12
+        </span>
+        <span>
+          6 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/toolkit/" class="post-tag">
+            # 软件工具
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/li-jie-android-hook-ji-zhu-yi-ji-jian-dan-shi-zhan/">
+        <h2 class="post-title">理解 Android Hook 技术以及简单实战</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-06-11
+        </span>
+        <span>
+          8 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/android/" class="post-tag">
+            # Android
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/android-shi-yong-gradle-da-bao-zhi-qian-ming-pei-zhi/">
-                  <h2 class="post-title">Android 使用 Gradle 打包之签名配置</h2>
-                </a>
-                <div class="post-date">
-                  2017-11-10
-                </div>
-                <div class="post-abstract">
-                  <p>最近正好在项目里用到了 Gradle 打包的配置，顺便总结一下。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/gei-cheng-xu-yuan-tui-jian-yi-ge-jian-ji-shi-yong-de-jian-li-mo-ban/">
-                  <h2 class="post-title">给程序员推荐一个简洁实用的简历模板</h2>
-                </a>
-                <div class="post-date">
-                  2017-10-25
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/hang-zhou-zhao-gong-zuo-android-mian-shi-zong-jie/">
-                  <h2 class="post-title">2017 杭州 Android 面试总结</h2>
-                </a>
-                <div class="post-date">
-                  2017-09-10
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/xie-zai-gong-zuo-yi-nian-tiao-cao-hou/">
-                  <h2 class="post-title">写在工作一年跳槽后</h2>
-                </a>
-                <div class="post-date">
-                  2017-08-12
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/android-duo-mo-kuai-da-bao-hun-yao-tian-keng-ji/">
-                  <h2 class="post-title">Android 多模块打包混淆填坑记</h2>
-                </a>
-                <div class="post-date">
-                  2017-07-23
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/android-zi-ding-yi-view-zhi-hui-zhi-lei-da-tu/">
-                  <h2 class="post-title">Android 自定义 View 之绘制雷达图</h2>
-                </a>
-                <div class="post-date">
-                  2017-07-02
-                </div>
-                <div class="post-abstract">
-                  <p>做 Android 应用开发，界面自然是少不了的，它是最直接可被用户感知的部分。每当看到手机上应用做出绚丽的画面、巧妙的动画，使用体验就像把玩一件艺术品一般，真的令人赞叹！</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/gao-xiao-shi-yong-de-chrome-cha-jian-fen-xiang/">
-                  <h2 class="post-title">高效实用的 Chrome 插件分享</h2>
-                </a>
-                <div class="post-date">
-                  2017-06-24
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/gong-si-nei-bu-ji-zhu-kai-fa-gui-fan/">
-                  <h2 class="post-title">公司内部技术开发规范</h2>
-                </a>
-                <div class="post-date">
-                  2017-06-18
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/tui-jian-yi-xie-windows-ping-tai-shang-de-you-zhi-gao-xiao-ruan-jian-san/">
-                  <h2 class="post-title">推荐一些 Windows 平台上的优质高效软件（三）</h2>
-                </a>
-                <div class="post-date">
-                  2017-06-12
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/li-jie-android-hook-ji-zhu-yi-ji-jian-dan-shi-zhan/">
-                  <h2 class="post-title">理解 Android Hook 技术以及简单实战</h2>
-                </a>
-                <div class="post-date">
-                  2017-06-11
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-
-          <div class="pagination-container">
+    
+        <div class="pagination-container">
   
-    <a href="https://isuperqiang.github.io/page/12/" class="prev"><i class="icon-arrow-ios-back-outline"></i> 上一页</a>
+    <a href="https://isuperqiang.github.io/page/12/" class="prev-page">上一页</a>
   
   
-    <a href="https://isuperqiang.github.io/page/14/" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+    <a href="https://isuperqiang.github.io/page/14/" class="prev-page">下一页</a>
   
 </div>
 
-        </div>
-      </div>
-    </div>
+    
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script>
+  hljs.initHighlightingOnLoad()
 
-<script type="application/javascript">
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-AOS.init();
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-hljs.initHighlightingOnLoad()
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
 </script>
 
-
-
-
+      </div>
+    </div>
   </body>
 </html>

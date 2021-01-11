@@ -1,272 +1,341 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Java | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
-          </a>
-        
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: Java</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">
-                  <h2 class="post-title">深入理解 Java 中的 override 和 overload</h2>
-                </a>
-                <div class="post-date">
-                  2019-07-20
-                </div>
-                <div class="post-abstract">
-                  <p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">
-                  <h2 class="post-title">Java 比较浮点数的正确方式</h2>
-                </a>
-                <div class="post-date">
-                  2019-06-23
-                </div>
-                <div class="post-abstract">
-                  <p>今天在读《Java开发手册》时，看到浮点数的等值判断问题「浮点数的基本数据类型不能用 <code>==</code> 比较，包装数据类型不能用 <code>equals</code> 比较」。以前开发时也遇到过浮点数的坑，所以就想一探究竟。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/java-xian-cheng-jian-tong-xin-he-xie-zuo-de-liang-chong-fang-shi/">
-                  <h2 class="post-title">Java 线程间通信和协作的两种方式</h2>
-                </a>
-                <div class="post-date">
-                  2019-04-06
-                </div>
-                <div class="post-abstract">
-                  <p>现在计算机和智能手机都是多核处理器，为了更好地发挥设备的性能，提高应用程序的体验性，多线程是必不可少的技术。线程之间不是孤立的，它们共享进程的资源和数据，彼此之间还需要进行通信和协作，最典型的例子就是「生产者-消费者模型」。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/java-ji-he-de-fail-fast-ji-zhi/">
-                  <h2 class="post-title">Java 集合的 fail-fast 机制</h2>
-                </a>
-                <div class="post-date">
-                  2019-03-19
-                </div>
-                <div class="post-abstract">
-                  <p>fail-fast 机制是集合世界中比较常见的错误检测机制，通常出现在遍历集合元素的过程中。它是一种对集合遍历操作时的错误检测机制，在遍历中途出现意外的修改时，通过 unchecked 异常暴力地反馈出来。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/">
-                  <h2 class="post-title">《Effective Java》— Java 进阶必备</h2>
-                </a>
-                <div class="post-date">
-                  2019-01-17
-                </div>
-                <div class="post-abstract">
-                  <p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/java-servlet-ji-ben-shi-yong/">
-                  <h2 class="post-title">Java Servlet 基本使用</h2>
-                </a>
-                <div class="post-date">
-                  2018-07-07
-                </div>
-                <div class="post-abstract">
-                  <p>Servlet 是 Java Web 开发的起点，几乎所有的 Java Web 框架都是基于 Servlet 的封装，其中最主要的就是 Servlet 和 Filter 接口。我重新学习了一遍 Servlet，对 Java Web 开发有了更深的理解。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/shi-yong-ssm-kuang-jia-kai-fa-java-web-xiang-mu/">
-                  <h2 class="post-title">使用 SSM 框架开发 Java Web 项目</h2>
-                </a>
-                <div class="post-date">
-                  2018-07-02
-                </div>
-                <div class="post-abstract">
-                  <p>这段时间学习了 SSM 框架（Spring、Spring MVC 和 Mybatis），确实感觉到使用 Java 语言开发 Web 的强大。Java 属于工业级的编程语言，Spring 家族就是 Java 框架里面最耀眼的明珠，没有之一。</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi/">
-                  <h2 class="post-title">Java 使用静态工厂方法代替构造器</h2>
-                </a>
-                <div class="post-date">
-                  2017-03-22
-                </div>
-                <div class="post-abstract">
-                  <p>最近看到一段代码，感觉写得非常好，它的功能是带参数启动 Activity：</p>
-
-                </div>
-              </div>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
-</div>
-
+        <div class="current-tag-container">
+            <h2 class="title">
+                标签：# Java
+            </h2> 
         </div>
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">
+        <h2 class="post-title">深入理解 Java 中的 override 和 overload</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-07-20
+        </span>
+        <span>
+          5 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
       </div>
-    </div>
+      
+      <div class="post-abstract">
+        <p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/java-bi-jiao-fu-dian-shu-de-zheng-que-fang-shi/">
+        <h2 class="post-title">Java 比较浮点数的正确方式</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-06-23
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>今天在读《Java开发手册》时，看到浮点数的等值判断问题「浮点数的基本数据类型不能用 <code>==</code> 比较，包装数据类型不能用 <code>equals</code> 比较」。以前开发时也遇到过浮点数的坑，所以就想一探究竟。</p>
 
-<script type="application/javascript">
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/java-xian-cheng-jian-tong-xin-he-xie-zuo-de-liang-chong-fang-shi/">
+        <h2 class="post-title">Java 线程间通信和协作的两种方式</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-04-06
+        </span>
+        <span>
+          8 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>现在计算机和智能手机都是多核处理器，为了更好地发挥设备的性能，提高应用程序的体验性，多线程是必不可少的技术。线程之间不是孤立的，它们共享进程的资源和数据，彼此之间还需要进行通信和协作，最典型的例子就是「生产者-消费者模型」。</p>
 
-AOS.init();
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/java-ji-he-de-fail-fast-ji-zhi/">
+        <h2 class="post-title">Java 集合的 fail-fast 机制</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-03-19
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>fail-fast 机制是集合世界中比较常见的错误检测机制，通常出现在遍历集合元素的过程中。它是一种对集合遍历操作时的错误检测机制，在遍历中途出现意外的修改时，通过 unchecked 异常暴力地反馈出来。</p>
 
-hljs.initHighlightingOnLoad()
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/">
+        <h2 class="post-title">《Effective Java》— Java 进阶必备</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-01-17
+        </span>
+        <span>
+          5 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/reading/" class="post-tag">
+            # 读书
+          </a>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/java-servlet-ji-ben-shi-yong/">
+        <h2 class="post-title">Java Servlet 基本使用</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2018-07-07
+        </span>
+        <span>
+          13 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>Servlet 是 Java Web 开发的起点，几乎所有的 Java Web 框架都是基于 Servlet 的封装，其中最主要的就是 Servlet 和 Filter 接口。我重新学习了一遍 Servlet，对 Java Web 开发有了更深的理解。</p>
+
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/shi-yong-ssm-kuang-jia-kai-fa-java-web-xiang-mu/">
+        <h2 class="post-title">使用 SSM 框架开发 Java Web 项目</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2018-07-02
+        </span>
+        <span>
+          3 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>这段时间学习了 SSM 框架（Spring、Spring MVC 和 Mybatis），确实感觉到使用 Java 语言开发 Web 的强大。Java 属于工业级的编程语言，Spring 家族就是 Java 框架里面最耀眼的明珠，没有之一。</p>
+
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/java-shi-yong-jing-tai-gong-han-fang-fa-dai-ti-gou-zao-qi/">
+        <h2 class="post-title">Java 使用静态工厂方法代替构造器</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2017-03-22
+        </span>
+        <span>
+          5 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+            # Java
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>最近看到一段代码，感觉写得非常好，它的功能是带参数启动 Activity：</p>
+
+      </di>
+    </article>
+  
+</div>
+
+        <div class="pagination-container">
+  
+  
+</div>
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
+
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
 </script>
 
-
-
-
+      </div>
+    </div>
   </body>
 </html>

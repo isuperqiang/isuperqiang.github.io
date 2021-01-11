@@ -1,125 +1,109 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>一个 CS 科班生的编程之路 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
-          </a>
-        
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">一个 CS 科班生的编程之路</h2>
-            <div class="post-date">2018-07-09</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              一个 CS 科班生的编程之路
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-07-09
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://isuperqiang.github.io/tag/summary/" class="post-tag">
+                  # 个人总结
+                </a>
+              
+                <a href="https://isuperqiang.github.io/tag/tech-quality/" class="post-tag">
+                  # 技术素养
+                </a>
+              
+            </div>
             
-            <div class="post-content">
-              <p>上大学之前，我没有接触过编程，用电脑就是玩玩游戏，上个网啥的。对电脑有这么点兴趣，就报了计算机科学与技术专业（也叫 CS），从此走上了敲代码的不归路…</p>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>上大学之前，我没有接触过编程，用电脑就是玩玩游戏，上个网啥的。对电脑有这么点兴趣，就报了计算机科学与技术专业（也叫 CS），从此走上了敲代码的不归路…</p>
 <p>大一的课程就有 C 语言，操作性非常强，要上机考试，题目是写个函数做数学运算。我觉得用 C 语言作为编程入门并不合适，因为它不如 Java、Python 等语言高级（这里的高级是指对开发者友好），光是指针就把人搞得晕晕乎乎。C 是非常接近底层的语言，开发操作系统、硬件驱动还行，没有人拿它来做应用层。做不出简单的小应用，比如小游戏或者网页，就缺少及时的正向反馈，所以大家都没有学习的兴趣。</p>
 <p>之后学习了 web  开发，俗称前端，做过几个小网站，慢慢体会了编程的乐趣，这期间用的是 HTML、CSS、JavaScript、PHP。网页其实就是一种经过排版的文档，浏览器就是解释器，HTML 和 CSS 就是排版工具，它们的属性超级多，组合的样式也十分丰富。</p>
 <p>JavaScript 能让这些静态的页面动起来，网页的交互也变得更加炫酷。作为 GitHub 上最受欢迎的语言，JavaScript 十分傲娇，各种框架层出不穷。PHP 是后端的脚本语言，这里不讨论它是不是最好的语言，给我的感觉就是不愠不火，比起 JavaScript 低调不少。</p>
@@ -136,87 +120,101 @@
 <p>另外一点就是<strong>基本功</strong>，比如上面说的算法和数据结构、网路模型、计算机原理等。万丈高楼平地起，勿在浮沙筑高台。只有掌握本质原理，才能在瞬息万变的技术世界游刃有余。</p>
 <p>这是我编程这么多年来的经历和感受，<strong>编程是门手艺活儿</strong>，既然选择了，那就做下去吧。</p>
 
+              </div>
+              <div class="toc-container">
+                
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://isuperqiang.github.io/tag/summary/" class="tag">
-                    个人总结
-                  </a>
-                
-                  <a href="https://isuperqiang.github.io/tag/tech-quality/" class="tag">
-                    技术素养
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://isuperqiang.github.io/post/java-servlet-ji-ben-shi-yong/">
-                  <h3 class="post-title">
-                    Java Servlet 基本使用
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+          </article>
         </div>
-      </div>
-    </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://isuperqiang.github.io/post/java-servlet-ji-ben-shi-yong/">
+              <h3 class="post-title">
+                Java Servlet 基本使用
+              </h3>
+            </a>
+          </div>
+        
 
-<script type="application/javascript">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-AOS.init();
+<div id="gitalk-container"></div>
 
-hljs.initHighlightingOnLoad()
+<script>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  var gitalk = new Gitalk({
+    clientID: 'd18dcb9f11230a396f48',
+    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+    repo: 'isuperqiang.github.io',
+    owner: 'isuperqiang',
+    admin: ['isuperqiang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
+          
+        
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-      var gitalk = new Gitalk({
-        clientID: 'd18dcb9f11230a396f48',
-        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-        repo: 'isuperqiang.github.io',
-        owner: 'isuperqiang',
-        admin: ['isuperqiang'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+<script>
+  hljs.initHighlightingOnLoad()
 
-      gitalk.render('gitalk-container')
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-    </script>
-  
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-  
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
 
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
+</script>
 
-
+      </div>
+    </div>
   </body>
 </html>

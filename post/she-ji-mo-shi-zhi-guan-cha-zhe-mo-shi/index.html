@@ -1,125 +1,105 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>设计模式之观察者模式 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
-          </a>
-        
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">设计模式之观察者模式</h2>
-            <div class="post-date">2018-03-08</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              设计模式之观察者模式
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-03-08
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+                <a href="https://isuperqiang.github.io/tag/design-pattern/" class="post-tag">
+                  # 设计模式
+                </a>
+              
+            </div>
             
-            <div class="post-content">
-              <p>最近在看「Head First 设计模式」，感觉收获很大，对架构设计有了更深的理解。我会陆续记录读后的心得，并进行编码实践，强化理解。</p>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>最近在看「Head First 设计模式」，感觉收获很大，对架构设计有了更深的理解。我会陆续记录读后的心得，并进行编码实践，强化理解。</p>
 <h4 id="观察者模式是常用的设计模式之一它的定义是这样的">观察者模式是常用的设计模式之一，它的定义是这样的：</h4>
 <blockquote>
 <p>观察者模式定义了一个一对多的依赖关系，让一个或多个观察者对象监听一个主题对象。这样一来，当被观察者状态发生改变时，需要通知相应的观察者，使这些观察者对象能够自动更新。</p>
@@ -252,83 +232,117 @@
 <p>JDK 中存在观察者和被观察者的类，在 java.util 包下，Observer 接口和 Observable 类，系统给封装好了，使用起来比较方便。</p>
 <p>Android 里面的事件监听，就大量使用观察者模式，其实主要是从松耦合的考虑吧。</p>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F%E6%98%AF%E5%B8%B8%E7%94%A8%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%B8%80%E5%AE%83%E7%9A%84%E5%AE%9A%E4%B9%89%E6%98%AF%E8%BF%99%E6%A0%B7%E7%9A%84">观察者模式是常用的设计模式之一，它的定义是这样的：</a></li>
+<li><a href="#%E5%AE%9E%E6%88%98%E6%BC%94%E7%BB%83%E6%88%91%E6%8B%BF%E5%BE%AE%E4%BF%A1%E7%94%A8%E6%88%B7%E8%AE%A2%E9%98%85%E5%85%AC%E4%BC%97%E5%8F%B7%E7%9A%84%E4%BE%8B%E5%AD%90%E8%BF%9B%E8%A1%8C%E8%AF%B4%E6%98%8E">实战演练：我拿微信用户订阅公众号的例子进行说明。</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://isuperqiang.github.io/tag/design-pattern/" class="tag">
-                    设计模式
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://isuperqiang.github.io/post/fei-chang-ren-ke-de-hu-lian-wang-gong-si-de-gong-ju-wen-hua/">
-                  <h3 class="post-title">
-                    非常认可的互联网公司的工具文化
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+          </article>
         </div>
-      </div>
-    </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://isuperqiang.github.io/post/fei-chang-ren-ke-de-hu-lian-wang-gong-si-de-gong-ju-wen-hua/">
+              <h3 class="post-title">
+                非常认可的互联网公司的工具文化
+              </h3>
+            </a>
+          </div>
+        
 
-<script type="application/javascript">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-AOS.init();
+<div id="gitalk-container"></div>
 
-hljs.initHighlightingOnLoad()
+<script>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  var gitalk = new Gitalk({
+    clientID: 'd18dcb9f11230a396f48',
+    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+    repo: 'isuperqiang.github.io',
+    owner: 'isuperqiang',
+    admin: ['isuperqiang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
+          
+        
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-      var gitalk = new Gitalk({
-        clientID: 'd18dcb9f11230a396f48',
-        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-        repo: 'isuperqiang.github.io',
-        owner: 'isuperqiang',
-        admin: ['isuperqiang'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+<script>
+  hljs.initHighlightingOnLoad()
 
-      gitalk.render('gitalk-container')
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-    </script>
-  
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-  
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
 
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
+</script>
 
-
+      </div>
+    </div>
   </body>
 </html>

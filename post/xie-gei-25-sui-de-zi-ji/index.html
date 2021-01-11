@@ -1,125 +1,105 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>写给 25 岁的自己 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
-          </a>
-        
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">写给 25 岁的自己</h2>
-            <div class="post-date">2018-11-30</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              写给 25 岁的自己
+            </h2>
+            <div class="post-info">
+              <span>
+                2018-11-30
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+                <a href="https://isuperqiang.github.io/tag/life-flow/" class="post-tag">
+                  # 生活点滴
+                </a>
+              
+            </div>
             
-            <div class="post-content">
-              <p>今天是 12 月 1 日，是我公历的生日，至此已经虚度 25 年的光阴啦。早上被几大公司的祝福短信轮番「轰炸」，这么讨巧的操作让我觉得有几分贴心。网易云音乐推荐的第一首歌就是《祝你生日快乐》，十分暖心。</p>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>今天是 12 月 1 日，是我公历的生日，至此已经虚度 25 年的光阴啦。早上被几大公司的祝福短信轮番「轰炸」，这么讨巧的操作让我觉得有几分贴心。网易云音乐推荐的第一首歌就是《祝你生日快乐》，十分暖心。</p>
 <p>20 来岁是人生中的黄金年龄，正是为生活打拼的时候。我刚毕业两年多，从天津转战杭州，换过几家公司，一路还算顺利，没有太大起伏。但至今还没有稳定一说，做程序员就意味着不安稳。不过话又说回来，什么工作会一直安稳呢？</p>
 <p>这两年工作变动挺大的，失业总会让人焦虑不安。跳槽是件非常谨慎的事情，特别是在履历不牛的情况下。工作前 3-5 年是快速成长的阶段，应该深入学习专业技能。通过跳槽换来的涨薪，远不如提升能力带来的回报。</p>
 <p>到了一定年纪，家人就会催着结婚，讲一大堆之乎者也的道理。我呢，表面上还是顺着他们，对谈话左耳朵进右耳朵出。我觉得在对的人出现之前，要努力让自己变优秀。查理芒格说过：想要得到某样东西，首先得让自己配得上它。</p>
@@ -127,83 +107,101 @@
 <p>知乎上有个问题：「25 岁做什么，可在 5 年后受益匪浅？」讨论的是优秀的行为习惯对个人成长发展的重要性。只有身体力行才能感受到好习惯的益处，比如我正在做的每日运动、睡前听书等。日拱一卒，功不唐捐。</p>
 <p>王小波说「生活就是个缓慢受锤的过程，人一天天老下去，奢望也一天天消逝，最后变得像挨了锤的牛一样。可是我过二十一岁生日时没有预见到这一点。我觉得自己会永远生猛下去，什么也锤不了我。」我喜欢这句话，年轻人就该朝气蓬勃，做爱做的事，交配交的人。</p>
 
+              </div>
+              <div class="toc-container">
+                
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://isuperqiang.github.io/tag/life-flow/" class="tag">
-                    生活点滴
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://isuperqiang.github.io/post/jian-chi-chen-lian-dai-gei-wo-shi-me/">
-                  <h3 class="post-title">
-                    坚持晨练带给我什么
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+          </article>
         </div>
-      </div>
-    </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://isuperqiang.github.io/post/jian-chi-chen-lian-dai-gei-wo-shi-me/">
+              <h3 class="post-title">
+                坚持晨练带给我什么
+              </h3>
+            </a>
+          </div>
+        
 
-<script type="application/javascript">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-AOS.init();
+<div id="gitalk-container"></div>
 
-hljs.initHighlightingOnLoad()
+<script>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  var gitalk = new Gitalk({
+    clientID: 'd18dcb9f11230a396f48',
+    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+    repo: 'isuperqiang.github.io',
+    owner: 'isuperqiang',
+    admin: ['isuperqiang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
+          
+        
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-      var gitalk = new Gitalk({
-        clientID: 'd18dcb9f11230a396f48',
-        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-        repo: 'isuperqiang.github.io',
-        owner: 'isuperqiang',
-        admin: ['isuperqiang'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+<script>
+  hljs.initHighlightingOnLoad()
 
-      gitalk.render('gitalk-container')
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-    </script>
-  
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-  
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
 
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
+</script>
 
-
+      </div>
+    </div>
   </body>
 </html>

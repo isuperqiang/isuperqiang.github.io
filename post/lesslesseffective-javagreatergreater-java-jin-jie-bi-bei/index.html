@@ -1,125 +1,109 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>《Effective Java》— Java 进阶必备 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-  
-    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
-  
-
-  
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
-          </a>
-        
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <div class="post-detail">
-            <h2 class="post-title">《Effective Java》— Java 进阶必备</h2>
-            <div class="post-date">2019-01-17</div>
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              《Effective Java》— Java 进阶必备
+            </h2>
+            <div class="post-info">
+              <span>
+                2019-01-17
+              </span>
+              <span>
+                5 min read
+              </span>
+              
+                <a href="https://isuperqiang.github.io/tag/reading/" class="post-tag">
+                  # 读书
+                </a>
+              
+                <a href="https://isuperqiang.github.io/tag/java/" class="post-tag">
+                  # Java
+                </a>
+              
+            </div>
             
-            <div class="post-content">
-              <p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
 <!-- more -->
 <p>两年前读过此书，当时自身技术水平并不算高，对于其中的原则不求甚解。现在重温以前的笔记，加上这两年的编程经验，竟然有种豁然开朗的感觉。<br>
 「书读百遍，其义自见。」古人说得有道理啊。</p>
@@ -160,87 +144,121 @@
 <p>float 类型确实是个坑，经常会出现计算不准确的问题，一般推荐使用双精度浮点型 double。</p>
 <p>以上就是从《Effective Java》里面摘录的十条编程建议，另外还有好多干货呢，赶快去阅读吧。</p>
 
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#1-%E5%AD%98%E5%9C%A8%E5%A4%9A%E4%B8%AA%E6%9E%84%E9%80%A0%E5%8F%82%E6%95%B0%E6%97%B6%E8%80%83%E8%99%91%E4%BD%BF%E7%94%A8%E6%9E%84%E5%BB%BA%E5%99%A8builder">1. 存在多个构造参数时，考虑使用构建器（Builder）</a></li>
+<li><a href="#2-%E4%BD%BF%E7%94%A8%E7%A7%81%E6%9C%89%E6%9E%84%E9%80%A0%E5%99%A8%E6%88%96%E8%80%85%E6%9E%9A%E4%B8%BE%E7%B1%BB%E5%9E%8B%E5%BC%BA%E5%8C%96-singleton-%E5%B1%9E%E6%80%A7">2. 使用私有构造器或者枚举类型强化 Singleton 属性</a></li>
+<li><a href="#3-%E9%81%BF%E5%85%8D%E5%88%9B%E5%BB%BA%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%AF%B9%E8%B1%A1">3. 避免创建不必要的对象</a></li>
+<li><a href="#4-%E8%A6%86%E7%9B%96-equals-%E6%97%B6%E6%80%BB%E8%A6%81%E8%A6%86%E7%9B%96-hashcode%E5%A7%8B%E7%BB%88%E8%A6%86%E7%9B%96-tostring">4. 覆盖 equals 时总要覆盖 hashCode，始终覆盖 toString</a></li>
+<li><a href="#5-%E6%8E%A5%E5%8F%A3%E4%BC%98%E4%BA%8E%E6%8A%BD%E8%B1%A1%E7%B1%BB">5. 接口优于抽象类</a></li>
+<li><a href="#6-%E4%BC%98%E5%85%88%E8%80%83%E8%99%91%E9%9D%99%E6%80%81%E6%88%90%E5%91%98%E7%B1%BB">6. 优先考虑静态成员类</a></li>
+<li><a href="#7-%E5%88%97%E8%A1%A8%E4%BC%98%E5%85%88%E4%BA%8E%E6%95%B0%E7%BB%84">7. 列表优先于数组</a></li>
+<li><a href="#8-%E4%BD%BF%E7%94%A8%E6%9E%9A%E4%B8%BE%E4%BB%A3%E6%9B%BF-int-%E5%B8%B8%E9%87%8F">8. 使用枚举代替 int 常量</a></li>
+<li><a href="#9-for-each-%E5%BE%AA%E7%8E%AF%E4%BC%98%E5%85%88%E4%BA%8E%E4%BC%A0%E7%BB%9F%E7%9A%84-for-%E5%BE%AA%E7%8E%AF">9. for-each 循环优先于传统的 for 循环</a></li>
+<li><a href="#10-%E5%A6%82%E6%9E%9C%E9%9C%80%E8%A6%81%E7%B2%BE%E7%A1%AE%E7%9A%84%E7%AD%94%E6%A1%88%E8%AF%B7%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8-float-%E5%92%8C-double">10. 如果需要精确的答案，请避免使用 float 和 double</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+              </div>
             </div>
-            
-              <div class="tag-container">
-                
-                  <a href="https://isuperqiang.github.io/tag/reading/" class="tag">
-                    读书
-                  </a>
-                
-                  <a href="https://isuperqiang.github.io/tag/java/" class="tag">
-                    Java
-                  </a>
-                
-              </div>
-            
-            
-              <div class="next-post">
-                <div class="next">下一篇</div>
-                <a href="https://isuperqiang.github.io/post/2018-nian-zhong-zong-jie/">
-                  <h3 class="post-title">
-                    2018 年终总结
-                  </h3>
-                </a>
-              </div>
-            
-
-            
-              
-                <div id="gitalk-container" data-aos="fade-in"></div>
-              
-
-              
-            
-
-          </div>
-
+          </article>
         </div>
-      </div>
-    </div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://isuperqiang.github.io/post/2018-nian-zhong-zong-jie/">
+              <h3 class="post-title">
+                2018 年终总结
+              </h3>
+            </a>
+          </div>
+        
 
-<script type="application/javascript">
+        
+          
+            <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-AOS.init();
+<div id="gitalk-container"></div>
 
-hljs.initHighlightingOnLoad()
+<script>
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  var gitalk = new Gitalk({
+    clientID: 'd18dcb9f11230a396f48',
+    clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+    repo: 'isuperqiang.github.io',
+    owner: 'isuperqiang',
+    admin: ['isuperqiang'],
+    id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false  // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
 
 </script>
 
+          
 
+          
+        
 
-  
-    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
-    <script>
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-      var gitalk = new Gitalk({
-        clientID: 'd18dcb9f11230a396f48',
-        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
-        repo: 'isuperqiang.github.io',
-        owner: 'isuperqiang',
-        admin: ['isuperqiang'],
-        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
-        distractionFreeMode: false  // Facebook-like distraction free mode
-      })
+<script>
+  hljs.initHighlightingOnLoad()
 
-      gitalk.render('gitalk-container')
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-    </script>
-  
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-  
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
 
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
+</script>
 
-
+      </div>
+    </div>
   </body>
 </html>

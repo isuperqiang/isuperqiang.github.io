@@ -1,298 +1,379 @@
-<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8" >
-
+  <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>数据结构算法 | 落英坠露</title>
-<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
-
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。" />
+<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610382508094">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://isuperqiang.github.io/favicon.ico?v=1610381123090">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
 <link rel="stylesheet" href="https://isuperqiang.github.io/styles/main.css">
 
-
-
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
-<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-142551977-1');
-</script>
 
 
   </head>
   <body>
-    <div id="app" class="main">
-
-      <div class="sidebar" :class="{ 'full-height': menuVisible }">
-  <div class="top-container" data-aos="fade-right">
-    <div class="top-header-container">
-      <a class="site-title-container" href="https://isuperqiang.github.io">
-        <img src="https://isuperqiang.github.io/images/avatar.png?v=1610381123090" class="site-logo">
-        <h1 class="site-title">落英坠露</h1>
-      </a>
-      <div class="menu-btn" @click="menuVisible = !menuVisible">
-        <div class="line"></div>
-      </div>
-    </div>
-    <div>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://isuperqiang.github.io">
+  <img class="avatar" src="https://isuperqiang.github.io/images/avatar.png?v=1610382508094" alt="">
+  </a>
+  <h1 class="site-title">
+    落英坠露
+  </h1>
+  <p class="site-description">
+    生活不止眼前的苟且，还有诗和远方的田野。
+  </p>
+  <div class="menu-container">
+    
       
-        
-          <a href="https://isuperqiang.cn" class="site-nav">
-            首页
-          </a>
-        
+        <a href="https://isuperqiang.cn" class="menu">
+          首页
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/archives" class="site-nav">
-            归档
-          </a>
-        
+    
       
-        
-          <a href="https://isuperqiang.cn/tags" class="site-nav">
-            标签
-          </a>
-        
+        <a href="https://isuperqiang.cn/archives" class="menu">
+          归档
+        </a>
       
-        
-          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
-            关于
-          </a>
-        
+    
       
-    </div>
+        <a href="https://isuperqiang.cn/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="https://isuperqiang.cn/post/about/" class="menu">
+          关于
+        </a>
+      
+    
   </div>
-  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
-    <div class="social-container">
+  <div class="social-container">
+    
       
-        
-          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
-            <i class="fab fa-github"></i>
-          </a>
-        
+        <a href="https://github.com/isuperqiang" target="_blank">
+          <i class="fab fa-github"></i>
+        </a>
       
-        
+    
       
-        
+    
       
-        
-          <a class="social-link" href="https://www.zhihu.com/people/isuperqiang/activities" target="_blank">
-            <i class="fab fa-zhihu"></i>
-          </a>
-        
+    
       
-        
+        <a href="https://www.zhihu.com/people/isuperqiang/" target="_blank">
+          <i class="fab fa-zhihu"></i>
+        </a>
       
-    </div>
-    <div class="site-description">
-      生活不止眼前的苟且，还有诗和远方的田野。
-    </div>
-    <div class="site-footer">
-      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
-    </div>
+    
+      
+    
   </div>
 </div>
 
-
-      <div class="main-container">
-        <div class="content-container" data-aos="fade-up">
-          <h2 class="current-tag">标签: 数据结构算法</h2>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/ha-xi-suan-fa-ji-qi-ying-yong/">
-                  <h2 class="post-title">哈希算法及其应用</h2>
-                </a>
-                <div class="post-date">
-                  2019-12-27
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/san-lie-biao-xia-wei-shi-me-san-lie-biao-he-lian-biao-jing-chang-hui-yi-qi-shi-yong/">
-                  <h2 class="post-title">散列表（下）：为什么散列表和链表经常会一起使用</h2>
-                </a>
-                <div class="post-date">
-                  2019-05-24
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/san-lie-biao-zhong-ru-he-da-zao-yi-ge-gong-ye-ji-de-san-lie-biao/">
-                  <h2 class="post-title">散列表（中）：如何打造一个工业级的散列表</h2>
-                </a>
-                <div class="post-date">
-                  2019-05-12
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/san-lie-biao-shang-dan-ci-pin-xie-jian-cha-gong-neng-ru-he-shi-xian/">
-                  <h2 class="post-title">散列表（上）：单词拼写检查功能如何实现</h2>
-                </a>
-                <div class="post-date">
-                  2019-05-12
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/lian-biao-shang-shi-xian-lru-huan-cun-tao-tai-suan-fa/">
-                  <h2 class="post-title">链表（上）实现 LRU 缓存淘汰算法</h2>
-                </a>
-                <div class="post-date">
-                  2019-05-08
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/di-gui-jian-ji-gao-xiao-de-bian-cheng-ji-qiao/">
-                  <h2 class="post-title">递归：简洁高效的编程技巧</h2>
-                </a>
-                <div class="post-date">
-                  2019-04-28
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/dui-lie-zai-you-xian-zi-yuan-chi-zhong-de-ying-yong/">
-                  <h2 class="post-title">队列在有限资源池中的应用</h2>
-                </a>
-                <div class="post-date">
-                  2019-04-26
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/li-yong-zhan-shi-xian-liu-lan-qi-de-qian-jin-hou-tui-gong-neng/">
-                  <h2 class="post-title">利用栈实现浏览器的前进后退功能</h2>
-                </a>
-                <div class="post-date">
-                  2019-04-24
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/lian-biao-xia-xie-chu-zheng-que-de-lian-biao-dai-ma-de-6-ge-ji-qiao/">
-                  <h2 class="post-title">链表（下）写出正确的链表代码的6个技巧</h2>
-                </a>
-                <div class="post-date">
-                  2019-04-22
-                </div>
-                <div class="post-abstract">
-                  
-                </div>
-              </div>
-              
-            </article>
-          
-            <article class="post-item">
-              <div class="left">
-                <a href="https://isuperqiang.github.io/post/shi-yong-java-bian-li-wen-jian-jia-de-ji-chong-fang-shi/">
-                  <h2 class="post-title">使用 Java 遍历文件夹的几种方式</h2>
-                </a>
-                <div class="post-date">
-                  2018-07-26
-                </div>
-                <div class="post-abstract">
-                  <p>最近面试的时候被问及，使用非递归的方式遍历文件夹下的所有文件。由于之前没有写过，当时卡了一下，最后也没给出好的方案。</p>
+        <div class="current-tag-container">
+            <h2 class="title">
+                标签：# 数据结构算法
+            </h2> 
+        </div>
+        <div class="post-container">
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/ha-xi-suan-fa-ji-qi-ying-yong/">
+        <h2 class="post-title">哈希算法及其应用</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-12-27
+        </span>
+        <span>
+          5 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/san-lie-biao-xia-wei-shi-me-san-lie-biao-he-lian-biao-jing-chang-hui-yi-qi-shi-yong/">
+        <h2 class="post-title">散列表（下）：为什么散列表和链表经常会一起使用</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-05-24
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/san-lie-biao-zhong-ru-he-da-zao-yi-ge-gong-ye-ji-de-san-lie-biao/">
+        <h2 class="post-title">散列表（中）：如何打造一个工业级的散列表</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-05-12
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/san-lie-biao-shang-dan-ci-pin-xie-jian-cha-gong-neng-ru-he-shi-xian/">
+        <h2 class="post-title">散列表（上）：单词拼写检查功能如何实现</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-05-12
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/lian-biao-shang-shi-xian-lru-huan-cun-tao-tai-suan-fa/">
+        <h2 class="post-title">链表（上）实现 LRU 缓存淘汰算法</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-05-08
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/di-gui-jian-ji-gao-xiao-de-bian-cheng-ji-qiao/">
+        <h2 class="post-title">递归：简洁高效的编程技巧</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-04-28
+        </span>
+        <span>
+          4 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/dui-lie-zai-you-xian-zi-yuan-chi-zhong-de-ying-yong/">
+        <h2 class="post-title">队列在有限资源池中的应用</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-04-26
+        </span>
+        <span>
+          5 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/li-yong-zhan-shi-xian-liu-lan-qi-de-qian-jin-hou-tui-gong-neng/">
+        <h2 class="post-title">利用栈实现浏览器的前进后退功能</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-04-24
+        </span>
+        <span>
+          5 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/lian-biao-xia-xie-chu-zheng-que-de-lian-biao-dai-ma-de-6-ge-ji-qiao/">
+        <h2 class="post-title">链表（下）写出正确的链表代码的6个技巧</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2019-04-22
+        </span>
+        <span>
+          3 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        
+      </di>
+    </article>
+  
+    <article class="post">
+      <a href="https://isuperqiang.github.io/post/shi-yong-java-bian-li-wen-jian-jia-de-ji-chong-fang-shi/">
+        <h2 class="post-title">使用 Java 遍历文件夹的几种方式</h2>
+      </a>
+      <div class="post-info">
+        <span>
+          2018-07-26
+        </span>
+        <span>
+          2 min read
+        </span>
+        
+          <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/" class="post-tag">
+            # 数据结构算法
+          </a>
+        
+      </div>
+      
+      <div class="post-abstract">
+        <p>最近面试的时候被问及，使用非递归的方式遍历文件夹下的所有文件。由于之前没有写过，当时卡了一下，最后也没给出好的方案。</p>
 <p>从计算机的角度看，文件夹的数据结构就是多叉树（Tree），而树的遍历方式有两种：深度优先遍历和广度优先遍历。</p>
 
-                </div>
-              </div>
-              
-            </article>
-          
-
-          <div class="pagination-container">
-  
-  
-    <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/page/2" class="next">下一页 <i class="icon-arrow-ios-forward-outline"></i></a>
+      </di>
+    </article>
   
 </div>
 
-        </div>
-      </div>
-    </div>
+        <div class="pagination-container">
+  
+  
+    <a href="https://isuperqiang.github.io/tag/datastruct-algorithm/page/2" class="prev-page">下一页</a>
+  
+</div>
 
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | 
+  <a class="rss" href="https://isuperqiang.github.io/atom.xml" target="_blank">RSS</a>
+</div>
 
-<script type="application/javascript">
+<script>
+  hljs.initHighlightingOnLoad()
 
-AOS.init();
+  let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
 
-hljs.initHighlightingOnLoad()
+  // This should probably be throttled.
+  // Especially because it triggers during smooth scrolling.
+  // https://lodash.com/docs/4.17.10#throttle
+  // You could do like...
+  // window.addEventListener("scroll", () => {
+  //    _.throttle(doThatStuff, 100);
+  // });
+  // Only not doing it here to keep this Pen dependency-free.
 
-var app = new Vue({
-  el: '#app',
-  data: {
-    menuVisible: false,
-  },
-})
+  window.addEventListener("scroll", event => {
+    let fromTop = window.scrollY;
+
+    mainNavLinks.forEach((link, index) => {
+      let section = document.getElementById(decodeURI(link.hash).substring(1));
+      let nextSection = null
+      if (mainNavLinks[index + 1]) {
+        nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+      }
+      console.log('section.offsetHeight', section.offsetHeight);
+      if (section.offsetTop <= fromTop) {
+        if (nextSection) {
+          if (nextSection.offsetTop > fromTop) {
+            link.classList.add("current");
+          } else {
+            link.classList.remove("current");    
+          }
+        } else {
+          link.classList.add("current");
+        }
+      } else {
+        link.classList.remove("current");
+      }
+    });
+  });
 
 </script>
 
-
-
-
+      </div>
+    </div>
   </body>
 </html>
