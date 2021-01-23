@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://isuperqiang.github.io</id>
+    <id>https://isuperqiang.cn</id>
     <title>落英坠露</title>
-    <updated>2021-01-23T04:22:32.741Z</updated>
+    <updated>2021-01-23T04:27:27.791Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://isuperqiang.github.io"/>
-    <link rel="self" href="https://isuperqiang.github.io/atom.xml"/>
+    <link rel="alternate" href="https://isuperqiang.cn"/>
+    <link rel="self" href="https://isuperqiang.cn/atom.xml"/>
     <subtitle>生活不止眼前的苟且，还有诗和远方的田野。</subtitle>
-    <logo>https://isuperqiang.github.io/images/avatar.png</logo>
-    <icon>https://isuperqiang.github.io/favicon.ico</icon>
+    <logo>https://isuperqiang.cn/images/avatar.png</logo>
+    <icon>https://isuperqiang.cn/favicon.ico</icon>
     <rights>All rights reserved 2021, 落英坠露</rights>
     <entry>
         <title type="html"><![CDATA[作为程序员的我，核心竞争力是什么]]></title>
-        <id>https://isuperqiang.github.io/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/</id>
-        <link href="https://isuperqiang.github.io/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/">
+        <id>https://isuperqiang.cn/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/</id>
+        <link href="https://isuperqiang.cn/post/zuo-wei-cheng-xu-yuan-de-wo-he-xin-jing-zheng-li-shi-shi-me/">
         </link>
         <updated>2020-12-15T14:08:12.000Z</updated>
         <content type="html"><![CDATA[<p>在准备面试的过程中，突然想到一个问题：面试这个岗位的人那么多，和其他人相比，你的优势在什么地方，公司为什么要录用你？<br>
@@ -68,8 +68,8 @@
     </entry>
     <entry>
         <title type="html"><![CDATA[Android SDK 开发经验谈]]></title>
-        <id>https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/</id>
-        <link href="https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/">
+        <id>https://isuperqiang.cn/post/android-sdk-kai-fa-jing-yan-tan/</id>
+        <link href="https://isuperqiang.cn/post/android-sdk-kai-fa-jing-yan-tan/">
         </link>
         <updated>2020-12-09T07:59:35.000Z</updated>
         <content type="html"><![CDATA[<p>在公司做了一年多的 SDK 开发，结合自己的所知所学，分享一些 SDK 开发的经验。</p>
@@ -249,8 +249,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[使用Android架构组件Lifecycle优化代码]]></title>
-        <id>https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/</id>
-        <link href="https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
+        <id>https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/</id>
+        <link href="https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
         </link>
         <updated>2020-11-10T23:23:34.000Z</updated>
         <content type="html"><![CDATA[<p>Android developers 提供的支持库越来越完善，不知大家在开发中有没有升级 <a href="https://developer.android.com/jetpack">Jetpack</a>，也就是引入 androidX 包，Jetpack 确实简化了代码，提升了效率。下面介绍架构组件中的 Lifecycle，官网的介绍：<a href="https://developer.android.com/topic/libraries/architecture/lifecycle">使用生命周期感知型组件处理生命周期</a> 非常详细，我就介绍一下 Lifecycle 在开发中的实践。</p>
@@ -322,8 +322,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[给程序员的推荐书单]]></title>
-        <id>https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
-        <link href="https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
+        <id>https://isuperqiang.cn/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
+        <link href="https://isuperqiang.cn/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
         </link>
         <updated>2020-10-29T16:19:40.000Z</updated>
         <content type="html"><![CDATA[<p>工作这么多年，虽然平时加班很多，但闲暇时间依然会读书。在我看来，读书并实践是成长的最有效途径。读书提升认知，实践改变行为，所谓知行合一。细细数来，读过不少的好书，有技术类的，也有非技术类的。下面推荐一些我认为值得读的好书：</p>
@@ -353,8 +353,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[Android I/O 那些事儿]]></title>
-        <id>https://isuperqiang.github.io/post/android-io-na-xie-shi-er/</id>
-        <link href="https://isuperqiang.github.io/post/android-io-na-xie-shi-er/">
+        <id>https://isuperqiang.cn/post/android-io-na-xie-shi-er/</id>
+        <link href="https://isuperqiang.cn/post/android-io-na-xie-shi-er/">
         </link>
         <updated>2020-10-01T04:47:01.000Z</updated>
         <summary type="html"><![CDATA[<p>I/O 操作是编程离不开的话题，它不仅是读写那么简单，还涉及底层的文件系统和存储设备。I/O 的快慢影响程序的执行效率，这篇文章主要介绍 Android 平台 I/O 的方式和使用场景。</p>
@@ -437,8 +437,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[Android 图像绘制与渲染原理分析]]></title>
-        <id>https://isuperqiang.github.io/post/android-tu-xiang-hui-zhi-yu-xuan-ran-yuan-li-fen-xi/</id>
-        <link href="https://isuperqiang.github.io/post/android-tu-xiang-hui-zhi-yu-xuan-ran-yuan-li-fen-xi/">
+        <id>https://isuperqiang.cn/post/android-tu-xiang-hui-zhi-yu-xuan-ran-yuan-li-fen-xi/</id>
+        <link href="https://isuperqiang.cn/post/android-tu-xiang-hui-zhi-yu-xuan-ran-yuan-li-fen-xi/">
         </link>
         <updated>2020-09-18T04:50:33.000Z</updated>
         <summary type="html"><![CDATA[<p>UI 开发是 Android 中的基本操作，优美绚丽的界面是最容易打动人的。但是，Android 的碎片化太严重，各种硬件层出不穷，为了实现设计师妹子的效果，再苦再累也是值得。下面我会介绍 Android 绘制的内容，知其所以然很重要。</p>
@@ -487,8 +487,8 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
     </entry>
     <entry>
         <title type="html"><![CDATA[深入理解 Java 中的 override 和 overload]]></title>
-        <id>https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/</id>
-        <link href="https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">
+        <id>https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload/</id>
+        <link href="https://isuperqiang.cn/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">
         </link>
         <updated>2020-08-20T03:25:13.000Z</updated>
         <summary type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
@@ -630,8 +630,8 @@ public class Cat extends Animal {
     </entry>
     <entry>
         <title type="html"><![CDATA[一个 CS 科班生的编程之路]]></title>
-        <id>https://isuperqiang.github.io/post/wo-de-bian-cheng-zhi-lu/</id>
-        <link href="https://isuperqiang.github.io/post/wo-de-bian-cheng-zhi-lu/">
+        <id>https://isuperqiang.cn/post/wo-de-bian-cheng-zhi-lu/</id>
+        <link href="https://isuperqiang.cn/post/wo-de-bian-cheng-zhi-lu/">
         </link>
         <updated>2020-07-02T09:31:14.000Z</updated>
         <content type="html"><![CDATA[<p>上大学之前，我没有接触过编程，用电脑就是玩玩游戏，上个网啥的。对电脑有这么点兴趣，就报了计算机科学与技术专业（也叫 CS），从此走上了敲代码的不归路…</p>
@@ -654,8 +654,8 @@ public class Cat extends Animal {
     </entry>
     <entry>
         <title type="html"><![CDATA[《Effective Java》— Java 进阶必备]]></title>
-        <id>https://isuperqiang.github.io/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/</id>
-        <link href="https://isuperqiang.github.io/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/">
+        <id>https://isuperqiang.cn/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/</id>
+        <link href="https://isuperqiang.cn/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/">
         </link>
         <updated>2020-06-29T04:06:47.000Z</updated>
         <summary type="html"><![CDATA[<p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
@@ -704,8 +704,8 @@ public class Cat extends Animal {
     </entry>
     <entry>
         <title type="html"><![CDATA[每周 ARTS 第 33 期]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
+        <id>https://isuperqiang.cn/post/mei-zhou-arts-di-33-qi/</id>
+        <link href="https://isuperqiang.cn/post/mei-zhou-arts-di-33-qi/">
         </link>
         <updated>2020-06-14T15:07:09.000Z</updated>
         <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
