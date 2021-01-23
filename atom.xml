@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://isuperqiang.github.io</id>
     <title>落英坠露</title>
-    <updated>2021-01-11T16:42:37.049Z</updated>
+    <updated>2021-01-23T04:22:32.741Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://isuperqiang.github.io"/>
     <link rel="self" href="https://isuperqiang.github.io/atom.xml"/>
@@ -72,7 +72,7 @@
         <link href="https://isuperqiang.github.io/post/android-sdk-kai-fa-jing-yan-tan/">
         </link>
         <updated>2020-12-09T07:59:35.000Z</updated>
-        <content type="html"><![CDATA[<p>在公司做了两年多的 SDK 开发，结合自己的所知所学，分享一些 SDK 开发的经验。</p>
+        <content type="html"><![CDATA[<p>在公司做了一年多的 SDK 开发，结合自己的所知所学，分享一些 SDK 开发的经验。</p>
 <h3 id="1-sdk-是什么">1. SDK 是什么</h3>
 <p>相信做 Android 开发的朋友，一定使用过第三方的 SDK，比如推送 SDK、分享 SDK 等。SDK 的全称是 Software Development Kit，翻译为“软件开发工具包”。SDK 通常是为辅助开发某类软件而编写的特定软件包、框架集合等。</p>
 <p>SDK 可以分为系统 SDK 和应用 SDK。所谓系统 SDK 是为使用特定的软件框架、硬件平台等所开发的工具集合。而应用 SDK 则是基于系统 SDK 开发的独立于具体业务、拥有特定功能的工具集合。</p>
@@ -248,229 +248,11 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[给程序员的推荐书单]]></title>
-        <id>https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
-        <link href="https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
-        </link>
-        <updated>2020-10-29T16:19:40.000Z</updated>
-        <content type="html"><![CDATA[<p>工作这么多年，虽然平时加班很多，但闲暇时间依然会读书。在我看来，读书并实践是成长的最有效途径。读书提升认知，实践改变行为，所谓知行合一。细细数来，读过不少的好书，有技术类的，也有非技术类的。下面推荐一些我认为值得读的好书：</p>
-<h4 id="1-技术类">1. 技术类</h4>
-<ul>
-<li><a href="https://book.douban.com/subject/2130190/">Java 编程思想（第4版）</a> Java 的“圣经”级作品，包含编程思想和设计模式，从宏观视角讲解 Java 语言，经典之作值得反复阅读，适合进阶，入门级就不要看了。</li>
-<li><a href="https://book.douban.com/subject/30412517/">Effective Java（第3版）</a>  Java 开发的规范，或者说最佳实践，实在的经验之谈，格外关注细节，重在培养优秀的编程习惯，同样值得拜读多次，同样适合进阶。</li>
-<li><a href="https://book.douban.com/subject/10484692/">Java 并发编程实战</a> 深入 Java 并发的必读之作，一本完美的 Java 并发参考手册，JUC 源码的作者 Doug Lea 也是该书作者之一。</li>
-<li><a href="https://book.douban.com/subject/2243615/">Head First 设计模式</a> 介绍了 GoF 提出的 23 种设计模式，配合插画和案例，读起来不觉枯燥，非常生动有趣，适合入门设计模式。</li>
-<li><a href="https://book.douban.com/subject/25708312/">C++ Primer（第5版）</a>  经典的 C++ 教程，采用 C++11 标准编写，最近正在读，很厚的一本书。</li>
-<li><a href="https://book.douban.com/subject/26912767/">深入理解计算机系统（第3版）</a> 简称“CSAPP”，程序员的必读书，详细描绘了计算机系统的实现细节，不懂底层的程序员称不上是合格的程序员。此书非常硬核，有些概念要反复理解。</li>
-<li><a href="https://book.douban.com/subject/1477390/">代码大全（第2版）</a> 写代码不该局限于砌墙，更高远的是建设软件大厦。这本书介绍了软件构建的流程，还包括其中的细节和技巧，高屋建瓴，是提升编程认知的好书。</li>
-<li><a href="https://book.douban.com/subject/4262627/">重构</a> 代码重构非常好的指导书，里面有许多非常规的观点和技巧，读完后你会发现项目里有太多坏代码等着修改，重构是为了使代码变得更好。</li>
-<li><a href="https://book.douban.com/subject/30333948/">码出高效：Java 开发手册</a> 阿里大佬写的书，比较大众化，都是基础性的内容，总结了一些实战经验，打牢基础总没错。</li>
-<li><a href="https://book.douban.com/subject/30358046/">Android 进阶解密</a> 和 <a href="https://book.douban.com/subject/26599538/">Android 开发艺术探索</a> 都是非常好的 Android 进阶书，知识面有深度和广度，也是高级工程师必备的技能。</li>
-</ul>
-<p>这里有份 <a href="https://m.douban.com/subject_collection/5185">豆瓣热门编程图书 Top10</a>，如果不知道怎么选，多读经典总是没错的。</p>
-<h4 id="2-非技术">2. 非技术</h4>
-<ul>
-<li><a href="https://book.douban.com/subject/24868904/">高效能程序员的修炼</a> coding horror 博客中的精选文章集合，除了技术之外，还有职业规划、团队协作、高效工作环境等，软件开发远不是只写代码那么简单，程序员的软技能和硬技能一样重要。从这本书中可以读到骨灰级程序员的真知灼见。</li>
-<li><a href="https://book.douban.com/subject/26835090/">软件能</a> 始于代码，不止代码。这本书介绍了程序员的发展的多个方面，职业、营销、学习、理财、健身等，读完真的是刷新认知。程序员不是呆子，我们的人生有多种可能性。</li>
-<li><a href="https://book.douban.com/subject/1152111/">程序员修炼之道</a> 程序员的基本修养，包括软件编程、职业发展、工作习惯等方面。学校只会教你怎么写代码，不会教你软技能，这本书就是很好的指导。不要埋头写代码，抬头看路才能走对方向。</li>
-</ul>
-<p>技术类的书籍提升我们的硬技能，进而提升职业专业性。非技术类的书籍提升我们的软技能，少走弯路从而走得更远。</p>
-<p>另外说一点，好书值得反复读，每读一遍都会有新的收获，愿你的职业发展越走越好。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 33 期]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
-        </link>
-        <updated>2020-06-14T15:07:09.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="路径总和-iii"><a href="https://leetcode-cn.com/problems/path-sum-iii/">路径总和 III</a>（简单）</h4>
-<h4 id="描述">描述：</h4>
-<blockquote>
-<p>给定一个二叉树，它的每个结点都存放着一个整数值。找出路径和等于给定数值的路径总数。<br>
-路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。<br>
-二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。</p>
-</blockquote>
-<h4 id="示例">示例：</h4>
-<pre><code>root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
-
-      10
-     /  \
-    5   -3
-   / \    \
-  3   2   11
- / \   \
-3  -2   1
-
-返回 3。和等于 8 的路径有:
-
-1.  5 -&gt; 3
-2.  5 -&gt; 2 -&gt; 1
-3.  -3 -&gt; 11
-</code></pre>
-<h4 id="思路">思路：</h4>
-<p>两次递归。pathSum 返回以当前节点为根的树中，路径和为目标值的路径总数；count 返回以当前节点为根的树中，有多少以该节点为开头，路径和为目标值的路径总数。</p>
-<pre><code class="language-java">class Sulution {
-    public int pathSum(TreeNode root, int sum) {
-        if (root == null) {
-            return 0;
-        }
-        return count(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
-    }
-
-    private int count(TreeNode root, int sum) {
-        if (root == null) {
-            return 0;
-        }
-        int count = 0;
-        if (sum == root.val) {
-            count += 1;
-        }
-        int diff = sum - root.val;
-        return count + count(root.left, diff) + count(root.right, diff);
-    }
-}
-</code></pre>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/free-code-camp/the-most-important-skill-a-programmer-can-learn-9d410c786baf">The most important skill a programmer can learn</a> 程序员该学到的最重要技能</p>
-<p>知道什么时候不写代码，该拒绝的需求就坚定拒绝。代码增多会带来很多问题，面对各种需求，我们不该被动接受，不合理的需求就不做。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>程序员不喜欢做重复的事情，写脚本成了偷懒的方法，shell 是最常用的脚本，可完成许多自动化的操作。<a href="https://wangdoc.com/bash/index.html">Bash脚本教程</a> 是不错的参考资料。</p>
-<h2 id="4-share">4. Share</h2>
-<p><a href="https://mp.weixin.qq.com/s/TIxWo9LMI3tFrz5612JWFw">caoz 的职场系列</a> 写得很受用，职场人可以多读读。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 32 周]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-32-zhou/">
-        </link>
-        <updated>2020-06-07T15:22:45.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="路径总和"><a href="https://leetcode-cn.com/problems/path-sum/">路径总和</a>（简单）</h4>
-<h4 id="描述">描述：</h4>
-<blockquote>
-<p>给定一个二叉树和一个目标和，判断该树中是否存在根节点到叶子节点的路径，这条路径上所有节点值相加等于目标和。<br>
-叶子节点是指没有子节点的节点。</p>
-</blockquote>
-<h4 id="示例">示例：</h4>
-<pre><code>给定如下二叉树，以及目标和 sum = 22，
-              5
-             / \
-            4   8
-           /   / \
-          11  13  4
-         /  \      \
-        7    2      1
-</code></pre>
-<h4 id="思路">思路：</h4>
-<p>从根节点开始遍历，每次遍历时从目标和减去当前节点值，当作子节点要凑的和，在叶子节点判断是否刚好凑齐。</p>
-<pre><code class="language-java">class Sulution {
-    pbulic boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null) {
-            return false;
-        }
-        if (root.left == null &amp;&amp; root.right == null) {
-            return sum == root.val;
-        }
-        int csum = sum - root.val;
-        return hasPathSum(root.left, csum) || hasPathSum(root.right, csum);
-    }
-}
-</code></pre>
-<h4 id="分析">分析：</h4>
-<ul>
-<li>时间复杂度：O(N)</li>
-<li>空间复杂度：O(log(N)) or O(N)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/mind-cafe/a-3-minute-hack-for-focus-youve-probably-never-heard-of-40708b788a0f">A 3-Minute Hack for Focus You’ve Probably Never Heard Of</a> 你从未听说过的 3 分钟聚焦大法</p>
-<p>作者一直无法专注工作，同事分享了一个方法给他——双耳节拍。本质上，双耳节拍是重复播放的音乐。它没有实际的节拍，而是在大脑中产生的同时播放两个不同频率的音调。</p>
-<p>我一直在用的产品叫「小睡眠」，它主要功能是助眠，但是也有聚焦和放松模式。配合降噪耳机，很快便进入高效工作中。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>接手维护老项目，开发者代码设计得烂，不知道怎么代码怎么调用，也无处安放 debug 点。这时只要创建一个异常，打印它的 stack track，就能够对调用时序一目了然。查看源码时也可以通过这种办法确定调用流程。</p>
-<h2 id="4-share">4. Share</h2>
-<p><a href="https://cyc2018.github.io/CS-Notes/#/">CS-Notes</a> GitHub 100k+ star 的项目，技术面试必备基础知识、Leetcode、计算机操作系统、计算机网络、系统设计、Java 等。</p>
-<p>面试前可以刷一刷，主要是增加知识面的广度。</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 31 周]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-31-zhou/">
-        </link>
-        <updated>2020-05-26T23:46:49.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="环形链表-ii"><a href="https://leetcode-cn.com/problems/linked-list-cycle-ii/">环形链表 II</a>（中等）</h4>
-<h4 id="描述">描述：</h4>
-<blockquote>
-<p>给定一个链表，返回链表开始入环的第一个节点。 如果链表无环，则返回 null。<br>
-为了表示给定链表中的环，我们使用整数 pos 来表示链表尾连接到链表中的位置（索引从 0 开始）。 如果 pos 是 -1，则在该链表中没有环。<br>
-说明：不允许修改给定的链表。</p>
-</blockquote>
-<h4 id="示例">示例：</h4>
-<pre><code>输入：head = [3,2,0,-4,2], pos = 1
-输出：tail connects to node index 1
-解释：链表中有一个环，其尾部连接到第二个节点。
-</code></pre>
-<h4 id="思路">思路：</h4>
-<p>快慢指针：使用快慢指针从头遍历链表，如果两个指针相遇则表示链表有环。然后让慢指针从头开始，快指针继续向前，两者再次相遇点就是环的入口。这个地方用图解释更清晰，推荐阅读 <a href="https://labuladong.gitbook.io/algo/di-ling-zhang-bi-du-xi-lie/shuang-zhi-zhen-ji-qiao">双指针技巧总结</a>。</p>
-<pre><code class="language-java">class Sulution {
-    public ListNode detectCycle(ListNode head) {
-       if (head == null || head.next == null) {
-            return null;
-        }
-        ListNode fast = head;
-        ListNode slow = head;
-        boolean hasCycle = false;
-        while (fast != null &amp;&amp; fast.next != null) {
-            fast = fast.next.next;
-            slow = slow.next;
-            if (fast == slow) {
-                hasCycle = true;
-                break;
-            }
-        }
-        if (!hasCycle) {
-            return null;
-        }
-        slow = head;
-        while (fast != slow) {
-            fast = fast.next;
-            slow = slow.next;
-        }
-        return slow;
-    }
-}
-</code></pre>
-<h4 id="分析">分析：</h4>
-<ul>
-<li>时间复杂度：O(N)</li>
-<li>空间复杂度：O(1)</li>
-</ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/backticks-tildes/the-s-o-l-i-d-principles-in-pictures-b34ce2f1e898">The S.O.L.I.D Principles in Pictures</a> 图画讲解 SOLID 原则</p>
-<p>本文介绍了面向对象编程的 SOLID 原则，每个原则下面都有漫画说明，挺有趣的。</p>
-<ul>
-<li>单一职责原则：每个类应该只有一个职责，包含一组强相关的行为。</li>
-<li>开闭原则：类应该对扩展开放，对修改关闭。扩展功能要增加行为而不是修改它。</li>
-<li>里氏替换原则：如果 S 是 T 的子类，那么 T 出现的地方就该被 S 替换并不需要改动代码。</li>
-<li>接口隔离原则：类不应该依赖不需要的行为，需要把行为拆分成更小的粒度。</li>
-<li>依赖反转原则：高层模块不该依赖低层模块，他们都该依赖抽象；抽象不该依赖细节，细节该依赖抽象。</li>
-</ul>
-<h2 id="3-tip">3. Tip</h2>
-<p>重构项目代码的过程中，遇到不美观的地方，用新技术方案完美解决。<a href="https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">使用Android架构组件Lifecycle优化代码</a></p>
-<h2 id="4-share">4. Share</h2>
-<p>B站有个不错的视频 <a href="https://www.bilibili.com/video/BV1EW411u7th">计算机科学速成课</a>，从计算机历史、硬件、软件、编程等方面介绍，是计算机科学的基础知识，当作科普也不错，推荐大家看看。</p>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[使用Android架构组件Lifecycle优化代码]]></title>
         <id>https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/</id>
         <link href="https://isuperqiang.github.io/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
         </link>
-        <updated>2020-05-26T23:23:34.000Z</updated>
+        <updated>2020-11-10T23:23:34.000Z</updated>
         <content type="html"><![CDATA[<p>Android developers 提供的支持库越来越完善，不知大家在开发中有没有升级 <a href="https://developer.android.com/jetpack">Jetpack</a>，也就是引入 androidX 包，Jetpack 确实简化了代码，提升了效率。下面介绍架构组件中的 Lifecycle，官网的介绍：<a href="https://developer.android.com/topic/libraries/architecture/lifecycle">使用生命周期感知型组件处理生命周期</a> 非常详细，我就介绍一下 Lifecycle 在开发中的实践。</p>
 <h3 id="1-重构之前">1. 重构之前</h3>
 <p>项目中有许多组件和 Activity 的生命周期有关联，比如 SensorManager 在 resume 时注册，pause 时解除注册。Camera 在 resume 时打开，pause 时关闭等。代码写起来就像下面这样：</p>
@@ -539,254 +321,448 @@ int onDrawFrameSingleInput(byte[] img, int w, int h, int format);
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 30 周]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-30-zhou/">
+        <title type="html"><![CDATA[给程序员的推荐书单]]></title>
+        <id>https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/</id>
+        <link href="https://isuperqiang.github.io/post/tui-jian-gei-cheng-xu-yuan-de-shu-dan/">
         </link>
-        <updated>2020-05-19T00:10:13.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="零钱兑换"><a href="https://leetcode-cn.com/problems/coin-change/">零钱兑换</a>（中等）</h4>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。<br>
-你可以认为每种硬币的数量是无限的。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: coins = [1, 2, 5], amount = 11
-输出: 3 
-解释: 11 = 5 + 5 + 1
-</code></pre>
-<h5 id="思路">思路：</h5>
-<p>动态规划：dp[i] 表示总金额为 i 时至少需要的硬币个数，初始赋值 amount+1 表示不可能取到的值。注意总金额要不小于硬币面值，而且保证总金额可以被硬币凑出来。</p>
-<pre><code class="language-java">class Sulution {
-    public int coinChange(int[] coins, int amount) {
-        if (coins == null || coins.length == 0) {
-            return -1;
-        }
-        int length = amount + 1;
-        int[] dp = new int[length];
-        Arrays.fill(dp, length);
-        dp[0] = 0;
-        for (int i = 0; i &lt; dp.length; i++) {
-            for (int coin : coins) {
-                if (i &gt;= coin) {
-                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-                }
-            }
-        }
-        return dp[amount] == length ? -1 : dp[amount];
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
+        <updated>2020-10-29T16:19:40.000Z</updated>
+        <content type="html"><![CDATA[<p>工作这么多年，虽然平时加班很多，但闲暇时间依然会读书。在我看来，读书并实践是成长的最有效途径。读书提升认知，实践改变行为，所谓知行合一。细细数来，读过不少的好书，有技术类的，也有非技术类的。下面推荐一些我认为值得读的好书：</p>
+<h4 id="1-技术类">1. 技术类</h4>
 <ul>
-<li>时间复杂度：O(N * k)，k 为硬币个数</li>
-<li>空间复杂度：O(N)</li>
+<li><a href="https://book.douban.com/subject/2130190/">Java 编程思想（第4版）</a> Java 的“圣经”级作品，包含编程思想和设计模式，从宏观视角讲解 Java 语言，经典之作值得反复阅读，适合进阶，入门级就不要看了。</li>
+<li><a href="https://book.douban.com/subject/30412517/">Effective Java（第3版）</a>  Java 开发的规范，或者说最佳实践，实在的经验之谈，格外关注细节，重在培养优秀的编程习惯，同样值得拜读多次，同样适合进阶。</li>
+<li><a href="https://book.douban.com/subject/10484692/">Java 并发编程实战</a> 深入 Java 并发的必读之作，一本完美的 Java 并发参考手册，JUC 源码的作者 Doug Lea 也是该书作者之一。</li>
+<li><a href="https://book.douban.com/subject/2243615/">Head First 设计模式</a> 介绍了 GoF 提出的 23 种设计模式，配合插画和案例，读起来不觉枯燥，非常生动有趣，适合入门设计模式。</li>
+<li><a href="https://book.douban.com/subject/25708312/">C++ Primer（第5版）</a>  经典的 C++ 教程，采用 C++11 标准编写，最近正在读，很厚的一本书。</li>
+<li><a href="https://book.douban.com/subject/26912767/">深入理解计算机系统（第3版）</a> 简称“CSAPP”，程序员的必读书，详细描绘了计算机系统的实现细节，不懂底层的程序员称不上是合格的程序员。此书非常硬核，有些概念要反复理解。</li>
+<li><a href="https://book.douban.com/subject/1477390/">代码大全（第2版）</a> 写代码不该局限于砌墙，更高远的是建设软件大厦。这本书介绍了软件构建的流程，还包括其中的细节和技巧，高屋建瓴，是提升编程认知的好书。</li>
+<li><a href="https://book.douban.com/subject/4262627/">重构</a> 代码重构非常好的指导书，里面有许多非常规的观点和技巧，读完后你会发现项目里有太多坏代码等着修改，重构是为了使代码变得更好。</li>
+<li><a href="https://book.douban.com/subject/30333948/">码出高效：Java 开发手册</a> 阿里大佬写的书，比较大众化，都是基础性的内容，总结了一些实战经验，打牢基础总没错。</li>
+<li><a href="https://book.douban.com/subject/30358046/">Android 进阶解密</a> 和 <a href="https://book.douban.com/subject/26599538/">Android 开发艺术探索</a> 都是非常好的 Android 进阶书，知识面有深度和广度，也是高级工程师必备的技能。</li>
 </ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/@magnus.chatt/why-you-should-totally-switch-to-kotlin-c7bbde9e10d5">Why you should totally switch to Kotlin</a> 为什么你该完全切换到 Kotlin</p>
-<p>介绍了 Kotlin 的特性，与 Java 互操作、类型推断、空安全、数据类等，Kotlin 是现代化的语言，其特性会令开发者喜欢。</p>
-<h2 id="3-tip">3. Tip</h2>
-<p>遇到 crash 如何解决呢？分享一下我的经验。</p>
-<p>首先查看 stack trace，找到报错的类型、信息、代码文件和行数，常见的异常有 NullPointerException、ClassCastException、IndexOutOfBoundException 等，根据信息就大概可以知道报错原因。如果之前没见过这种异常，把信息复制粘贴到谷歌搜索，排名靠前的搜索结果都来自 Stack Overflow，说不定前人也碰到了类似的错误，从问题回复中就能找到答案，这就要求英文阅读能力要过关。最后如果实在搜不到，那只能请教大佬了。</p>
-<h2 id="4-share">4. Share</h2>
-<p>分享两个网站，收录了 Windows 和 Mac 平台上的优质软件。</p>
+<p>这里有份 <a href="https://m.douban.com/subject_collection/5185">豆瓣热门编程图书 Top10</a>，如果不知道怎么选，多读经典总是没错的。</p>
+<h4 id="2-非技术">2. 非技术</h4>
 <ul>
-<li><a href="https://github.com/Awesome-Windows/Awesome/blob/master/README-cn.md">Awesome-Windows</a></li>
-<li><a href="https://github.com/jaywcjlove/awesome-mac/blob/master/README-zh.md">Awesome-Mac</a></li>
+<li><a href="https://book.douban.com/subject/24868904/">高效能程序员的修炼</a> coding horror 博客中的精选文章集合，除了技术之外，还有职业规划、团队协作、高效工作环境等，软件开发远不是只写代码那么简单，程序员的软技能和硬技能一样重要。从这本书中可以读到骨灰级程序员的真知灼见。</li>
+<li><a href="https://book.douban.com/subject/26835090/">软件能</a> 始于代码，不止代码。这本书介绍了程序员的发展的多个方面，职业、营销、学习、理财、健身等，读完真的是刷新认知。程序员不是呆子，我们的人生有多种可能性。</li>
+<li><a href="https://book.douban.com/subject/1152111/">程序员修炼之道</a> 程序员的基本修养，包括软件编程、职业发展、工作习惯等方面。学校只会教你怎么写代码，不会教你软技能，这本书就是很好的指导。不要埋头写代码，抬头看路才能走对方向。</li>
 </ul>
+<p>技术类的书籍提升我们的硬技能，进而提升职业专业性。非技术类的书籍提升我们的软技能，少走弯路从而走得更远。</p>
+<p>另外说一点，好书值得反复读，每读一遍都会有新的收获，愿你的职业发展越走越好。</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 29 周]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-29-zhou/">
+        <title type="html"><![CDATA[Android I/O 那些事儿]]></title>
+        <id>https://isuperqiang.github.io/post/android-io-na-xie-shi-er/</id>
+        <link href="https://isuperqiang.github.io/post/android-io-na-xie-shi-er/">
         </link>
-        <updated>2020-05-12T13:19:24.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="颠倒二进制位"><a href="https://leetcode-cn.com/problems/reverse-bits/">颠倒二进制位</a>（简单）</h4>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>颠倒给定的 32 位无符号整数的二进制位。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: 00000010100101000001111010011100
-输出: 00111001011110000010100101000000
-解释: 输入的二进制串 00000010100101000001111010011100 表示无符号整数 43261596，
-因此返回 964176192，其二进制表示形式为 00111001011110000010100101000000。
-</code></pre>
-<h5 id="思路">思路：</h5>
+        <updated>2020-10-01T04:47:01.000Z</updated>
+        <summary type="html"><![CDATA[<p>I/O 操作是编程离不开的话题，它不仅是读写那么简单，还涉及底层的文件系统和存储设备。I/O 的快慢影响程序的执行效率，这篇文章主要介绍 Android 平台 I/O 的方式和使用场景。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>I/O 操作是编程离不开的话题，它不仅是读写那么简单，还涉及底层的文件系统和存储设备。I/O 的快慢影响程序的执行效率，这篇文章主要介绍 Android 平台 I/O 的方式和使用场景。</p>
+<!-- more -->
+<h3 id="1-linux-io-的基本组成">1. Linux I/O 的基本组成</h3>
+<p>众所周知，Android 基于 Linux 系统，先介绍一些 Linux 上 I/O 的知识。</p>
+<p>I/O 操作由应用程序、文件系统和磁盘共同完成，应用程序将 I/O 命令发送给文件系统，文件系统在合适的时间把 I/O 指令发送给磁盘。I/O 的流程如下图：</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603080604.png" alt="I/O操作" loading="lazy"></figure>
+<p>CPU 和内存的速度比磁盘快得多，I/O 操作的瓶颈在于磁盘的性能。为了降低磁盘对应用程序的影响，文件系统要进行各种各样的优化。</p>
+<h4 id="文件系统">文件系统</h4>
+<p>简单来说，文件系统就是存储和组织数据的方式。应用程序调用 read() 方法，系统会通过中断从用户空间进入内核空间，然后经过虚拟文件系统、具体文件系统、页缓存。</p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603081904.png" alt="Linux-I/O架构" loading="lazy"></figure>
 <ul>
-<li>逐位颠倒：从右向左遍历二进制串，用 n&amp;1 取得最右一位，然后左移该值到对应位置，和结果值求和，退出条件是 n == 0。</li>
+<li>虚拟文件系统（VFS）。主要用于屏蔽具体的文件系统，为应用程序的操作提供一个统一的接口。</li>
+<li>文件系统（File System）。ext4、F2FS 都是具体文件系统实现。每个文件系统都有适合自己的场景。</li>
+<li>页缓存（Page Cache）。文件系统对数据的缓存，读文件时先检查页缓存，如果命中就不去读磁盘。</li>
 </ul>
-<pre><code class="language-java">class Sulution {
-    // you need treat n as an unsigned value
-    public int reverseBits(int n) {
-        int ret = 0;
-        for (int bitsSize = 31; n != 0; bitsSize--) {
-            ret += (n &amp; 1) &lt;&lt; bitsSize;
-            n = n &gt;&gt;&gt; 1;
-        }
-        return ret;
-    }
-}
-</code></pre>
-<h5 id="分析">分析：</h5>
+<h4 id="磁盘">磁盘</h4>
+<p>磁盘指的是系统的存储设备，常见的有机械硬盘、固态硬盘等。如果发现应用程序要读的数据没有在页缓存中，这时候就需要真正向磁盘发起 I/O 请求。磁盘 I/O 的过程要先经过内核的通用块层、I/O 调度层、设备驱动层，最后才会交给具体的硬件设备处理。</p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190603082924.png" alt="磁盘架构" loading="lazy"></figure>
 <ul>
-<li>时间复杂度：O(1)</li>
-<li>空间复杂度：O(1)</li>
+<li>通用块层。接收上层发出的磁盘请求，并最终发出 I/O 请求。它与 VPS 的作用类似。</li>
+<li>I/O 调度层。根据设置的调度算法对请求合并和排序。不能接收到磁盘请求就立刻交给驱动层处理。</li>
+<li>块设备驱动层。根据具体的物理设备，选择对应的驱动程序，通过操控硬件设备完成最终的 I/O 请求。</li>
 </ul>
-<h2 id="2-review">2. Review</h2>
-<p><a href="https://medium.com/free-code-camp/the-code-im-still-ashamed-of-e4c021dff55e">The code I’m still ashamed of</a> 至今令我惭愧的代码</p>
-<p>作者回忆了刚开始工作时为医药公司做网站，先让用户做测验然后推荐药物，目标是年轻女性。在庆功聚会前，作者看到一条新闻，一名服用药物的女子自杀了，由药物的副作用导致。回家后发现自己的妹妹也在用这种药，作者马上就制止了她。不久后作者便离职了，自此每次写代码前都要三思代码带来的影响。</p>
-<blockquote>
-<p>作为开发人员，我们通常是防范潜在危险和不道德行为的最后一道防线。</p>
-</blockquote>
-<h2 id="3-tip">3. Tip</h2>
-<p>最近重构了部分项目代码，对此有些感悟。在重构的过程中，对业务会有更深的理解，编程就是把现实世界抽象成代码结构。同时看到以前代码的糟糕之处，毫不犹豫地删掉重写，目的就是提升可读性、可用性和可维护性。</p>
-<p>《重构，改善既有代码的设计》这本书值得每位程序员阅读。任何一个傻瓜都能写出计算机可以理解的代码，唯有写出人类可以理解的代码，才是优秀的程序员。</p>
-<h2 id="4-share">4. Share</h2>
-<p>最近在看极客时间上《许式伟的架构课》，讲到操作系统很棒，特地分享出来。 <a href="https://time.geekbang.org/column/article/4b4426d9ac4cb25d7f82325a893b494f/share?code=w%2Fj%2F7UNTJpAHk25ddhtU5iTaKNYvSTs5a5gk-p9iOJs%3D">操作系统进场</a></p>
-<p><strong>精华部分：</strong></p>
-<p>从客户需求来说，操作系统的核心价值在于：</p>
+<h3 id="2-android-上的-io">2. Android 上的 I/O</h3>
+<p>Android 现在普遍使用的是 Linux 常用的 ext4 文件系统。F2FS（Flash-Friendly File System）是三星为闪存研发的文件系统，它针对闪存进行了大量优化，F2FS 文件系统在小文件的随机读写方面比 ext4 更快。随着 Google、华为的投入和使用，F2FS 应该会成为 Android 主流的文件系统。</p>
+<p>Android 手机使用闪存作为存储设备，也就是我们常说的 ROM。前几年闪存通常使用 eMMC 标准，近年来采用性能更好的 UFS 2.0/2.1 标准。手机存储也朝着体积更小、功耗更低、速度更快、容量更大的方向发展，闪存的随机读写速度甚至比 SSD 还快。</p>
+<h4 id="手机变卡">手机变卡</h4>
+<p>Android 手机用久了会变卡，除了系统升级、设备折旧等因素，还和 I/O 有密切关系。I/O 操作变慢的原因有下面几条：</p>
 <ul>
-<li>
-<p>实现软件治理，让多个软件和谐共处；</p>
-</li>
-<li>
-<p>提供基础的编程接口，降低软件开发难度。</p>
-</li>
+<li>内存不足。系统回收 Page Cache 和 Buffer Cache 的内存，大部分的写操作会直接落盘，导致性能低下。</li>
+<li>写入放大。闪存重复写入需要先进行擦除，一次写入会引起整个块数据的迁移，导致写入时间非常久。</li>
+<li>设备性能差。在高负载的情况下容易出现瓶颈。</li>
 </ul>
-<p>从商业价值来说，操作系统是刚性需求，核心的流量入口，兵家必争之地。所以，围绕它的核心能力，操作系统必然会不断演化出新的形态。早期预装软件是一种流量变现的方式。后来苹果引入了 “账号 - 支付 - 应用市场” 商业闭环的收税模式。</p>
+<h4 id="文件损坏">文件损坏</h4>
+<p>文件损坏是令人头疼的问题，大多是由不正确的操作导致的。文件损坏的原因可以从应用程序、文件系统和磁盘三个角度来分析：</p>
+<ul>
+<li>应用程序。大部分的 I/O 方法都不是原子操作，文件的跨进程或者多线程写入、使用一个已经关闭的文件描述符 fd 来操作文件，都有可能导致数据被覆盖或者删除。</li>
+<li>文件系统。虽说内核崩溃或者系统突然断电都有可能导致文件系统损坏，不过文件系统也做了很多的保护措施。例如 system 分区保证只读不可写，增加异常检查和恢复机制。</li>
+<li>磁盘。手机上使用的闪存是电子式的存储设备，所以在资料传输过程可能会发生电子遗失等现象导致数据错误。</li>
+</ul>
+<h3 id="3-io-的三种方式">3. I/O 的三种方式</h3>
+<p>I/O 有三种方式：标准 I/O、mmap 和 Direct I/O。</p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/20190604090403.png" alt="I/O的方式" loading="lazy"></figure>
+<h4 id="标准-io">标准 I/O</h4>
+<p>应用程序平时用到 read/write 操作都属于标准 I/O，也就是缓存 I/O（Buffered I/O）。它的关键特性有：</p>
+<ul>
+<li>对于读操作，当应用程序读取某块数据时，如果这块数据已经在页缓存中，那么就不需要经过物理读盘操作。</li>
+<li>对于写操作，应用程序会先将数据写到页缓存中去，不需要等全部数据被写回磁盘，系统会定期将页缓存中的数据刷到磁盘上。</li>
+</ul>
+<p>缓存 I/O 可以很大程度减少真正读写磁盘的次数，从而提升性能。但是延迟写机制可能会导致数据丢失。在实际应用中，如果某些数据非常重要，我们应该采用同步写机制。</p>
+<p>读操作时，数据会先从磁盘拷贝到 Page Cache 中，然后再从 Page Cache 拷贝到应用程序的用户空间，这样就会多一次内存拷贝。内存相对磁盘是高速设备，即使多拷贝一次，也比真正读一次硬盘要快。</p>
+<h4 id="mmap">mmap</h4>
+<p>mmap 把文件映射到进程的地址空间，提高了 I/O 的性能。</p>
+<p>mmap 的优点有：</p>
+<ul>
+<li>减少系统调用。只需要一次 mmap() 系统调用，后续所有的调用像操作内存一样。</li>
+<li>减少数据拷贝。mmap 只需要从磁盘拷贝一次，由于做过内存映射，不需要再拷贝回用户空间。</li>
+<li>可靠性高。mmap 把数据写入页缓存后，跟缓存 I/O 的延迟写机制一样。</li>
+</ul>
+<p>存在的缺点：</p>
+<ul>
+<li>虚拟内存增大。Apk、Dex、so 都是通过 mmap 读取。mmap 会导致虚拟内存增大，mmap 大文件容易出现 OOM。</li>
+<li>磁盘延迟。mmap 通过缺页中断向磁盘发起真正的磁盘 I/O，不能通过 mmap 消除磁盘 I/O 的延迟。</li>
+</ul>
+<p>在 Android 中可以将文件通过 <a href="https://developer.android.com/reference/android/os/MemoryFile">MemoryFile</a> 或者 <a href="https://developer.android.com/reference/java/nio/MappedByteBuffer">MappedByteBuffer</a> 映射到内存，然后进行读写，使用这种方式对于小文件和频繁读写操作的文件还是有一定优势的。</p>
+<p>mmap 比较适合对同一块区域频繁读写的情况，推荐使用 I/O 线程来操作。用户日志、数据上报都满足这种场景，另外需要跨进程同步的时候，mmap 也是一个不错的选择。Android 跨进程通信有自己独有的 Binder 机制，它内部也是使用 mmap 实现。</p>
+<h4 id="direct-io">Direct I/O</h4>
+<p>一些数据库自己实现了数据和索引的缓存管理，对页缓存的依赖没那么强烈。它们想绕开页缓存机制，减少一次数据拷贝，它的数据也不会污染页缓存。</p>
+<p>直接 I/O 访问文件方式减少了一次数据拷贝和一些系统调用的耗时，很大程度降低了 CPU 的使用率以及内存的占用。负面影响就是读写操作都是同步执行，导致应用程序等待。</p>
+<h3 id="4-同步与异步-io">4. 同步与异步 I/O</h3>
+<p>多线程阻塞式在 I/O 操作上的并没有优势，I/O 操作的主要瓶颈在于磁盘带宽。所以 I/O 操作不能开大量的线程。</p>
+<p>NIO 是非阻塞 I/O，将 I/O 以事件的方式通知，可以减少线程切换的开销。NIO 的最大作用不是减少读取文件的耗时，而是最大化提升应用整体的 CPU 利用率。</p>
+<p>另外，非常推荐 Square 的 <a href="https://github.com/square/okio">Okio</a>，它支持同步和异步 I/O，也做了比较多的优化。</p>
+<p>I/O 优化对提升应用的体验非常有用，希望上面所讲的内容对你有帮助。</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[每周 ARTS 第 28 周]]></title>
-        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/</id>
-        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-28-zhou/">
+        <title type="html"><![CDATA[Android 图像绘制与渲染原理分析]]></title>
+        <id>https://isuperqiang.github.io/post/android-tu-xiang-hui-zhi-yu-xuan-ran-yuan-li-fen-xi/</id>
+        <link href="https://isuperqiang.github.io/post/android-tu-xiang-hui-zhi-yu-xuan-ran-yuan-li-fen-xi/">
         </link>
-        <updated>2020-05-03T09:48:29.000Z</updated>
-        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
-<h4 id="旋转数组"><a href="https://leetcode-cn.com/problems/rotate-array/">旋转数组</a>（简单）</h4>
-<h5 id="描述">描述：</h5>
-<blockquote>
-<p>给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。<br>
-尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。<br>
-要求使用空间复杂度为 O(1) 的原地算法。</p>
-</blockquote>
-<h5 id="示例">示例：</h5>
-<pre><code>输入: [1,2,3,4,5,6,7] 和 k = 3
-输出: [5,6,7,1,2,3,4]
-</code></pre>
-<h5 id="思路">思路：</h5>
+        <updated>2020-09-18T04:50:33.000Z</updated>
+        <summary type="html"><![CDATA[<p>UI 开发是 Android 中的基本操作，优美绚丽的界面是最容易打动人的。但是，Android 的碎片化太严重，各种硬件层出不穷，为了实现设计师妹子的效果，再苦再累也是值得。下面我会介绍 Android 绘制的内容，知其所以然很重要。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>UI 开发是 Android 中的基本操作，优美绚丽的界面是最容易打动人的。但是，Android 的碎片化太严重，各种硬件层出不穷，为了实现设计师妹子的效果，再苦再累也是值得。下面我会介绍 Android 绘制的内容，知其所以然很重要。</p>
+<!-- more -->
+<h3 id="1-屏幕与适配">1. 屏幕与适配</h3>
+<p>对于屏幕碎片化问题，Android 推荐使用 dp 作为尺寸单位，首先要了解 dp、px、density 等概念。</p>
+<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/e3094e900dccacb9d9e72063ca3084ce.png" alt="Android屏幕尺寸概念" loading="lazy"></figure>
+<p>使用 dp 是 Android 推荐的屏幕适配方式，但是以下存在问题：dpi 与 ppi 不一致导致控件大小不统一。</p>
+<p>目前业界常用的 UI 适配方法主要有下面几种：</p>
 <ul>
-<li>暴力解法：循环 K 次，每次移动一个元素。时间复杂度：O(k*N)，空间复杂度：O(1)。</li>
+<li>限制符适配。包括宽高限定符和 smallestWidth 限定符适配，可以参考：<a href="https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&amp;mid=2650826381&amp;idx=1&amp;sn=5b71b7f1654b04a55fca25b0e90a4433&amp;chksm=80b7b213b7c03b0598f6014bfa2f7de12e1f32ca9f7b7fc49a2cf0f96440e4a7897d45c788fb&amp;scene=21#wechat_redirect">Android 目前稳定高效的UI适配方案</a></li>
+<li>今日头条适配方案。通过反射修改系统的 density，可以参考 <a href="https://mp.weixin.qq.com/s/oSBUA7QKMWZURm1AHMyubA">一种极低成本的Android屏幕适配方式</a></li>
 </ul>
-<pre><code class="language-java">class Sulution {
-    public void rotate(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return;
-        }
-        int length = nums.length;
-        int temp;
-        for (int i = 0; i &lt; k; i++) {
-            temp = nums[length - 1];
-            for (int j = length - 1; j &gt; 0; j--) {
-                nums[j] = nums[j - 1];
-            }
-            nums[0] = temp;
+<h3 id="2-cpu-与-gpu">2. CPU 与 GPU</h3>
+<p>UI 渲染依赖两个核心硬件：CPU 和 GPU。UI 组件在绘制到屏幕之前，需要经过栅格化操作，而栅格化非常耗时。GPU 主要用于处理图形运算，可以加快栅格化的过程。</p>
+<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/1c94e50372ff29ef68690da92c6b468d.png" alt="软硬件绘制" loading="lazy"></figure>
+<p>对于硬件绘制，Android 使用 OpenGL 在 GPU 上完成，OpenGL 是扩平台的图形 API，为 2D/3D 图形处理硬件制定了标准的软件接口。软件绘制使用的是 Skia 库，它能在低端设备上呈现高质量的 2D 跨平台图形。</p>
+<h3 id="3-渲染">3. 渲染</h3>
+<p>Android 图形系统的整体架构和它包含的主要组件。</p>
+<figure data-type="image" tabindex="3"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/7efc5431b860634224f1cd7dda8abd66.png" alt="Android图形系统" loading="lazy"></figure>
+<p>如果把应用程序图形渲染过程当作一次绘画过程。那么绘画过程中，Android 的各个图形组件的作用是：</p>
+<ul>
+<li>
+<p>画笔：Skia 或者 OpenGL。我们可以用 Skia 画笔绘制 2D 图形，也可以用 OpenGL 来绘 制2D/3D图形。正如前面所说,前者使用CPU绘制,后者使用 GPU 绘制。</p>
+</li>
+<li>
+<p>画纸：Surface。所有的元素都在 Surface 这张画纸上进行绘制和渲染。在 Android 中，Window 是 View 的容器，每个窗口都会关联一个 Surface。而 Windowmanager 则负责管理这些窗口，并且把它们的数据传递给 Surfaceflinger。</p>
+</li>
+<li>
+<p>画板：Graphic Buffer。Graphic Buffer 缓冲用于应用程序图形的绘制，在 Android 4.1 之前使用的是双冲机制；在 Android 4.1 之后，使用的是三缓冲机制。</p>
+</li>
+<li>
+<p>显示：Surfaceflinger。它将 Windowmanager 提供的所有 Surface，通过硬件合成器 Hardware Composer 合成并输出到显示屏。</p>
+</li>
+</ul>
+<h3 id="4-硬件加速">4. 硬件加速</h3>
+<p>从 Android 3.0 开始，支持硬件加速，到 4.0 时，默认开启硬件加速。</p>
+<figure data-type="image" tabindex="4"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/79c315275abac0823971e5d6b9657be8.png" alt="硬件加速绘制" loading="lazy"></figure>
+<p>硬件加速绘制与软件绘制整个流程差异非常大，最核心就是我们通过 GPU 完成 Graphic Buffer 的内容绘制。此外硬件绘制还引入了ー个 Display List 的概念，每个 View 内部都有个 Displaylist，当某个 View 需要重绘时，将它标记为 Dirty。</p>
+<p>当需要重绘时，仅仅只需要重绘一个 View 的 Display List，而不是像软件绘制那样需要向上递归。这样可以大大减少绘图的操作数量，因而提高了渲染效率。</p>
+<p>硬件加速大大提高来 Android 系统显示和刷新的速度，但是也存在一些问题：一方面内存消耗，OpenGL API 和Graphic Buffer 缓冲区占用内存。还存在兼容性问题。</p>
+<p><a href="https://source.android.com/devices/graphics">官方文档</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[深入理解 Java 中的 override 和 overload]]></title>
+        <id>https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/</id>
+        <link href="https://isuperqiang.github.io/post/shen-ru-li-jie-java-zhong-de-override-he-overload/">
+        </link>
+        <updated>2020-08-20T03:25:13.000Z</updated>
+        <summary type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>override 和 overload，分别翻译为覆写和重载，是 Java 多态（Polymorphism）的两种代表类型。下面详细分析一下 override 和 overload 的使用方式。</p>
+<!-- more -->
+<h3 id="1-override">1. override</h3>
+<p>override 出现在继承关系中，子类覆写父类的实例方法，为它提供专门的实现。举个例子：</p>
+<pre><code class="language-java">public class Animal {
+    public void bark() {
+        System.out.println(&quot;动物叫声&quot;);
+    }
+}
+
+public class Cat extends Animal {
+    @Override
+    public void bark() {
+        System.out.println(&quot;喵喵&quot;);
+    }
+}
+
+    public static void main(String[] args) {
+        // 向上转型
+				Animal cat = new Cat();
+        cat.bark(); // 打印 喵喵
+    }
+</code></pre>
+<p>override 的绑定发生在运行期，属于动态绑定，由实例对象决定调用哪个方法，动态绑定是多态性得以实现的重要因素。这里有几点需要注意的地方：</p>
+<ul>
+<li>子类的方法访问权限只能相同或变大。比如父类方法是 protected，子类可以是 public，不能是 private。</li>
+<li>抛出异常和返回值只能变小，它们能够转型成父类对象。比如父类方法返回值 Number，子类可以返回 Integer，不能返回 Object。</li>
+<li>方法签名必须完全相同。方法签名包括方法名称和参数列表，是 JVM 标识方法的唯一索引，不包括返回值，其中参数列表分为类型和个数。</li>
+<li>覆写方法必须要加上 <code>@Override</code> 注解，为了使编译器自动检查覆写是否满足规则。</li>
+</ul>
+<p>覆写只能用于类的不被 final 和 private 修饰的实例方法，不能用于静态方法，如果父类和子类中存在同名的静态方法，那么两者都可以被正常调用。</p>
+<h3 id="2-overload">2. overload</h3>
+<p>overload 出现在同一个类中，多个方法具有相同名字、不同的参数。举个例子：</p>
+<pre><code class="language-java">public class Cat {
+    public void bark() {
+        System.out.println(&quot;喵喵&quot;);
+    }
+
+    public void bark(int num) {
+        for (int i = 1; i &lt;= num; i++) {
+            System.out.println(&quot;第 &quot; + i + &quot; 声喵喵&quot;);
         }
     }
 }
 </code></pre>
+<p>overload 的绑定发生在编译期，属于静态绑定，由方法签名决定调用哪个方法。需要注意的是，方法签名包括方法名称、参数类型和个数，不包括返回值。</p>
+<p>当重载的方法参数比较复杂时，JVM 选择合适的目标方法的顺序如下：</p>
 <ul>
-<li>额外空间：使用额外数组保存旋转后的元素，把原数组下标是 i 的元素放到临时数组 (i+k)%nums.length 的位置，然后写回原数组。时间复杂度：O(N)，空间复杂度：O(N)。</li>
+<li>精确匹配</li>
+<li>如果是基本数据类型，自动转换成更大表示范围的基本类型</li>
+<li>通过自动拆箱与装箱</li>
+<li>通过子类向上转型继承路线依次匹配</li>
+<li>通过可变参数匹配</li>
 </ul>
-<pre><code class="language-java">class Sulution {
-    public void rotate(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return;
-        }
-        int[] temp = new int[nums.length];
-        for (int i = 0; i &lt; nums.length; i++) {
-            temp[(i + k) % nums.length] = nums[i];
-        }
-        System.arraycopy(temp, 0, nums, 0, nums.length);
+<p>下面通过例子说明。</p>
+<ol>
+<li>基本数据类型优先于包装数据类型。</li>
+</ol>
+<pre><code class="language-java">    public void mo(int a) {
+        System.out.println(&quot;primary int type&quot;);
     }
-}
-</code></pre>
-<ul>
-<li>环状替换：计算每个元素的最终位置，每次迭代时替换到正确位置并保存被替换的值，计算被替换值的正确位置。以 K 为步长跳跃，如果跳跃回原地，就从下一个位置继续。时间复杂度：O(N)，空间复杂度：O(1)。</li>
-</ul>
-<pre><code class="language-java">class Sulution {
-    public void rotate(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return;
-        }
-        k = k % nums.length;
-        int count = 0;
-        for (int start = 0; count &lt; nums.length; start++) {
-            int currentI = start;
-            int currentE = nums[start];
-            do {
-                int nextI = (currentI + k) % nums.length;
-                int temp = nums[nextI];
-                nums[nextI] = currentE;
-                currentE = temp;
-                currentI = nextI;
-                count++;
-            } while (start != currentI);
-        }
+
+    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
     }
-}
+
+    Cat cat = new Cat();
+    cat.mo(1); // 打印 primary int type
 </code></pre>
-<ul>
-<li>三次反转：当我们旋转数组 k 次， k%n 个尾部元素会被移动到头部，剩下的元素会被向后移动。时间复杂度：O(N)，空间复杂度：O(1)。</li>
-</ul>
-<pre><code class="language-java">class Sulution {
-  // 原始数组                  : 1 2 3 4 5 6 7
-  // 反转所有数字后             : 7 6 5 4 3 2 1
-  // 反转前 k 个数字后          : 5 6 7 4 3 2 1
-  // 反转后 n-k 个数字后        : 5 6 7 1 2 3 4 --&gt; 结果
-    public void rotate(int[] nums, int k) {
-        if (nums == null || nums.length == 0) {
-            return;
-        }
-        k = k % nums.length;
-        reverse(nums, 0, nums.length - 1);
-        reverse(nums, 0, k - 1);
-        reverse(nums, k, nums.length - 1);
+<ol start="2">
+<li>更大范围的基本数据类型优先于包装数据类型。</li>
+</ol>
+<pre><code class="language-java">    public void mo(long a) {
+        System.out.println(&quot;primary long type&quot;);
+    }
+
+    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
     }
     
-    private void reverse(int[] arr, int start, int end) {
-        while (start &lt; end) {
-            int temp = arr[start];
-            arr[start] = arr[end];
-            arr[end] = temp;
-            start++;
-            end--;
+    Cat cat = new Cat();
+    cat.mo(1); // 打印 primary long type
+</code></pre>
+<ol start="3">
+<li>null 可以匹配任何类对象，从最底层子类依次向上查找。</li>
+</ol>
+<pre><code class="language-java">    public void mo(Integer a) {
+        System.out.println(&quot;wrapper int type&quot;);
+    }
+
+    public void mo(Object a) {
+        System.out.println(&quot;object type&quot;);
+    }
+
+//  如果包含 String 参数，那么编译器不知道匹配哪个，直接报错。
+//  public void mo(String s) {
+//      System.out.println(&quot;string type&quot;);
+//  }
+
+    Cat cat = new Cat();
+    cat.mo(null); // 打印 wrapper int type
+</code></pre>
+<ol start="4">
+<li>自动装箱和拆箱优先于可变参数。</li>
+</ol>
+<pre><code class="language-java">    public void mo(Integer a, Integer b){
+        System.out.println(&quot;double wrapper int type&quot;);
+    }
+
+    public void mo(int... a) {
+        System.out.println(&quot;primary int array type&quot;);
+    }
+    
+    Cat cat = new Cat();
+    cat.mo(1, 2); // 打印 double wrapper int type
+</code></pre>
+<p>...</p>
+<p>重载的参数类型应该简洁些，这样才能提高代码的可读性。</p>
+<h3 id="3-总结">3. 总结</h3>
+<p>override 和 overload 有很多不同之处：</p>
+<ul>
+<li>override 属于动态绑定，在运行期通过实例对象决定调用的方法；overload 属于静态绑定，在编译期通过方法签名决定调用的方法。</li>
+<li>override 基于继承关系，需要父类和子类参与；overload 出现在同一个类中，通过方法签名区分。</li>
+<li>static、final、private 方法不能被 override，但是可以被 overload。</li>
+<li>override 关注方法返回值，overload 不关注返回值。</li>
+<li>override 的方法参数必须一样，overload 的方法参数必须不同。</li>
+<li>overload 的性能比 override 更好些，应为它是静态绑定。</li>
+</ul>
+<p><strong>参考：</strong></p>
+<ul>
+<li>《码出高效：Java开发手册》</li>
+<li><a href="https://stackoverflow.com/questions/19017258/static-vs-dynamic-binding-in-java">Static Vs. Dynamic Binding in Java</a></li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一个 CS 科班生的编程之路]]></title>
+        <id>https://isuperqiang.github.io/post/wo-de-bian-cheng-zhi-lu/</id>
+        <link href="https://isuperqiang.github.io/post/wo-de-bian-cheng-zhi-lu/">
+        </link>
+        <updated>2020-07-02T09:31:14.000Z</updated>
+        <content type="html"><![CDATA[<p>上大学之前，我没有接触过编程，用电脑就是玩玩游戏，上个网啥的。对电脑有这么点兴趣，就报了计算机科学与技术专业（也叫 CS），从此走上了敲代码的不归路…</p>
+<p>大一的课程就有 C 语言，操作性非常强，要上机考试，题目是写个函数做数学运算。我觉得用 C 语言作为编程入门并不合适，因为它不如 Java、Python 等语言高级（这里的高级是指对开发者友好），光是指针就把人搞得晕晕乎乎。C 是非常接近底层的语言，开发操作系统、硬件驱动还行，没有人拿它来做应用层。做不出简单的小应用，比如小游戏或者网页，就缺少及时的正向反馈，所以大家都没有学习的兴趣。</p>
+<p>之后学习了 web  开发，俗称前端，做过几个小网站，慢慢体会了编程的乐趣，这期间用的是 HTML、CSS、JavaScript、PHP。网页其实就是一种经过排版的文档，浏览器就是解释器，HTML 和 CSS 就是排版工具，它们的属性超级多，组合的样式也十分丰富。</p>
+<p>JavaScript 能让这些静态的页面动起来，网页的交互也变得更加炫酷。作为 GitHub 上最受欢迎的语言，JavaScript 十分傲娇，各种框架层出不穷。PHP 是后端的脚本语言，这里不讨论它是不是最好的语言，给我的感觉就是不愠不火，比起 JavaScript 低调不少。</p>
+<p>下面 Java 登场了，这门课叫「面向对象程序设计」，至今我面向的只有屏幕，请问哪来的对象 (-｡-;。言归正传，到目前，我认为 Java 是综合能力最强的编程语言，虚拟机的存在保证了安全性和跨平台，活跃的社区和庞大的开源库让开发者无后顾之忧。长盛不衰的 Java 后端主要用来构建企业级应用，近些年流行的 Android 也采用 Java 开发，这才是工业级的编程语言。</p>
+<p>那时候对 Java 没上心，外面的世界接触也少，没想到 Java 这么强大，纠结中就浪费了不少时间。这是大学遗憾的事情之一，没有用心钻研 Java，只能后面慢慢补呗。</p>
+<p>期间有两门数据库的课程，主要学的是基本的 SQL 语句和设计数据表（基于 MySQL），还算比较简单。计算机网络也是认真学过的一门课程，网络模型是编程的基础，这个不用解释。编译原理非常难，直接面向机器，什么 CPU 指令、寄存器啊，总之就是难以理解。操作系统也是，涉及许多调度算法，已经忘得差不多了。总之就是越往底层越难学，越往上越容易。</p>
+<p>数据结构是门非常重要的课，副院长亲自授课，她这个人教学很认真，大家都不敢怠慢，在所有课程里面这门课的质量还是很高的。常用的数据结构有这么几个：数组、链表、哈希表等，是每个程序员必须熟知的。对于编程，有个公式是这样的：</p>
+<blockquote>
+<p>程序 = 逻辑 + 控制 + 数据结构</p>
+</blockquote>
+<p>你看，不懂数据结构谈何编程，逻辑和控制就是算法，这个也是逃不掉的。</p>
+<p>毕业设计是自己动手做的，就是一个简单的记账 app。那时候感觉自己是全能啊，原型自己想，界面自己画，代码自己写。整个 app 设计参考了随手记和挖财，连图标素材都是从人家安装包里「借」来的。每隔一段时间就向老师汇报，当时确实非常用心，最后答辩的时候老师们都很满意。</p>
+<p>写了这么多，其实我想说的是，<strong>技术洞察力</strong>真的非常重要，直接决定了你的选择，你以后的发展，现在看有多少在用 .net 开发的，再看看有多少用 Java 开发的。往后看，我觉得 Python 和 Go 会有不错的发展，Python 在 AI 领域大有作为，Go 介于 C 和 Java 之间，各自都有适用的场景，以后的事让时间来验证吧。</p>
+<p>另外一点就是<strong>基本功</strong>，比如上面说的算法和数据结构、网路模型、计算机原理等。万丈高楼平地起，勿在浮沙筑高台。只有掌握本质原理，才能在瞬息万变的技术世界游刃有余。</p>
+<p>这是我编程这么多年来的经历和感受，<strong>编程是门手艺活儿</strong>，既然选择了，那就做下去吧。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[《Effective Java》— Java 进阶必备]]></title>
+        <id>https://isuperqiang.github.io/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/</id>
+        <link href="https://isuperqiang.github.io/post/lesslesseffective-javagreatergreater-java-jin-jie-bi-bei/">
+        </link>
+        <updated>2020-06-29T04:06:47.000Z</updated>
+        <summary type="html"><![CDATA[<p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>《Effective Java》是 Java 领域的经典之作，其影响力不亚于《Think in Java》。它是每个 Java 开发者的必读书籍，值得多次阅读品味，并不断实践其中的经验技巧。</p>
+<!-- more -->
+<p>两年前读过此书，当时自身技术水平并不算高，对于其中的原则不求甚解。现在重温以前的笔记，加上这两年的编程经验，竟然有种豁然开朗的感觉。<br>
+「书读百遍，其义自见。」古人说得有道理啊。</p>
+<p>这里简单介绍几条开发中经常用到的技巧，比如 Builder、对象方法、接口定义等。</p>
+<h3 id="1-存在多个构造参数时考虑使用构建器builder">1. 存在多个构造参数时，考虑使用构建器（Builder）</h3>
+<p>这里讲的就是构建者模式，使用 Builder 给对象设置构造参数，从而去除重叠的构造方法。</p>
+<p>在第三方库中，比如 OkHttp、Retrofit，经常见到这样的设计。我们用 Builder 设置参数，然后调用 build 方法构造对象，代码看起来非常清爽，没有多余的构造参数，使用起来也方便。</p>
+<p>如果类的构造方法中有多个参数，而且参数可选，Builder 模式是不错的选择。</p>
+<h3 id="2-使用私有构造器或者枚举类型强化-singleton-属性">2. 使用私有构造器或者枚举类型强化 Singleton 属性</h3>
+<p>单例模式推荐使用静态内部类，保证线程安全的同时，延迟对象的初始化。枚举的话，不是很推荐。</p>
+<h3 id="3-避免创建不必要的对象">3. 避免创建不必要的对象</h3>
+<p>创建对象是有开销的，对于不可变的（可以理解为无状态的）对象，可以始终被重用。善于使用缓存（cache）是好的习惯，我们要做一个环保的程序员。比如 Android Message 里面的对象池，就是一种优化策略。</p>
+<p>优先使用基本数据类型而不是装箱数据类型，因为基本类型占用更少的内存空间，对于移动端来说，内存优化是一个永恒的话题。</p>
+<h3 id="4-覆盖-equals-时总要覆盖-hashcode始终覆盖-tostring">4. 覆盖 equals 时总要覆盖 hashCode，始终覆盖 toString</h3>
+<p>对于一般的 Java Bean 对象，我都会重写其 toString 方法， 这样在打印日志的时候，就能看见它的内部数据，这点非常有用。</p>
+<p>对于需要作为 HashMap 的键的对象，一定要重写 hashCode 和 equals 方法，这样有利于散列表均匀分布，提升查找的性能。<br>
+另外，两个对象 equals 相等，hashCode 必须相等；hashCode 相等，equals不一定相等。这个很好理解，equals 保证 HashMap 键的唯一性；hashCode 相等表示两个对象放在 HashMap 数组的同一个位置上。</p>
+<p>提示：现在的 IDE 实在是太傻瓜式了，可以一键生成 toString, equals 和 hashCode 方法，这时候有什么理由不重写呢。</p>
+<h3 id="5-接口优于抽象类">5. 接口优于抽象类</h3>
+<p>接口本质上是一种规范，用来定义通用的规则，然后各个功能提供者进行不同的实现。这里，我想到了一条软件设计原则--接口隔离，是说一个接口只用来定义一种规范，每个接口都是独立的，不能让一个接口有多个定义。</p>
+<p>骨架实现，AbstractXXX，为抽象类提供了实现上的帮助，又不强加抽象类定义类型的限制。比如 Java 里面的 AbstractList，是列表类的抽象实现，其子类有 ArrayList 和 LinkedList 等。</p>
+<h3 id="6-优先考虑静态成员类">6. 优先考虑静态成员类</h3>
+<p>静态成员类不持有外部类的引用，所以不会造成内存泄漏问题，主要是用来辅助外部类。还有匿名内部类，比如直接创建的 Runnable，建议内部保持简短，大约 10 行或者更少些，否则影响程序的可读性。</p>
+<h3 id="7-列表优先于数组">7. 列表优先于数组</h3>
+<p>列表和数组的不同点：</p>
+<ul>
+<li>数组是可变的，泛型是不可变的。</li>
+<li>数组是具体化的，泛型通过擦除来实现的。</li>
+</ul>
+<p>数组提供了运行时的类型安全，但是没有编译时的类型安全。列表里面有许多实用的方法，而数组就没有提供哦。建议优先使用集合类型 List<E>，而不是数组类型 E[]。</p>
+<h3 id="8-使用枚举代替-int-常量">8. 使用枚举代替 int 常量</h3>
+<p>枚举类型是实例受控的，它们是单例的泛化，本质上是单元素的枚举。枚举的优点是易读性好，更加安全，功能强大。但是与 int 类型相比，枚举有些性能缺点：装载和初始化枚举时会有时间和空间的成本。在 Android 端，通常不建议使用。</p>
+<h3 id="9-for-each-循环优先于传统的-for-循环">9. for-each 循环优先于传统的 for 循环</h3>
+<p>for-each 循环在简洁性和预防 bug 方面优于传统的 for 循环，而且没有性能损失，应该尽可能地使用 for-each。</p>
+<p>这一点深有感触，IDE 通常会提示使用 for-each，毕竟简洁就是美啊。</p>
+<h3 id="10-如果需要精确的答案请避免使用-float-和-double">10. 如果需要精确的答案，请避免使用 float 和 double</h3>
+<p>float 和 double 并没有提供完全精确的结果，所以不应该用于需要精确计算的场合，尤其是货币计算。如果想要系统记录十进制小数点，可以使用 BigDecimal。</p>
+<p>float 类型确实是个坑，经常会出现计算不准确的问题，一般推荐使用双精度浮点型 double。</p>
+<p>以上就是从《Effective Java》里面摘录的十条编程建议，另外还有好多干货呢，赶快去阅读吧。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[每周 ARTS 第 33 期]]></title>
+        <id>https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/</id>
+        <link href="https://isuperqiang.github.io/post/mei-zhou-arts-di-33-qi/">
+        </link>
+        <updated>2020-06-14T15:07:09.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1-algorithm">1. Algorithm</h2>
+<h4 id="路径总和-iii"><a href="https://leetcode-cn.com/problems/path-sum-iii/">路径总和 III</a>（简单）</h4>
+<h4 id="描述">描述：</h4>
+<blockquote>
+<p>给定一个二叉树，它的每个结点都存放着一个整数值。找出路径和等于给定数值的路径总数。<br>
+路径不需要从根节点开始，也不需要在叶子节点结束，但是路径方向必须是向下的（只能从父节点到子节点）。<br>
+二叉树不超过1000个节点，且节点数值范围是 [-1000000,1000000] 的整数。</p>
+</blockquote>
+<h4 id="示例">示例：</h4>
+<pre><code>root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+返回 3。和等于 8 的路径有:
+
+1.  5 -&gt; 3
+2.  5 -&gt; 2 -&gt; 1
+3.  -3 -&gt; 11
+</code></pre>
+<h4 id="思路">思路：</h4>
+<p>两次递归。pathSum 返回以当前节点为根的树中，路径和为目标值的路径总数；count 返回以当前节点为根的树中，有多少以该节点为开头，路径和为目标值的路径总数。</p>
+<pre><code class="language-java">class Sulution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
         }
+        return count(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+
+    private int count(TreeNode root, int sum) {
+        if (root == null) {
+            return 0;
+        }
+        int count = 0;
+        if (sum == root.val) {
+            count += 1;
+        }
+        int diff = sum - root.val;
+        return count + count(root.left, diff) + count(root.right, diff);
     }
 }
 </code></pre>
 <h2 id="2-review">2. Review</h2>
-<p><a href="https://levelup.gitconnected.com/programming-habits-you-should-adopt-8ab75419fb09">Programming Habits You Should Adopt</a> 你应该养成的编程习惯</p>
-<p>作者列举了 7 个编程习惯：</p>
-<ul>
-<li>不要写重复代码。遇到重复代码，就该考虑重构了。</li>
-<li>一旦认为自己完成了，开始重构吧。实现需求并不代表完成，接下来就该重构。</li>
-<li>聚焦业务逻辑。不要总是专注于业务之外的技术栈，做好工作内容更重要。</li>
-<li>短小精简的提交。便于回滚排查问题和代码审查。</li>
-<li>一致性很关键。坚持标准的代码规范，提升代码的可维护性。</li>
-<li>多做一步。完成任务意味着解决 todo，单元测试，编写文档。</li>
-<li>不要停止学习。一直做自己熟练的事情，是不会得到成长的。</li>
-</ul>
+<p><a href="https://medium.com/free-code-camp/the-most-important-skill-a-programmer-can-learn-9d410c786baf">The most important skill a programmer can learn</a> 程序员该学到的最重要技能</p>
+<p>知道什么时候不写代码，该拒绝的需求就坚定拒绝。代码增多会带来很多问题，面对各种需求，我们不该被动接受，不合理的需求就不做。</p>
 <h2 id="3-tip">3. Tip</h2>
-<p>近期看了 Kotlin 语言，感觉是增强型的 Java，简洁灵活安全省心。同样基于 JVM，弥补 Java 的不足，编程语言总是在进化，Google 力推 Kotlin 作为 Android 开发语言是正确的。建议新项目尝试 Kotlin，老项目继续用 Java，两者还可以混编。Have a try 😃</p>
+<p>程序员不喜欢做重复的事情，写脚本成了偷懒的方法，shell 是最常用的脚本，可完成许多自动化的操作。<a href="https://wangdoc.com/bash/index.html">Bash脚本教程</a> 是不错的参考资料。</p>
 <h2 id="4-share">4. Share</h2>
-<p>在 Twitter 上看到陈皓发的推文，从程序员职业发展的角度评论编程语言，有生命力、有市场需求的语言值得投入。原帖在这里：https://twitter.com/haoel/status/1254974994964086785</p>
-<figure data-type="image" tabindex="1"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/EWqQTnKU4AES4-K.png" alt="有生命力语言的特征" loading="lazy"></figure>
-<figure data-type="image" tabindex="2"><img src="https://richie-storage.oss-cn-hangzhou.aliyuncs.com/img/EWqQRcGUcAAKt6z.png" alt="陈皓评论语言" loading="lazy"></figure>
+<p><a href="https://mp.weixin.qq.com/s/TIxWo9LMI3tFrz5612JWFw">caoz 的职场系列</a> 写得很受用，职场人可以多读读。</p>
 ]]></content>
     </entry>
 </feed>
