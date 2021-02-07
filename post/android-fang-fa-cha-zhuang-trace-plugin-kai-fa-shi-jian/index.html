@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title>Android 方法插桩 trace-plugin 开发实践 | 落英坠露</title>
+<meta name="description" content="生活不止眼前的苟且，还有诗和远方的田野。">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://isuperqiang.cn/favicon.ico?v=1612708765118">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="stylesheet" href="https://isuperqiang.cn/styles/main.css">
+
+
+  
+    <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+  
+
+  
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-142551977-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-142551977-1');
+</script>
+
+
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://isuperqiang.cn">
+        <img src="https://isuperqiang.cn/images/avatar.png?v=1612708765118" class="site-logo">
+        <h1 class="site-title">落英坠露</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="https://isuperqiang.cn" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/archives" class="site-nav">
+            归档
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+        
+          <a href="https://isuperqiang.cn/post/about/" class="site-nav">
+            关于
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+          <a class="social-link" href="https://github.com/isuperqiang" target="_blank">
+            <i class="fab fa-github"></i>
+          </a>
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      生活不止眼前的苟且，还有诗和远方的田野。
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://isuperqiang.cn/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title">Android 方法插桩 trace-plugin 开发实践</h2>
+            <div class="post-date">2020-11-22</div>
+            
+            <div class="post-content">
+              <p>在做应用启动速度优化时，需先了解启动阶段做了哪些耗时任务，分析 Application 的 attachBaseContext、onCreate 等关键方法，统计它们内部调用的其他方法耗时。</p>
+<p>分析要结合 systrace 工具，因为不仅要知道方法的 wall time，还要知道 cpu time，这样才能知道是否属于 cpu 密集型任务，然后针对任务类型进行调整或线程调度。</p>
+<p>需求很清晰，在要统计的方法调用前插桩加入 TraceCompat.beginSection()，调用后加入 TraceCompat.endSection()。需求也很简单，我们可以很快的使用 aspect、javassist 或 asm 实现。</p>
+<p>但是，这次是方法插桩 + systrace，需为此开发一个插件；下次是方法插桩 + 耗时统计，就得再开发一个插件。为什么插件一定要与插桩逻辑绑定呢？</p>
+<p><strong>为什么没有一款插件，只提供方法插桩能力，不写死插桩逻辑，而是由使用者自由的定制插桩逻辑呢？</strong></p>
+<p>基于这个痛点，我们来开发一款可自由定制插桩逻辑的插件。</p>
+<h3 id="aop-方案选择">AOP 方案选择</h3>
+<p>首先是 AOP 技术方案的选择，aspect、javassist 还是 asm ？ 在思考过后，我决定选择 asm，理由很简单：性能高、逼格高。</p>
+<p>那要基于 gradle 及 asm 原生 API，从零开发吗？ NO，有些轮子不能造，我们要当坐在马车上驰骋的人！</p>
+<p>所以我最终选择基于 ByteX 开发。ByteX 与 Jetpack StartUp 有异曲同工之妙。</p>
+<p>Startup 针对多个三方库各自使用 ContentProvider 初始化导致拖慢启动速度的问题，提供了一个 ContentProvider 来集中运行所有依赖项的初始化；ByteX 针对多个功能插件各自进行 transform 导致拖慢编译速度的问题，提供了一个宿主插件 transform，集中处理所有的 transform。</p>
+<p>ByteX 对 Transform 及 ASM 相关 API 做了封装，大大节省了插件开发的工作量，我们无需处理 class/jar 的 IO 操作，只需关注想要进行的 hook 逻辑即可。</p>
+<p>所以，通过对性能及开发成本两个维度的考量，基于 ByteX 开发一些有意义的插件，是一个不错的选择。</p>
+<h3 id="trace-plugin-插件">trace-plugin 插件</h3>
+<p>成果先行，目前 trace-plugin 已开发完并发布，见：https://github.com/yhaolpz/ByteXPlugin/tree/master/trace , 可查看插件源码及接入方式。</p>
+<p>使用姿势很简单，仅 @TraceClass、@TraceMethod 两个注解而已：</p>
+<h4 id="traceclass-为类注解可配置">@TraceClass 为类注解，可配置：</h4>
+<pre><code class="language-java">//指定方法插桩实现类
+Class methodTrace() default TimeTrace.class;
+//是否要追踪此类中所有方法
+boolean traceAllMethod() default false;
+//是否要追踪方法内部调用到的方法
+boolean traceInnerMethod() default false;
+</code></pre>
+<h4 id="tracemethod-为方法注解可配置">@TraceMethod 为方法注解，可配置：</h4>
+<pre><code class="language-java">//是否要追踪此方法
+boolean trace() default true;
+//是否要追踪方法内部调用到的方法
+boolean traceInnerMethod() default false;
+</code></pre>
+<p><strong>举个例子</strong></p>
+<p>Test 类中有 m1()、m2()、m3() 三个方法：</p>
+<pre><code class="language-java">public class Test{
+    public static void m1() {
+        m2();
+        OtherClass.m4();
+    }
+    public static void m2() {
+    }
+    public static void m3() {
+    }
+}
+</code></pre>
+<p><em>追踪 m1() 耗时：</em></p>
+<pre><code class="language-java">@TraceClass
+public class Test{
+    @TraceMethod
+    public static void m1() {...
+</code></pre>
+<p><em>追踪类中所有方法耗时：</em></p>
+<pre><code class="language-java">@TraceClass(traceAllMethod = true)
+public class Test{...
+</code></pre>
+<p><em>追踪类中所有方法耗时，但不包括 m1()：</em></p>
+<pre><code class="language-java">@TraceClass(traceAllMethod = true)
+public class Test{
+    @TraceMethod(trace = false)
+    public static void m1() {...
+</code></pre>
+<p><em>追踪 m1() 方法内部调用到的方法，即 m2()、OtherClass.m4() 的耗时：</em></p>
+<pre><code class="language-java">@TraceClass
+public class Test{
+    @TraceMethod(trace = false,traceInnerMethod = true)
+    public static void m1() {
+        m2();
+        OtherClass.m4();
+    }
+    ...
+</code></pre>
+<p><em>自定义追踪插桩处理：</em></p>
+<pre><code class="language-java">//继承自 IMethodTrace 方法实现自己的插桩处理，例如 systrace 追踪处理：
+public class CustomSysTrace implements IMethodTrace {
+    @Override
+    public void onMethodEnter(String className, String methodName, String methodDesc, String outerMethod) {
+        TraceCompat.beginSection(className + &quot;#&quot; + methodName);
+    }
+    @Override
+    public void onMethodEnd(String className, String methodName, String methodDesc, String outerMethod) {
+        TraceCompat.endSection();
+    }
+}
+
+//在类注解中指定即可
+@TraceClass(methodTrace = CustomSysTrace.class)
+public class Test{...}
+</code></pre>
+<h3 id="自定义插桩处理实现原理">自定义插桩处理实现原理</h3>
+<p>其实非常简单，插件内部对于需要插桩的方法会统一调用到 TraceRecord 类进行处理：</p>
+<pre><code class="language-java">public class TraceRecord {
+    //插桩方法执行前会统一调到这里
+    public static void onMethodEnter(String traceImplClass,
+                                     String className,
+                                     String methodName, String methodDesc,
+                                     String outerMethod) {
+        getMethodTrace(traceImplClass).onMethodEnter(className,
+                                methodName, methodDesc, outerMethod);
+    }
+    //插桩方法执行完后会统一调到这里
+    public static void onMethodEnd(String traceImplClass,
+                                   String className,
+                                   String methodName, String methodDesc,
+                                   String outerMethod) {
+        getMethodTrace(traceImplClass).onMethodEnd(className,
+                                methodName, methodDesc, outerMethod);
+    }
+}
+</code></pre>
+<p>traceImplClass 就是我们在类注解中指定的自定义插桩逻辑实现类，比如 CustomSysTrace ，然后在 getMethodTrace() 中实例化：</p>
+<pre><code class="language-java">private static IMethodTrace getMethodTrace(String traceImplClass) {
+    IMethodTrace methodTrace = sMethodTraceMap.get(traceImplClass);
+    if (methodTrace == null) {
+        try {
+            methodTrace = (IMethodTrace) Class.forName(traceImplClass).newInstance();
+            sMethodTraceMap.put(traceImplClass, methodTrace);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    return methodTrace;
+}
+</code></pre>
+<h3 id="最后">最后</h3>
+<p>有了简洁、优雅、易用、功能强大的 trace-plugin 插件，以后再也不怕方法插桩了，你想插什么就插什么。</p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://isuperqiang.cn/tag/android/" class="tag">
+                    Android
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://isuperqiang.cn/post/shi-yong-android-jia-gou-zu-jian-lifecycle-you-hua-dai-ma/">
+                  <h3 class="post-title">
+                    使用Android架构组件Lifecycle优化代码
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+              
+                <div id="gitalk-container" data-aos="fade-in"></div>
+              
+
+              
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+<script type="application/javascript">
+
+AOS.init();
+
+hljs.initHighlightingOnLoad()
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+  
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+    <script>
+
+      var gitalk = new Gitalk({
+        clientID: 'd18dcb9f11230a396f48',
+        clientSecret: 'b798878d844257cde96f390c0313cf0ab6433fcf',
+        repo: 'isuperqiang.github.io',
+        owner: 'isuperqiang',
+        admin: ['isuperqiang'],
+        id: (location.pathname).substring(0, 49),      // Ensure uniqueness and length less than 50
+        distractionFreeMode: false  // Facebook-like distraction free mode
+      })
+
+      gitalk.render('gitalk-container')
+
+    </script>
+  
+
+  
+
+
+
+
+  </body>
+</html>
